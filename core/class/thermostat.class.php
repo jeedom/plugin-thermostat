@@ -654,14 +654,16 @@ class thermostat extends eqLogic {
         }
         $knowModes = array();
         foreach ($this->getConfiguration('existingMode') as &$existingMode) {
-            $existingMode['name'] = str_replace(array('&', '#', ']', '[', '%', "'","+"), '', $existingMode['name']);
+            $existingMode['name'] = str_replace(array('&', '#', ']', '[', '%', "'", "+"), '', $existingMode['name']);
             $knowModes[$existingMode['name']] = $existingMode;
         }
         foreach ($this->getCmd() as $cmd) {
             if ($cmd->getLogicalId() == 'modeAction') {
                 if (isset($knowModes[$cmd->getName()])) {
                     $cmd->setOrder(1);
-                    $cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
+                    if (isset($knowModes[$cmd->getName()]['isVisible'])) {
+                        $cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
+                    }
                     $cmd->save();
                     unset($knowModes[$cmd->getName()]);
                 } else {
