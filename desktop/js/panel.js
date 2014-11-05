@@ -95,23 +95,16 @@ function graphThermostat(_eqLogic_id) {
                         }
                     });
                 }
+                 if (cmds[i].logicalId == 'temperature') {
+                    jeedom.history.drawChart({
+                        cmd_id: cmds[i].id,
+                        el: 'div_graph' + _eqLogic_id,
+                        start: $('#in_startDate').value(),
+                        end: $('#in_endDate').value(),
+                    });
+                }
             }
 
-        }
-    });
-    jeedom.eqLogic.byId({
-        id: _eqLogic_id,
-        success: function (thermostat) {
-            jeedom.history.drawChart({
-                cmd_id: thermostat.configuration.temperature_indoor,
-                el: 'div_graph' + _eqLogic_id,
-                start: $('#in_startDate').value(),
-                end: $('#in_endDate').value(),
-                option: {
-                    name: 'Température',
-                    allowZero: 0,
-                }
-            });
         }
     });
 }
