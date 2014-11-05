@@ -231,7 +231,7 @@ sendVarToJS('eqType', 'thermostat');
                     <fieldset>
                         <br/>
                         <div class="alert alert-info">
-                            {{Avec les modes, vous pouvez rajouter à votre thermostat des consignes prédéfinis. Par exemple un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C}}
+                            {{Avec les modes, vous pouvez rajouter à votre thermostat des consignes prédéfinies. Par exemple un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C}}
                             <a class="btn btn-success addMode pull-right" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter mode</a>
                         </div>
                         <br/><br/>
@@ -244,7 +244,7 @@ sendVarToJS('eqType', 'thermostat');
                     <fieldset>
                         <br/>
                         <div class="alert alert-info">
-                            {{La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra de au thermostat de réguler la température en conséquence.}}
+                            {{La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.}}
                             <a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter ouverture</a>
                         </div>
                         <br/><br/>
