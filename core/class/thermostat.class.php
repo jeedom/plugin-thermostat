@@ -653,8 +653,7 @@ class thermostat extends eqLogic {
             $off->save();
         }
         $knowModes = array();
-        foreach ($this->getConfiguration('existingMode') as &$existingMode) {
-            $existingMode['name'] = str_replace(array('&', '#', ']', '[', '%', "'", "+"), '', $existingMode['name']);
+        foreach ($this->getConfiguration('existingMode') as $existingMode) {
             $knowModes[$existingMode['name']] = $existingMode;
         }
         foreach ($this->getCmd() as $cmd) {
