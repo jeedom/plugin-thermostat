@@ -73,25 +73,14 @@ function graphThermostat(_eqLogic_id) {
         },
         success: function (cmds) {
             for (var i  in cmds) {
-                if (cmds[i].logicalId == 'actif') {
+                if (cmds[i].logicalId == 'actif' || cmds[i].logicalId == 'order') {
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
                         start: $('#in_startDate').value(),
                         end: $('#in_endDate').value(),
                         option: {
-                            graphStep: true
-                        }
-                    });
-                }
-                if (cmds[i].logicalId == 'order') {
-                    jeedom.history.drawChart({
-                        cmd_id: cmds[i].id,
-                        el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
-                        option: {
-                            graphStep: true
+                            graphStep: 1
                         }
                     });
                 }
