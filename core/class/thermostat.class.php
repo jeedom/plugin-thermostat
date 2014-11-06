@@ -65,6 +65,13 @@ class thermostat extends eqLogic {
             if ($status == __('Suspendu', __FILE__)) {
                 return;
             }
+            $windows = $thermostat->getConfiguration('window');
+            foreach ($windows as $window) {
+                $cmd = cmd::byId($window['cmd']);
+                if (is_object($cmd) && $cmd->execCmd() == 1) {
+                    return;
+                }
+            }
             $temp = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
@@ -120,6 +127,13 @@ class thermostat extends eqLogic {
             }
             if ($status == __('Suspendu', __FILE__)) {
                 return;
+            }
+            $windows = $thermostat->getConfiguration('window');
+            foreach ($windows as $window) {
+                $cmd = cmd::byId($window['cmd']);
+                if (is_object($cmd) && $cmd->execCmd() == 1) {
+                    return;
+                }
             }
             $temp_in = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
             $temp_out = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_outdoor'));
