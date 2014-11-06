@@ -67,7 +67,7 @@ class thermostat extends eqLogic {
             }
             $windows = $thermostat->getConfiguration('window');
             foreach ($windows as $window) {
-                $cmd = cmd::byId($window['cmd']);
+                $cmd = cmd::byId(str_replace('#', '', $window['cmd']));
                 if (is_object($cmd) && $cmd->execCmd() == 1) {
                     return;
                 }
@@ -130,7 +130,7 @@ class thermostat extends eqLogic {
             }
             $windows = $thermostat->getConfiguration('window');
             foreach ($windows as $window) {
-                $cmd = cmd::byId($window['cmd']);
+                $cmd = cmd::byId(str_replace('#', '', $window['cmd']));
                 if (is_object($cmd) && $cmd->execCmd() == 1) {
                     return;
                 }
@@ -685,14 +685,15 @@ class thermostat extends eqLogic {
             }
         }
         foreach ($knowModes as $knowMode) {
-            print_r($knowMode);
             $mode = new thermostatCmd();
             $mode->setEqLogic_id($this->getId());
             $mode->setName($knowMode['name']);
             $mode->setType('action');
             $mode->setSubType('other');
             $mode->setLogicalId('modeAction');
-            $mode->setIsVisible($knowMode['isVisible']);
+            if(isset($knowMode['isVisible'])){
+                $mode->setIsVisible($knowMode['isVisible']);
+            }
             $mode->setOrder(1);
             $mode->save();
         }
