@@ -35,7 +35,7 @@ class thermostat extends eqLogic {
                 }
                 $consigne = $thermostat->getCmd(null, 'order')->execCmd();
                 $temp = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
-                if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 1)) {
+                if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 2)) {
                     $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 10);
                     $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 5);
                     self::temporal($_options);
@@ -261,7 +261,7 @@ class thermostat extends eqLogic {
                     if (!is_object($cron)) {
                         $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+1 min ' . date('Y-m-d H:i:s'))));
                     } else {
-                        if ($cron->getState() == 'run') {
+                        if ($cron->getState() != 'run') {
                             try {
                                 $cron->getNextRunDate();
                             } catch (Exception $ex) {
