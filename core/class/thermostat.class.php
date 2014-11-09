@@ -204,7 +204,7 @@ class thermostat extends eqLogic {
             $thermostat->setConfiguration('lastTempIn', $temp_in);
             $thermostat->setConfiguration('lastTempOut', $temp_out);
             $coeff_out = $thermostat->getConfiguration('coeff_outdoor');
-            $coeff_in = ($direction > 1) ? $thermostat->getConfiguration('coeff_indoor_heat') : $thermostat->getConfiguration('coeff_indoor_cool');
+            $coeff_in = ($direction > 0) ? $thermostat->getConfiguration('coeff_indoor_heat') : $thermostat->getConfiguration('coeff_indoor_cool');
             $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out);
             log::add('thermostat', 'debug', 'Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ')');
             if ($power > 100) {

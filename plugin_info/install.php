@@ -20,6 +20,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function thermostat_update() {
     foreach (thermostat::byType('thermostat') as $thermostat) {
+        $thermostat->setConfiguration('coeff_indoor_heat', 10);
         $thermostat->save();
     }
 }
