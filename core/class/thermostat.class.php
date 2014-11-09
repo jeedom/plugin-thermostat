@@ -691,7 +691,7 @@ class thermostat extends eqLogic {
             $mode->setType('action');
             $mode->setSubType('other');
             $mode->setLogicalId('modeAction');
-            if(isset($knowMode['isVisible'])){
+            if (isset($knowMode['isVisible'])) {
                 $mode->setIsVisible($knowMode['isVisible']);
             }
             $mode->setOrder(1);
@@ -867,6 +867,9 @@ class thermostat extends eqLogic {
     }
 
     public function stop() {
+        if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
+            return;
+        }
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('stoping') as $action) {
             $cmd = cmd::byId(str_replace('#', '', $action['cmd']));
