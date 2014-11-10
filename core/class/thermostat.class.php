@@ -280,6 +280,26 @@ class thermostat extends eqLogic {
                         log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
                     }
                 }
+                if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
+                    try {
+                        $c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
+                        if ($c->isDue()) {
+                            switch ($thermostat->getCmd(null, 'status')) {
+                                case __('Chauffage', __FILE__):
+                                    $thermostat->heat(true);
+                                    break;
+                                case __('Chauffage', __FILE__):
+                                    $thermostat->stop(true);
+                                    break;
+                                case __('Climatisation', __FILE__):
+                                    $thermostat->cool(true);
+                                    break;
+                            }
+                        }
+                    } catch (Exception $e) {
+                        log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
+                    }
+                }
             }
         }
     }
@@ -762,17 +782,19 @@ class thermostat extends eqLogic {
         }
     }
 
-    public function heat() {
-        if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
-            return;
-        }
-        if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'heat') {
-            $this->stop();
-            return false;
-        }
-        if (count($this->getConfiguration('heating')) == 0) {
-            $this->stop();
-            return false;
+    public function heat($_force = false) {
+        if (!$_force) {
+            if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+                return;
+            }
+            if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'heat') {
+                $this->stop();
+                return false;
+            }
+            if (count($this->getConfiguration('heating')) == 0) {
+                $this->stop();
+                return false;
+            }
         }
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('heating') as $action) {
@@ -815,17 +837,19 @@ class thermostat extends eqLogic {
         $this->getCmd(null, 'actif')->event(1);
     }
 
-    public function cool() {
-        if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
-            return;
-        }
-        if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'cool') {
-            $this->stop();
-            return false;
-        }
-        if (count($this->getConfiguration('cooling')) == 0) {
-            $this->stop();
-            return false;
+    public function cool($_force = false) {
+        if (!$_force) {
+            if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+                return;
+            }
+            if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'cool') {
+                $this->stop();
+                return false;
+            }
+            if (count($this->getConfiguration('cooling')) == 0) {
+                $this->stop();
+                return false;
+            }
         }
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('cooling') as $action) {
@@ -866,9 +890,11 @@ class thermostat extends eqLogic {
         $this->getCmd(null, 'actif')->event(1);
     }
 
-    public function stop() {
-        if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
-            return;
+    public function stop($_force = false) {
+        if (!$_force) {
+            if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
+                return;
+            }
         }
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('stoping') as $action) {

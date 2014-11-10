@@ -104,7 +104,15 @@ sendVarToJS('eqType', 'thermostat');
                                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle a faire (sinon la mise en marche du chauffage est reporté au cyle suivant)}}" value="5"/>
                                 </div>
                             </div>
-
+                        </div>
+                        <div class='expertModeVisible'>
+                            <label class="col-lg-3 control-label">{{Cron de répétition de commande}}</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de vérification, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
+                            </div>
+                            <div class="col-lg-1">
+                                <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
+                            </div>
                         </div>
                     </fieldset> 
                 </form>
