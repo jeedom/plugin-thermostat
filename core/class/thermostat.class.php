@@ -28,17 +28,18 @@ class thermostat extends eqLogic {
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
             if (isset($_options['stop']) && $_options['stop'] == 1) {
-                $thermostat->stop();
-                $cron = cron::byClassAndFunction('thermostat', 'stop', $_options);
-                if (is_object($cron)) {
-                    $cron->remove();
-                }
                 $consigne = $thermostat->getCmd(null, 'order')->execCmd();
                 $temp = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
-                if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 2)) {
+                if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 1)) {
                     $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 10);
                     $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 5);
                     self::temporal($_options);
+                } else {
+                    $thermostat->stop();
+                }
+                $cron = cron::byClassAndFunction('thermostat', 'stop', $_options);
+                if (is_object($cron)) {
+                    $cron->remove();
                 }
             } else {
                 self::temporal($_options);
@@ -178,7 +179,7 @@ class thermostat extends eqLogic {
                         if ($thermostat->getConfiguration('lastState') == 'cool') {
                             $coeff_in = $thermostat->getConfiguration('coeff_indoor_cool');
                         }
-                        $coeff_outdoor = $thermostat->getConfiguration('coeff_outdoor') + ($coeff_in * (($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('lastTempIn')) / ($temp_in - $thermostat->getConfiguration('lastTempIn') )));
+                        $coeff_outdoor = $thermostat->getConfiguration('coeff_outdoor') + ($coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_out) / ($temp_in - $thermostat->getConfiguration('lastTempIn') )));
                         $coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor') * $thermostat->getConfiguration('coeff_outdoor_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_autolearn') + 1);
                         $thermostat->setConfiguration('coeff_outdoor_autolearn', min($thermostat->getConfiguration('coeff_outdoor_autolearn') + 1, 50));
                         if ($coeff_outdoor < 0) {
@@ -214,13 +215,12 @@ class thermostat extends eqLogic {
                 $power = 0;
             }
             $thermostat->setConfiguration('last_power', $power);
-
             $cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
             $thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
-            $duration = ($power * $cycle) / 100;
-            if ($cycle < $thermostat->getConfiguration('minCycleDuration', 5)) {
+            if ($power < $thermostat->getConfiguration('minCycleDuration', 5)) {
                 return;
             }
+            $duration = ($power * $cycle) / 100;
             log::add('thermostat', 'debug', 'Cycle duration : ' . $duration);
             $thermostat->save();
             $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
@@ -265,6 +265,7 @@ class thermostat extends eqLogic {
                             try {
                                 $cron->getNextRunDate();
                             } catch (Exception $ex) {
+                                log::add('thermostat', 'debug', 'Reschedule temporal cron');
                                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+1 min ' . date('Y-m-d H:i:s'))));
                             }
                         }
