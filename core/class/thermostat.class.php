@@ -460,13 +460,13 @@ class thermostat extends eqLogic {
             $this->setConfiguration('coeff_outdoor_autolearn', 0);
         }
         foreach ($this->getConfiguration('existingMode') as $existingMode) {
-            if ($existingMode['name'] == __('Off', __FILE__)) {
+            if (strtolower($existingMode['name']) == __('off', __FILE__)) {
                 throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Off car une commande Off est automatiquement creer', __FILE__));
             }
-            if ($existingMode['name'] == __('Status', __FILE__)) {
+            if (strtolower($existingMode['name']) == __('status', __FILE__)) {
                 throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Status car une commande Off est automatiquement creer', __FILE__));
             }
-            if ($existingMode['name'] == __('Thermostat', __FILE__)) {
+            if (strtolower($existingMode['name']) == __('thermostat', __FILE__)) {
                 throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Thermostat car une commande Off est automatiquement creer', __FILE__));
             }
         }
