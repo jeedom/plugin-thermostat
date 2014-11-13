@@ -289,7 +289,7 @@ class thermostat extends eqLogic {
                                 case __('Chauffage', __FILE__):
                                     $thermostat->heat(true);
                                     break;
-                                case __('Chauffage', __FILE__):
+                                case __('Arrêté', __FILE__):
                                     $thermostat->stop(true);
                                     break;
                                 case __('Climatisation', __FILE__):
