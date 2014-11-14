@@ -16,9 +16,9 @@
  */
 
 
-$(".eqLogic").delegate(".listCmdInfo", 'click', function() {
+$(".eqLogic").delegate(".listCmdInfo", 'click', function () {
     var el = $(this).closest('.form-group').find('.eqLogicAttr');
-    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {
+    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
         if (el.attr('data-concat') == 1) {
             el.atCaret('insert', result.human);
         } else {
@@ -27,9 +27,9 @@ $(".eqLogic").delegate(".listCmdInfo", 'click', function() {
     });
 });
 
-$('body').delegate('.rename', 'click', function() {
+$('body').delegate('.rename', 'click', function () {
     var el = $(this);
-    bootbox.prompt("{{Nouveau nom ?}}", function(result) {
+    bootbox.prompt("{{Nouveau nom ?}}", function (result) {
         if (result !== null) {
             el.text(result);
             el.closest('.mode').find('.modeAttr[data-l1key=name]').value(result);
@@ -37,72 +37,73 @@ $('body').delegate('.rename', 'click', function() {
     });
 });
 
-$("body").delegate(".listCmdAction", 'click', function() {
+$("body").delegate(".listCmdAction", 'click', function () {
     var type = $(this).attr('data-type');
     var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
-    jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
+    jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function (result) {
         el.value(result.human);
-        jeedom.cmd.displayActionOption(el.value(), '', function(html) {
+        jeedom.cmd.displayActionOption(el.value(), '', function (html) {
             el.closest('.' + type).find('.actionOptions').html(html);
         });
 
     });
 });
 
-$('.addAction').on('click', function() {
+$('.addAction').on('click', function () {
     addAction({}, $(this).attr('data-type'));
 });
 
-$('.addWindow').on('click', function() {
+$('.addWindow').on('click', function () {
     addWindow({});
 });
 
-$('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').on('change', function() {
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').on('change', function () {
     $('.engine').hide();
     $('.' + $(this).value()).show();
 });
 
-$("body").delegate(".listCmdInfoWindow", 'click', function() {
+$("body").delegate(".listCmdInfoWindow", 'click', function () {
     var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
-    jeedom.cmd.getSelectModal({cmd: {type: 'info', subtype: 'binary'}}, function(result) {
+    jeedom.cmd.getSelectModal({cmd: {type: 'info', subtype: 'binary'}}, function (result) {
         el.value(result.human);
     });
 });
 
-$('.addMode').on('click', function() {
-    bootbox.prompt("{{Nom du mode ?}}", function(result) {
+$('.addMode').on('click', function () {
+    bootbox.prompt("{{Nom du mode ?}}", function (result) {
         if (result !== null) {
             addMode({name: result});
         }
     });
 });
 
-$("body").delegate(".addModeAction", 'click', function() {
+$("body").delegate(".addModeAction", 'click', function () {
     addModeAction({}, $(this).closest('.mode').find('.div_modeAction'));
 });
 
-$("body").delegate(".removeMode", 'click', function() {
+$("body").delegate(".removeMode", 'click', function () {
     var el = $(this);
-    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce mode}} ?', function(result) {
+    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce mode}} ?', function (result) {
         el.closest('.mode').remove();
     });
 });
 
-$('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', function(event) {
+$('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', function (event) {
     var type = $(this).attr('data-type');
     var expression = $(this).closest('.' + type).getValues('.expressionAttr');
-    jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function(html) {
-        $(this).closest('.' + type).find('.actionOptions').html(html);
+    var el = $(this);
+    jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function (html) {
+        el.closest('.' + type).find('.actionOptions').html(html);
     });
 
 });
 
-$("body").delegate('.bt_removeAction', 'click', function() {
+$("body").delegate('.bt_removeAction', 'click', function () {
     var type = $(this).attr('data-type');
     $(this).closest('.' + type).remove();
 });
 
-$('#bt_configureMode').on('click', function() {
+$('#bt_configureMode').on('click', function () {
     $('#md_modal').dialog({title: "{{Configuration des modes}}"});
     $('#md_modal').load('index.php?v=d&plugin=thermostat&modal=configure.mode').dialog('open');
 });
@@ -118,7 +119,7 @@ function saveEqLogic(_eqLogic) {
     _eqLogic.configuration.window = $('#div_window .window').getValues('.expressionAttr');
     _eqLogic.configuration.orderChange = $('#div_orderChange .orderChange').getValues('.expressionAttr');
     _eqLogic.configuration.existingMode = [];
-    $('#div_modes .mode').each(function() {
+    $('#div_modes .mode').each(function () {
         var existingMode = $(this).getValues('.modeAttr');
         existingMode = existingMode[0];
         existingMode.actions = $(this).find('.modeAction').getValues('.expressionAttr');
@@ -198,7 +199,7 @@ function addMode(_mode) {
 }
 
 function addModeAction(_modeAction, _el) {
-    jeedom.cmd.displayActionOption(init(_modeAction.cmd, ''), _modeAction.options, function(html) {
+    jeedom.cmd.displayActionOption(init(_modeAction.cmd, ''), _modeAction.options, function (html) {
         var div = '<div class="modeAction">';
         div += '<div class="form-group ">';
         div += '<label class="col-lg-1 control-label">Action</label>';
@@ -222,7 +223,7 @@ function addModeAction(_modeAction, _el) {
 
 
 function addAction(_action, _type) {
-    jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options, function(html) {
+    jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options, function (html) {
         var div = '<div class="' + _type + '">';
         div += '<div class="form-group ">';
         div += '<label class="col-lg-1 control-label">Action</label>';
