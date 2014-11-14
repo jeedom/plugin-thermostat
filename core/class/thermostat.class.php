@@ -903,6 +903,7 @@ class thermostat extends eqLogic {
     }
 
     public function executeMode($_name) {
+        $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('existingMode') as $existingMode) {
             if ($_name == $existingMode['name']) {
                 foreach ($existingMode['actions'] as $action) {
