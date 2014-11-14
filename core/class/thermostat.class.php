@@ -800,36 +800,16 @@ class thermostat extends eqLogic {
         }
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('heating') as $action) {
-            $cmd = cmd::byId(str_replace('#', '', $action['cmd']));
-            if (is_object($cmd)) {
-                $executeCmd = true;
-                foreach ($cmd->getEqLogic()->getCmd() as $cmd_find) {
-                    $eqLogics = eqLogic::byTypeAndSearhConfiguration('thermostat', '#' . $cmd_find->getId() . '#');
-                    if (is_array($eqLogics) && count($eqLogics) != 0) {
-                        foreach ($eqLogics as $eqLogic) {
-                            if ($eqLogic->getId() != $this->getId() && $eqLogic->getCmd(null, 'status')->execCmd() == __('Climatisation', __FILE__)) {
-                                $executeCmd = false;
-                                break(2);
-                            }
-                        }
+            try {
+                if (isset($action['options'])) {
+                    $options = $action['options'];
+                    foreach ($options as $key => $value) {
+                        $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
-                if ($executeCmd) {
-                    try {
-                        $options = array();
-                        if (isset($action['options'])) {
-                            $options = $action['options'];
-                            foreach ($options as $key => $value) {
-                                $options[$key] = str_replace('#slider#', $consigne, jeedom::evaluateExpression($value));
-                            }
-                        }
-                        $cmd->execCmd($options);
-                    } catch (Exception $e) {
-                        log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $cmd->getHumanName() . __('. Détails : ', __FILE__) . $e->getMessage());
-                    }
-                }
-            } else {
-                log::add('thermostat', 'error', __('Impossible de trouver la commande ', __FILE__) . $action['cmd']);
+                scenarioExpression::createAndExec('action', $action['cmd'], $options);
+            } catch (Exception $e) {
+                log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
         $this->refresh();
@@ -855,34 +835,16 @@ class thermostat extends eqLogic {
         }
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('cooling') as $action) {
-            $cmd = cmd::byId(str_replace('#', '', $action['cmd']));
-            if (is_object($cmd)) {
-                $executeCmd = true;
-                foreach ($cmd->getEqLogic()->getCmd() as $cmd_find) {
-                    $eqLogics = eqLogic::byTypeAndSearhConfiguration('thermostat', '#' . $cmd_find->getId() . '#');
-                    if (is_array($eqLogics) && count($eqLogics) != 0) {
-                        foreach ($eqLogics as $eqLogic) {
-                            if ($eqLogic->getId() != $this->getId() && $eqLogic->getCmd(null, 'status')->execCmd() == __('Chauffage', __FILE__)) {
-                                $executeCmd = false;
-                                break(2);
-                            }
-                        }
+            try {
+                if (isset($action['options'])) {
+                    $options = $action['options'];
+                    foreach ($options as $key => $value) {
+                        $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
-                if ($executeCmd) {
-                    try {
-                        $options = array();
-                        if (isset($action['options'])) {
-                            $options = $action['options'];
-                            foreach ($options as $key => $value) {
-                                $options[$key] = str_replace('#slider#', $consigne, jeedom::evaluateExpression($value));
-                            }
-                        }
-                        $cmd->execCmd($options);
-                    } catch (Exception $e) {
-                        log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $cmd->getHumanName() . __('. Détails : ', __FILE__) . $e->getMessage());
-                    }
-                }
+                scenarioExpression::createAndExec('action', $action['cmd'], $options);
+            } catch (Exception $e) {
+                log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
         $this->refresh();
@@ -900,34 +862,16 @@ class thermostat extends eqLogic {
         }
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('stoping') as $action) {
-            $cmd = cmd::byId(str_replace('#', '', $action['cmd']));
-            if (is_object($cmd)) {
-                $executeCmd = true;
-                foreach ($cmd->getEqLogic()->getCmd() as $cmd_find) {
-                    $eqLogics = eqLogic::byTypeAndSearhConfiguration('thermostat', '#' . $cmd_find->getId() . '#');
-                    if (is_array($eqLogics) && count($eqLogics) != 0) {
-                        foreach ($eqLogics as $eqLogic) {
-                            if ($eqLogic->getId() != $this->getId() && $eqLogic->getCmd(null, 'status')->execCmd() != __('Arrêté', __FILE__)) {
-                                $executeCmd = false;
-                                break(2);
-                            }
-                        }
+            try {
+                if (isset($action['options'])) {
+                    $options = $action['options'];
+                    foreach ($options as $key => $value) {
+                        $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
-                if ($executeCmd) {
-                    try {
-                        $options = array();
-                        if (isset($action['options'])) {
-                            $options = $action['options'];
-                            foreach ($options as $key => $value) {
-                                $options[$key] = str_replace('#slider#', $consigne, jeedom::evaluateExpression($value));
-                            }
-                        }
-                        $cmd->execCmd($options);
-                    } catch (Exception $e) {
-                        log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $cmd->getHumanName() . __('. Détails : ', __FILE__) . $e->getMessage());
-                    }
-                }
+                scenarioExpression::createAndExec('action', $action['cmd'], $options);
+            } catch (Exception $e) {
+                log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
         $this->refresh();
@@ -943,20 +887,16 @@ class thermostat extends eqLogic {
         if (count($this->getConfiguration('orderChange')) > 0) {
             $consigne = $this->getCmd(null, 'order')->execCmd();
             foreach ($this->getConfiguration('orderChange') as $action) {
-                $cmd = cmd::byId(str_replace('#', '', $action['cmd']));
-                if (is_object($cmd)) {
-                    try {
-                        $options = array();
-                        if (isset($action['options'])) {
-                            $options = $action['options'];
-                            foreach ($options as $key => $value) {
-                                $options[$key] = jeedom::evaluateExpression(str_replace('#slider#', $consigne, $value));
-                            }
+                try {
+                    if (isset($action['options'])) {
+                        $options = $action['options'];
+                        foreach ($options as $key => $value) {
+                            $options[$key] = str_replace('#slider#', $consigne, $value);
                         }
-                        $cmd->execCmd($options);
-                    } catch (Exception $e) {
-                        log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $cmd->getHumanName() . __('. Détails : ', __FILE__) . $e->getMessage());
                     }
+                    scenarioExpression::createAndExec('action', $action['cmd'], $options);
+                } catch (Exception $e) {
+                    log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
                 }
             }
         }
@@ -966,24 +906,16 @@ class thermostat extends eqLogic {
         foreach ($this->getConfiguration('existingMode') as $existingMode) {
             if ($_name == $existingMode['name']) {
                 foreach ($existingMode['actions'] as $action) {
-                    $cmd = cmd::byId(str_replace('#', '', $action['cmd']));
-                    if (is_object($cmd)) {
-                        if ($cmd->getEqLogic_id() == $this->getId() && $cmd->getLogicalId() == 'modeAction') {
-                            continue;
-                        }
-                        try {
-                            $consigne = $this->getCmd(null, 'order')->execCmd();
-                            $options = array();
-                            if (isset($action['options'])) {
-                                $options = $action['options'];
-                                foreach ($options as $key => $value) {
-                                    $options[$key] = jeedom::evaluateExpression(str_replace('#slider#', $consigne, $value));
-                                }
+                    try {
+                        if (isset($action['options'])) {
+                            $options = $action['options'];
+                            foreach ($options as $key => $value) {
+                                $options[$key] = str_replace('#slider#', $consigne, $value);
                             }
-                            $cmd->execCmd($options);
-                        } catch (Exception $e) {
-                            log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $cmd->getHumanName() . __('. Détails : ', __FILE__) . $e->getMessage());
                         }
+                        scenarioExpression::createAndExec('action', $action['cmd'], $options);
+                    } catch (Exception $e) {
+                        log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
                     }
                 }
             }
