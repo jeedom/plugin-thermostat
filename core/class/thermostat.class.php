@@ -31,8 +31,8 @@ class thermostat extends eqLogic {
                 $consigne = $thermostat->getCmd(null, 'order')->execCmd();
                 $temp = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
                 if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 1)) {
-                    $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 10);
-                    $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 5);
+                    $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 1);
+                    $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.5);
                     self::temporal($_options);
                 } else {
                     $thermostat->stop();
