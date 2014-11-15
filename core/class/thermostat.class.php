@@ -549,7 +549,7 @@ class thermostat extends eqLogic {
                 $lockState->setTemplate('mobile', 'lock');
             }
             $lockState->setEqLogic_id($this->getId());
-            $lockState->setName(__('Verrouillé', __FILE__));
+            $lockState->setName(__('Verrouillage', __FILE__));
             $lockState->setType('info');
             $lockState->setSubType('binary');
             $lockState->setLogicalId('lock_state');
