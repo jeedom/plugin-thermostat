@@ -1,0 +1,10 @@
+== Thermostats
+
+=== Description
+Plugin permetant de creer et gerer des thermostats
+
+=== Configuration
+include::configuration.asciidoc[]
+
+=== Changelog
+include::changelog.asciidoc[]
