@@ -199,51 +199,46 @@ function addMode(_mode) {
 }
 
 function addModeAction(_modeAction, _el) {
-    jeedom.cmd.displayActionOption(init(_modeAction.cmd, ''), _modeAction.options, function (html) {
-        var div = '<div class="modeAction">';
-        div += '<div class="form-group ">';
-        div += '<label class="col-lg-1 control-label">Action</label>';
-        div += '<div class="col-lg-1">';
-        div += '<a class="btn btn-default btn-sm listCmdAction" data-type="modeAction"><i class="fa fa-list-alt"></i></a>';
-        div += '</div>';
-        div += '<div class="col-lg-3">';
-        div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="modeAction" />';
-        div += '</div>';
-        div += '<div class="col-lg-6 actionOptions">';
-        div += html;
-        div += '</div>';
-        div += '<div class="col-lg-1">';
-        div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="modeAction"></i>';
-        div += '</div>';
-        div += '</div>';
-        _el.append(div);
-        _el.find('.modeAction:last').setValues(_modeAction, '.expressionAttr');
-    });
+    var div = '<div class="modeAction">';
+    div += '<div class="form-group ">';
+    div += '<label class="col-lg-1 control-label">Action</label>';
+    div += '<div class="col-lg-1">';
+    div += '<a class="btn btn-default btn-sm listCmdAction" data-type="modeAction"><i class="fa fa-list-alt"></i></a>';
+    div += '</div>';
+    div += '<div class="col-lg-3">';
+    div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="modeAction" />';
+    div += '</div>';
+    div += '<div class="col-lg-6 actionOptions">';
+    div += jeedom.cmd.displayActionOption(init(_modeAction.cmd, ''), _modeAction.options);
+    div += '</div>';
+    div += '<div class="col-lg-1">';
+    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="modeAction"></i>';
+    div += '</div>';
+    div += '</div>';
+    _el.append(div);
+    _el.find('.modeAction:last').setValues(_modeAction, '.expressionAttr');
 }
 
 
 function addAction(_action, _type) {
-    jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options, function (html) {
-        var div = '<div class="' + _type + '">';
-        div += '<div class="form-group ">';
-        div += '<label class="col-lg-1 control-label">Action</label>';
-        div += '<div class="col-lg-1">';
-        div += '<a class="btn btn-default btn-sm listCmdAction" data-type="' + _type + '"><i class="fa fa-list-alt"></i></a>';
-        div += '</div>';
-        div += '<div class="col-lg-3">';
-        div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="' + _type + '" />';
-        div += '</div>';
-        div += '<div class="col-lg-6 actionOptions">';
-        div += html;
-        div += '</div>';
-        div += '<div class="col-lg-1">';
-        div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="' + _type + '"></i>';
-        div += '</div>';
-        div += '</div>';
-        $('#div_' + _type).append(div);
-        $('#div_' + _type + ' .' + _type + ':last').setValues(_action, '.expressionAttr');
-    });
-
+    var div = '<div class="' + _type + '">';
+    div += '<div class="form-group ">';
+    div += '<label class="col-lg-1 control-label">Action</label>';
+    div += '<div class="col-lg-1">';
+    div += '<a class="btn btn-default btn-sm listCmdAction" data-type="' + _type + '"><i class="fa fa-list-alt"></i></a>';
+    div += '</div>';
+    div += '<div class="col-lg-3">';
+    div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="' + _type + '" />';
+    div += '</div>';
+    div += '<div class="col-lg-6 actionOptions">';
+    div += jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options);
+    div += '</div>';
+    div += '<div class="col-lg-1">';
+    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="' + _type + '"></i>';
+    div += '</div>';
+    div += '</div>';
+    $('#div_' + _type).append(div);
+    $('#div_' + _type + ' .' + _type + ':last').setValues(_action, '.expressionAttr');
 }
 
 
