@@ -27,11 +27,11 @@ Le verrou présent sur le widget permet de bloquer le thermostat dans une consig
 ==== LA CRÉATION D'UN THERMOSTAT EN DÉTAIL....
 Pour créer un nouveau thermostat, rendez-vous sur la page de configuration en déroulant le menu Plugins/Bien-être et sélectionnez Thermostat. Cliquez sur le bouton Ajouter un thermostat situé en haut à gauche et renseignez le nom souhaité pour votre thermostat.
 
-image::../images/thermostat2.JPG[]
+image::../images/thermostat2.png[]
 
 Dans un premier temps, nous allons renseigner les paramètres généraux du thermostat. On les trouve en haut à gauche, section général et il faut préciser ici l'objet parent, l'activation et la visibilité du thermostat, informations habituelles pour tout utilisateur de jeedom.
 
-image::../images/thermostat3.JPG[]
+image::../images/thermostat3.png[]
 
 ==== LE CHOIX DE L'ALGORITHME DU THERMOSTAT
 En évidence sur cette image le Moteur de fonctionnement du thermostat. Il y a 2 algorithmes possibles pour la régulation de température.
@@ -42,13 +42,13 @@ Par exemple, si on règle l'hystérésis à 1°C et que ma valeur de consigne va
 
 C'est un mode relativement basique mais qui peut s'avérer suffisant. Les paramètres à fournir sont l'hystérésis en °C et la commande qui permet de récupérer la mesure de température. Il est inutile de chercher une régulation plus fine que la précision de votre capteur, par conséquent, la valeur de l'hystérésis ne doit pas normalement descendre en dessous de cette valeur.
 
-image::../images/thermostat4.JPG[]
+image::../images/thermostat4.png[]
 
 Dans le cas du mode temporel, la commande de chauffage ou de climatisation est définie sur un cycle prédéfini et la durée d’exécution de la commande est fonction de l'écart entre la consigne et la température mesurée par le capteur. L'algorithme va également calculer le temps de chauffe (ou de climatisation) sur un cycle en fonction de l'inertie et de l'isolation de la pièce.
 
 Rassurez-vous, il est recommandé de ne pas modifier ces 3 paramètres qui sont ajustés automatiquement en fin de cycle par l'algorithme.
 
-image::../images/thermostat5.JPG[]
+image::../images/thermostat5.png[]
 
 Enfin, plus le temps de cycle sera grand, plus la régulation sera lente. A l'inverse, un temps trop faible provoquera des commutations fréquentes de votre système de chauffage qui n'aura peut-être pas le temps de chauffer le volume de la pièce efficacement. Il est recommandé de ne pas diminuer trop ce temps de cycle (les valeurs acceptables sont entre 30 et 60mn).
 
@@ -57,15 +57,15 @@ Ce type de régulation est plus optimisé, il améliore le confort et permet de 
 ==== LA CONFIGURATION
 Là, c'est assez simple, vous décidez si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez la plage d'utilisation de votre thermostat : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget ou par programmation.
 
-image::../images/thermostat6.JPG[]
+image::../images/thermostat6.png[]
 
 Ensuite, il faut préciser les commandes qui permettent de mesurer la température et de piloter le chauffage ou la climatisation. Notez que le moteur temporel peut prendre en compte la température extérieure si vous disposez d'un capteur extérieur (elle peut être également fournie par le plugin météo).
 
-image::../images/thermostat7.JPG[]
+image::../images/thermostat7.png[]
 
 Pour la commande du radiateur ou du climatiseur, il est décrit dans l'onglet "configuration des actions". On peut ici définir plusieurs actions, ce qui donne la possibilité à notre thermostat de piloter plusieurs équipements (cas d'un fonctionnement par zone par exemple ou contrôle d'un autre thermostat...)
 
-image::../images/thermostat8.JPG[]
+image::../images/thermostat8.png[]
 
 Les actions ici sont celles qui permettent de chauffer, de refroidir (climatisation), d'arrêter la commande. Une action complémentaire peut être envisagée à chaque changement de consigne, que ce soit ne mode manuel ou automatique.
 
@@ -74,12 +74,12 @@ Les modes (définis dans l'onglet "configuration des modes") sont des consignes 
 
 Dans l'image ci-dessous, le mode "Confort" a une valeur de consigne de 20°C et pour le mode "Eco", le thermostat est réglé à 18°C.
 
-image::../images/thermostat9.JPG[]
+image::../images/thermostat9.png[]
 
 ==== LES OUVERTURES : POUR INTERROMPRE TEMPORAIREMENT LE THERMOSTAT
 Imaginons que vous souhaitez arrêter momentanément votre chauffage ou votre climatiseur, par exemple pour aérer la pièce pour laquelle le thermostat est actif. Pour détecter l'ouverture de la fenêtre, vous utiliserez un capteur situé sur l'ouvrant de votre fenêtre, vous permettant ainsi de réaliser cette interruption en l'ajoutant dans l'onglet de configuration des ouvertures. 2 paramètres supplémentaires sont réglables ici, ce sont les durées d'ouverture et de fermeture de la fenêtre qui vont provoquer l'interruption et la reprise du fonctionnement du thermostat.
 
-image::../images/thermostat10.JPG[]
+image::../images/thermostat10.png[]
 
 ==== UN EXEMPLE CONCRET D'UTILISATION DU THERMOSTAT
 Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l'expliquer est de prendre un cas d'utilisation. Admettons que dans certaines chambres, on souhaite réaliser une programmation hebdomadaire des thermostats, en fonction des heures de levée et de couché. Précisons que chaque chambre est indépendante, c'est à dire un thermostat est défini pour chacune des pièces.
@@ -88,19 +88,19 @@ Dans un premier temps, je vais utiliser 2 scénarios pour mettre le chauffage en
 
 On crée donc le scénario "Chauffage confort", en mode programmé :
 
-image::../images/thermostat11.JPG[]
+image::../images/thermostat11.png[]
 
 et le code :
 
-image::../images/thermostat12.JPG[]
+image::../images/thermostat12.png[]
 
 Sur le même principe, le scénario "Chauffage Eco" :
 
-image::../images/thermostat13.JPG[]
+image::../images/thermostat13.png[]
 
 et son code :
 
-image::../images/thermostat14.JPG[]
+image::../images/thermostat14.png[]
 
 Notez que dans les scénarios, le pilotage du thermostat est complet puisqu'on peut agir sur le mode de fonctionnement (chauffage ou climatisation seulement), les modes, la valeur de consigne et le verrou (lock, unlock).
 
@@ -115,8 +115,8 @@ Nous allons donc créer un nouvel agenda qui s'appelle "Programmation chauffage"
 
 Une fois l'agenda créé, on va ajouter les événements "Matin" (du lundi au vendredi de 5h à 7h30), "Soir" (le lundi, mardi, jeudi et vendredi de 17h à 21h), "Mercredi" (le mercredi de 12h à 21h) et "Weekend" (de 8h à 22h). Tous ces événements, ont comme action de début la sélection du mode "confort" du thermostat et comme action de fin le mode "Eco" :
 
-image::../images/thermostat15.JPG[]
+image::../images/thermostat15.png[]
 
 Nous procédons de la même façon pour définir les autres événements, par duplication et modification. Voilà ce que ça donne sur le calendrier :
 
-image::../images/thermostat16.JPG[]
+image::../images/thermostat16.png[]

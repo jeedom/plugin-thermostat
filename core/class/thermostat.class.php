@@ -785,6 +785,7 @@ class thermostat extends eqLogic {
     }
 
     public function heat($_force = false) {
+        log::add('thermostat', 'debug', 'Action chauffage');
         if (!$_force) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
@@ -807,6 +808,7 @@ class thermostat extends eqLogic {
                         $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
+                log::add('thermostat', 'debug', 'Commande : ' . $action['cmd']);
                 scenarioExpression::createAndExec('action', $action['cmd'], $options);
             } catch (Exception $e) {
                 log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
@@ -820,6 +822,7 @@ class thermostat extends eqLogic {
     }
 
     public function cool($_force = false) {
+        log::add('thermostat', 'debug', 'Action froid');
         if (!$_force) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
@@ -842,6 +845,7 @@ class thermostat extends eqLogic {
                         $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
+                log::add('thermostat', 'debug', 'Commande : ' . $action['cmd']);
                 scenarioExpression::createAndExec('action', $action['cmd'], $options);
             } catch (Exception $e) {
                 log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
@@ -855,6 +859,7 @@ class thermostat extends eqLogic {
     }
 
     public function stop($_force = false) {
+        log::add('thermostat', 'debug', 'Action stop');
         if (!$_force) {
             if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
                 return;
@@ -869,6 +874,7 @@ class thermostat extends eqLogic {
                         $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
+                log::add('thermostat', 'debug', 'Commande : ' . $action['cmd']);
                 scenarioExpression::createAndExec('action', $action['cmd'], $options);
             } catch (Exception $e) {
                 log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
