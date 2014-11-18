@@ -19,7 +19,7 @@ Le thermostat de Jeedom est très puissant mais pour une utilisation traditionne
 - : votre thermostat est maintenant opérationnel, et par l'utilisation de scénarios ou en le combinant avec d'autre plugins (agenda, virtuel), il va se fondre en douceur dans votre installation domotique.
 Voilà ce qu'on obtient sur le dashboard :
 
-image::../images/thermostat.JPG[]
+image::../images/thermostat.png[]
 
 Le verrou présent sur le widget permet de bloquer le thermostat dans une consigne donnée, suite à un imprévu : congés, invités,....
 
