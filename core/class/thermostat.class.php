@@ -85,10 +85,10 @@ class thermostat extends eqLogic {
             if ($temp > $hysteresis_hight) {
                 $action = 'cool';
             }
-            if ($action == 'heat' && $thermostat->getConfiguration('lastState') == 'cool' && ($consigne - 2 * $thermostat->getConfiguration('hysteresis_threshold')) < $temp) {
+            if ($action == 'heat' && $thermostat->getConfiguration('lastState') == 'cool' && ($consigne - 2 * $thermostat->getConfiguration('hysteresis_threshold',1)) < $temp) {
                 $action = 'none';
             }
-            if ($action == 'cool' && $thermostat->getConfiguration('lastState') == 'heat' && ($consigne + 2 * $thermostat->getConfiguration('hysteresis_threshold')) > $temp) {
+            if ($action == 'cool' && $thermostat->getConfiguration('lastState') == 'heat' && ($consigne + 2 * $thermostat->getConfiguration('hysteresis_threshold',1)) > $temp) {
                 $action = 'none';
             }
             if ($status == __('Chauffage', __FILE__) && $temp > $hysteresis_hight) {
@@ -200,7 +200,12 @@ class thermostat extends eqLogic {
             $diff_in = abs($consigne - $temp_in);
             $diff_out = $consigne - $temp_out;
             $direction = ($consigne > $temp_in) ? +1 : -1;
-
+            if ($temp_in < ($consigne + 1) && $thermostat->getConfiguration('lastState') == 'heat') {
+                $direction = +1;
+            }
+            if ($temp_in < ($consigne - 1) && $thermostat->getConfiguration('lastState') == 'cool') {
+                $direction = -1;
+            }
             $thermostat->setConfiguration('lastOrder', $consigne);
             $thermostat->setConfiguration('lastTempIn', $temp_in);
             $thermostat->setConfiguration('lastTempOut', $temp_out);
