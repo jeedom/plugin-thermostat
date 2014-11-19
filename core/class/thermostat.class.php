@@ -35,7 +35,9 @@ class thermostat extends eqLogic {
                     $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.5);
                     self::temporal($_options);
                 } else {
-                    $thermostat->stop();
+                    if($thermostat->getConfiguration('last_power') < 98){
+                        $thermostat->stop();
+                    }
                 }
                 $cron = cron::byClassAndFunction('thermostat', 'stop', $_options);
                 if (is_object($cron)) {
@@ -441,8 +443,8 @@ class thermostat extends eqLogic {
         if ($this->getConfiguration('minCycleDuration') === '') {
             $this->setConfiguration('minCycleDuration', 5);
         }
-        if ($this->getConfiguration('minCycleDuration') < 5 || $this->getConfiguration('minCycleDuration') > 90) {
-            throw new Exception(__('Le temps de chauffe minimum doit etre compris entre 5% et 90%', __FILE__));
+        if ($this->getConfiguration('minCycleDuration') < 0 || $this->getConfiguration('minCycleDuration') > 90) {
+            throw new Exception(__('Le temps de chauffe minimum doit etre compris entre 0% et 90%', __FILE__));
         }
         if ($this->getConfiguration('cycle') === '') {
             $this->setConfiguration('cycle', 60);
