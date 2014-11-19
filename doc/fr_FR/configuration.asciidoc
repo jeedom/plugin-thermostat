@@ -8,7 +8,7 @@ Le plugin thermostat disposent de nombreux paramètres et certains ne sont acces
 
  
 
-==== LA CONFIGURATION EN QUELQUES CLICS....
+==== La configuration en quelques clics
 Le thermostat de Jeedom est très puissant mais pour une utilisation traditionnelle, sa mise en œuvre est vraiment simple et rapide, à partir du moment où on a compris les étapes essentielles :
 
 - définition du Moteur de thermostat (hystérésis ou temporel). C'est le choix de l'algorithme de régulation.
@@ -24,7 +24,7 @@ image::../images/thermostat.png[]
 Le verrou présent sur le widget permet de bloquer le thermostat dans une consigne donnée, suite à un imprévu : congés, invités,....
 
 
-==== LA CRÉATION D'UN THERMOSTAT EN DÉTAIL....
+==== La création d'un thermostat en détail
 Pour créer un nouveau thermostat, rendez-vous sur la page de configuration en déroulant le menu Plugins/Bien-être et sélectionnez Thermostat. Cliquez sur le bouton Ajouter un thermostat situé en haut à gauche et renseignez le nom souhaité pour votre thermostat.
 
 image::../images/thermostat2.png[]
@@ -33,7 +33,7 @@ Dans un premier temps, nous allons renseigner les paramètres généraux du ther
 
 image::../images/thermostat3.png[]
 
-==== LE CHOIX DE L'ALGORITHME DU THERMOSTAT
+==== Le choix de l'algorithme du thermostat
 En évidence sur cette image le Moteur de fonctionnement du thermostat. Il y a 2 algorithmes possibles pour la régulation de température.
 
 Lorsque vous sélectionnez le mode Hystérésis, la mise en route de votre chauffage se produit dès que la température est inférieure à la consigne moins l'hystérésis et il s'éteint dès que la température dépasse la consigne plus l’hystérésis.
@@ -54,7 +54,7 @@ Enfin, plus le temps de cycle sera grand, plus la régulation sera lente. A l'in
 
 Ce type de régulation est plus optimisé, il améliore le confort et permet de réaliser des économies d'énergie substantielles.
 
-==== LA CONFIGURATION
+==== La configuration
 Là, c'est assez simple, vous décidez si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez la plage d'utilisation de votre thermostat : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget ou par programmation.
 
 image::../images/thermostat6.png[]
@@ -69,19 +69,19 @@ image::../images/thermostat8.png[]
 
 Les actions ici sont celles qui permettent de chauffer, de refroidir (climatisation), d'arrêter la commande. Une action complémentaire peut être envisagée à chaque changement de consigne, que ce soit ne mode manuel ou automatique.
 
-==== LES MODES : LE POINT DE DÉPART POUR L'AUTOMATISATION
+==== Les modes : le point de départ pour l'automatisation
 Les modes (définis dans l'onglet "configuration des modes") sont des consignes prédéterminées du thermostat qui correspondent à votre mode de vie. Par exemple, le mode "Nuit" ou "Eco" donne la température que vous souhaitez lorsque tout le monde dort. Le mode "Jour" ou "Confort" détermine le comportement du thermostat pour avoir une température de confort lorsque vous êtes présent au domicile. Ici, rien n'est figé. Vous pouvez définir autant de modes que vous souhaitez pour les utiliser via des scénarios (Nous y reviendrons plus tard).
 
 Dans l'image ci-dessous, le mode "Confort" a une valeur de consigne de 20°C et pour le mode "Eco", le thermostat est réglé à 18°C.
 
 image::../images/thermostat9.png[]
 
-==== LES OUVERTURES : POUR INTERROMPRE TEMPORAIREMENT LE THERMOSTAT
+==== Les ouvertures : pour interrompre temporairement le thermostat
 Imaginons que vous souhaitez arrêter momentanément votre chauffage ou votre climatiseur, par exemple pour aérer la pièce pour laquelle le thermostat est actif. Pour détecter l'ouverture de la fenêtre, vous utiliserez un capteur situé sur l'ouvrant de votre fenêtre, vous permettant ainsi de réaliser cette interruption en l'ajoutant dans l'onglet de configuration des ouvertures. 2 paramètres supplémentaires sont réglables ici, ce sont les durées d'ouverture et de fermeture de la fenêtre qui vont provoquer l'interruption et la reprise du fonctionnement du thermostat.
 
 image::../images/thermostat10.png[]
 
-==== UN EXEMPLE CONCRET D'UTILISATION DU THERMOSTAT
+==== Un exemple concret d'utilisation du thermostat
 Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l'expliquer est de prendre un cas d'utilisation. Admettons que dans certaines chambres, on souhaite réaliser une programmation hebdomadaire des thermostats, en fonction des heures de levée et de couché. Précisons que chaque chambre est indépendante, c'est à dire un thermostat est défini pour chacune des pièces.
 
 Dans un premier temps, je vais utiliser 2 scénarios pour mettre le chauffage en mode confort (consigne 20°C) tous les matins de la semaine entre 5h et 7h30, puis le soir entre 17h et 21h. Le mode confort sera également activé le mercredi après-midi de 12h à 21h et le week-end de 8h à 22h. Le reste du temps, le chauffage bascule en mode Eco, avec une consigne de 18°C.
@@ -108,7 +108,7 @@ Si la création de scénario est parfois compliqué, pour le cas de la programma
 
 Le plugin agenda permet d'aller plus loin dans la programmation et surtout présente moins de risque de se tromper. En effet, par rapport à la programmation précédente, le calendrier va apparaître en clair sur l'écran et on va pouvoir tenir compte des jours fériés, des vacances....Bref, piloter le thermostat en fonction de mon mode de vie.
 
-==== LE MÊME EXEMPLE AVEC LE PLUGIN AGENDA
+==== Le même avec le plugin agenda
 Nous ne présenterons pas le plugin Agenda, l'objectif ici étant de le coupler avec la programmation du thermostat.
 
 Nous allons donc créer un nouvel agenda qui s'appelle "Programmation chauffage", auquel on ajoutera les événements de changement de mode du thermostat.
