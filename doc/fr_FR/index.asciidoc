@@ -3,8 +3,14 @@
 === Description
 Plugin permetant de creer et gerer des thermostats
 
+'''
 === Configuration
 include::configuration.asciidoc[]
 
+'''
+=== FAQ
+include::faq.asciidoc[]
+
+'''
 === Changelog
 include::changelog.asciidoc[]
