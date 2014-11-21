@@ -35,7 +35,7 @@ class thermostat extends eqLogic {
                     $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.5);
                     self::temporal($_options);
                 } else {
-                    if($thermostat->getConfiguration('last_power') < 98){
+                    if ($thermostat->getConfiguration('last_power') < 98) {
                         $thermostat->stop();
                     }
                 }
@@ -75,12 +75,12 @@ class thermostat extends eqLogic {
                     return;
                 }
             }
-            $cmd = $thermostat->getCmd(null,'temperature');
+            $cmd = $thermostat->getCmd(null, 'temperature');
             $temp = $cmd->execCmd();
             if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-                  $thermostat->stop();
-                  log::add('thermostat','error',__('Attention il n\'y a pas eu de mise à jour de la température depuis : ',__FILE__).$thermostat->getConfiguration('maxTimeUpdateTemp'));
-                  return;
+                $thermostat->stop();
+                log::add('thermostat', 'error', __('Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
+                return;
             }
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
@@ -93,10 +93,10 @@ class thermostat extends eqLogic {
             if ($temp > $hysteresis_hight) {
                 $action = 'cool';
             }
-            if ($action == 'heat' && $thermostat->getConfiguration('lastState') == 'cool' && ($consigne - 2 * $thermostat->getConfiguration('hysteresis_threshold',1)) < $temp) {
+            if ($action == 'heat' && $thermostat->getConfiguration('lastState') == 'cool' && ($consigne - 2 * $thermostat->getConfiguration('hysteresis_threshold', 1)) < $temp) {
                 $action = 'none';
             }
-            if ($action == 'cool' && $thermostat->getConfiguration('lastState') == 'heat' && ($consigne + 2 * $thermostat->getConfiguration('hysteresis_threshold',1)) > $temp) {
+            if ($action == 'cool' && $thermostat->getConfiguration('lastState') == 'heat' && ($consigne + 2 * $thermostat->getConfiguration('hysteresis_threshold', 1)) > $temp) {
                 $action = 'none';
             }
             if ($status == __('Chauffage', __FILE__) && $temp > $hysteresis_hight) {
@@ -144,12 +144,12 @@ class thermostat extends eqLogic {
                     return;
                 }
             }
-            $cmd = $thermostat->getCmd(null,'temperature');
+            $cmd = $thermostat->getCmd(null, 'temperature');
             $temp_in = $cmd->execCmd();
             if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-                  $thermostat->stop();
-                  log::add('thermostat','error',__('Attention il n\'y a pas eu de mise à jour de la température depuis : ',__FILE__).$thermostat->getConfiguration('maxTimeUpdateTemp'));
-                  return;
+                $thermostat->stop();
+                log::add('thermostat', 'error', __('Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
+                return;
             }
             $temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 
@@ -294,7 +294,7 @@ class thermostat extends eqLogic {
                     try {
                         $c = new Cron\CronExpression($thermostat->getConfiguration('hysteresis_cron'), new Cron\FieldFactory);
                         if ($c->isDue()) {
-                            $thermostat->getCmd(null,'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
+                            $thermostat->getCmd(null, 'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
                             thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
                         }
                     } catch (Exception $e) {
@@ -323,11 +323,11 @@ class thermostat extends eqLogic {
                     }
                 }
                 if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
-                    $cmd = $thermostat->getCmd(null,'temperature');
+                    $cmd = $thermostat->getCmd(null, 'temperature');
                     $cmd->execCmd();
                     if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-                          $thermostat->stop();
-                          log::add('thermostat','error',__('Attention il n\'y a pas eu de mise à jour de la température depuis : ',__FILE__).$thermostat->getConfiguration('maxTimeUpdateTemp'));
+                        $thermostat->stop();
+                        log::add('thermostat', 'error', __('Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
                     }
                 }
             }
@@ -636,8 +636,8 @@ class thermostat extends eqLogic {
             $temperature->setUnite('°C');
             $temperature->setIsVisible(1);
             $temperature->setIsHistorized(1);
-            
-              $value = '';
+
+            $value = '';
             preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_indoor'), $matches);
             foreach ($matches[1] as $cmd_id) {
                 if (is_numeric($cmd_id)) {
@@ -650,8 +650,8 @@ class thermostat extends eqLogic {
             }
             $temperature->setValue($value);
             $temperature->save();
-            $temperature->event(jeedom::evaluateExpression($this->getConfiguration('temperature_indoor')));
-            
+            $temperature->event(round(jeedom::evaluateExpression($this->getConfiguration('temperature_indoor')), 1));
+
             $temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
             if (!is_object($temperature_outdoor)) {
                 $temperature_outdoor = new thermostatCmd();
@@ -683,7 +683,7 @@ class thermostat extends eqLogic {
             }
             $temperature_outdoor->setValue($value);
             $temperature_outdoor->save();
-            $temperature_outdoor->event(jeedom::evaluateExpression($this->getConfiguration('temperature_outdoor')));
+            $temperature_outdoor->event(round(jeedom::evaluateExpression($this->getConfiguration('temperature_outdoor')), 1));
 
             $heatOnly = $this->getCmd(null, 'heat_only');
             if (!is_object($heatOnly)) {
@@ -1019,7 +1019,10 @@ class thermostatCmd extends cmd {
             return 0;
         }
         if ($this->getLogicalId() == 'temperature') {
-            return jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor'));
+            return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor')), 1);
+        }
+        if ($this->getLogicalId() == 'temperature_outdoor') {
+            return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor')), 1);
         }
         if ($this->getLogicalId() == 'cool_only') {
             $eqLogic->setConfiguration('allow_mode', 'cool');
