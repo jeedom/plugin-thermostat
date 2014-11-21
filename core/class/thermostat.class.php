@@ -29,7 +29,7 @@ class thermostat extends eqLogic {
         if (is_object($thermostat)) {
             if (isset($_options['stop']) && $_options['stop'] == 1) {
                 $consigne = $thermostat->getCmd(null, 'order')->execCmd();
-                $temp = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
+                $temp = $thermostat->getCmd(null, 'temperature')->execCmd();
                 if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 1)) {
                     $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 1);
                     $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.5);
@@ -75,7 +75,7 @@ class thermostat extends eqLogic {
                     return;
                 }
             }
-            $temp = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
+            $temp = $thermostat->getCmd(null, 'temperature')->execCmd();
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
             $hysteresis_low = $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
@@ -138,8 +138,8 @@ class thermostat extends eqLogic {
                     return;
                 }
             }
-            $temp_in = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor'));
-            $temp_out = jeedom::evaluateExpression($thermostat->getConfiguration('temperature_outdoor'));
+            $temp_in = $thermostat->getCmd(null, 'temperature')->execCmd();
+            $temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 
             if (!is_numeric($temp_in)) {
                 return;
@@ -282,6 +282,7 @@ class thermostat extends eqLogic {
                     try {
                         $c = new Cron\CronExpression($thermostat->getConfiguration('hysteresis_cron'), new Cron\FieldFactory);
                         if ($c->isDue()) {
+                            $thermostat->getCmd(null,'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
                             thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
                         }
                     } catch (Exception $e) {
@@ -307,6 +308,14 @@ class thermostat extends eqLogic {
                         }
                     } catch (Exception $e) {
                         log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
+                    }
+                }
+                if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
+                    $cmd = $thermostat->getCmd(null,'temperature');
+                    $cmd->execCmd();
+                    if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
+                          $thermostat->stop();
+                          log::add('thermostat','error',__('Attention il n\'y a pas eu de mise à jour de la température depuis : ',__FILE__).$thermostat->getConfiguration('maxTimeUpdateTemp'));
                     }
                 }
             }
@@ -611,12 +620,12 @@ class thermostat extends eqLogic {
             $temperature->setSubType('numeric');
             $temperature->setLogicalId('temperature');
             $temperature->setOrder(0);
-            $temperature->setEventOnly(0);
+            $temperature->setEventOnly(1);
             $temperature->setUnite('°C');
             $temperature->setIsVisible(1);
             $temperature->setIsHistorized(1);
-
-            $value = '';
+            
+              $value = '';
             preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_indoor'), $matches);
             foreach ($matches[1] as $cmd_id) {
                 if (is_numeric($cmd_id)) {
@@ -630,6 +639,39 @@ class thermostat extends eqLogic {
             $temperature->setValue($value);
             $temperature->save();
             $temperature->event(jeedom::evaluateExpression($this->getConfiguration('temperature_indoor')));
+            
+            $temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
+            if (!is_object($temperature_outdoor)) {
+                $temperature_outdoor = new thermostatCmd();
+                $temperature_outdoor->setTemplate('dashboard', 'badge');
+                $temperature_outdoor->setTemplate('mobile', 'badge');
+                $temperature_outdoor->setDisplay('parameters', array('displayHistory' => 'display : none;'));
+            }
+            $temperature_outdoor->setEqLogic_id($this->getId());
+            $temperature_outdoor->setName(__('Temperature extérieure', __FILE__));
+            $temperature_outdoor->setType('info');
+            $temperature_outdoor->setSubType('numeric');
+            $temperature_outdoor->setLogicalId('temperature_outdoor');
+            $temperature_outdoor->setOrder(0);
+            $temperature_outdoor->setEventOnly(1);
+            $temperature_outdoor->setUnite('°C');
+            $temperature_outdoor->setIsVisible(0);
+            $temperature_outdoor->setIsHistorized(1);
+
+            $value = '';
+            preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_outdoor'), $matches);
+            foreach ($matches[1] as $cmd_id) {
+                if (is_numeric($cmd_id)) {
+                    $cmd = cmd::byId($cmd_id);
+                    if (is_object($cmd) && $cmd->getType() == 'info') {
+                        $value .= '#' . $cmd_id . '#';
+                        break;
+                    }
+                }
+            }
+            $temperature_outdoor->setValue($value);
+            $temperature_outdoor->save();
+            $temperature_outdoor->event(jeedom::evaluateExpression($this->getConfiguration('temperature_outdoor')));
 
             $heatOnly = $this->getCmd(null, 'heat_only');
             if (!is_object($heatOnly)) {
