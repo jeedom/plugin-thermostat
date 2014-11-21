@@ -1055,8 +1055,9 @@ class thermostatCmd extends cmd {
                 }
                 $eqLogic->getCmd(null, 'order')->event($_options['slider']);
                 $eqLogic->getCmd(null, 'mode')->event(__('Aucun', __FILE__));
-                $eqLogic->orderChange();
+
                 if ($eqLogic->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
+                    $eqLogic->orderChange();
                     if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
                         thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
                     }
@@ -1066,7 +1067,7 @@ class thermostatCmd extends cmd {
                 }
             } else {
                 $thermostat = $eqLogic->getCmd(null, 'thermostat');
-                nodejs::pushUpdate('eventCmd', array('cmd_id' => $thermostat->getId(), 'eqLogic_id' => $thermostat->getEqLogic_id(), 'object_id' => $thermostat->getEqLogic()->getObject_id()));
+                nodejs::pushUpdate('eventCmd', array('cmd_id' => $thermostat->getId()));
             }
             return '';
         }
