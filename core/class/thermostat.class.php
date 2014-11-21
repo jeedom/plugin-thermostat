@@ -75,7 +75,13 @@ class thermostat extends eqLogic {
                     return;
                 }
             }
-            $temp = $thermostat->getCmd(null, 'temperature')->execCmd();
+            $cmd = $thermostat->getCmd(null,'temperature');
+            $temp = $cmd->execCmd();
+            if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
+                  $thermostat->stop();
+                  log::add('thermostat','error',__('Attention il n\'y a pas eu de mise à jour de la température depuis : ',__FILE__).$thermostat->getConfiguration('maxTimeUpdateTemp'));
+                  return;
+            }
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
             $hysteresis_low = $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
@@ -138,7 +144,13 @@ class thermostat extends eqLogic {
                     return;
                 }
             }
-            $temp_in = $thermostat->getCmd(null, 'temperature')->execCmd();
+            $cmd = $thermostat->getCmd(null,'temperature');
+            $temp_in = $cmd->execCmd();
+            if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
+                  $thermostat->stop();
+                  log::add('thermostat','error',__('Attention il n\'y a pas eu de mise à jour de la température depuis : ',__FILE__).$thermostat->getConfiguration('maxTimeUpdateTemp'));
+                  return;
+            }
             $temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 
             if (!is_numeric($temp_in)) {
