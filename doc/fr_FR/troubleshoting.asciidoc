@@ -1,0 +1,5 @@
+En mode histeresys mon thermostat ne change jamais d'état:::
+C'est que les sondes de temperature ne remontent pas automatiquement leur valeur, il est conseillé de mettre en place un "Cron de controle"
+
+J'ai beau changer la température ou de mode, le thermostat revient toujours à l'état précedent:::
+Verifiez que votre thermostat n'est pas verouillé 
