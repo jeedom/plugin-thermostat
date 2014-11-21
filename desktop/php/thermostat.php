@@ -114,6 +114,12 @@ sendVarToJS('eqType', 'thermostat');
                                 <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
                             </div>
                         </div>
+                        <div class='expertModeVisible'>
+                            <label class="col-lg-3 control-label">{{Délai max entre 2 relevés de température}}</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp" title="{{Cron de vérification, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
+                            </div>
+                        </div>
                     </fieldset> 
                 </form>
             </div>
