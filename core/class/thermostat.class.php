@@ -632,7 +632,7 @@ class thermostat extends eqLogic {
             $temperature->setSubType('numeric');
             $temperature->setLogicalId('temperature');
             $temperature->setOrder(0);
-            $temperature->setEventOnly(1);
+            $temperature->setEventOnly(0);
             $temperature->setUnite('°C');
             $temperature->setIsVisible(1);
             $temperature->setIsHistorized(1);
@@ -650,7 +650,6 @@ class thermostat extends eqLogic {
             }
             $temperature->setValue($value);
             $temperature->save();
-            $temperature->event(round(jeedom::evaluateExpression($this->getConfiguration('temperature_indoor')), 1));
 
             $temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
             if (!is_object($temperature_outdoor)) {
@@ -665,7 +664,7 @@ class thermostat extends eqLogic {
             $temperature_outdoor->setSubType('numeric');
             $temperature_outdoor->setLogicalId('temperature_outdoor');
             $temperature_outdoor->setOrder(0);
-            $temperature_outdoor->setEventOnly(1);
+            $temperature_outdoor->setEventOnly(0);
             $temperature_outdoor->setUnite('°C');
             $temperature_outdoor->setIsVisible(0);
             $temperature_outdoor->setIsHistorized(1);
@@ -683,7 +682,6 @@ class thermostat extends eqLogic {
             }
             $temperature_outdoor->setValue($value);
             $temperature_outdoor->save();
-            $temperature_outdoor->event(round(jeedom::evaluateExpression($this->getConfiguration('temperature_outdoor')), 1));
 
             $heatOnly = $this->getCmd(null, 'heat_only');
             if (!is_object($heatOnly)) {
@@ -1019,9 +1017,43 @@ class thermostatCmd extends cmd {
             return 0;
         }
         if ($this->getLogicalId() == 'temperature') {
+            preg_match_all("/#([0-9]*)#/", $eqLogic->getConfiguration('temperature_indoor'), $matches);
+            $date = '';
+            foreach ($matches[1] as $cmd_id) {
+                if (is_numeric($cmd_id)) {
+                    $cmd = cmd::byId($cmd_id);
+                    if (is_object($cmd) && $cmd->getType() == 'info') {
+                        $cmd->execCmd();
+                        if ($date == '' || strtotime($date) < strtotime($$cmd->getCollectDate())) {
+                            $date = $cmd->getCollectDate();
+                        }
+                        break;
+                    }
+                }
+            }
+            if ($date != '') {
+                $this->setCollectDate($date);
+            }
             return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor')), 1);
         }
         if ($this->getLogicalId() == 'temperature_outdoor') {
+            preg_match_all("/#([0-9]*)#/", $eqLogic->getConfiguration('temperature_outdoor'), $matches);
+            $date = '';
+            foreach ($matches[1] as $cmd_id) {
+                if (is_numeric($cmd_id)) {
+                    $cmd = cmd::byId($cmd_id);
+                    if (is_object($cmd) && $cmd->getType() == 'info') {
+                        $cmd->execCmd();
+                        if ($date == '' || strtotime($date) < strtotime($$cmd->getCollectDate())) {
+                            $date = $cmd->getCollectDate();
+                        }
+                        break;
+                    }
+                }
+            }
+            if ($date != '') {
+                $this->setCollectDate($date);
+            }
             return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor')), 1);
         }
         if ($this->getLogicalId() == 'cool_only') {
