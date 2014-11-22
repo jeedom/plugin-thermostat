@@ -100,43 +100,37 @@ function graphThermostat(_eqLogic_id) {
         },
         success: function (cmds) {
             for (var i  in cmds) {
-                if (cmds[i].logicalId == 'actif') {
+                if (cmds[i].logicalId == 'actif' || cmds[i].logicalId == 'order') {
+                    var color = '';
+                    if (cmds[i].logicalId == 'order') {
+                        color = '#27ae60';
+                    }
+                    if (cmds[i].logicalId == 'actif') {
+                        color = '#2c3e50';
+                    }
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
                         start: $('#in_startDate').value(),
                         end: $('#in_endDate').value(),
                         option: {
-                            graphStep: true
+                            graphStep: 1,
+                            graphColor: color
                         }
                     });
                 }
-                if (cmds[i].logicalId == 'order') {
+                if (cmds[i].logicalId == 'temperature') {
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
                         start: $('#in_startDate').value(),
                         end: $('#in_endDate').value(),
                         option: {
+                            graphColor: '#f39c12'
                         }
                     });
                 }
             }
-        }
-    });
-    jeedom.eqLogic.byId({
-        id: _eqLogic_id,
-        success: function (thermostat) {
-            jeedom.history.drawChart({
-                cmd_id: thermostat.configuration.temperature_indoor,
-                el: 'div_graph' + _eqLogic_id,
-                start: $('#in_startDate').value(),
-                end: $('#in_endDate').value(),
-                option: {
-                    name: 'Température',
-                    allowZero: false,
-                }
-            });
         }
     });
 }
