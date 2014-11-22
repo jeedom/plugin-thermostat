@@ -9,3 +9,9 @@ C'est que les sondes de temperature ne remontent pas automatiquement leur valeur
 --
 Verifiez que votre thermostat n'est pas verouillé 
 --
+
+[panel,danger]
+.Mon thermostat semble ne jamais passer en mode chauffage ou climatisation
+--
+Si le thermostat n'a pas de commande correspondant au chauffage et/ou à la climatisation celui-ci ne peut pas passer dans ces modes.
+--
