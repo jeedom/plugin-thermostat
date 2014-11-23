@@ -5,7 +5,7 @@ if (!isConnect('admin')) {
 sendVarToJS('eqType', 'thermostat');
 ?>
 <div class="row row-overflow">
-    <div class="col-lg-2">
+    <div class="col-lg-2 col-md-3 col-sm-4">
         <div class="bs-sidebar">
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
                 <a class="btn btn-default eqLogicAction" style="width : 100%;margin-top : 5px;margin-bottom: 5px;" data-action="add"><i class="fa fa-plus-circle"></i> {{Ajouter un thermostat}}</a>
@@ -18,22 +18,22 @@ sendVarToJS('eqType', 'thermostat');
             </ul>
         </div>
     </div>
-    <div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
+    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-sm-6">
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>{{Général}}</legend>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Nom du thermostat}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-4 control-label">{{Nom du thermostat}}</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du thermostat}}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label" >{{Objet parent}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-4 control-label" >{{Objet parent}}</label>
+                            <div class="col-sm-6">
                                 <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                                     <option value="">{{Aucun}}</option>
                                     <?php
@@ -46,18 +46,18 @@ sendVarToJS('eqType', 'thermostat');
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Activer}}</label>
-                            <div class="col-lg-1">
+                            <label class="col-sm-4 control-label">{{Activer}}</label>
+                            <div class="col-sm-1">
                                 <input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>
                             </div>
-                            <label class="col-lg-4 control-label">{{Visible}}</label>
-                            <div class="col-lg-1">
+                            <label class="col-sm-4 control-label">{{Visible}}</label>
+                            <div class="col-sm-1">
                                 <input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 control-label">{{Moteur}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-4 control-label">{{Moteur}}</label>
+                            <div class="col-sm-6">
                                 <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="engine" placeholder="" >
                                     <option value="temporal">Temporel</option>
                                     <option value="hysteresis">Hysteresis</option>
@@ -67,13 +67,13 @@ sendVarToJS('eqType', 'thermostat');
                     </fieldset> 
                 </form>
             </div>
-            <div class="col-lg-6">
+            <div class="col-sm-6">
                 <form class="form-horizontal">
                     <fieldset>
                         <legend>{{Configuration}}</legend>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">{{Autoriser}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-3 control-label">{{Autoriser}}</label>
+                            <div class="col-sm-6">
                                 <select class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="allow_mode" title="{{Veuillez préciser les actions que le thermostat à le droit de faire en terme de chauffage et refroidissement.}}">
                                     <option value="all">Tout</option>
                                     <option value="heat">Chauffage uniquement</option>
@@ -82,41 +82,41 @@ sendVarToJS('eqType', 'thermostat');
                             </div>
                         </div>
                         <div class="form-group expertModeVisible">
-                            <label class="col-lg-3 control-label">{{Température minimale (°C)}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-3 control-label">{{Température minimale (°C)}}</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="order_min" title="{{Précisez l'écart de température que le thermostat est autorisé à piloter}}"/>
                             </div>
                         </div>
                         <div class="form-group expertModeVisible">
-                            <label class="col-lg-3 control-label">{{Température maximale (°C)}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-3 control-label">{{Température maximale (°C)}}</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="order_max" title="{{Précisez l'écart de température que le thermostat est autorisé à piloter}}"/>
                             </div>
                         </div>
                         <div class="form-group engine temporal">
                             <div class='expertModeVisible'>
-                                <label class="col-lg-3 control-label">{{Cycle (min)}}</label>
-                                <div class="col-lg-2">
+                                <label class="col-sm-3 control-label">{{Cycle (min)}}</label>
+                                <div class="col-sm-2">
                                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieur à 15 min)}}"/>
                                 </div>
-                                <label class="col-lg-5 control-label">{{Temps de chauffe minimum (% du cycle)}}</label>
-                                <div class="col-lg-2">
+                                <label class="col-sm-5 control-label">{{Temps de chauffe minimum (% du cycle)}}</label>
+                                <div class="col-sm-2">
                                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle a faire (sinon la mise en marche du chauffage est reporté au cyle suivant)}}" value="5"/>
                                 </div>
                             </div>
                         </div>
                         <div class='form-group  expertModeVisible'>
-                            <label class="col-lg-3 control-label">{{Cron de répétition de commande}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-3 control-label">{{Cron de répétition de commande}}</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de vérification, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
                             </div>
-                            <div class="col-lg-1">
+                            <div class="col-sm-1">
                                 <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
                             </div>
                         </div>
                         <div class='form-group  expertModeVisible'>
-                            <label class="col-lg-3 control-label">{{Délai max entre 2 relevés de température}}</label>
-                            <div class="col-lg-6">
+                            <label class="col-sm-3 control-label">{{Délai max entre 2 relevés de température}}</label>
+                            <div class="col-sm-6">
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp" title="{{Cron de vérification, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
                             </div>
                         </div>
@@ -132,31 +132,31 @@ sendVarToJS('eqType', 'thermostat');
                         <div class="alert alert-warning">
                             {{Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils seront calculés et mis à jour automatiquement}}
                         </div>
-                        <label class="col-lg-2 control-label">{{Coefficient chauffage}}</label>
-                        <div class="col-lg-2">
+                        <label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat" />
                         </div>
-                        <label class="col-lg-1 control-label">{{Clim}}</label>
-                        <div class="col-lg-2">
+                        <label class="col-sm-1 control-label">{{Clim}}</label>
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool" />
                         </div>
-                        <label class="col-lg-1 control-label">{{Isolation}}</label>
-                        <div class="col-lg-2">
+                        <label class="col-sm-1 control-label">{{Isolation}}</label>
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor" />
                         </div>
                     </div>
                 </div>
                 <div class="form-group engine hysteresis" style="display: none;">
-                    <label class="col-lg-2 control-label">{{Hystéresis (°C)}}</label>
-                    <div class="col-lg-2">
+                    <label class="col-sm-2 control-label">{{Hystéresis (°C)}}</label>
+                    <div class="col-sm-2">
                         <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_threshold" placeholder="1"/>
                     </div>
                     <div class='expertModeVisible'>
-                        <label class="col-lg-2 control-label">{{Cron de controle}}</label>
-                        <div class="col-lg-2">
+                        <label class="col-sm-2 control-label">{{Cron de controle}}</label>
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron" title="{{Cron de vérification, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
                         </div>
-                        <div class="col-lg-1">
+                        <div class="col-sm-1">
                             <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
                         </div>
                     </div>
@@ -165,20 +165,20 @@ sendVarToJS('eqType', 'thermostat');
                     {{Veuillez ajouter vos sondes de température}}
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Température intérieure}}</label>
-                    <div class="col-lg-9">
+                    <label class="col-sm-2 control-label">{{Température intérieure}}</label>
+                    <div class="col-sm-9">
                         <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor" data-concat="1"/>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-sm-1">
                         <a class="btn btn-default btn-sm listCmdInfo"><i class="fa fa-list-alt"></i></a>
                     </div>
                 </div>
                 <div class="form-group engine temporal">
-                    <label class="col-lg-2 control-label">{{Température extérieure}}</label>
-                    <div class="col-lg-9">
+                    <label class="col-sm-2 control-label">{{Température extérieure}}</label>
+                    <div class="col-sm-9">
                         <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-sm-1">
                         <a class="btn btn-default btn-sm listCmdInfo"><i class="fa fa-list-alt"></i></a>
                     </div>
                 </div>
