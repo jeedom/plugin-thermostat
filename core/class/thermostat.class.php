@@ -242,7 +242,9 @@ class thermostat extends eqLogic {
             $duration = ($power * $cycle) / 100;
             log::add('thermostat', 'debug', 'Cycle duration : ' . $duration);
             $thermostat->save();
-            $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
+            if ($power != 100) {
+                $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
+            }
             if ($direction > 0) {
                 if ($status != __('Chauffage', __FILE__)) {
                     $thermostat->heat();
