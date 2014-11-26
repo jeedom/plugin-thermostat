@@ -209,7 +209,7 @@ class thermostat extends eqLogic {
                             $coeff_outdoor = 0;
                         }
                         $thermostat->setConfiguration('coeff_outdoor', round($coeff_outdoor, 2));
-                        og::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor : ' . $coeff_outdoor);
+                        log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor : ' . $coeff_outdoor);
                     }
                 }
             }
