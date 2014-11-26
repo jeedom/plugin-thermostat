@@ -79,7 +79,7 @@ class thermostat extends eqLogic {
             $temp = $cmd->execCmd();
             if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
                 $thermostat->stop();
-                log::add('thermostat', 'error', __('Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
+                log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
                 return;
             }
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
@@ -148,7 +148,7 @@ class thermostat extends eqLogic {
             $temp_in = $cmd->execCmd();
             if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
                 $thermostat->stop();
-                log::add('thermostat', 'error', __('Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
+                log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
                 return;
             }
             $temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
@@ -226,7 +226,7 @@ class thermostat extends eqLogic {
             $coeff_out = $thermostat->getConfiguration('coeff_outdoor');
             $coeff_in = ($direction > 0) ? $thermostat->getConfiguration('coeff_indoor_heat') : $thermostat->getConfiguration('coeff_indoor_cool');
             $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out);
-            log::add('thermostat', 'debug', 'Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ')');
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ')');
             if ($power > 100) {
                 $power = 100;
             }
@@ -240,7 +240,7 @@ class thermostat extends eqLogic {
                 return;
             }
             $duration = ($power * $cycle) / 100;
-            log::add('thermostat', 'debug', 'Cycle duration : ' . $duration);
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
             $thermostat->save();
             if ($power != 100) {
                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
@@ -286,7 +286,7 @@ class thermostat extends eqLogic {
                             try {
                                 $cron->getNextRunDate();
                             } catch (Exception $ex) {
-                                log::add('thermostat', 'debug', 'Reschedule temporal cron');
+                                log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reschedule temporal cron');
                                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+1 min ' . date('Y-m-d H:i:s'))));
                             }
                         }
@@ -307,7 +307,7 @@ class thermostat extends eqLogic {
                     try {
                         $c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
                         if ($c->isDue()) {
-                            log::add('thermostat', 'debug', 'Lancement repeat commande : ' . $thermostat->getConfiguration('repeat_commande_cron'));
+                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement repeat commande : ' . $thermostat->getConfiguration('repeat_commande_cron'));
                             switch ($thermostat->getCmd(null, 'status')->execCmd()) {
                                 case __('Chauffage', __FILE__):
                                     $thermostat->heat(true);
@@ -329,7 +329,7 @@ class thermostat extends eqLogic {
                     $cmd->execCmd();
                     if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
                         $thermostat->stop();
-                        log::add('thermostat', 'error', __('Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
+                        log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
                     }
                 }
             }
@@ -846,7 +846,7 @@ class thermostat extends eqLogic {
     }
 
     public function heat($_force = false) {
-        log::add('thermostat', 'debug', 'Action chauffage');
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action chauffage');
         if (!$_force) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
@@ -869,10 +869,9 @@ class thermostat extends eqLogic {
                         $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
-                log::add('thermostat', 'debug', 'Commande : ' . $action['cmd']);
                 scenarioExpression::createAndExec('action', $action['cmd'], $options);
             } catch (Exception $e) {
-                log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+                log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
         $this->refresh();
@@ -883,7 +882,7 @@ class thermostat extends eqLogic {
     }
 
     public function cool($_force = false) {
-        log::add('thermostat', 'debug', 'Action froid');
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action froid');
         if (!$_force) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
@@ -906,10 +905,9 @@ class thermostat extends eqLogic {
                         $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
-                log::add('thermostat', 'debug', 'Commande : ' . $action['cmd']);
                 scenarioExpression::createAndExec('action', $action['cmd'], $options);
             } catch (Exception $e) {
-                log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+                log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
         $this->refresh();
@@ -920,7 +918,7 @@ class thermostat extends eqLogic {
     }
 
     public function stop($_force = false) {
-        log::add('thermostat', 'debug', 'Action stop');
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action stop');
         if (!$_force) {
             if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
                 return;
@@ -935,10 +933,9 @@ class thermostat extends eqLogic {
                         $options[$key] = str_replace('#slider#', $consigne, $value);
                     }
                 }
-                log::add('thermostat', 'debug', 'Commande : ' . $action['cmd']);
                 scenarioExpression::createAndExec('action', $action['cmd'], $options);
             } catch (Exception $e) {
-                log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+                log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
         $this->refresh();
@@ -963,7 +960,7 @@ class thermostat extends eqLogic {
                     }
                     scenarioExpression::createAndExec('action', $action['cmd'], $options);
                 } catch (Exception $e) {
-                    log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+                    log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
                 }
             }
         }
@@ -983,7 +980,7 @@ class thermostat extends eqLogic {
                         }
                         scenarioExpression::createAndExec('action', $action['cmd'], $options);
                     } catch (Exception $e) {
-                        log::add('thermostat', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+                        log::add('thermostat', 'error',$this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
                     }
                 }
             }
