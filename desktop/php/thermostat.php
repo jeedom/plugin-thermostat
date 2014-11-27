@@ -115,7 +115,7 @@ sendVarToJS('eqType', 'thermostat');
                             </div>
                         </div>
                         <div class='form-group  expertModeVisible'>
-                            <label class="col-sm-3 control-label">{{Délai max entre 2 relevés de température}}</label>
+                            <label class="col-sm-3 control-label">{{Délai max entre 2 relevés de température (min)}}</label>
                             <div class="col-sm-6">
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp" title="{{Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance}}"/>
                             </div>
