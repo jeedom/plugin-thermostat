@@ -140,6 +140,7 @@ function printEqLogic(_eqLogic) {
     $('#div_modes').empty();
     $('#div_window').empty();
     $('#div_orderChange').empty();
+    $('#div_failure').empty();
     if (isset(_eqLogic.configuration)) {
         if (isset(_eqLogic.configuration.heating)) {
             for (var i in _eqLogic.configuration.heating) {
