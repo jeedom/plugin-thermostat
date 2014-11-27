@@ -173,6 +173,16 @@ sendVarToJS('eqType', 'thermostat');
                         <a class="btn btn-default btn-sm listCmdInfo"><i class="fa fa-list-alt"></i></a>
                     </div>
                 </div>
+                <div class="form-group expertModeVisible">
+                    <label class="col-sm-2 control-label">{{Borne de températures inferieure}}</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_min" />
+                    </div>
+                    <label class="col-sm-2 control-label">{{Borne de températures supérieure}}</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_max" />
+                    </div>
+                </div>
                 <div class="form-group engine temporal">
                     <label class="col-sm-2 control-label">{{Température extérieure}}</label>
                     <div class="col-sm-9">

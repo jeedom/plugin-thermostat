@@ -342,6 +342,15 @@ class thermostat extends eqLogic {
                         log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
                     }
                 }
+                $temp_in = $thermostat->getCmd(null, 'temperature')->execCmd();
+                if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
+                    $thermostat->failure();
+                    log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieur est en dessous du seuil autorisé : ', __FILE__));
+                }
+                if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in) {
+                    $thermostat->failure();
+                    log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieur est au dessus du seuil autorisé : ', __FILE__));
+                }
             }
         }
     }
