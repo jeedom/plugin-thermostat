@@ -186,9 +186,10 @@ sendVarToJS('eqType', 'thermostat');
         </form>
         <hr/>
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#configureAction" data-toggle="tab">Configuration des actions</a></li>
-            <li><a href="#configureMode" data-toggle="tab">Configuration des modes</a></li>
-            <li><a href="#configureWindows" data-toggle="tab">Configuration des ouvertures</a></li>
+            <li class="active"><a href="#configureAction" data-toggle="tab">{{Configuration des actions}}</a></li>
+            <li><a href="#configureMode" data-toggle="tab">{{Configuration des modes}}</a></li>
+            <li><a href="#configureWindows" data-toggle="tab">{{Configuration des ouvertures}}</a></li>
+            <li><a href="#configureFailure" data-toggle="tab">{{Défaillance sonde de température}}</a></li>
         </ul>
 
         <div class="tab-content">
@@ -263,6 +264,16 @@ sendVarToJS('eqType', 'thermostat');
                         </div>
                         <br/><br/>
                         <div id="div_window"></div>
+                    </fieldset> 
+                </form> 
+            </div>
+            <div class="tab-pane" id="configureFailure">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <br/>
+                        <a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter action de defaillance</a>
+                        <br/><br/>
+                        <div id="div_failure"></div>
                     </fieldset> 
                 </form> 
             </div>
