@@ -65,7 +65,7 @@ image::../images/thermostat7.png[]
 
 Pour la commande du radiateur ou du climatiseur, il est décrit dans l'onglet "configuration des actions". On peut ici définir plusieurs actions, ce qui donne la possibilité à notre thermostat de piloter plusieurs équipements (cas d'un fonctionnement par zone par exemple ou contrôle d'un autre thermostat...)
 
-image::../images/thermostat8.png[]
+image::../images/thermostat_screenshot1.png[]
 
 Les actions ici sont celles qui permettent de chauffer, de refroidir (climatisation), d'arrêter la commande. Une action complémentaire peut être envisagée à chaque changement de consigne, que ce soit ne mode manuel ou automatique.
 
@@ -79,7 +79,7 @@ image::../images/thermostat9.png[]
 ==== Les ouvertures : pour interrompre temporairement le thermostat
 Imaginons que vous souhaitez arrêter momentanément votre chauffage ou votre climatiseur, par exemple pour aérer la pièce pour laquelle le thermostat est actif. Pour détecter l'ouverture de la fenêtre, vous utiliserez un capteur situé sur l'ouvrant de votre fenêtre, vous permettant ainsi de réaliser cette interruption en l'ajoutant dans l'onglet de configuration des ouvertures. 2 paramètres supplémentaires sont réglables ici, ce sont les durées d'ouverture et de fermeture de la fenêtre qui vont provoquer l'interruption et la reprise du fonctionnement du thermostat.
 
-image::../images/thermostat10.png[]
+image::../images/thermostat_screenshot2.png[]
 
 ==== Un exemple concret d'utilisation du thermostat
 Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l'expliquer est de prendre un cas d'utilisation. Admettons que dans certaines chambres, on souhaite réaliser une programmation hebdomadaire des thermostats, en fonction des heures de levée et de couché. Précisons que chaque chambre est indépendante, c'est à dire un thermostat est défini pour chacune des pièces.
