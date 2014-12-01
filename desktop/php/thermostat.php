@@ -108,7 +108,7 @@ sendVarToJS('eqType', 'thermostat');
                         <div class='form-group  expertModeVisible'>
                             <label class="col-sm-3 control-label">{{Cron de répétition de commande}}</label>
                             <div class="col-sm-6">
-                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de vérification, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de renvoi des commandes du thermostat (arrêt,chauffe, refroidis), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
                             </div>
                             <div class="col-sm-1">
                                 <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
@@ -154,7 +154,7 @@ sendVarToJS('eqType', 'thermostat');
                     <div class='expertModeVisible'>
                         <label class="col-sm-2 control-label">{{Cron de controle}}</label>
                         <div class="col-sm-2">
-                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron" title="{{Cron de vérification, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
+                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron" title="{{Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
                         </div>
                         <div class="col-sm-1">
                             <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>

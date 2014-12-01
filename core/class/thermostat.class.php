@@ -56,8 +56,10 @@ class thermostat extends eqLogic {
     }
 
     public static function hysteresis($_options) {
+
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement du calcul d\'hysteresis');
             $status = $thermostat->getCmd(null, 'status')->execCmd();
             if ($thermostat->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__)) {
                 if ($status != __('Arrêté', __FILE__)) {
@@ -86,6 +88,7 @@ class thermostat extends eqLogic {
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
             $hysteresis_low = $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
             $hysteresis_hight = $consigne + $thermostat->getConfiguration('hysteresis_threshold', 1);
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Calcul => consigne : ' . $consigne . ' hysteresis_low : ' . $hysteresis_low . ' hysteresis_hight : ' . $hysteresis_hight . ' temp : ' . $temp . ' etat precedent : ' . $thermostat->getConfiguration('lastState'));
             $action = 'none';
             if ($temp < $hysteresis_low) {
                 $action = 'heat';
@@ -108,14 +111,17 @@ class thermostat extends eqLogic {
 
             if ($action == 'heat') {
                 if ($status != __('Chauffage', __FILE__)) {
+                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je dois chauffer');
                     $thermostat->heat();
                 }
             } elseif ($action == 'cool') {
                 if ($status != __('Climatisation', __FILE__)) {
+                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je dois refroidir');
                     $thermostat->cool();
                 }
             } elseif ($action == 'stop') {
                 if ($status != __('Arrêté', __FILE__)) {
+                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je m\'arrete');
                     $thermostat->stop();
                 }
             }
