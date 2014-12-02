@@ -31,8 +31,9 @@ class thermostat extends eqLogic {
                 $consigne = $thermostat->getCmd(null, 'order')->execCmd();
                 $temp = $thermostat->getCmd(null, 'temperature')->execCmd();
                 if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 1)) {
-                    $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 1);
-                    $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.5);
+                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Augmentation des coefficient car la temperature est trop loin de la consigne');
+                    $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 0.5);
+                    $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.2);
                     self::temporal($_options);
                 } else {
                     if ($thermostat->getConfiguration('last_power') < 98) {
