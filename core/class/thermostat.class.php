@@ -231,10 +231,10 @@ class thermostat extends eqLogic {
             $diff_in = abs($consigne - $temp_in);
             $diff_out = $consigne - $temp_out;
             $direction = ($consigne > $temp_in) ? +1 : -1;
-            if ($temp_in < ($consigne + 1) && $thermostat->getConfiguration('lastState') == 'heat') {
+            if ($temp_in < ($consigne + 0.5) && $thermostat->getConfiguration('lastState') == 'heat') {
                 $direction = +1;
             }
-            if ($temp_in < ($consigne - 1) && $thermostat->getConfiguration('lastState') == 'cool') {
+            if ($temp_in > ($consigne - 0.5) && $thermostat->getConfiguration('lastState') == 'cool') {
                 $direction = -1;
             }
             $thermostat->setConfiguration('lastOrder', $consigne);
@@ -262,6 +262,13 @@ class thermostat extends eqLogic {
             if ($power != 100) {
                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
             }
+            if ($thermostat->getConfiguration('lastState') == 'heat' && $direction < 0) {
+                $thermostat->stop();
+            }
+            if ($thermostat->getConfiguration('lastState') == 'cool' && $direction > 0) {
+                $thermostat->stop();
+            }
+
             if ($direction > 0) {
                 if ($status != __('Chauffage', __FILE__)) {
                     $thermostat->heat();
