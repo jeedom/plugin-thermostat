@@ -28,18 +28,19 @@ class thermostat extends eqLogic {
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
             if (isset($_options['stop']) && $_options['stop'] == 1) {
-                $consigne = $thermostat->getCmd(null, 'order')->execCmd();
-                $temp = $thermostat->getCmd(null, 'temperature')->execCmd();
-                if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 1)) {
-                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Augmentation des coefficient car la temperature est trop loin de la consigne');
-                    $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 0.5);
-                    $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.2);
-                    self::temporal($_options);
-                } else {
-                    if ($thermostat->getConfiguration('last_power') < 98) {
-                        $thermostat->stop();
-                    }
-                }
+                //  $consigne = $thermostat->getCmd(null, 'order')->execCmd();
+                //  $temp = $thermostat->getCmd(null, 'temperature')->execCmd();
+                /* if ($thermostat->getConfiguration('lastState') == 'heat' && $temp < ($consigne - 1)) {
+                  log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Augmentation des coefficient car la temperature est trop loin de la consigne');
+                  $thermostat->setConfiguration('coeff_indoor_heat', $thermostat->getConfiguration('coeff_indoor_heat') + 0.5);
+                  $thermostat->setConfiguration('coeff_outdoor', $thermostat->getConfiguration('coeff_outdoor') + 0.2);
+                  self::temporal($_options);
+                  } else {
+                  if ($thermostat->getConfiguration('last_power') < 98) {
+                  $thermostat->stop();
+                  }
+                  } */
+                $thermostat->stop();
                 $cron = cron::byClassAndFunction('thermostat', 'stop', $_options);
                 if (is_object($cron)) {
                     $cron->remove();
@@ -166,7 +167,7 @@ class thermostat extends eqLogic {
             if ($thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getConfiguration('endDate')) < strtotime('now')) {
                 log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Begin auto learning');
                 if ($thermostat->getConfiguration('last_power') < 100 && $thermostat->getConfiguration('last_power') > 0) {
-                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn');
+                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : '.$thermostat->getConfiguration('lastState'));
                     $learn_outdoor = false;
                     if ($thermostat->getConfiguration('lastState') == 'heat') {
                         log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is heat');
