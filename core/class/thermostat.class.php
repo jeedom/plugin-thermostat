@@ -167,7 +167,7 @@ class thermostat extends eqLogic {
             if ($thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getConfiguration('endDate')) < strtotime('now')) {
                 log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Begin auto learning');
                 if ($thermostat->getConfiguration('last_power') < 100 && $thermostat->getConfiguration('last_power') > 0) {
-                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : '.$thermostat->getConfiguration('lastState'));
+                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : ' . $thermostat->getConfiguration('lastState'));
                     $learn_outdoor = false;
                     if ($thermostat->getConfiguration('lastState') == 'heat') {
                         log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is heat');
@@ -221,7 +221,7 @@ class thermostat extends eqLogic {
                     }
                 }
             }
-            $thermostat->setConfiguration('lastState', 'stop');
+            //$thermostat->setConfiguration('lastState', 'stop');
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
 
@@ -259,17 +259,19 @@ class thermostat extends eqLogic {
             }
             $duration = ($power * $cycle) / 100;
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
-            $thermostat->save();
+
             if ($power != 100) {
                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
             }
             if ($thermostat->getConfiguration('lastState') == 'heat' && $direction < 0) {
+                $thermostat->setConfiguration('lastState', 'stop');
                 $thermostat->stop();
             }
             if ($thermostat->getConfiguration('lastState') == 'cool' && $direction > 0) {
+                $thermostat->setConfiguration('lastState', 'stop');
                 $thermostat->stop();
             }
-
+            $thermostat->save();
             if ($direction > 0) {
                 if ($status != __('Chauffage', __FILE__)) {
                     $thermostat->heat();
