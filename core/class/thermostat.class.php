@@ -243,6 +243,9 @@ class thermostat extends eqLogic {
             $cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
             $thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
             if ($power < $thermostat->getConfiguration('minCycleDuration', 5)) {
+                $thermostat->setConfiguration('lastState', 'stop');
+                $thermostat->stop();
+                $thermostat->save();
                 return;
             }
             $duration = ($power * $cycle) / 100;
