@@ -209,14 +209,13 @@ class thermostat extends eqLogic {
                     }
                 }
             }
-            //$thermostat->setConfiguration('lastState', 'stop');
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
 
             if (!is_numeric($temp_out)) {
                 $temp_out = $consigne;
             }
-
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Temp in : ' . $temp_in . ' - Temp out : ' . $temp_out . ' - Consigne : ' . $consigne);
             $diff_in = abs($consigne - $temp_in);
             $diff_out = $consigne - $temp_out;
             $direction = ($consigne > $temp_in) ? +1 : -1;
