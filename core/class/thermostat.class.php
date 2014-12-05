@@ -220,9 +220,11 @@ class thermostat extends eqLogic {
             $diff_out = $consigne - $temp_out;
             $direction = ($consigne > $temp_in) ? +1 : -1;
             if ($temp_in < ($consigne + 0.5) && $thermostat->getConfiguration('lastState') == 'heat') {
+                $diff_out = 0;
                 $direction = +1;
             }
             if ($temp_in > ($consigne - 0.5) && $thermostat->getConfiguration('lastState') == 'cool') {
+                $diff_out = 0;
                 $direction = -1;
             }
             $thermostat->setConfiguration('lastOrder', $consigne);
