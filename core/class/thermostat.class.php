@@ -27,14 +27,21 @@ class thermostat extends eqLogic {
     public static function pull($_options) {
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
-            if (isset($_options['stop']) && $_options['stop'] == 1) {
-                $thermostat->stop();
+            if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
+                if (isset($_options['stop']) && $_options['stop'] == 1) {
+                    $thermostat->stop();
+                    $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
+                    if (is_object($cron)) {
+                        $cron->remove();
+                    }
+                } else {
+                    self::temporal($_options);
+                }
+            } else {
                 $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
                 if (is_object($cron)) {
                     $cron->remove();
                 }
-            } else {
-                self::temporal($_options);
             }
         } else {
             $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
@@ -46,7 +53,6 @@ class thermostat extends eqLogic {
     }
 
     public static function hysteresis($_options) {
-
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement du calcul d\'hysteresis');
@@ -121,7 +127,17 @@ class thermostat extends eqLogic {
     public static function temporal($_options) {
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
+            $crons = cron::searchClassAndFunction('thermostat', 'pull', '"thermostat_id":' . intval($_options['thermostat_id']));
+            if (is_array($crons)) {
+                foreach ($crons as $cron) {
+                    log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Suppression ancienne tache : ' . $cron->getId());
+                    $cron->remove();
+                }
+            }
             $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' + date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
+
             $mode = $thermostat->getCmd(null, 'mode')->execCmd();
             $status = $thermostat->getCmd(null, 'status')->execCmd();
             if ($mode == 'Off') {
@@ -223,7 +239,7 @@ class thermostat extends eqLogic {
                 $diff_out = 0;
                 $direction = +1;
             }
-            if ($direction > 0 &&  $temp_in > ($consigne - 0.5) && $thermostat->getConfiguration('lastState') == 'cool') {
+            if ($direction > 0 && $temp_in > ($consigne - 0.5) && $thermostat->getConfiguration('lastState') == 'cool') {
                 $diff_out = 0;
                 $direction = -1;
             }
