@@ -27,6 +27,7 @@ class thermostat extends eqLogic {
     public static function pull($_options) {
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement pull method : ' . print_r($_options, true));
             if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
                 if (isset($_options['stop']) && $_options['stop'] == 1) {
                     $thermostat->stop();
