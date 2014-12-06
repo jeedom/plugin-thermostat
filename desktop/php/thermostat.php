@@ -130,19 +130,23 @@ sendVarToJS('eqType', 'thermostat');
                 <div class="form-group engine temporal">
                     <div class="expertModeVisible">
                         <div class="alert alert-warning">
-                            {{Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils seront calculés et mis à jour automatiquement}}
+                            {{Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
                         </div>
                         <label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat" />
                         </div>
                         <label class="col-sm-1 control-label">{{Clim}}</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool" />
                         </div>
                         <label class="col-sm-1 control-label">{{Isolation}}</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor" />
+                        </div>
+                        <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
+                        <div class="col-sm-1">
+                            <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
                         </div>
                     </div>
                 </div>
