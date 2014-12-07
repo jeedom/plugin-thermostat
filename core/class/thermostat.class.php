@@ -208,7 +208,7 @@ class thermostat extends eqLogic {
                         if ($thermostat->getConfiguration('lastState') == 'cool') {
                             $coeff_in = $thermostat->getConfiguration('coeff_indoor_cool');
                         }
-                        $coeff_outdoor = $thermostat->getConfiguration('coeff_outdoor') * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) * $thermostat->getConfiguration('coeff_outdoor');
+                        $coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor');
                         $coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor') * $thermostat->getConfiguration('coeff_outdoor_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_autolearn') + 1);
                         $thermostat->setConfiguration('coeff_outdoor_autolearn', min($thermostat->getConfiguration('coeff_outdoor_autolearn') + 1, 50));
                         if ($coeff_outdoor < 0) {
