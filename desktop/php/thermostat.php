@@ -140,11 +140,15 @@ sendVarToJS('eqType', 'thermostat');
                         <div class="col-sm-1">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool" />
                         </div>
-                        <label class="col-sm-1 control-label">{{Isolation}}</label>
+                        <label class="col-sm-1 control-label">{{Isolation chauffage}}</label>
                         <div class="col-sm-1">
-                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor" />
+                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat" />
                         </div>
-                        <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
+                        <label class="col-sm-1 control-label">{{Isolation clim}}</label>
+                        <div class="col-sm-1">
+                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool" />
+                        </div>
+                        <label class="col-sm-1 control-label">{{Auto-apprentissage}}</label>
                         <div class="col-sm-1">
                             <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
                         </div>

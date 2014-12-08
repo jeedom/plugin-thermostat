@@ -179,10 +179,20 @@ class thermostat extends eqLogic {
                             }
                             $thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
                             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff heat indoor : ' . $coeff_indoor_heat);
-                        } else {
-                            $learn_outdoor = true;
+                        } else if ($temp_out < $thermostat->getConfiguration('lastOrder')) {
+                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor heat');
+                            $coeff_in = $thermostat->getConfiguration('coeff_indoor_heat');
+                            $coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
+                            $coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_heat') * $thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1);
+                            $thermostat->setConfiguration('coeff_outdoor_heat_autolearn', min($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1, 50));
+                            if ($coeff_outdoor < 0) {
+                                $coeff_outdoor = 0;
+                            }
+                            $thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
+                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor heat: ' . $coeff_outdoor);
                         }
                     }
+
                     if ($thermostat->getConfiguration('lastState') == 'cool') {
                         log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is cool');
                         if ($temp_in <= $thermostat->getConfiguration('lastTempIn')) {
@@ -195,27 +205,18 @@ class thermostat extends eqLogic {
                             }
                             $thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
                             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff cool indoor : ' . $coeff_indoor_cool);
-                        } else {
-                            $learn_outdoor = true;
-                        }
-                    }
-                    if ($learn_outdoor && $temp_out < $thermostat->getConfiguration('lastOrder')) {
-                        log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor');
-                        $coeff_in = 1;
-                        if ($thermostat->getConfiguration('lastState') == 'heat') {
-                            $coeff_in = $thermostat->getConfiguration('coeff_indoor_heat');
-                        }
-                        if ($thermostat->getConfiguration('lastState') == 'cool') {
+                        } else if ($temp_out < $thermostat->getConfiguration('lastOrder')) {
+                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor cool');
                             $coeff_in = $thermostat->getConfiguration('coeff_indoor_cool');
+                            $coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
+                            $coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_cool') * $thermostat->getConfiguration('coeff_outdoor_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1);
+                            $thermostat->setConfiguration('coeff_outdoor_cool_autolearn', min($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1, 50));
+                            if ($coeff_outdoor < 0) {
+                                $coeff_outdoor = 0;
+                            }
+                            $thermostat->setConfiguration('coeff_outdoor_cool', round($coeff_outdoor, 2));
+                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor cool : ' . $coeff_outdoor);
                         }
-                        $coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor');
-                        $coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor') * $thermostat->getConfiguration('coeff_outdoor_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_autolearn') + 1);
-                        $thermostat->setConfiguration('coeff_outdoor_autolearn', min($thermostat->getConfiguration('coeff_outdoor_autolearn') + 1, 50));
-                        if ($coeff_outdoor < 0) {
-                            $coeff_outdoor = 0;
-                        }
-                        $thermostat->setConfiguration('coeff_outdoor', round($coeff_outdoor, 2));
-                        log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor : ' . $coeff_outdoor);
                     }
                 }
             }
@@ -226,21 +227,19 @@ class thermostat extends eqLogic {
                 $temp_out = $consigne;
             }
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Temp in : ' . $temp_in . ' - Temp out : ' . $temp_out . ' - Consigne : ' . $consigne);
-            $diff_in = abs($consigne - $temp_in);
+            $diff_in = $consigne - $temp_in;
             $diff_out = $consigne - $temp_out;
             $direction = ($consigne > $temp_in) ? +1 : -1;
-            if ($direction < 0 && $temp_in < ($consigne + 0.5) && $thermostat->getConfiguration('lastState') == 'heat') {
-                $diff_in = 0;
+            if ($direction < 0 && ($temp_in < (($consigne + 0.5) && $thermostat->getConfiguration('lastState') == 'heat') || $temp_out < $consigne)) {
                 $direction = +1;
             }
-            if ($direction > 0 && $temp_in > ($consigne - 0.5) && $thermostat->getConfiguration('lastState') == 'cool') {
-                $diff_in = 0;
+            if ($direction > 0 && (($temp_in > ($consigne - 0.5) && $thermostat->getConfiguration('lastState') == 'cool' ) || $temp_out > $consigne)) {
                 $direction = -1;
             }
             $thermostat->setConfiguration('lastOrder', $consigne);
             $thermostat->setConfiguration('lastTempIn', $temp_in);
             $thermostat->setConfiguration('lastTempOut', $temp_out);
-            $coeff_out = $thermostat->getConfiguration('coeff_outdoor');
+            $coeff_out = ($direction > 0) ? $thermostat->getConfiguration('coeff_outdoor_heat') : $thermostat->getConfiguration('coeff_outdoor_cool');
             $coeff_in = ($direction > 0) ? $thermostat->getConfiguration('coeff_indoor_heat') : $thermostat->getConfiguration('coeff_indoor_cool');
             $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out);
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ')');
