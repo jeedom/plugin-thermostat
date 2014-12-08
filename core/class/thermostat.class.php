@@ -499,8 +499,11 @@ class thermostat extends eqLogic {
         if ($this->getConfiguration('coeff_indoor_cool') === '') {
             $this->setConfiguration('coeff_indoor_cool', 10);
         }
-        if ($this->getConfiguration('coeff_outdoor') === '') {
-            $this->setConfiguration('coeff_outdoor', 0.5);
+        if ($this->getConfiguration('coeff_outdoor_heat') === '') {
+            $this->setConfiguration('coeff_outdoor_heat', 2);
+        }
+        if ($this->getConfiguration('coeff_outdoor_cool') === '') {
+            $this->setConfiguration('coeff_outdoor_cool', 2);
         }
         if ($this->getConfiguration('minCycleDuration') === '') {
             $this->setConfiguration('minCycleDuration', 5);
