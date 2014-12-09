@@ -249,6 +249,9 @@ class thermostat extends eqLogic {
             if ($power < 0) {
                 $power = 0;
             }
+            $offset = ($direction > 0) ? $thermostat->getConfiguration('offset_heat') : $thermostat->getConfiguration('offset_cool');
+            $power += $offset;
+
             $thermostat->setConfiguration('last_power', $power);
             $cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
             $thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
@@ -307,6 +310,27 @@ class thermostat extends eqLogic {
     public static function cron() {
         foreach (thermostat::byType('thermostat') as $thermostat) {
             if ($thermostat->getIsEnable() == 1) {
+                if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
+                    try {
+                        $c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
+                        if ($c->isDue()) {
+                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement repeat commande : ' . $thermostat->getConfiguration('repeat_commande_cron'));
+                            switch ($thermostat->getCmd(null, 'status')->execCmd()) {
+                                case __('Chauffage', __FILE__):
+                                    $thermostat->heat(true);
+                                    break;
+                                case __('Arrêté', __FILE__):
+                                    $thermostat->stop(true);
+                                    break;
+                                case __('Climatisation', __FILE__):
+                                    $thermostat->cool(true);
+                                    break;
+                            }
+                        }
+                    } catch (Exception $e) {
+                        log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
+                    }
+                }
                 if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
                     $cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($thermostat->getId())));
                     if (!is_object($cron)) {
@@ -328,27 +352,6 @@ class thermostat extends eqLogic {
                         if ($c->isDue()) {
                             $thermostat->getCmd(null, 'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
                             thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
-                        }
-                    } catch (Exception $e) {
-                        log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
-                    }
-                }
-                if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
-                    try {
-                        $c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
-                        if ($c->isDue()) {
-                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement repeat commande : ' . $thermostat->getConfiguration('repeat_commande_cron'));
-                            switch ($thermostat->getCmd(null, 'status')->execCmd()) {
-                                case __('Chauffage', __FILE__):
-                                    $thermostat->heat(true);
-                                    break;
-                                case __('Arrêté', __FILE__):
-                                    $thermostat->stop(true);
-                                    break;
-                                case __('Climatisation', __FILE__):
-                                    $thermostat->cool(true);
-                                    break;
-                            }
                         }
                     } catch (Exception $e) {
                         log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
@@ -507,6 +510,12 @@ class thermostat extends eqLogic {
         }
         if ($this->getConfiguration('minCycleDuration') === '') {
             $this->setConfiguration('minCycleDuration', 5);
+        }
+        if ($this->getConfiguration('offset_heat') === '') {
+            $this->setConfiguration('offset_heat', 0);
+        }
+        if ($this->getConfiguration('offset_cool') === '') {
+            $this->setConfiguration('offset_cool', 0);
         }
         if ($this->getConfiguration('minCycleDuration') < 0 || $this->getConfiguration('minCycleDuration') > 90) {
             throw new Exception(__('Le temps de chauffe minimum doit etre compris entre 0% et 90%', __FILE__));
@@ -726,6 +735,31 @@ class thermostat extends eqLogic {
             }
             $temperature_outdoor->setValue($value);
             $temperature_outdoor->save();
+
+            $offsetheat = $this->getCmd(null, 'offset_heat');
+            if (!is_object($heatOnly)) {
+                $heatOnly = new thermostatCmd();
+            }
+            $heatOnly->setEqLogic_id($this->getId());
+            $heatOnly->setName(__('Offset chauffage', __FILE__));
+            $heatOnly->setType('action');
+            $heatOnly->setSubType('slider');
+            $heatOnly->setLogicalId('offset_heat');
+            $heatOnly->setIsVisible(0);
+            $heatOnly->save();
+
+            $offsetcool = $this->getCmd(null, 'offset_cool');
+            if (!is_object($offsetcool)) {
+                $offsetcool = new thermostatCmd();
+            }
+            $offsetcool->setEqLogic_id($this->getId());
+            $offsetcool->setName(__('Offset froid', __FILE__));
+            $offsetcool->setType('action');
+            $offsetcool->setSubType('slider');
+            $offsetcool->setLogicalId('offset_cool');
+            $offsetcool->setIsVisible(0);
+            $offsetcool->save();
+
 
             $heatOnly = $this->getCmd(null, 'heat_only');
             if (!is_object($heatOnly)) {
@@ -1070,6 +1104,20 @@ class thermostatCmd extends cmd {
         $lockState = $eqLogic->getCmd(null, 'lock_state');
         if ($this->getLogicalId() == 'lock') {
             $lockState->event(1);
+            return;
+        }
+        if ($this->getLogicalId() == 'offset_heat') {
+            if (is_numeric($_options['slider'])) {
+                $eqLogic->setConfiguration('offset_heat', $_options['slider']);
+                $eqLogic->save();
+            }
+            return;
+        }
+        if ($this->getLogicalId() == 'offset_cool') {
+            if (is_numeric($_options['slider'])) {
+                $eqLogic->setConfiguration('offset_cool', $_options['slider']);
+                $eqLogic->save();
+            }
             return;
         }
         if ($this->getLogicalId() == 'unlock') {

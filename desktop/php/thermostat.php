@@ -19,7 +19,7 @@ $eqLogics = eqLogic::byType('thermostat');
             </ul>
         </div>
     </div>
-    
+
     <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
         <legend>{{Mes thermostats}}
         </legend>
@@ -42,7 +42,7 @@ $eqLogics = eqLogic::byType('thermostat');
             </div>
         <?php } ?>
     </div>
-    
+
     <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <div class="row">
             <div class="col-sm-6">
@@ -158,24 +158,40 @@ $eqLogics = eqLogic::byType('thermostat');
                             {{Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
                         </div>
                         <label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
-                        <div class="col-sm-1">
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat" />
                         </div>
-                        <label class="col-sm-1 control-label">{{Clim}}</label>
-                        <div class="col-sm-1">
+                        <label class="col-sm-2 control-label">{{Coefficient Clim}}</label>
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool" />
                         </div>
-                        <label class="col-sm-1 control-label">{{Isolation chauffage}}</label>
-                        <div class="col-sm-1">
+                        <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
+                        <div class="col-sm-2">
+                            <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group engine temporal">
+                    <div class="expertModeVisible">
+                        <label class="col-sm-2 control-label">{{Isolation chauffage}}</label>
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat" />
                         </div>
-                        <label class="col-sm-1 control-label">{{Isolation clim}}</label>
-                        <div class="col-sm-1">
+                        <label class="col-sm-2 control-label">{{Isolation clim}}</label>
+                        <div class="col-sm-2">
                             <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool" />
                         </div>
-                        <label class="col-sm-1 control-label">{{Auto-apprentissage}}</label>
-                        <div class="col-sm-1">
-                            <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
+                    </div>
+                </div>
+                <div class="form-group engine temporal">
+                    <div class="expertModeVisible">
+                        <label class="col-sm-2 control-label">{{Offset chauffage (%)}}</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_heat" />
+                        </div>
+                        <label class="col-sm-2 control-label">{{Offset Clim (%)}}</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_cool" />
                         </div>
                     </div>
                 </div>
