@@ -36,11 +36,13 @@ class thermostat extends eqLogic {
                         $cron->remove();
                     }
                 } elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
-                    $cmd = $thermostat->getCmd(null, 'thermostat');
-                    $consigne = $thermostat->getNextState();
-                    $current = $thermostat->getCmd(null, 'order')->execCmd();
-                    if ($current < $consigne) {
-                        $cmd->execCmd(array('slider' => $consigne));
+                    if ($thermostat->getConfiguration('smart_start') == 1) {
+                        $cmd = $thermostat->getCmd(null, 'thermostat');
+                        $consigne = $thermostat->getNextState();
+                        $current = $thermostat->getCmd(null, 'order')->execCmd();
+                        if ($current < $consigne) {
+                            $cmd->execCmd(array('slider' => $consigne));
+                        }
                     }
                     $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
                     if (is_object($cron)) {
@@ -143,8 +145,10 @@ class thermostat extends eqLogic {
             $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' + date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
 
-            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
-            $thermostat->getNextState(true);
+            if ($this->getConfiguration('smart_start') == 1) {
+                log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
+                $thermostat->getNextState(true);
+            }
 
             $mode = $thermostat->getCmd(null, 'mode')->execCmd();
             $status = $thermostat->getCmd(null, 'status')->execCmd();
@@ -643,6 +647,9 @@ class thermostat extends eqLogic {
         }
         if ($this->getConfiguration('cycle') === '') {
             $this->setConfiguration('cycle', 60);
+        }
+        if ($this->getConfiguration('smart_start') === '') {
+            $this->setConfiguration('smart_start', 1);
         }
         if ($this->getConfiguration('cycle') < 15) {
             throw new Exception(__('Le temps de cycle doit etre supérieur à 15min', __FILE__));
