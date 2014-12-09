@@ -38,10 +38,15 @@ class thermostat extends eqLogic {
                 } elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
                     if ($thermostat->getConfiguration('smart_start') == 1) {
                         $cmd = $thermostat->getCmd(null, 'thermostat');
-                        $consigne = $thermostat->getNextState();
+                        $next = $thermostat->getNextState();
                         $current = $thermostat->getCmd(null, 'order')->execCmd();
-                        if ($current < $consigne) {
-                            $cmd->execCmd(array('slider' => $consigne));
+                        if ($current < $next['consigne']) {
+                            if ($next['type'] == 'thermostat') {
+                                $cmd->execCmd(array('slider' => $next['consigne']));
+                            }
+                            if ($next['type'] == 'mode' && is_object($next['cmd'])) {
+                                $next['cmd']->execCmd();
+                            }
                         }
                     }
                     $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
@@ -539,7 +544,9 @@ class thermostat extends eqLogic {
                             $next = array(
                                 'date' => $nextOccurence['date'],
                                 'event' => $event,
-                                'consigne' => $consigne
+                                'consigne' => $consigne,
+                                'cmd' => $mode,
+                                'type' => 'mode'
                             );
                         }
                     }
@@ -565,7 +572,9 @@ class thermostat extends eqLogic {
                         $next = array(
                             'date' => $nextOccurence,
                             'event' => $event,
-                            'consigne' => $options['slider']
+                            'consigne' => $options['slider'],
+                            'cmd' => $mode,
+                            'type' => 'thermostat'
                         );
                     }
                 }
@@ -577,7 +586,7 @@ class thermostat extends eqLogic {
             return '';
         }
         if (!$_autoschedule) {
-            return $next['consigne'];
+            return $next;
         }
         $cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
         if ($next['date'] != '' && strtotime($next['date']) < strtotime('+' . ceil($cycle * 2.1) . ' min ' . date('Y-m-d H:i:s'))) {
@@ -589,11 +598,6 @@ class thermostat extends eqLogic {
                 $this->reschedule($nSchedule, false, true);
             } else {
                 $this->reschedule(null, false, true);
-                $cmd = $this->getCmd(null, 'thermostat');
-                $current = $this->getCmd(null, 'order')->execCmd();
-                if ($current < $next['consigne']) {
-                    $cmd->execCmd(array('slider' => $next['consigne']));
-                }
             }
         }
     }
