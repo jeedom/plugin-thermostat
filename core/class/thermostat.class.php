@@ -737,16 +737,16 @@ class thermostat extends eqLogic {
             $temperature_outdoor->save();
 
             $offsetheat = $this->getCmd(null, 'offset_heat');
-            if (!is_object($heatOnly)) {
-                $heatOnly = new thermostatCmd();
+            if (!is_object($offsetheat)) {
+                $offsetheat = new thermostatCmd();
             }
-            $heatOnly->setEqLogic_id($this->getId());
-            $heatOnly->setName(__('Offset chauffage', __FILE__));
-            $heatOnly->setType('action');
-            $heatOnly->setSubType('slider');
-            $heatOnly->setLogicalId('offset_heat');
-            $heatOnly->setIsVisible(0);
-            $heatOnly->save();
+            $offsetheat->setEqLogic_id($this->getId());
+            $offsetheat->setName(__('Offset chauffage', __FILE__));
+            $offsetheat->setType('action');
+            $offsetheat->setSubType('slider');
+            $offsetheat->setLogicalId('offset_heat');
+            $offsetheat->setIsVisible(0);
+            $offsetheat->save();
 
             $offsetcool = $this->getCmd(null, 'offset_cool');
             if (!is_object($offsetcool)) {
