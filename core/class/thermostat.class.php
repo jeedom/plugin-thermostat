@@ -573,14 +573,14 @@ class thermostat extends eqLogic {
         }
         log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule : ' . print_r($next, true));
 
-        if ($next == null) {
+        if ($next == null || $next['date'] == '') {
             return '';
         }
         if (!$_autoschedule) {
             return $next['consigne'];
         }
         $cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
-        if (strtotime($next['date']) < strtotime('+' . ceil($cycle * 2.1) . ' min ' . date('Y-m-d H:i:s'))) {
+        if ($next['date'] != '' && strtotime($next['date']) < strtotime('+' . ceil($cycle * 2.1) . ' min ' . date('Y-m-d H:i:s'))) {
             $temporal_data = $this->calculTemporalData($next['consigne']);
             $duration = ($temporal_data['power'] * $cycle) / 100;
             $nSchedule = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
