@@ -241,17 +241,15 @@ class thermostat extends eqLogic {
             $thermostat->setConfiguration('lastTempOut', $temp_out);
             $coeff_out = ($direction > 0) ? $thermostat->getConfiguration('coeff_outdoor_heat') : $thermostat->getConfiguration('coeff_outdoor_cool');
             $coeff_in = ($direction > 0) ? $thermostat->getConfiguration('coeff_indoor_heat') : $thermostat->getConfiguration('coeff_indoor_cool');
-            $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out);
-            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ')');
+            $offset = ($direction > 0) ? $thermostat->getConfiguration('offset_heat') : $thermostat->getConfiguration('offset_cool');
+            $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out) + $offset;
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset);
             if ($power > 100) {
                 $power = 100;
             }
             if ($power < 0) {
                 $power = 0;
             }
-            $offset = ($direction > 0) ? $thermostat->getConfiguration('offset_heat') : $thermostat->getConfiguration('offset_cool');
-            $power += $offset;
-
             $thermostat->setConfiguration('last_power', $power);
             $cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
             $thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
@@ -309,6 +307,7 @@ class thermostat extends eqLogic {
 
     public static function cron() {
         foreach (thermostat::byType('thermostat') as $thermostat) {
+            log::add('thermostat', 'debug', print_r($thermostat, true));
             if ($thermostat->getIsEnable() == 1) {
                 if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
                     try {
@@ -922,7 +921,6 @@ class thermostat extends eqLogic {
     }
 
     public function heat($_repeat = false) {
-        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action chauffage');
         if (!$_repeat) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
@@ -936,6 +934,7 @@ class thermostat extends eqLogic {
                 return false;
             }
         }
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action chauffage');
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('heating') as $action) {
             try {
@@ -960,7 +959,6 @@ class thermostat extends eqLogic {
     }
 
     public function cool($_repeat = false) {
-        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action froid');
         if (!$_repeat) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
@@ -974,6 +972,7 @@ class thermostat extends eqLogic {
                 return false;
             }
         }
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action froid');
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('cooling') as $action) {
             try {
@@ -998,12 +997,12 @@ class thermostat extends eqLogic {
     }
 
     public function stop($_repeat = false) {
-        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action stop');
         if (!$_repeat) {
             if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
                 return;
             }
         }
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Action stop');
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('stoping') as $action) {
             try {
