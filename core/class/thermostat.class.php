@@ -35,6 +35,17 @@ class thermostat extends eqLogic {
                     if (is_object($cron)) {
                         $cron->remove();
                     }
+                } elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
+                    $cmd = $thermostat->getCmd(null, 'thermostat');
+                    $consigne = $thermostat->getNextState();
+                    $current = $thermostat->getCmd(null, 'order')->execCmd();
+                    if ($current < $consigne) {
+                        $cmd->execCmd(array('slider' => $consigne));
+                    }
+                    $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
+                    if (is_object($cron)) {
+                        $cron->remove();
+                    }
                 } else {
                     self::temporal($_options);
                 }
@@ -132,6 +143,9 @@ class thermostat extends eqLogic {
             $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' + date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
 
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
+            $thermostat->getNextState(true);
+
             $mode = $thermostat->getCmd(null, 'mode')->execCmd();
             $status = $thermostat->getCmd(null, 'status')->execCmd();
             if ($mode == 'Off') {
@@ -222,61 +236,36 @@ class thermostat extends eqLogic {
             }
             $consigne = $thermostat->getCmd(null, 'order')->execCmd();
             $thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
-
-            if (!is_numeric($temp_out)) {
-                $temp_out = $consigne;
-            }
-            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Temp in : ' . $temp_in . ' - Temp out : ' . $temp_out . ' - Consigne : ' . $consigne);
-            $diff_in = $consigne - $temp_in;
-            $diff_out = $consigne - $temp_out;
-            $direction = ($consigne > $temp_in) ? +1 : -1;
-            if ($direction < 0 && ($temp_in < (($consigne + 0.5) && $thermostat->getConfiguration('lastState') == 'heat') || $temp_out < $consigne)) {
-                $direction = +1;
-            }
-            if ($direction > 0 && (($temp_in > ($consigne - 0.5) && $thermostat->getConfiguration('lastState') == 'cool' ) || $temp_out > $consigne)) {
-                $direction = -1;
-            }
-            $thermostat->setConfiguration('lastOrder', $consigne);
-            $thermostat->setConfiguration('lastTempIn', $temp_in);
-            $thermostat->setConfiguration('lastTempOut', $temp_out);
-            $coeff_out = ($direction > 0) ? $thermostat->getConfiguration('coeff_outdoor_heat') : $thermostat->getConfiguration('coeff_outdoor_cool');
-            $coeff_in = ($direction > 0) ? $thermostat->getConfiguration('coeff_indoor_heat') : $thermostat->getConfiguration('coeff_indoor_cool');
-            $offset = ($direction > 0) ? $thermostat->getConfiguration('offset_heat') : $thermostat->getConfiguration('offset_cool');
-            $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out) + $offset;
-            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset);
-            if ($power > 100) {
-                $power = 100;
-            }
-            if ($power < 0) {
-                $power = 0;
-            }
-            $thermostat->setConfiguration('last_power', $power);
+            $temporal_data = $thermostat->calculTemporalData($consigne);
+            $thermostat->setConfiguration('last_power', $temporal_data['power']);
             $cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
+            $duration = ($temporal_data['power'] * $cycle) / 100;
+
             $thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
-            if ($power < $thermostat->getConfiguration('minCycleDuration', 5)) {
+            if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
                 $thermostat->setConfiguration('lastState', 'stop');
                 $thermostat->stop();
                 $thermostat->save();
                 return;
             }
-            $duration = ($power * $cycle) / 100;
-            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
 
-            if ($power < 99) {
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
+            if ($temporal_data['power'] < 99) {
                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
             } else {
                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 1.2) . ' min ' . date('Y-m-d H:i:s'))), true);
             }
-            if ($thermostat->getConfiguration('lastState') == 'heat' && $direction < 0) {
+
+            if ($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['direction'] < 0) {
                 $thermostat->setConfiguration('lastState', 'stop');
                 $thermostat->stop();
             }
-            if ($thermostat->getConfiguration('lastState') == 'cool' && $direction > 0) {
+            if ($thermostat->getConfiguration('lastState') == 'cool' && $temporal_data['direction'] > 0) {
                 $thermostat->setConfiguration('lastState', 'stop');
                 $thermostat->stop();
             }
             $thermostat->save();
-            if ($direction > 0) {
+            if ($temporal_data['direction'] > 0) {
                 if ($status != __('Chauffage', __FILE__)) {
                     $thermostat->heat();
                 }
@@ -441,10 +430,13 @@ class thermostat extends eqLogic {
         return true;
     }
 
-    public function reschedule($_next = null, $_stop = false) {
+    public function reschedule($_next = null, $_stop = false, $_smartThermostat = false) {
         $options = array('thermostat_id' => intval($this->getId()));
         if ($_stop) {
             $options['stop'] = intval(1);
+        }
+        if ($_smartThermostat) {
+            $options['smartThermostat'] = intval(1);
         }
         $cron = cron::byClassAndFunction('thermostat', 'pull', $options);
         if ($_next != null) {
@@ -462,6 +454,136 @@ class thermostat extends eqLogic {
         } else {
             if (is_object($cron)) {
                 $cron->remove();
+            }
+        }
+    }
+
+    public function calculTemporalData($_consigne) {
+        $temp_out = $this->getCmd(null, 'temperature_outdoor')->execCmd();
+        $temp_in = $this->getCmd(null, 'temperature')->execCmd();
+        if (!is_numeric($temp_out)) {
+            $temp_out = $_consigne;
+        }
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Temp in : ' . $temp_in . ' - Temp out : ' . $temp_out . ' - Consigne : ' . $_consigne);
+        $diff_in = $_consigne - $temp_in;
+        $diff_out = $_consigne - $temp_out;
+        $direction = ($_consigne > $temp_in) ? +1 : -1;
+        if ($direction < 0 && ($temp_in < (($_consigne + 0.5) && $this->getConfiguration('lastState') == 'heat') || $temp_out < $_consigne)) {
+            $direction = +1;
+        }
+        if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getConfiguration('lastState') == 'cool' ) || $temp_out > $_consigne)) {
+            $direction = -1;
+        }
+        $this->setConfiguration('lastOrder', $_consigne);
+        $this->setConfiguration('lastTempIn', $temp_in);
+        $this->setConfiguration('lastTempOut', $temp_out);
+        $coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
+        $coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
+        $offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
+        $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out) + $offset;
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset);
+        if ($power > 100) {
+            $power = 100;
+        }
+        if ($power < 0) {
+            $power = 0;
+        }
+        return array('power' => $power, 'direction' => $direction);
+    }
+
+    public function getNextState($_autoschedule = false) {
+        if ($this->getConfiguration('engine', 'temporal') != 'temporal') {
+            return '';
+        }
+        try {
+            $plugin = plugin::byId('calendar');
+            if (!is_object($plugin)) {
+                return '';
+            }
+        } catch (Exception $ex) {
+            return '';
+        }
+
+        $thermostat = $this->getCmd(null, 'thermostat');
+        $next = null;
+        foreach ($this->getCmd(null, 'modeAction', null, true) as $mode) {
+            $events = calendar_event::searchByCmd($mode->getId());
+            if (is_array($events) && count($events) > 0) {
+                foreach ($events as $event) {
+                    if ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('end_name') == '#' . $mode->getId() . '#') {
+                        $position = null;
+                    } elseif ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#') {
+                        $position = 'start';
+                    } elseif ($event->getCmd_param('end_name') == '#' . $mode->getId() . '#') {
+                        $position = 'end';
+                    } else {
+                        continue;
+                    }
+                    $nextOccurence = $event->nextOccurrence($position, true);
+                    if ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date'])) {
+                        $consigne = 0;
+                        foreach ($this->getConfiguration('existingMode') as $existingMode) {
+                            if ($mode->getName() == $existingMode['name']) {
+
+                                foreach ($existingMode['actions'] as $action) {
+                                    if ('#' . $thermostat->getId() . '#' == $action['cmd']) {
+                                        $consigne = $action['options']['slider'];
+                                    }
+                                }
+                            }
+                        }
+                        if ($consigne != 0) {
+                            $next = array(
+                                'date' => $nextOccurence['date'],
+                                'event' => $event,
+                                'consigne' => $consigne
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        if (is_object($thermostat)) {
+            $events = calendar_event::searchByCmd($thermostat->getId());
+            if (is_array($events) && count($events) > 0) {
+                foreach ($events as $event) {
+                    if ($event->getCmd_param('start_name') == '#' . $thermostat->getId() . '#' && $event->getCmd_param('end_name') == '#' . $thermostat->getId() . '#') {
+                        $position = null;
+                    } elseif ($event->getCmd_param('start_name') == '#' . $thermostat->getId() . '#') {
+                        $position = 'start';
+                    } elseif ($event->getCmd_param('end_name') == '#' . $thermostat->getId() . '#') {
+                        $position = 'end';
+                    } else {
+                        continue;
+                    }
+                    $nextOccurence = $event->nextOccurrence($position, true);
+                    if ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date'])) {
+                        $options = $this->getCmd_param($nextOccurence['position'] . '_options');
+                        $next = array(
+                            'date' => $nextOccurence,
+                            'event' => $event,
+                            'consigne' => $options['slider']
+                        );
+                    }
+                }
+            }
+        }
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule : ' . print_r($next, true));
+        if ($next == null) {
+            return '';
+        }
+        if (!$_autoschedule) {
+            return $next['consigne'];
+        }
+        $cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
+        if (strtotime($next['date']) < strtotime('+' . ceil($cycle * 1.8) . ' min ' . date('Y-m-d H:i:s'))) {
+            $temporal_data = $this->calculTemporalData($next['consigne']);
+            $duration = ($temporal_data['power'] * $cycle) / 100;
+            $nSchedule = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
+            log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $nSchedule);
+            if (strtotime($nSchedule) > strtotime('now')) {
+                $this->reschedule($nSchedule, false, true);
             }
         }
     }
