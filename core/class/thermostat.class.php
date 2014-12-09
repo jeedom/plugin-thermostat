@@ -921,9 +921,9 @@ class thermostat extends eqLogic {
         }
     }
 
-    public function heat($_force = false) {
+    public function heat($_repeat = false) {
         log::add('thermostat', 'debug', $this->getHumanName() . ' : Action chauffage');
-        if (!$_force) {
+        if (!$_repeat) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
             }
@@ -950,16 +950,18 @@ class thermostat extends eqLogic {
                 log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
-        $this->refresh();
-        $this->getCmd(null, 'status')->event(__('Chauffage', __FILE__));
-        $this->setConfiguration('lastState', 'heat');
-        $this->save();
-        $this->getCmd(null, 'actif')->event(1);
+        if (!$_repeat) {
+            $this->refresh();
+            $this->getCmd(null, 'status')->event(__('Chauffage', __FILE__));
+            $this->setConfiguration('lastState', 'heat');
+            $this->save();
+            $this->getCmd(null, 'actif')->event(1);
+        }
     }
 
-    public function cool($_force = false) {
+    public function cool($_repeat = false) {
         log::add('thermostat', 'debug', $this->getHumanName() . ' : Action froid');
-        if (!$_force) {
+        if (!$_repeat) {
             if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
                 return;
             }
@@ -986,16 +988,18 @@ class thermostat extends eqLogic {
                 log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
-        $this->refresh();
-        $this->getCmd(null, 'status')->event(__('Climatisation', __FILE__));
-        $this->setConfiguration('lastState', 'cool');
-        $this->save();
-        $this->getCmd(null, 'actif')->event(1);
+        if (!$_repeat) {
+            $this->refresh();
+            $this->getCmd(null, 'status')->event(__('Climatisation', __FILE__));
+            $this->setConfiguration('lastState', 'cool');
+            $this->save();
+            $this->getCmd(null, 'actif')->event(1);
+        }
     }
 
-    public function stop($_force = false) {
+    public function stop($_repeat = false) {
         log::add('thermostat', 'debug', $this->getHumanName() . ' : Action stop');
-        if (!$_force) {
+        if (!$_repeat) {
             if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
                 return;
             }
@@ -1014,10 +1018,12 @@ class thermostat extends eqLogic {
                 log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
             }
         }
-        $this->refresh();
-        $this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
-        $this->save();
-        $this->getCmd(null, 'actif')->event(0);
+        if (!$_repeat) {
+            $this->refresh();
+            $this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
+            $this->save();
+            $this->getCmd(null, 'actif')->event(0);
+        }
     }
 
     public function orderChange() {
