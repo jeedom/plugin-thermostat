@@ -524,11 +524,10 @@ class thermostat extends eqLogic {
                         continue;
                     }
                     $nextOccurence = $event->nextOccurrence($position, true);
-                    if ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date'])) {
+                    if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
                         $consigne = 0;
                         foreach ($this->getConfiguration('existingMode') as $existingMode) {
                             if ($mode->getName() == $existingMode['name']) {
-
                                 foreach ($existingMode['actions'] as $action) {
                                     if ('#' . $thermostat->getId() . '#' == $action['cmd']) {
                                         $consigne = $action['options']['slider'];
@@ -547,7 +546,6 @@ class thermostat extends eqLogic {
                 }
             }
         }
-
         if (is_object($thermostat)) {
             $events = calendar_event::searchByCmd($thermostat->getId());
             if (is_array($events) && count($events) > 0) {
@@ -562,7 +560,7 @@ class thermostat extends eqLogic {
                         continue;
                     }
                     $nextOccurence = $event->nextOccurrence($position, true);
-                    if ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date'])) {
+                    if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
                         $options = $this->getCmd_param($nextOccurence['position'] . '_options');
                         $next = array(
                             'date' => $nextOccurence,
@@ -574,6 +572,7 @@ class thermostat extends eqLogic {
             }
         }
         log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule : ' . print_r($next, true));
+
         if ($next == null) {
             return '';
         }
@@ -588,6 +587,13 @@ class thermostat extends eqLogic {
             log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $nSchedule);
             if (strtotime($nSchedule) > strtotime('now')) {
                 $this->reschedule($nSchedule, false, true);
+            } else {
+                $this->reschedule(null, false, true);
+                $cmd = $this->getCmd(null, 'thermostat');
+                $current = $this->getCmd(null, 'order')->execCmd();
+                if ($current < $next['consigne']) {
+                    $cmd->execCmd(array('slider' => $next['consigne']));
+                }
             }
         }
     }
