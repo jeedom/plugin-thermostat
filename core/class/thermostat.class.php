@@ -145,7 +145,7 @@ class thermostat extends eqLogic {
             $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' + date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
 
-            if ($this->getConfiguration('smart_start') == 1) {
+            if ($thermostat->getConfiguration('smart_start') == 1) {
                 log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
                 $thermostat->getNextState(true);
             }
@@ -581,7 +581,7 @@ class thermostat extends eqLogic {
             return $next['consigne'];
         }
         $cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
-        if (strtotime($next['date']) < strtotime('+' . ceil($cycle * 1.8) . ' min ' . date('Y-m-d H:i:s'))) {
+        if (strtotime($next['date']) < strtotime('+' . ceil($cycle * 2.1) . ' min ' . date('Y-m-d H:i:s'))) {
             $temporal_data = $this->calculTemporalData($next['consigne']);
             $duration = ($temporal_data['power'] * $cycle) / 100;
             $nSchedule = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));

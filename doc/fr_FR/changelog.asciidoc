@@ -1,3 +1,9 @@
+==== 09/12/2014
+
+- refactoring du code
+- amélioration de l'interface de configuration
+- mode intelligent, le thermostat peut anticiper les changements de consigne pour avoir la température voulu au moment du changement
+
 ==== 26/11/2014
 
 - Ajout non du thermostat dans les logs
