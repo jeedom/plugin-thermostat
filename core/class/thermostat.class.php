@@ -27,15 +27,18 @@ class thermostat extends eqLogic {
     public static function pull($_options) {
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
-            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement pull method : ' . print_r($_options, true));
             if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
                 if (isset($_options['stop']) && $_options['stop'] == 1) {
                     $thermostat->stop();
                     $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
                     if (is_object($cron)) {
-                        $cron->remove();
+                        $cron->remove(true);
                     }
                 } elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
+                    $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
+                    if (is_object($cron)) {
+                        $cron->remove(false);
+                    }
                     if ($thermostat->getConfiguration('smart_start') == 1) {
                         $cmd = $thermostat->getCmd(null, 'thermostat');
                         $next = $thermostat->getNextState();
@@ -48,10 +51,6 @@ class thermostat extends eqLogic {
                                 $next['cmd']->execCmd();
                             }
                         }
-                    }
-                    $cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
-                    if (is_object($cron)) {
-                        $cron->remove();
                     }
                 } else {
                     self::temporal($_options);
@@ -305,7 +304,6 @@ class thermostat extends eqLogic {
 
     public static function cron() {
         foreach (thermostat::byType('thermostat') as $thermostat) {
-            log::add('thermostat', 'debug', print_r($thermostat, true));
             if ($thermostat->getIsEnable() == 1) {
                 if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
                     try {
@@ -335,7 +333,8 @@ class thermostat extends eqLogic {
                     } else {
                         if ($cron->getState() != 'run') {
                             try {
-                                $cron->getNextRunDate();
+                                $c = new Cron\CronExpression($cron->getSchedule(), new Cron\FieldFactory);
+                                $c->getNextRunDate();
                             } catch (Exception $ex) {
                                 log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reschedule temporal cron');
                                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+1 min ' . date('Y-m-d H:i:s'))));
@@ -510,13 +509,18 @@ class thermostat extends eqLogic {
                 return '';
             }
         } catch (Exception $ex) {
+            log::add('thermostat', 'debug', $this->getHumanName() . ' : Plugin agenda non détecté');
             return '';
         }
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : Plugin agenda detecté');
 
         $thermostat = $this->getCmd(null, 'thermostat');
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 1');
         $next = null;
         foreach ($this->getCmd(null, 'modeAction', null, true) as $mode) {
+            log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 2');
             $events = calendar_event::searchByCmd($mode->getId());
+            log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 3');
             if (is_array($events) && count($events) > 0) {
                 foreach ($events as $event) {
                     if ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('end_name') == '#' . $mode->getId() . '#') {
@@ -528,7 +532,9 @@ class thermostat extends eqLogic {
                     } else {
                         continue;
                     }
+                    log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 4');
                     $nextOccurence = $event->nextOccurrence($position, true);
+                    log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 5');
                     if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
                         $consigne = 0;
                         foreach ($this->getConfiguration('existingMode') as $existingMode) {
@@ -540,6 +546,7 @@ class thermostat extends eqLogic {
                                 }
                             }
                         }
+                        log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 6');
                         if ($consigne != 0) {
                             $next = array(
                                 'date' => $nextOccurence['date'],
@@ -553,6 +560,7 @@ class thermostat extends eqLogic {
                 }
             }
         }
+        log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 7');
         if (is_object($thermostat)) {
             $events = calendar_event::searchByCmd($thermostat->getId());
             if (is_array($events) && count($events) > 0) {
@@ -738,7 +746,7 @@ class thermostat extends eqLogic {
                 $status = new thermostatCmd();
             }
             $status->setEqLogic_id($this->getId());
-            $status->setName(__('Status', __FILE__));
+            $status->setName(__('Statut', __FILE__));
             $status->setType('info');
             $status->setSubType('string');
             $status->setLogicalId('status');
@@ -818,7 +826,7 @@ class thermostat extends eqLogic {
                 $temperature->setDisplay('parameters', array('displayHistory' => 'display : none;'));
             }
             $temperature->setEqLogic_id($this->getId());
-            $temperature->setName(__('Temperature', __FILE__));
+            $temperature->setName(__('Température', __FILE__));
             $temperature->setType('info');
             $temperature->setSubType('numeric');
             $temperature->setLogicalId('temperature');
@@ -1077,6 +1085,7 @@ class thermostat extends eqLogic {
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('heating') as $action) {
             try {
+                $options = array();
                 if (isset($action['options'])) {
                     $options = $action['options'];
                     foreach ($options as $key => $value) {
@@ -1115,6 +1124,7 @@ class thermostat extends eqLogic {
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('cooling') as $action) {
             try {
+                $options = array();
                 if (isset($action['options'])) {
                     $options = $action['options'];
                     foreach ($options as $key => $value) {
@@ -1145,6 +1155,7 @@ class thermostat extends eqLogic {
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('stoping') as $action) {
             try {
+                $options = array();
                 if (isset($action['options'])) {
                     $options = $action['options'];
                     foreach ($options as $key => $value) {
