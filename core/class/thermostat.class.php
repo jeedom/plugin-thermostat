@@ -515,12 +515,9 @@ class thermostat extends eqLogic {
         log::add('thermostat', 'debug', $this->getHumanName() . ' : Plugin agenda detecté');
 
         $thermostat = $this->getCmd(null, 'thermostat');
-        log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 1');
         $next = null;
         foreach ($this->getCmd(null, 'modeAction', null, true) as $mode) {
-            log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 2');
             $events = calendar_event::searchByCmd($mode->getId());
-            log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 3');
             if (is_array($events) && count($events) > 0) {
                 foreach ($events as $event) {
                     if ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('end_name') == '#' . $mode->getId() . '#') {
@@ -560,7 +557,6 @@ class thermostat extends eqLogic {
                 }
             }
         }
-        log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 7');
         if (is_object($thermostat)) {
             $events = calendar_event::searchByCmd($thermostat->getId());
             if (is_array($events) && count($events) > 0) {
