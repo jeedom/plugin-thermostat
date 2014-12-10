@@ -191,7 +191,7 @@ class thermostat extends eqLogic {
                     $learn_outdoor = false;
                     if ($thermostat->getConfiguration('lastState') == 'heat') {
                         log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is heat');
-                        if ($temp_in >= $thermostat->getConfiguration('lastTempIn')) {
+                        if ($temp_in >= $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') < $thermostat->getConfiguration('lastTempIn')) {
                             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in < at current temp in');
                             $coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('lastTempIn')) / ($temp_in - $thermostat->getConfiguration('lastTempIn') ));
                             $coeff_indoor_heat = ($thermostat->getConfiguration('coeff_indoor_heat') * $thermostat->getConfiguration('coeff_indoor_heat_autolearn') + $coeff_indoor_heat) / ($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1);
@@ -217,7 +217,7 @@ class thermostat extends eqLogic {
 
                     if ($thermostat->getConfiguration('lastState') == 'cool') {
                         log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is cool');
-                        if ($temp_in <= $thermostat->getConfiguration('lastTempIn')) {
+                        if ($temp_in <= $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') > $thermostat->getConfiguration('lastTempIn')) {
                             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in > at current temp in');
                             $coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getConfiguration('lastTempIn') - $thermostat->getConfiguration('lastOrder')) / ($thermostat->getConfiguration('lastTempIn') - $temp_in ));
                             $coeff_indoor_cool = ($thermostat->getConfiguration('coeff_indoor_cool') * $thermostat->getConfiguration('coeff_indoor_cool_autolearn') + $coeff_indoor_cool) / ($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1);
