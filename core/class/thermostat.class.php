@@ -600,6 +600,9 @@ class thermostat extends eqLogic {
         $cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
         if ($next['date'] != '' && strtotime($next['date']) > strtotime(date('Y-m-d H:i:s'))) {
             $temporal_data = $this->calculTemporalData($next['consigne'], true);
+            if($temporal_data['power'] < 0){
+                return;
+            }
             $duration = ($temporal_data['power'] * $cycle) / 100;
             $nSchedule = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
             log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $nSchedule);
