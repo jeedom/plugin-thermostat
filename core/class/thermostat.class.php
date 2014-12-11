@@ -466,7 +466,7 @@ class thermostat extends eqLogic {
         }
     }
 
-    public function calculTemporalData($_consigne) {
+    public function calculTemporalData($_consigne, $_allowOverfull = false) {
         $temp_out = $this->getCmd(null, 'temperature_outdoor')->execCmd();
         $temp_in = $this->getCmd(null, 'temperature')->execCmd();
         if (!is_numeric($temp_out)) {
@@ -490,7 +490,7 @@ class thermostat extends eqLogic {
         $offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
         $power = ($diff_in * $coeff_in) + ($diff_out * $coeff_out) + $offset;
         log::add('thermostat', 'debug', $this->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset);
-        if ($power > 100) {
+        if ($power > 100 && !$_allowOverfull) {
             $power = 100;
         }
         if ($power < 0) {
@@ -520,6 +520,10 @@ class thermostat extends eqLogic {
             $events = calendar_event::searchByCmd($mode->getId());
             if (is_array($events) && count($events) > 0) {
                 foreach ($events as $event) {
+                    $calendar = $event->getEqLogic();
+                    if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0) {
+                        continue;
+                    }
                     if ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('end_name') == '#' . $mode->getId() . '#') {
                         $position = null;
                     } elseif ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#') {
@@ -529,9 +533,7 @@ class thermostat extends eqLogic {
                     } else {
                         continue;
                     }
-                    log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 4');
                     $nextOccurence = $event->nextOccurrence($position, true);
-                    log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 5');
                     if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
                         $consigne = 0;
                         foreach ($this->getConfiguration('existingMode') as $existingMode) {
@@ -543,7 +545,6 @@ class thermostat extends eqLogic {
                                 }
                             }
                         }
-                        log::add('thermostat', 'debug', $this->getHumanName() . ' : getNextState : 6');
                         if ($consigne != 0) {
                             $next = array(
                                 'date' => $nextOccurence['date'],
@@ -561,6 +562,10 @@ class thermostat extends eqLogic {
             $events = calendar_event::searchByCmd($thermostat->getId());
             if (is_array($events) && count($events) > 0) {
                 foreach ($events as $event) {
+                    $calendar = $event->getEqLogic();
+                    if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0) {
+                        continue;
+                    }
                     if ($event->getCmd_param('start_name') == '#' . $thermostat->getId() . '#' && $event->getCmd_param('end_name') == '#' . $thermostat->getId() . '#') {
                         $position = null;
                     } elseif ($event->getCmd_param('start_name') == '#' . $thermostat->getId() . '#') {
@@ -593,8 +598,8 @@ class thermostat extends eqLogic {
             return $next;
         }
         $cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
-        if ($next['date'] != '' && strtotime($next['date']) < strtotime('+' . ceil($cycle * 2.1) . ' min ' . date('Y-m-d H:i:s'))) {
-            $temporal_data = $this->calculTemporalData($next['consigne']);
+        if ($next['date'] != '' && strtotime($next['date']) > strtotime(date('Y-m-d H:i:s'))) {
+            $temporal_data = $this->calculTemporalData($next['consigne'], true);
             $duration = ($temporal_data['power'] * $cycle) / 100;
             $nSchedule = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
             log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $nSchedule);
