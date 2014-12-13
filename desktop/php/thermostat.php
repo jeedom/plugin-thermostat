@@ -285,6 +285,16 @@ $eqLogics = eqLogic::byType('thermostat');
                             </div>
                         </div>
                         <div class="form-group engine temporal">
+                            <label class="col-sm-2 control-label">{{Apprentissage chaud}}</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat_autolearn" />
+                            </div>
+                            <label class="col-sm-2 control-label">{{Apprentissage froid}}</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool_autolearn" />
+                            </div>
+                        </div>
+                        <div class="form-group engine temporal">
                             <label class="col-sm-2 control-label">{{Isolation chauffage}}</label>
                             <div class="col-sm-2">
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat" />
@@ -292,6 +302,16 @@ $eqLogics = eqLogic::byType('thermostat');
                             <label class="col-sm-2 control-label">{{Isolation clim}}</label>
                             <div class="col-sm-2">
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool" />
+                            </div>
+                        </div>
+                          <div class="form-group engine temporal">
+                            <label class="col-sm-2 control-label">{{Apprentissage isolation chaud}}</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat_autolearn" />
+                            </div>
+                            <label class="col-sm-2 control-label">{{Apprentissage isolation froid}}</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool_autolearn" />
                             </div>
                         </div>
                         <div class="form-group engine temporal">
