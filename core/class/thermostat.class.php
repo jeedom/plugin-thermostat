@@ -607,6 +607,10 @@ class thermostat extends eqLogic {
             }
             $duration = ($temporal_data['power'] * $cycle) / 100;
             $nSchedule = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
+            if ((strtotime($next['date']) - 300) > strtotime($nSchedule)) {
+                log::add('thermostat', 'debug', $this->getHumanName() . ' : Déclenchement programmé moins de 5min avant leur prévu. Lancement programmé annulé');
+                return '';
+            }
             log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $nSchedule);
             if (strtotime($nSchedule) > strtotime('now')) {
                 $this->reschedule($nSchedule, false, true);
