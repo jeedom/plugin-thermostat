@@ -249,6 +249,10 @@ class thermostat extends eqLogic {
             $cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
             $duration = ($temporal_data['power'] * $cycle) / 100;
 
+            $thermostat->setConfiguration('lastOrder', $consigne);
+            $thermostat->setConfiguration('lastTempIn', $temp_in);
+            $thermostat->setConfiguration('lastTempOut', $temp_out);
+
             $thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
             if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
                 $thermostat->setConfiguration('lastState', 'stop');
@@ -482,9 +486,6 @@ class thermostat extends eqLogic {
         if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getConfiguration('lastState') == 'cool' ) || $temp_out > $_consigne)) {
             $direction = -1;
         }
-        $this->setConfiguration('lastOrder', $_consigne);
-        $this->setConfiguration('lastTempIn', $temp_in);
-        $this->setConfiguration('lastTempOut', $temp_out);
         $coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
         $coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
         $offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
@@ -600,7 +601,7 @@ class thermostat extends eqLogic {
         $cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
         if ($next['date'] != '' && strtotime($next['date']) > strtotime(date('Y-m-d H:i:s'))) {
             $temporal_data = $this->calculTemporalData($next['consigne'], true);
-            if($temporal_data['power'] < 0){
+            if ($temporal_data['power'] < 0) {
                 return;
             }
             $duration = ($temporal_data['power'] * $cycle) / 100;
