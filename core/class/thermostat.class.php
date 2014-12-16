@@ -42,7 +42,7 @@ class thermostat extends eqLogic {
                     }
                     if ($thermostat->getConfiguration('smart_start') == 1) {
                         $next = $thermostat->getNextState();
-                        if ($next == '' || strtotime($next['schedule']) >= strtotime('now')) {
+                        if ($next == '' || strtotime($next['schedule']) > strtotime('now')) {
                             return;
                         }
                         $current = $thermostat->getCmd(null, 'order')->execCmd();
