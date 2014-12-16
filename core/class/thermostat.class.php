@@ -606,6 +606,11 @@ class thermostat extends eqLogic {
                 return;
             }
             $duration = ($temporal_data['power'] * $cycle) / 100;
+            if ($duration < 5) {
+                log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart non pris en compte car la durée ' . $duration);
+                return '';
+            }
+
             $next['schedule'] = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
             if (!$_autoschedule) {
                 return $next;
