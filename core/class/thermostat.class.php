@@ -45,8 +45,7 @@ class thermostat extends eqLogic {
                         if ($next == '' || strtotime($next['schedule']) > strtotime('now')) {
                             return;
                         }
-                        $current = $thermostat->getCmd(null, 'order')->execCmd();
-                        if ($current < $next['consigne']) {
+                        if ($thermostat->getCmd(null, 'order')->execCmd() < $next['consigne']) {
                             if ($next['type'] == 'thermostat') {
                                 $cmd = $thermostat->getCmd(null, 'thermostat');
                                 $cmd->execCmd(array('slider' => $next['consigne']));
