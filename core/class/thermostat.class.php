@@ -611,10 +611,6 @@ class thermostat extends eqLogic {
             if (!$_autoschedule) {
                 return $next;
             }
-            if ((strtotime($next['date']) - 300) > strtotime($next['schedule'])) {
-                log::add('thermostat', 'debug', $this->getHumanName() . ' : Déclenchement programmé moins de 5min avant leur prévu. Lancement programmé annulé');
-                return '';
-            }
             log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
             if (strtotime($next['schedule']) > strtotime('now')) {
                 $this->reschedule($next['schedule'], false, true);
