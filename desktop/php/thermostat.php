@@ -163,6 +163,7 @@ $eqLogics = eqLogic::byType('thermostat');
             <li><a href="#configureMode" data-toggle="tab">{{Configuration des modes}}</a></li>
             <li><a href="#configureWindows" data-toggle="tab">{{Configuration des ouvertures}}</a></li>
             <li><a href="#configureFailure" data-toggle="tab">{{Défaillance sonde de température}}</a></li>
+             <li><a href="#configureFailureActor" data-toggle="tab">{{Défaillance du chauffage/climatisation}}</a></li>
             <li class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab">{{Configuration avancée}}</a></li>
         </ul>
 
@@ -234,7 +235,7 @@ $eqLogics = eqLogic::byType('thermostat');
                         <br/>
                         <div class="alert alert-info">
                             {{La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.}}
-                            <a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter ouverture</a>
+                            <a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter ouverture}}</a>
                         </div>
                         <br/><br/>
                         <div id="div_window"></div>
@@ -245,13 +246,22 @@ $eqLogics = eqLogic::byType('thermostat');
                 <form class="form-horizontal">
                     <fieldset>
                         <br/>
-                        <a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter action de defaillance</a>
+                        <a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
                         <br/><br/>
                         <div id="div_failure"></div>
                     </fieldset> 
                 </form> 
             </div>
-
+             <div class="tab-pane" id="configureFailureActor">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <br/>
+                        <a class="btn btn-success addFailureActor pull-right" data-type="failureActor" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
+                        <br/><br/>
+                        <div id="div_failureActor"></div>
+                    </fieldset> 
+                </form> 
+            </div>
             <div class="tab-pane" id="configureAdvanced">
                 <form class="form-horizontal">
                     <fieldset>

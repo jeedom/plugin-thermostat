@@ -61,6 +61,10 @@ $('.addFailure').on('click', function () {
     addFailure({});
 });
 
+$('.addFailureActor').on('click', function () {
+    addFailureActor({});
+});
+
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').on('change', function () {
     $('.engine').hide();
     $('.' + $(this).value()).show();
@@ -122,6 +126,7 @@ function saveEqLogic(_eqLogic) {
     _eqLogic.configuration.stoping = $('#div_stop .stop').getValues('.expressionAttr');
     _eqLogic.configuration.window = $('#div_window .window').getValues('.expressionAttr');
     _eqLogic.configuration.failure = $('#div_failure .failure').getValues('.expressionAttr');
+    _eqLogic.configuration.failureActor = $('#div_failureActor .failureActor').getValues('.expressionAttr');
     _eqLogic.configuration.orderChange = $('#div_orderChange .orderChange').getValues('.expressionAttr');
     _eqLogic.configuration.existingMode = [];
     $('#div_modes .mode').each(function () {
@@ -141,6 +146,7 @@ function printEqLogic(_eqLogic) {
     $('#div_window').empty();
     $('#div_orderChange').empty();
     $('#div_failure').empty();
+    $('#div_failureActor').empty();
     if (isset(_eqLogic.configuration)) {
         if (isset(_eqLogic.configuration.heating)) {
             for (var i in _eqLogic.configuration.heating) {
@@ -176,6 +182,11 @@ function printEqLogic(_eqLogic) {
         if (isset(_eqLogic.configuration.failure)) {
             for (var i in _eqLogic.configuration.failure) {
                 addFailure(_eqLogic.configuration.failure[i]);
+            }
+        }
+        if (isset(_eqLogic.configuration.failureActor)) {
+            for (var i in _eqLogic.configuration.failureActor) {
+                addFailure(_eqLogic.configuration.failureActor[i]);
             }
         }
     }
@@ -298,6 +309,27 @@ function addFailure(_info) {
     div += '</div>';
     $('#div_failure').append(div);
     $('#div_failure .failure:last').setValues(_info, '.expressionAttr');
+}
+
+function addFailureActor(_info) {
+    var div = '<div class="failureActor">';
+    div += '<div class="form-group ">';
+    div += '<label class="col-sm-1 control-label">Action</label>';
+    div += '<div class="col-sm-1">';
+    div += '<a class="btn btn-default btn-sm listCmdAction" data-type="failureActor"><i class="fa fa-list-alt"></i></a>';
+    div += '</div>';
+    div += '<div class="col-sm-3">';
+    div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="failureActore" />';
+    div += '</div>';
+    div += '<div class="col-sm-6 actionOptions">';
+    div += jeedom.cmd.displayActionOption(init(_info.cmd, ''), _info.options);
+    div += '</div>';
+    div += '<div class="col-sm-1">';
+    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="failureActor"></i>';
+    div += '</div>';
+    div += '</div>';
+    $('#div_failureActor').append(div);
+    $('#div_failureActor .failureActor:last').setValues(_info, '.expressionAttr');
 }
 
 
