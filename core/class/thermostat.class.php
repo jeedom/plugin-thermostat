@@ -155,17 +155,20 @@ class thermostat extends eqLogic {
             if ($thermostat->getConfiguration('smart_start') == 1) {
                 log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
                 $thermostat->getNextState(true);
+                log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart start end');
             }
 
             $mode = $thermostat->getCmd(null, 'mode')->execCmd();
             $status = $thermostat->getCmd(null, 'status')->execCmd();
             if ($mode == 'Off') {
+                log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat sur off');
                 if ($status != __('Arrêté', __FILE__)) {
                     $thermostat->stop();
                 }
                 return;
             }
             if ($status == __('Suspendu', __FILE__)) {
+                log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
                 return;
             }
             $windows = $thermostat->getConfiguration('window');
