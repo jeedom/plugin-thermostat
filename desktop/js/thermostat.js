@@ -186,7 +186,7 @@ function printEqLogic(_eqLogic) {
         }
         if (isset(_eqLogic.configuration.failureActuator)) {
             for (var i in _eqLogic.configuration.failureActuator) {
-                addFailure(_eqLogic.configuration.failureActuator[i]);
+                addFailureActuator(_eqLogic.configuration.failureActuator[i]);
             }
         }
     }
