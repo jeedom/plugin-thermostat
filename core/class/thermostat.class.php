@@ -1236,13 +1236,13 @@ class thermostat extends eqLogic {
         }
     }
     
-    public function failureActor() {
+    public function failureActuator() {
         if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
             return;
         }
         if (count($this->getConfiguration('failure')) > 0) {
             $consigne = $this->getCmd(null, 'order')->execCmd();
-            foreach ($this->getConfiguration('failureActor') as $action) {
+            foreach ($this->getConfiguration('failureActuator') as $action) {
                 try {
                     if (isset($action['options'])) {
                         $options = $action['options'];

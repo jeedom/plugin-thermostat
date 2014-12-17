@@ -163,7 +163,7 @@ $eqLogics = eqLogic::byType('thermostat');
             <li><a href="#configureMode" data-toggle="tab">{{Configuration des modes}}</a></li>
             <li><a href="#configureWindows" data-toggle="tab">{{Configuration des ouvertures}}</a></li>
             <li><a href="#configureFailure" data-toggle="tab">{{Défaillance sonde de température}}</a></li>
-             <li><a href="#configureFailureActor" data-toggle="tab">{{Défaillance du chauffage/climatisation}}</a></li>
+             <li><a href="#configureFailureActuator" data-toggle="tab">{{Défaillance du chauffage/climatisation}}</a></li>
             <li class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab">{{Configuration avancée}}</a></li>
         </ul>
 
@@ -252,13 +252,13 @@ $eqLogics = eqLogic::byType('thermostat');
                     </fieldset> 
                 </form> 
             </div>
-             <div class="tab-pane" id="configureFailureActor">
+             <div class="tab-pane" id="configureFailureActuator">
                 <form class="form-horizontal">
                     <fieldset>
                         <br/>
-                        <a class="btn btn-success addFailureActor pull-right" data-type="failureActor" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
+                        <a class="btn btn-success addFailureActuator pull-right" data-type="failureActuator" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
                         <br/><br/>
-                        <div id="div_failureActor"></div>
+                        <div id="div_failureActuator"></div>
                     </fieldset> 
                 </form> 
             </div>
