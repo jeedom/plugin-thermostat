@@ -2,7 +2,6 @@
 if (!isConnect()) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-include_file('3rdparty', 'jquery.masonry/jquery.masonry', 'js');
 $date = array(
     'start' => init('startDate', date('Y-m-d', strtotime('-6 days' . date('Y-m-d')))),
     'end' => init('endDate', date('Y-m-d', strtotime('+1 days' . date('Y-m-d')))),

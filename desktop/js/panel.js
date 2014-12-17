@@ -20,7 +20,7 @@ $(".in_datepicker").datepicker();
 
 $('#bt_validChangeDate').on('click', function () {
     jeedom.history.chart = [];
-    $('#div_displayEquipement').masonry('destroy');
+    $('#div_displayEquipement').packery('destroy');
     displayThermostat(object_id, $('#in_startDate').value(), $('#in_endDate').value());
 });
 
@@ -60,7 +60,7 @@ function displayThermostat(object_id) {
                 graphThermostat(data.result.eqLogics[i].eqLogic.id);
             }
             positionEqLogic();
-            $('#div_displayEquipement').masonry({columnWidth: 1});
+            $('#div_displayEquipement').packery({columnWidth: 1});
         }
     });
 }
