@@ -618,13 +618,12 @@ class thermostat extends eqLogic {
                 log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart non pris en compte car la durée ' . $duration);
                 return '';
             }
-
             $next['schedule'] = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
             if (!$_autoschedule) {
                 return $next;
             }
-            log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
-            if (strtotime($next['schedule']) > strtotime('now')) {
+            if (strtotime($next['schedule']) > (strtotime('now') + 120 )) {
+                log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
                 $this->reschedule($next['schedule'], false, true);
             } else {
                 $this->reschedule(null, false, true);
