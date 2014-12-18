@@ -324,7 +324,6 @@ class thermostat extends eqLogic {
                     try {
                         $c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
                         if ($c->isDue()) {
-                            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement repeat commande : ' . $thermostat->getConfiguration('repeat_commande_cron'));
                             switch ($thermostat->getCmd(null, 'status')->execCmd()) {
                                 case __('Chauffage', __FILE__):
                                     $thermostat->heat(true);
@@ -351,7 +350,6 @@ class thermostat extends eqLogic {
                                 $c = new Cron\CronExpression($cron->getSchedule(), new Cron\FieldFactory);
                                 $c->getNextRunDate();
                             } catch (Exception $ex) {
-                                log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reschedule temporal cron');
                                 $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+1 min ' . date('Y-m-d H:i:s'))));
                             }
                         }
@@ -626,7 +624,7 @@ class thermostat extends eqLogic {
                 log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
                 $this->reschedule($next['schedule'], false, true);
             } else {
-                $this->reschedule(null, false, true);
+               // $this->reschedule(null, false, true);
             }
         }
     }
