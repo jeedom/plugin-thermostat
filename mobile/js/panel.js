@@ -38,13 +38,13 @@ function initThermostatPanel(_object_id) {
 
     $('#bt_valideDate').on('click', function () {
         jeedom.history.chart = [];
-        $('#div_displayEquipement').masonry('destroy');
+        $('#div_displayEquipement').packery('destroy');
         displayThermostat(_object_id, $('#in_dateStart').val(), $('#in_dateEnd').val());
     });
 
     $(window).on("orientationchange", function (event) {
         setTileSize('.eqLogic');
-        $('#div_displayEquipement').masonry();
+        $('#div_displayEquipement').packery();
     });
 }
 
@@ -86,7 +86,7 @@ function displayThermostat(_object_id, _dateStart, _dateEnd) {
                 graphThermostat(data.result.eqLogics[i].eqLogic.id);
             }
             setTileSize('.eqLogic');
-            $('#div_displayEquipement').masonry();
+            $('#div_displayEquipement').packery();
             $.hideLoading();
         }
     });
