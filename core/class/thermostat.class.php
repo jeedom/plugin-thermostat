@@ -459,15 +459,12 @@ class thermostat extends eqLogic {
         if ($_smartThermostat) {
             $options['smartThermostat'] = intval(1);
         }
-        $cron = cron::byClassAndFunction('thermostat', 'pull', $options);
         if ($_next != null) {
-            if (!is_object($cron)) {
-                $cron = new cron();
-                $cron->setClass('thermostat');
-                $cron->setFunction('pull');
-                $cron->setOption($options);
-                $cron->setLastRun(date('Y-m-d H:i:s'));
-            }
+            $cron = new cron();
+            $cron->setClass('thermostat');
+            $cron->setFunction('pull');
+            $cron->setOption($options);
+            $cron->setLastRun(date('Y-m-d H:i:s'));
             $_next = strtotime($_next);
             $cron->setTimeout($this->getConfiguration('cycle', 60) + 10);
             $cron->setSchedule(date('i', $_next) . ' ' . date('H', $_next) . ' ' . date('d', $_next) . ' ' . date('m', $_next) . ' * ' . date('Y', $_next));
@@ -624,7 +621,7 @@ class thermostat extends eqLogic {
                 log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
                 $this->reschedule($next['schedule'], false, true);
             } else {
-               // $this->reschedule(null, false, true);
+                // $this->reschedule(null, false, true);
             }
         }
     }
