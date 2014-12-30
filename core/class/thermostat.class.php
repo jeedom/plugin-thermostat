@@ -370,17 +370,17 @@ class thermostat extends eqLogic {
                     $cmd = $thermostat->getCmd(null, 'temperature');
                     $cmd->execCmd();
                     if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-                        $thermostat->failure();
+                        $thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp'));
                         log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
                     }
                 }
                 $temp_in = $thermostat->getCmd(null, 'temperature')->execCmd();
                 if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
-                    $thermostat->failure();
+                    $thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp'));
                     log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieur est en dessous du seuil autorisé : ', __FILE__));
                 }
                 if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in) {
-                    $thermostat->failure();
+                    $thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp'));
                     log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieur est au dessus du seuil autorisé : ', __FILE__));
                 }
             }
@@ -1216,8 +1216,11 @@ class thermostat extends eqLogic {
         }
     }
 
-    public function failure() {
+    public function failure($_failureRepeat) {
         if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+            return;
+        }
+        if (($this->getConguration('failureTime', 0) + ($_failureRepeat * 60)) > strtotime('now')) {
             return;
         }
         if (count($this->getConfiguration('failure')) > 0) {
@@ -1236,6 +1239,8 @@ class thermostat extends eqLogic {
                 }
             }
         }
+        $this->setConfiguration('failureTime', strtotime('now'));
+        $this->save();
     }
 
     public function failureActuator() {
