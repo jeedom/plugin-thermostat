@@ -697,11 +697,11 @@ class thermostat extends eqLogic {
         if ($this->getConfiguration('coeff_indoor_cool') === '') {
             $this->setConfiguration('coeff_indoor_cool', 0);
         }
-        if ($this->getConfiguration('coeff_indoor_cool_autolearn') === '') {
-            $this->setConfiguration('coeff_indoor_cool_autolearn', 0);
+        if ($this->getConfiguration('coeff_indoor_cool_autolearn') === '' || $this->getConfiguration('coeff_indoor_cool_autolearn') < 1) {
+            $this->setConfiguration('coeff_indoor_cool_autolearn', 1);
         }
-        if ($this->getConfiguration('coeff_indoor_heat_autolearn') === '') {
-            $this->setConfiguration('coeff_indoor_heat_autolearn', 0);
+        if ($this->getConfiguration('coeff_indoor_heat_autolearn') === '' || $this->getConfiguration('coeff_indoor_heat_autolearn') < 1) {
+            $this->setConfiguration('coeff_indoor_heat_autolearn', 1);
         }
         if ($this->getConfiguration('coeff_outdoor_autolearn') === '') {
             $this->setConfiguration('coeff_outdoor_autolearn', 0);
