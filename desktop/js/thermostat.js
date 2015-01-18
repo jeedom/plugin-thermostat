@@ -49,6 +49,12 @@ $("body").delegate(".listCmdAction", 'click', function () {
     });
 });
 
+$('#bt_cronGenerator').on('click',function(){
+    jeedom.getCronSelectModal({},function (result) {
+        $('.eqLogicAttr[data-l1key=configuration][data-l2key=repeat_commande_cron]').value(result.value);
+    });
+});
+
 $('.addAction').on('click', function () {
     addAction({}, $(this).attr('data-type'));
 });

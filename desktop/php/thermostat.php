@@ -272,7 +272,7 @@ $eqLogics = eqLogic::byType('thermostat');
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de renvoi des commandes du thermostat (arrêt,chauffe, refroidis), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
                             </div>
                             <div class="col-sm-1">
-                                <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
+                                <i class="fa fa-question-circle cursor floatright" id="bt_cronGenerator"></i>
                             </div>
                         </div>
                         <div class='form-group'>
