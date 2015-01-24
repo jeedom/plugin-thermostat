@@ -868,6 +868,7 @@ class thermostat extends eqLogic {
             }
             $temperature->setValue($value);
             $temperature->save();
+            $temperature->event( $temperature->execute());
 
             $temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
             if (!is_object($temperature_outdoor)) {
