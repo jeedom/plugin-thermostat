@@ -1221,7 +1221,7 @@ class thermostat extends eqLogic {
         if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
             return;
         }
-        if (($this->getConguration('failureTime', 0) + ($_failureRepeat * 60)) > strtotime('now')) {
+        if (($this->getConfiguration('failureTime', 0) + ($_failureRepeat * 60)) > strtotime('now')) {
             return;
         }
         if (count($this->getConfiguration('failure')) > 0) {
