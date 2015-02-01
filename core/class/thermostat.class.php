@@ -190,7 +190,7 @@ class thermostat extends eqLogic {
             if (!is_numeric($temp_in)) {
                 return;
             }
-            if (($temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 10) &&
+            if (($temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 10) ||
                 ($temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 10)) {
                 $thermostat->failureActuator();
         } else {
