@@ -355,6 +355,16 @@ $eqLogics = eqLogic::byType('thermostat');
                                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle a faire (sinon la mise en marche du chauffage est reporté au cyle suivant)}}" value="5"/>
                             </div>
                         </div>
+                         <div class="form-group engine temporal">
+                            <label class="col-sm-2 control-label">{{Marge de defaillance chaud}}</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" title="{{Seuil de déclenchement de la defaillance chaud (1 par defaut)}}" value="1"/>
+                            </div>
+                            <label class="col-sm-2 control-label">{{Marge de defaillance froid}}</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetColdFaillure" title="{{Seuil de déclenchement de la defaillance froid (1 par defaut)}}" value="1"/>
+                            </div>
+                        </div>
 
                         <div class="form-group engine hysteresis" style="display: none;">
                             <label class="col-sm-2 control-label">{{Hystéresis (°C)}}</label>
