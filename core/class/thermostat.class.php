@@ -354,7 +354,9 @@ public static function cron() {
                     if ($cron->getState() != 'run') {
                         try {
                             $c = new Cron\CronExpression($cron->getSchedule(), new Cron\FieldFactory);
-                            $c->getNextRunDate();
+                            if (!$c->isDue()) {
+                                $c->getNextRunDate();
+                            }
                         } catch (Exception $ex) {
                             $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+2 min ' . date('Y-m-d H:i:s'))));
                         }
