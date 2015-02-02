@@ -149,8 +149,8 @@ class thermostat extends eqLogic {
         $thermostat = thermostat::byId($_options['thermostat_id']);
         if (is_object($thermostat)) {
             log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
-            $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
-            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' + date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:s'))));
+            $thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
+            log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
 
             if ($thermostat->getConfiguration('smart_start') == 1) {
                 log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
@@ -346,17 +346,17 @@ public static function cron() {
                     log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
                 }
             }
-            if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
+            if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal' && date('i')%10 == 0) {
                 $cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($thermostat->getId())));
                 if (!is_object($cron)) {
-                    $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+1 min ' . date('Y-m-d H:i:s'))));
+                    $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+2 min ' . date('Y-m-d H:i:s'))));
                 } else {
                     if ($cron->getState() != 'run') {
                         try {
                             $c = new Cron\CronExpression($cron->getSchedule(), new Cron\FieldFactory);
                             $c->getNextRunDate();
                         } catch (Exception $ex) {
-                            $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+1 min ' . date('Y-m-d H:i:s'))));
+                            $thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+2 min ' . date('Y-m-d H:i:s'))));
                         }
                     }
                 }
