@@ -32,7 +32,7 @@ function displayThermostat(object_id) {
         type: 'POST',
         url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
         data: {
-            action: 'getThemorstat',
+            action: 'getThermostat',
             object_id: object_id,
             version: 'dashboard'
         },

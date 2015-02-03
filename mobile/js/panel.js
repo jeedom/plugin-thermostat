@@ -54,7 +54,7 @@ function displayThermostat(_object_id, _dateStart, _dateEnd) {
         type: 'POST',
         url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
         data: {
-            action: 'getThemorstat',
+            action: 'getThermostat',
             object_id: _object_id,
             version: 'mobile',
             dateStart: init(_dateStart),

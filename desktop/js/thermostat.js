@@ -16,7 +16,7 @@
  */
 
 
-$(".eqLogic").delegate(".listCmdInfo", 'click', function () {
+ $(".eqLogic").delegate(".listCmdInfo", 'click', function () {
     var el = $(this).closest('.form-group').find('.eqLogicAttr');
     jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
         if (el.attr('data-concat') == 1) {
@@ -27,7 +27,7 @@ $(".eqLogic").delegate(".listCmdInfo", 'click', function () {
     });
 });
 
-$('body').delegate('.rename', 'click', function () {
+ $('body').delegate('.rename', 'click', function () {
     var el = $(this);
     bootbox.prompt("{{Nouveau nom ?}}", function (result) {
         if (result !== null) {
@@ -37,7 +37,7 @@ $('body').delegate('.rename', 'click', function () {
     });
 });
 
-$("body").delegate(".listCmdAction", 'click', function () {
+ $("body").delegate(".listCmdAction", 'click', function () {
     var type = $(this).attr('data-type');
     var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
     jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function (result) {
@@ -49,41 +49,41 @@ $("body").delegate(".listCmdAction", 'click', function () {
     });
 });
 
-$('#bt_cronGenerator').on('click',function(){
+ $('#bt_cronGenerator').on('click',function(){
     jeedom.getCronSelectModal({},function (result) {
         $('.eqLogicAttr[data-l1key=configuration][data-l2key=repeat_commande_cron]').value(result.value);
     });
 });
 
-$('.addAction').on('click', function () {
+ $('.addAction').on('click', function () {
     addAction({}, $(this).attr('data-type'));
 });
 
-$('.addWindow').on('click', function () {
+ $('.addWindow').on('click', function () {
     addWindow({});
 });
 
-$('.addFailure').on('click', function () {
+ $('.addFailure').on('click', function () {
     addFailure({});
 });
 
-$('.addFailureActuator').on('click', function () {
+ $('.addFailureActuator').on('click', function () {
     addFailureActuator({});
 });
 
-$('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').on('change', function () {
+ $('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').on('change', function () {
     $('.engine').hide();
     $('.' + $(this).value()).show();
 });
 
-$("body").delegate(".listCmdInfoWindow", 'click', function () {
+ $("body").delegate(".listCmdInfoWindow", 'click', function () {
     var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
     jeedom.cmd.getSelectModal({cmd: {type: 'info', subtype: 'binary'}}, function (result) {
         el.value(result.human);
     });
 });
 
-$('.addMode').on('click', function () {
+ $('.addMode').on('click', function () {
     bootbox.prompt("{{Nom du mode ?}}", function (result) {
         if (result !== null) {
             addMode({name: result});
@@ -91,18 +91,18 @@ $('.addMode').on('click', function () {
     });
 });
 
-$("body").delegate(".addModeAction", 'click', function () {
+ $("body").delegate(".addModeAction", 'click', function () {
     addModeAction({}, $(this).closest('.mode').find('.div_modeAction'));
 });
 
-$("body").delegate(".removeMode", 'click', function () {
+ $("body").delegate(".removeMode", 'click', function () {
     var el = $(this);
     bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce mode}} ?', function (result) {
         el.closest('.mode').remove();
     });
 });
 
-$('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', function (event) {
+ $('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', function (event) {
     var type = $(this).attr('data-type');
     var expression = $(this).closest('.' + type).getValues('.expressionAttr');
     var el = $(this);
@@ -112,18 +112,18 @@ $('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', func
 
 });
 
-$("body").delegate('.bt_removeAction', 'click', function () {
+ $("body").delegate('.bt_removeAction', 'click', function () {
     var type = $(this).attr('data-type');
     $(this).closest('.' + type).remove();
 });
 
-$('#bt_configureMode').on('click', function () {
+ $('#bt_configureMode').on('click', function () {
     $('#md_modal').dialog({title: "{{Configuration des modes}}"});
     $('#md_modal').load('index.php?v=d&plugin=thermostat&modal=configure.mode').dialog('open');
 });
 
 
-function saveEqLogic(_eqLogic) {
+ function saveEqLogic(_eqLogic) {
     if (!isset(_eqLogic.configuration)) {
         _eqLogic.configuration = {};
     }
@@ -153,6 +153,7 @@ function printEqLogic(_eqLogic) {
     $('#div_orderChange').empty();
     $('#div_failure').empty();
     $('#div_failureActuator').empty();
+    printScheduling(_eqLogic);
     if (isset(_eqLogic.configuration)) {
         if (isset(_eqLogic.configuration.heating)) {
             for (var i in _eqLogic.configuration.heating) {
@@ -196,6 +197,52 @@ function printEqLogic(_eqLogic) {
             }
         }
     }
+}
+
+function printScheduling(_eqLogic){
+   $.ajax({
+    type: 'POST',
+    url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
+    data: {
+        action: 'getLinkCalendar',
+        id: _eqLogic.id,
+    },
+    dataType: 'json',
+    error: function (request, status, error) {
+        handleAjaxError(request, status, error);
+    },
+    success: function (data) {
+        if (data.state != 'ok') {
+            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+            return;
+        }
+        $('#div_schedule').empty();
+        console.log(data);
+        if(data.result.length == 0){
+            $('#div_schedule').append("<center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda}}</span></center>");
+        }else{
+            var html = '<legend>{{Liste des programmations sur le thermostat du plugin agenda}}</legend>';
+            for (var i in data.result) {
+                console.log(data.result[i].cmd_param.textColor);
+                var color = init(data.result[i].cmd_param.color, '#2980b9');
+                if(data.result[i].cmd_param.transparent == 1){
+                 color = 'transparent';
+             }
+             html += '<span class="label label-info cursor" style="font-size:1.8em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
+             html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
+
+             if (data.result[i].cmd_param.eventName != '') {
+                html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.eventName;
+            } else {
+                html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.name;
+            }
+            html += '</a></span><br\>';
+        }
+        $('#div_schedule').empty().append(html);
+    }
+}
+});
+
 }
 
 function addMode(_mode) {

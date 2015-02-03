@@ -24,7 +24,7 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-    if (init('action') == 'getThemorstat') {
+    if (init('action') == 'getThermostat') {
         if (init('object_id') == '') {
             $_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject');
         }
@@ -33,14 +33,14 @@ try {
             $object = object::rootObject();
         }
         if (!is_object($object)) {
-            throw new Exception('{{Aucun objet racine trouvé}}');
+            throw new Exception(__('Aucun objet racine trouvé',__FILE__));
         }
         $return = array('object' => utils::o2a($object));
 
         $date = array(
             'start' => init('dateStart'),
             'end' => init('dateEnd'),
-        );
+            );
         
         if ($date['start'] == '') {
             $date['start'] = date('Y-m-d', strtotime('-6 days' . date('Y-m-d')));
@@ -57,7 +57,21 @@ try {
         ajax::success($return);
     }
     
-    
+
+    if (init('action') == 'getLinkCalendar') {
+        $thermostat = thermostat::byId(init('id'));
+        if (!is_object($thermostat)) {
+            throw new Exception(__('Thermostat non trouvé : ',__FILE__).init('id'));
+        }
+        $return = array();
+        foreach ($thermostat->getCmd(null, 'modeAction', null, true) as $mode) {
+            $return = array_merge (calendar_event::searchByCmd($mode->getId()),$return);
+        }
+        $thermostat_cmd = $thermostat->getCmd(null, 'thermostat');
+        $return = array_merge (calendar_event::searchByCmd($thermostat_cmd->getId()),$return);
+        ajax::success(utils::o2a($return));
+    }
+
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
 } catch (Exception $e) {
     ajax::error(displayExeption($e), $e->getCode());
