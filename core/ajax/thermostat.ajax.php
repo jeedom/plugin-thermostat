@@ -65,10 +65,16 @@ try {
         }
         $return = array();
         foreach ($thermostat->getCmd(null, 'modeAction', null, true) as $mode) {
-            $return = array_merge (calendar_event::searchByCmd($mode->getId()),$return);
+            foreach(calendar_event::searchByCmd($mode->getId()) as $event){
+                $return[$event->getId()] = $event;
+            }
         }
         $thermostat_cmd = $thermostat->getCmd(null, 'thermostat');
-        $return = array_merge (calendar_event::searchByCmd($thermostat_cmd->getId()),$return);
+        if(is_object($thermostat_cmd)){
+            foreach(calendar_event::searchByCmd($thermostat_cmd->getId()) as $event){
+                $return[$event->getId()] = $event;
+            }
+        }
         ajax::success(utils::o2a($return));
     }
 

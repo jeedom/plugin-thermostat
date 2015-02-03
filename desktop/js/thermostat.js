@@ -228,7 +228,7 @@ function printScheduling(_eqLogic){
                 if(data.result[i].cmd_param.transparent == 1){
                  color = 'transparent';
              }
-             html += '<span class="label label-info cursor" style="font-size:1.8em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
+             html += '<span class="label label-info cursor" style="font-size:1.6em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
              html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
 
              if (data.result[i].cmd_param.eventName != '') {
@@ -236,7 +236,7 @@ function printScheduling(_eqLogic){
             } else {
                 html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.name;
             }
-            html += '</a></span><br\>';
+            html += '</a></span><br\><br\><br\>';
         }
         $('#div_schedule').empty().append(html);
     }
