@@ -63,6 +63,15 @@ try {
         if (!is_object($thermostat)) {
             throw new Exception(__('Thermostat non trouvé : ',__FILE__).init('id'));
         }
+        try {
+            $plugin = plugin::byId('calendar');
+            if (!is_object($plugin)) {
+                ajax::success(array());
+            } 
+        } catch (Exception $e) {
+             ajax::success(array());
+        }   
+
         $return = array();
         foreach ($thermostat->getCmd(null, 'modeAction', null, true) as $mode) {
             foreach(calendar_event::searchByCmd($mode->getId()) as $event){

@@ -168,13 +168,15 @@ $eqLogics = eqLogic::byType('thermostat');
                 <?php 
                 try {
                     $plugin = plugin::byId('calendar');
-                  if (is_object($plugin)) {
-                    ?>
-                    <li class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab">{{Programmation}}</a></li>
-                    <?php } 
+                    if (is_object($plugin)) {
+                        ?>
+                        <li class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab">{{Programmation}}</a></li>
+                        <?php
+                    } 
                 } catch (Exception $e) {
 
-                }   ?>
+                }   
+                ?>
             </ul>
 
             <div class="tab-content">
