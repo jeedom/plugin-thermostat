@@ -166,251 +166,255 @@ $eqLogics = eqLogic::byType('thermostat');
                 <li><a href="#configureFailureActuator" data-toggle="tab">{{Défaillance du chauffage/climatisation}}</a></li>
                 <li class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab">{{Configuration avancée}}</a></li>
                 <?php 
-                $plugin = plugin::byId('calendar');
-                if (is_object($plugin)) {
+                try {
+                    $plugin = plugin::byId('calendar');
+                  if (is_object($plugin)) {
                     ?>
                     <li class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab">{{Programmation}}</a></li>
-                    <?php } ?>
-                </ul>
+                    <?php } 
+                } catch (Exception $e) {
 
-                <div class="tab-content">
-                    <div class="tab-pane active" id="configureAction">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <legend>
-                                    {{Pour chauffer je dois ?}}
-                                    <a class="btn btn-danger btn-xs pull-right addAction" data-type="heat" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
-                                </legend>
-                                <div id="div_heat">
+                }   ?>
+            </ul>
 
-                                </div>
-                            </fieldset> 
-                        </form>  
+            <div class="tab-content">
+                <div class="tab-pane active" id="configureAction">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <legend>
+                                {{Pour chauffer je dois ?}}
+                                <a class="btn btn-danger btn-xs pull-right addAction" data-type="heat" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+                            </legend>
+                            <div id="div_heat">
 
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <legend>
-                                    {{Pour refroidir je dois ?}}
-                                    <a class="btn btn-primary btn-xs pull-right addAction" data-type="cool" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
-                                </legend>
-                                <div id="div_cool">
+                            </div>
+                        </fieldset> 
+                    </form>  
 
-                                </div>
-                            </fieldset> 
-                        </form>
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <legend>
+                                {{Pour refroidir je dois ?}}
+                                <a class="btn btn-primary btn-xs pull-right addAction" data-type="cool" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+                            </legend>
+                            <div id="div_cool">
 
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <legend>
-                                    {{Pour tout arrêter je dois ?}}
-                                    <a class="btn btn-default btn-xs pull-right addAction" data-type="stop" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
-                                </legend>
-                                <div id="div_stop">
+                            </div>
+                        </fieldset> 
+                    </form>
 
-                                </div>
-                            </fieldset> 
-                        </form>
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <legend>
-                                    {{A chaque changement de consigne je dois aussi faire ?}}
-                                    <a class="btn btn-default btn-xs pull-right addAction" data-type="orderChange" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
-                                </legend>
-                                <div id="div_orderChange">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <legend>
+                                {{Pour tout arrêter je dois ?}}
+                                <a class="btn btn-default btn-xs pull-right addAction" data-type="stop" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+                            </legend>
+                            <div id="div_stop">
 
-                                </div>
-                            </fieldset> 
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="configureMode">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <br/>
-                                <div class="alert alert-info">
-                                    {{Avec les modes, vous pouvez rajouter à votre thermostat des consignes prédéfinies. Par exemple un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C}}
-                                    <a class="btn btn-success addMode pull-right" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter mode</a>
-                                </div>
-                                <br/><br/>
-                                <div id="div_modes"></div>
-                            </fieldset> 
-                        </form> 
-                    </div>
-                    <div class="tab-pane" id="configureWindows">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <br/>
-                                <div class="alert alert-info">
-                                    {{La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.}}
-                                    <a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter ouverture}}</a>
-                                </div>
-                                <br/><br/>
-                                <div id="div_window"></div>
-                            </fieldset> 
-                        </form> 
-                    </div>
-                    <div class="tab-pane" id="configureFailure">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <br/>
-                                <a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
-                                <br/><br/>
-                                <div id="div_failure"></div>
-                            </fieldset> 
-                        </form> 
-                    </div>
-                    <div class="tab-pane" id="configureFailureActuator">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <br/>
-                                <a class="btn btn-success addFailureActuator pull-right" data-type="failureActuator" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
-                                <br/><br/>
-                                <div id="div_failureActuator"></div>
-                            </fieldset> 
-                        </form> 
-                    </div>
-                    <div class="tab-pane" id="configureAdvanced">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <br/><br/>
-                                <div class='form-group'>
-                                    <label class="col-sm-2 control-label">{{Cron de répétition de commande}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de renvoi des commandes du thermostat (arrêt,chauffe, refroidis), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <i class="fa fa-question-circle cursor floatright" id="bt_cronGenerator"></i>
-                                    </div>
-                                </div>
-                                <div class='form-group'>
-                                    <label class="col-sm-2 control-label">{{Délai max entre 2 relevés de température (min)}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp" title="{{Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance}}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group engine temporal">
-                                    <div class="alert alert-warning">
-                                        {{Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat" />
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Coefficient Clim}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool" />
-                                    </div>
-                                </div>
-                                <div class="form-group engine temporal">
-                                    <label class="col-sm-2 control-label">{{Apprentissage chaud}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat_autolearn" />
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Apprentissage froid}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool_autolearn" />
-                                    </div>
-                                </div>
-                                <div class="form-group engine temporal">
-                                    <label class="col-sm-2 control-label">{{Isolation chauffage}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat" />
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Isolation clim}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool" />
-                                    </div>
-                                </div>
-                                <div class="form-group engine temporal">
-                                    <label class="col-sm-2 control-label">{{Apprentissage isolation chaud}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat_autolearn" />
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Apprentissage isolation froid}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool_autolearn" />
-                                    </div>
-                                </div>
-                                <div class="form-group engine temporal">
-                                    <label class="col-sm-2 control-label">{{Offset chauffage (%)}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_heat" />
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Offset Clim (%)}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_cool" />
-                                    </div>
-                                </div>
-                                <div class="form-group engine temporal">
+                            </div>
+                        </fieldset> 
+                    </form>
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <legend>
+                                {{A chaque changement de consigne je dois aussi faire ?}}
+                                <a class="btn btn-default btn-xs pull-right addAction" data-type="orderChange" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+                            </legend>
+                            <div id="div_orderChange">
 
-                                    <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Smart start}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked title="{{Autorise le thermostats à partir avant pour que la temperature soit égale à la consigne à l'heure voulu. Attention ne marche que si le thermostat est géré par le plugin agenda}}" />
-                                    </div>
+                            </div>
+                        </fieldset> 
+                    </form>
+                </div>
+                <div class="tab-pane" id="configureMode">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <br/>
+                            <div class="alert alert-info">
+                                {{Avec les modes, vous pouvez rajouter à votre thermostat des consignes prédéfinies. Par exemple un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C}}
+                                <a class="btn btn-success addMode pull-right" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter mode</a>
+                            </div>
+                            <br/><br/>
+                            <div id="div_modes"></div>
+                        </fieldset> 
+                    </form> 
+                </div>
+                <div class="tab-pane" id="configureWindows">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <br/>
+                            <div class="alert alert-info">
+                                {{La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.}}
+                                <a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter ouverture}}</a>
+                            </div>
+                            <br/><br/>
+                            <div id="div_window"></div>
+                        </fieldset> 
+                    </form> 
+                </div>
+                <div class="tab-pane" id="configureFailure">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <br/>
+                            <a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
+                            <br/><br/>
+                            <div id="div_failure"></div>
+                        </fieldset> 
+                    </form> 
+                </div>
+                <div class="tab-pane" id="configureFailureActuator">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <br/>
+                            <a class="btn btn-success addFailureActuator pull-right" data-type="failureActuator" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
+                            <br/><br/>
+                            <div id="div_failureActuator"></div>
+                        </fieldset> 
+                    </form> 
+                </div>
+                <div class="tab-pane" id="configureAdvanced">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <br/><br/>
+                            <div class='form-group'>
+                                <label class="col-sm-2 control-label">{{Cron de répétition de commande}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de renvoi des commandes du thermostat (arrêt,chauffe, refroidis), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
                                 </div>
-                                <div class="form-group engine temporal">
-                                    <label class="col-sm-2 control-label">{{Cycle (min)}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieur à 15 min)}}"/>
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Temps de chauffe minimum (% du cycle)}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle a faire (sinon la mise en marche du chauffage est reporté au cyle suivant)}}" value="5"/>
-                                    </div>
+                                <div class="col-sm-1">
+                                    <i class="fa fa-question-circle cursor floatright" id="bt_cronGenerator"></i>
                                 </div>
-                                <div class="form-group engine temporal">
-                                    <label class="col-sm-2 control-label">{{Marge de defaillance chaud}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" title="{{Seuil de déclenchement de la defaillance chaud (1 par defaut)}}" value="1"/>
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Marge de defaillance froid}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetColdFaillure" title="{{Seuil de déclenchement de la defaillance froid (1 par defaut)}}" value="1"/>
-                                    </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class="col-sm-2 control-label">{{Délai max entre 2 relevés de température (min)}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp" title="{{Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance}}"/>
                                 </div>
+                            </div>
+                            <div class="form-group engine temporal">
+                                <div class="alert alert-warning">
+                                    {{Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
+                                </div>
+                                <label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat" />
+                                </div>
+                                <label class="col-sm-2 control-label">{{Coefficient Clim}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool" />
+                                </div>
+                            </div>
+                            <div class="form-group engine temporal">
+                                <label class="col-sm-2 control-label">{{Apprentissage chaud}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat_autolearn" />
+                                </div>
+                                <label class="col-sm-2 control-label">{{Apprentissage froid}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_cool_autolearn" />
+                                </div>
+                            </div>
+                            <div class="form-group engine temporal">
+                                <label class="col-sm-2 control-label">{{Isolation chauffage}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat" />
+                                </div>
+                                <label class="col-sm-2 control-label">{{Isolation clim}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool" />
+                                </div>
+                            </div>
+                            <div class="form-group engine temporal">
+                                <label class="col-sm-2 control-label">{{Apprentissage isolation chaud}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_heat_autolearn" />
+                                </div>
+                                <label class="col-sm-2 control-label">{{Apprentissage isolation froid}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool_autolearn" />
+                                </div>
+                            </div>
+                            <div class="form-group engine temporal">
+                                <label class="col-sm-2 control-label">{{Offset chauffage (%)}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_heat" />
+                                </div>
+                                <label class="col-sm-2 control-label">{{Offset Clim (%)}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_cool" />
+                                </div>
+                            </div>
+                            <div class="form-group engine temporal">
 
-                                <div class="form-group engine hysteresis" style="display: none;">
-                                    <label class="col-sm-2 control-label">{{Hystéresis (°C)}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_threshold" placeholder="1"/>
-                                    </div>
-                                    <label class="col-sm-2 control-label">{{Cron de controle}}</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron" title="{{Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
-                                    </div>
+                                <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
                                 </div>
-                            </fieldset> 
-                        </form> 
-                    </div>
+                                <label class="col-sm-2 control-label">{{Smart start}}</label>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked title="{{Autorise le thermostats à partir avant pour que la temperature soit égale à la consigne à l'heure voulu. Attention ne marche que si le thermostat est géré par le plugin agenda}}" />
+                                </div>
+                            </div>
+                            <div class="form-group engine temporal">
+                                <label class="col-sm-2 control-label">{{Cycle (min)}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieur à 15 min)}}"/>
+                                </div>
+                                <label class="col-sm-2 control-label">{{Temps de chauffe minimum (% du cycle)}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle a faire (sinon la mise en marche du chauffage est reporté au cyle suivant)}}" value="5"/>
+                                </div>
+                            </div>
+                            <div class="form-group engine temporal">
+                                <label class="col-sm-2 control-label">{{Marge de defaillance chaud}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" title="{{Seuil de déclenchement de la defaillance chaud (1 par defaut)}}" value="1"/>
+                                </div>
+                                <label class="col-sm-2 control-label">{{Marge de defaillance froid}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetColdFaillure" title="{{Seuil de déclenchement de la defaillance froid (1 par defaut)}}" value="1"/>
+                                </div>
+                            </div>
 
-                    <div class="tab-pane" id="configureSchedule">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <br/>
-                                <div id="div_schedule"></div>
-                            </fieldset> 
-                        </form> 
-                    </div>
-
+                            <div class="form-group engine hysteresis" style="display: none;">
+                                <label class="col-sm-2 control-label">{{Hystéresis (°C)}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_threshold" placeholder="1"/>
+                                </div>
+                                <label class="col-sm-2 control-label">{{Cron de controle}}</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron" title="{{Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
+                                </div>
+                            </div>
+                        </fieldset> 
+                    </form> 
                 </div>
 
-                <hr/>
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-actions">
-                            <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
-                            <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
+                <div class="tab-pane" id="configureSchedule">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <br/>
+                            <div id="div_schedule"></div>
+                        </fieldset> 
+                    </form> 
+                </div>
 
-        <?php include_file('desktop', 'thermostat', 'js', 'thermostat'); ?>
-        <?php include_file('core', 'plugin.template', 'js'); ?>
+            </div>
+
+            <hr/>
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="form-actions">
+                        <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+                        <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <?php include_file('desktop', 'thermostat', 'js', 'thermostat'); ?>
+    <?php include_file('core', 'plugin.template', 'js'); ?>
