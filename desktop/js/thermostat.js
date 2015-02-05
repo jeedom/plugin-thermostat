@@ -55,6 +55,17 @@
     });
 });
 
+ $('#bt_razLearning').on('click',function(){
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_indoor_heat_autolearn]').value(1);
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_indoor_cool_autolearn]').value(1);
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_heat_autolearn]').value(1);
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_cool_autolearn]').value(1);
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_indoor_heat]').value(10);
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_indoor_cool]').value(10);
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_heat]').value(2);
+    $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_cool]').value(2);
+});
+
  $('.addAction').on('click', function () {
     addAction({}, $(this).attr('data-type'));
 });
