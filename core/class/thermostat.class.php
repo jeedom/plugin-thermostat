@@ -1213,6 +1213,7 @@ public function orderChange() {
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('orderChange') as $action) {
             try {
+                $options = array();
                 if (isset($action['options'])) {
                     $options = $action['options'];
                     foreach ($options as $key => $value) {
@@ -1238,6 +1239,7 @@ public function failure($_failureRepeat) {
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('failure') as $action) {
             try {
+                $options = array();
                 if (isset($action['options'])) {
                     $options = $action['options'];
                     foreach ($options as $key => $value) {
@@ -1262,6 +1264,7 @@ public function failureActuator() {
         $consigne = $this->getCmd(null, 'order')->execCmd();
         foreach ($this->getConfiguration('failureActuator') as $action) {
             try {
+                $options = array();
                 if (isset($action['options'])) {
                     $options = $action['options'];
                     foreach ($options as $key => $value) {
@@ -1282,6 +1285,7 @@ public function executeMode($_name) {
         if ($_name == $existingMode['name']) {
             foreach ($existingMode['actions'] as $action) {
                 try {
+                    $options = array();
                     if (isset($action['options'])) {
                         $options = $action['options'];
                         foreach ($options as $key => $value) {
