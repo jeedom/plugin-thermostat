@@ -295,7 +295,7 @@ $eqLogics = eqLogic::byType('thermostat');
                             </div>
                             <div class="form-group engine temporal">
                                 <div class="alert alert-warning">
-                                    {{Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
+                                    {{Pour une meilleure régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
                                     <a class="pull-right btn btn-warning tooltips" id="bt_razLearning" style="position:relative;top:-7px;" title="Relance le processus d'apprentissage. N'oubliez pas de sauvegarde votre thermostat après la remise à 0."><i class="fa fa-times"></i> RaZ apprentissage</a>
                                 </div>
                                 <label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
