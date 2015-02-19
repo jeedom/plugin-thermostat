@@ -38,7 +38,7 @@
         "Ajouter action de défaillance": "Ajouter action de défaillance",
         "Cron de répétition de commande": "Cron de répétition de commande", "Délai max entre 2 relevés de température (min)": "Délai max entre 2 relevés de température (min)",
         "Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance": "Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance",
-        "Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement": "Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement",
+        "Pour une meilleure régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement": "Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement",
         "Coefficient chauffage": "Coefficient chauffage",
         "Coefficient Clim": "Coefficient Clim",
         "Apprentissage chaud": "Apprentissage chaud",
