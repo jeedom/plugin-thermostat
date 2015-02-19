@@ -37,9 +37,7 @@
         "La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.": "La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.",
         "Ajouter ouverture": "Ajouter ouverture",
         "Ajouter action de défaillance": "Ajouter action de défaillance",
-        "Cron de répétition de commande": "Cron de répétition de commande",
-        "Cron de renvoi des commandes du thermostat (arrêt,chauffe, refroidis), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron de renvoi des commandes du thermostat (arrêt,chauffe, refroidis), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification",
-        "Délai max entre 2 relevés de température (min)": "Délai max entre 2 relevés de température (min)",
+        "Cron de répétition de commande": "Cron de répétition de commande", "Délai max entre 2 relevés de température (min)": "Délai max entre 2 relevés de température (min)",
         "Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance": "Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance",
         "Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement": "Pour une meilleur régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement",
         "Coefficient chauffage": "Coefficient chauffage",
@@ -67,6 +65,16 @@
         "Cron de controle": "Cron de controle",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification",
         "Supprimer": "Supprimer",
-        "Sauvegarder": "Sauvegarder"
+        "Sauvegarder": "Sauvegarder",
+        "Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.": "Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.",
+        "Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification",
+        "Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.": "Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.",
+        "Durée des cycles de chauffe\/climatisation (ne peut être inferieure à 15 min)": "Durée des cycles de chauffe\/climatisation (ne peut être inferieure à 15 min)",
+        "% minimum de cycle à faire (sinon la mise en marche du chauffage est reportée au cyle suivant)": "% minimum de cycle à faire (sinon la mise en marche du chauffage est reportée au cyle suivant)",
+        "Marge de défaillance chaud": "Marge de défaillance chaud",
+        "Seuil de déclenchement de la défaillance chaud (1 par défaut)": "Seuil de déclenchement de la défaillance chaud (1 par défaut)",
+        "Marge de défaillance froid": "Marge de défaillance froid",
+        "Seuil de déclenchement de la défaillance froid (1 par défaut)": "Seuil de déclenchement de la défaillance froid (1 par défaut)",
+        "Cron de contrôle": "Cron de contrôle"
     }
 }
