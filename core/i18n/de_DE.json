@@ -1,7 +1,0 @@
-{
-    "plugins\/thermostat\/core\/class\/thermostat.class.php": {
-        "Off": "Off",
-        "Suspendu": "Suspendu",
-        "Climatisation": "Climatisation"
-    }
-}

@@ -1,8 +1,0 @@
-{
-    "plugins\/thermostat\/desktop\/php\/panel.php": {
-        "Du": "Du",
-        "au": "au",
-        "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher": "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher",
-        "Ok": "Ok"
-    }
-}
