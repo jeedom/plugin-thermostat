@@ -14,7 +14,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-function initThermostatPanel(_object_id) {
+ function initThermostatPanel(_object_id) {
     jeedom.object.all({
         error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
@@ -104,20 +104,33 @@ function graphThermostat(_eqLogic_id) {
                     var color = '';
                     if (cmds[i].logicalId == 'order') {
                         color = '#27ae60';
+                        jeedom.history.drawChart({
+                            cmd_id: cmds[i].id,
+                            el: 'div_graph' + _eqLogic_id,
+                            start: $('#in_startDate').value(),
+                            end: $('#in_endDate').value(),
+                            option: {
+                                graphStep: 1,
+                                graphColor: color
+                            }
+                        });
                     }
                     if (cmds[i].logicalId == 'actif') {
                         color = '#2c3e50';
+                        jeedom.history.drawChart({
+                            cmd_id: cmds[i].id,
+                            el: 'div_graph' + _eqLogic_id,
+                            start: $('#in_startDate').value(),
+                            end: $('#in_endDate').value(),
+                            option: {
+                                graphStep: 1,
+                                graphColor: color,
+                                graphScale : 1,
+                                graphType : 'area'
+                            }
+                        });
                     }
-                    jeedom.history.drawChart({
-                        cmd_id: cmds[i].id,
-                        el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
-                        option: {
-                            graphStep: 1,
-                            graphColor: color
-                        }
-                    });
+                    
                 }
                 if (cmds[i].logicalId == 'temperature') {
                     jeedom.history.drawChart({

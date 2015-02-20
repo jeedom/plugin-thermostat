@@ -16,18 +16,18 @@
  */
 
 
-$(".in_datepicker").datepicker();
+ $(".in_datepicker").datepicker();
 
-$('#bt_validChangeDate').on('click', function () {
+ $('#bt_validChangeDate').on('click', function () {
     jeedom.history.chart = [];
     $('#div_displayEquipement').packery('destroy');
     displayThermostat(object_id, $('#in_startDate').value(), $('#in_endDate').value());
 });
 
-displayThermostat(object_id);
+ displayThermostat(object_id);
 
 
-function displayThermostat(object_id) {
+ function displayThermostat(object_id) {
     $.ajax({
         type: 'POST',
         url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
@@ -77,20 +77,32 @@ function graphThermostat(_eqLogic_id) {
                     var color = '';
                     if (cmds[i].logicalId == 'order') {
                         color = '#27ae60';
+                        jeedom.history.drawChart({
+                            cmd_id: cmds[i].id,
+                            el: 'div_graph' + _eqLogic_id,
+                            start: $('#in_startDate').value(),
+                            end: $('#in_endDate').value(),
+                            option: {
+                                graphStep: 1,
+                                graphColor: color
+                            }
+                        });
                     }
                     if (cmds[i].logicalId == 'actif') {
                         color = '#2c3e50';
+                        jeedom.history.drawChart({
+                            cmd_id: cmds[i].id,
+                            el: 'div_graph' + _eqLogic_id,
+                            start: $('#in_startDate').value(),
+                            end: $('#in_endDate').value(),
+                            option: {
+                                graphStep: 1,
+                                graphColor: color,
+                                graphScale : 1,
+                                graphType : 'area'
+                            }
+                        });
                     }
-                    jeedom.history.drawChart({
-                        cmd_id: cmds[i].id,
-                        el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
-                        option: {
-                            graphStep: 1,
-                            graphColor: color
-                        }
-                    });
                 }
                 if (cmds[i].logicalId == 'temperature') {
                     jeedom.history.drawChart({

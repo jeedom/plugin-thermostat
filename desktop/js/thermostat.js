@@ -228,13 +228,11 @@ function printScheduling(_eqLogic){
             return;
         }
         $('#div_schedule').empty();
-        console.log(data);
         if(data.result.length == 0){
             $('#div_schedule').append("<center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda}}</span></center>");
         }else{
             var html = '<legend>{{Liste des programmations sur le thermostat du plugin agenda}}</legend>';
             for (var i in data.result) {
-                console.log(data.result[i].cmd_param.textColor);
                 var color = init(data.result[i].cmd_param.color, '#2980b9');
                 if(data.result[i].cmd_param.transparent == 1){
                  color = 'transparent';
