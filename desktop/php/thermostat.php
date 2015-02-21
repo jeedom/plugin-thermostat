@@ -1,6 +1,6 @@
 <?php
 if (!isConnect('admin')) {
-    throw new Exception('{{Error 401 Unauthorized}}');
+	throw new Exception('{{Error 401 Unauthorized}}');
 }
 sendVarToJS('eqType', 'thermostat');
 $eqLogics = eqLogic::byType('thermostat');
@@ -12,10 +12,10 @@ $eqLogics = eqLogic::byType('thermostat');
                 <a class="btn btn-default eqLogicAction" style="width : 100%;margin-top : 5px;margin-bottom: 5px;" data-action="add"><i class="fa fa-plus-circle"></i> {{Ajouter un thermostat}}</a>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
-                foreach ($eqLogics as $eqLogic) {
-                    echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName(true) . '</a></li>';
-                }
-                ?>
+foreach ($eqLogics as $eqLogic) {
+	echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '"><a>' . $eqLogic->getHumanName(true) . '</a></li>';
+}
+?>
             </ul>
         </div>
     </div>
@@ -24,23 +24,23 @@ $eqLogics = eqLogic::byType('thermostat');
         <legend>{{Mes thermostats}}
         </legend>
         <?php
-        if (count($eqLogics) == 0) {
-            echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de thermostat, cliquez sur Ajouter un thermostats pour commencer}}</span></center>";
-        } else {
-            ?>
+if (count($eqLogics) == 0) {
+	echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de thermostat, cliquez sur Ajouter un thermostats pour commencer}}</span></center>";
+} else {
+	?>
             <div class="eqLogicThumbnailContainer">
                 <?php
-                foreach ($eqLogics as $eqLogic) {
-                    echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >';
-                    echo "<center>";
-                    echo '<img src="plugins/thermostat/doc/images/thermostat_icon.png" height="105" width="95" />';
-                    echo "</center>";
-                    echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
-                    echo '</div>';
-                }
-                ?>
+foreach ($eqLogics as $eqLogic) {
+		echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >';
+		echo "<center>";
+		echo '<img src="plugins/thermostat/doc/images/thermostat_icon.png" height="105" width="95" />';
+		echo "</center>";
+		echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+		echo '</div>';
+	}
+	?>
             </div>
-            <?php } ?>
+            <?php }?>
         </div>
 
         <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
@@ -48,7 +48,9 @@ $eqLogics = eqLogic::byType('thermostat');
                 <div class="col-sm-6">
                     <form class="form-horizontal">
                         <fieldset>
-                            <legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}  <i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
+                            <legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}
+                            <i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i>
+                            </legend>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">{{Nom du thermostat}}</label>
                                 <div class="col-sm-6">
@@ -62,10 +64,10 @@ $eqLogics = eqLogic::byType('thermostat');
                                     <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                                         <option value="">{{Aucun}}</option>
                                         <?php
-                                        foreach (object::all() as $object) {
-                                            echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-                                        }
-                                        ?>
+foreach (object::all() as $object) {
+	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+}
+?>
                                     </select>
                                 </div>
                             </div>
@@ -81,13 +83,15 @@ $eqLogics = eqLogic::byType('thermostat');
                                 </div>
                             </div>
 
-                        </fieldset> 
+                        </fieldset>
                     </form>
                 </div>
                 <div class="col-sm-6">
                     <form class="form-horizontal">
                         <fieldset>
-                            <legend>{{Configuration}}</legend>
+                            <legend>{{Configuration}}
+                            <a class="btn btn-xs btn-default pull-right eqLogicAction" data-action="copy"><i class="fa fa-files-o"></i> {{Dupliquer}}</a>
+                            </legend>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">{{Moteur}}</label>
                                 <div class="col-sm-6">
@@ -117,7 +121,7 @@ $eqLogics = eqLogic::byType('thermostat');
                                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="order_max" title="{{Précisez l'écart de température que le thermostat est autorisé à piloter}}"/>
                                 </div>
                             </div>
-                        </fieldset> 
+                        </fieldset>
                     </form>
                 </div>
             </div>
@@ -155,7 +159,7 @@ $eqLogics = eqLogic::byType('thermostat');
                             <a class="btn btn-default btn-sm listCmdInfo"><i class="fa fa-list-alt"></i></a>
                         </div>
                     </div>
-                </fieldset> 
+                </fieldset>
             </form>
             <hr/>
             <ul class="nav nav-tabs">
@@ -165,18 +169,18 @@ $eqLogics = eqLogic::byType('thermostat');
                 <li><a href="#configureFailure" data-toggle="tab">{{Défaillance sonde de température}}</a></li>
                 <li><a href="#configureFailureActuator" data-toggle="tab">{{Défaillance du chauffage/climatisation}}</a></li>
                 <li class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab">{{Configuration avancée}}</a></li>
-                <?php 
-                try {
-                    $plugin = plugin::byId('calendar');
-                    if (is_object($plugin)) {
-                        ?>
+                <?php
+try {
+	$plugin = plugin::byId('calendar');
+	if (is_object($plugin)) {
+		?>
                         <li class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab">{{Programmation}}</a></li>
                         <?php
-                    } 
-                } catch (Exception $e) {
+}
+} catch (Exception $e) {
 
-                }   
-                ?>
+}
+?>
             </ul>
 
             <div class="tab-content">
@@ -190,8 +194,8 @@ $eqLogics = eqLogic::byType('thermostat');
                             <div id="div_heat">
 
                             </div>
-                        </fieldset> 
-                    </form>  
+                        </fieldset>
+                    </form>
 
                     <form class="form-horizontal">
                         <fieldset>
@@ -202,7 +206,7 @@ $eqLogics = eqLogic::byType('thermostat');
                             <div id="div_cool">
 
                             </div>
-                        </fieldset> 
+                        </fieldset>
                     </form>
 
                     <form class="form-horizontal">
@@ -214,7 +218,7 @@ $eqLogics = eqLogic::byType('thermostat');
                             <div id="div_stop">
 
                             </div>
-                        </fieldset> 
+                        </fieldset>
                     </form>
                     <form class="form-horizontal">
                         <fieldset>
@@ -225,7 +229,7 @@ $eqLogics = eqLogic::byType('thermostat');
                             <div id="div_orderChange">
 
                             </div>
-                        </fieldset> 
+                        </fieldset>
                     </form>
                 </div>
                 <div class="tab-pane" id="configureMode">
@@ -238,8 +242,8 @@ $eqLogics = eqLogic::byType('thermostat');
                             </div>
                             <br/><br/>
                             <div id="div_modes"></div>
-                        </fieldset> 
-                    </form> 
+                        </fieldset>
+                    </form>
                 </div>
                 <div class="tab-pane" id="configureWindows">
                     <form class="form-horizontal">
@@ -251,8 +255,8 @@ $eqLogics = eqLogic::byType('thermostat');
                             </div>
                             <br/><br/>
                             <div id="div_window"></div>
-                        </fieldset> 
-                    </form> 
+                        </fieldset>
+                    </form>
                 </div>
                 <div class="tab-pane" id="configureFailure">
                     <form class="form-horizontal">
@@ -261,8 +265,8 @@ $eqLogics = eqLogic::byType('thermostat');
                             <a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
                             <br/><br/>
                             <div id="div_failure"></div>
-                        </fieldset> 
-                    </form> 
+                        </fieldset>
+                    </form>
                 </div>
                 <div class="tab-pane" id="configureFailureActuator">
                     <form class="form-horizontal">
@@ -271,8 +275,8 @@ $eqLogics = eqLogic::byType('thermostat');
                             <a class="btn btn-success addFailureActuator pull-right" data-type="failureActuator" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
                             <br/><br/>
                             <div id="div_failureActuator"></div>
-                        </fieldset> 
-                    </form> 
+                        </fieldset>
+                    </form>
                 </div>
                 <div class="tab-pane" id="configureAdvanced">
                     <form class="form-horizontal">
@@ -392,8 +396,8 @@ $eqLogics = eqLogic::byType('thermostat');
                                     <i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
                                 </div>
                             </div>
-                        </fieldset> 
-                    </form> 
+                        </fieldset>
+                    </form>
                 </div>
 
                 <div class="tab-pane" id="configureSchedule">
@@ -401,8 +405,8 @@ $eqLogics = eqLogic::byType('thermostat');
                         <fieldset>
                             <br/>
                             <div id="div_schedule"></div>
-                        </fieldset> 
-                    </form> 
+                        </fieldset>
+                    </form>
                 </div>
 
             </div>
@@ -419,5 +423,5 @@ $eqLogics = eqLogic::byType('thermostat');
         </div>
     </div>
 
-    <?php include_file('desktop', 'thermostat', 'js', 'thermostat'); ?>
-    <?php include_file('core', 'plugin.template', 'js'); ?>
+    <?php include_file('desktop', 'thermostat', 'js', 'thermostat');?>
+    <?php include_file('core', 'plugin.template', 'js');?>
