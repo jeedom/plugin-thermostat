@@ -523,11 +523,14 @@ class thermostat extends eqLogic {
 		}
 		try {
 			$plugin = plugin::byId('calendar');
-			if (!is_object($plugin)) {
+			if (!is_object($plugin) || $plugin->isActive() != 1) {
 				return '';
 			}
 		} catch (Exception $ex) {
 			log::add('thermostat', 'debug', $this->getHumanName() . ' : Plugin agenda non détecté');
+			return '';
+		}
+		if (!class_exists('calendar_event')) {
 			return '';
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Plugin agenda detecté');
