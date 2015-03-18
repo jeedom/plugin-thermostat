@@ -279,10 +279,12 @@ class thermostat extends eqLogic {
 			}
 
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
-			if ($temporal_data['power'] < 99) {
-				$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
-			} else {
-				$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 1.2) . ' min ' . date('Y-m-d H:i:s'))), true);
+			if ($duration > 0) {
+				if ($temporal_data['power'] < 99) {
+					$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
+				} else {
+					$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 1.2) . ' min ' . date('Y-m-d H:i:s'))), true);
+				}
 			}
 
 			if ($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['direction'] < 0) {
@@ -294,13 +296,15 @@ class thermostat extends eqLogic {
 				$thermostat->stop();
 			}
 			$thermostat->save();
-			if ($temporal_data['direction'] > 0) {
-				if ($status != __('Chauffage', __FILE__)) {
-					$thermostat->heat();
-				}
-			} else {
-				if ($status != __('Climatisation', __FILE__)) {
-					$thermostat->cool();
+			if ($duration > 0) {
+				if ($temporal_data['direction'] > 0) {
+					if ($status != __('Chauffage', __FILE__)) {
+						$thermostat->heat();
+					}
+				} else {
+					if ($status != __('Climatisation', __FILE__)) {
+						$thermostat->cool();
+					}
 				}
 			}
 		}
