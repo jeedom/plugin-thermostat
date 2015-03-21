@@ -14,9 +14,14 @@ Le thermostat de Jeedom est très puissant mais pour une utilisation traditionne
 - définition du Moteur de thermostat (hystérésis ou temporel). C'est le choix de l'algorithme de régulation.
 - la configuration et la plage de fonctionnement : chauffage uniquement, climatisation ou bien les deux , températures min et max d'utilisation.
 - La définition des actions que le thermostat doit exécuter pour chauffer, refroidir ou arrêter.
-- la configuration des modes définit des températures de consignes prédéterminées. Par exemple, le mode confort à 20°C, eco à 18°C. Il peut y avoir aussi jour, nuit, vacances, absence,...vous commencez à entrevoir ici les possibilités de personnalisation du plugin.
-- [optionnelle] : pour affiner le mode de fonctionnement du thermostat, vous allez pouvoir également configurer des ouvertures qui vont interrompre temporairement la régulation (par exemple, une fenêtre ouverte peut arrêter le chauffage). La définition de cette interruption s'effectue ici simplement.
-- : votre thermostat est maintenant opérationnel, et par l'utilisation de scénarios ou en le combinant avec d'autre plugins (agenda, virtuel), il va se fondre en douceur dans votre installation domotique.
+On trouve ensuite différents onglets :
+- La configuration des modes définit des températures de consignes prédéterminées. Par exemple, le mode confort à 20°C, eco à 18°C. Il peut y avoir aussi jour, nuit, vacances, absence,...vous commencez à entrevoir ici les possibilités de personnalisation du plugin.
+- Pour affiner le mode de fonctionnement du thermostat, vous allez pouvoir également configurer des ouvertures qui vont interrompre temporairement la régulation (par exemple, une fenêtre ouverte peut arrêter le chauffage). La définition de cette interruption s'effectue ici simplement.
+- La gestion des modes de défaillance pour les sondes de température ou pour le chauffage permet de définir des actions à exécuter pour un mode dégradé.
+- L'onglet Configuration avancée  permet d'ajuster les paramètres de régulation du chauffage.
+- Si de plus, vous disposez du plugin Agenda, la programmation des changement de mode devient possible directement depuis l'onglet programmation.
+
+Votre thermostat est maintenant opérationnel, et par l'utilisation de scénarios ou en le combinant avec d'autre plugins (agenda, virtuel), il va se fondre en douceur dans votre installation domotique.
 Voilà ce qu'on obtient sur le dashboard :
 
 image::../images/thermostat.png[]
