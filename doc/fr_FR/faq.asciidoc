@@ -1,11 +1,11 @@
 [panel,primary]
 .Combien de temps faut-il, en mode temporel, pour apprendre
 --
-Il faut en moyen 3 jours pour que le système aprenne et regule de maniere optimal
+Il faut en moyenne 3 jours pour que le système aprenne et regule de maniere optimale
 --
 
 [panel,primary]
 .Mes coefficients n'arretent pas de bouger
 --
-C'est normale le systeme corrige en permanence ses coefficients
+C'est normal, le systeme corrige en permanence ses coefficients
 --

@@ -6,8 +6,6 @@ Dans un premier temps, nous allons vous montrer la mise en œuvre, puis détaill
 
 Le plugin thermostat disposent de nombreux paramètres et certains ne sont accessibles qu'en mode expert. Nous supposerons être dans ce mode tout au long de cette présentation.
 
- 
-
 ==== La configuration en quelques clics
 Le thermostat de Jeedom est très puissant mais pour une utilisation traditionnelle, sa mise en œuvre est vraiment simple et rapide, à partir du moment où on a compris les étapes essentielles :
 
@@ -29,7 +27,6 @@ Voilà ce qu'on obtient sur le dashboard :
 image::../images/thermostat.png[]
 
 Le verrou présent sur le widget permet de bloquer le thermostat dans une consigne donnée, suite à un imprévu : congés, invités,....
-
 
 ==== La création d'un thermostat en détail
 Pour créer un nouveau thermostat, rendez-vous sur la page de configuration en déroulant le menu Plugins/Bien-être et sélectionnez Thermostat. Cliquez sur le bouton Ajouter un thermostat situé en haut à gauche et renseignez le nom souhaité pour votre thermostat.
