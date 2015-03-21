@@ -1,7 +1,7 @@
 [panel,primary]
 .Combien de temps faut-il, en mode temporel, pour apprendre
 --
-Il faut en moyenne 3 jours pour que le système aprenne et regule de maniere optimale
+Il faut en moyenne 3 jours pour que le système apprenne et regule de maniere optimale
 --
 
 [panel,primary]
