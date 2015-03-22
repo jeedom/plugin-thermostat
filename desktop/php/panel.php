@@ -34,9 +34,9 @@ foreach ($allObject as $object_li) {
 	if ($object_li->getIsVisible() == 1) {
 		$margin = 15 * $object_li->parentNumber();
 		if ($object_li->getId() == init('object_id')) {
-			echo '<li class="cursor li_object active" ><a href="index.php?v=d&m=thermostat&p=panel&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+			echo '<li class="cursor li_object active" ><a href="index.php?v=d&m=thermostat&p=panel&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getHumanName(true) . '</a></li>';
 		} else {
-			echo '<li class="cursor li_object" ><a href="index.php?v=d&m=thermostat&p=panel&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getDisplay('icon') . ' ' . $object_li->getName() . '</a></li>';
+			echo '<li class="cursor li_object" ><a href="index.php?v=d&m=thermostat&p=panel&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getHumanName(true) . '</a></li>';
 		}
 	}
 }
