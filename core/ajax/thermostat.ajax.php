@@ -43,21 +43,24 @@ try {
 		);
 
 		if ($date['start'] == '') {
-			$date['start'] = date('Y-m-d', strtotime('-6 days' . date('Y-m-d')));
+			$date['start'] = date('Y-m-d', strtotime('-1 months ' . date('Y-m-d')));
 		}
 		if ($date['end'] == '') {
-			$date['end'] = date('Y-m-d', strtotime('+1 days' . date('Y-m-d')));
+			$date['end'] = date('Y-m-d', strtotime('+1 days ' . date('Y-m-d')));
 		}
 		$return['date'] = $date;
 		foreach ($object->getEqLogic() as $eqLogic) {
 			if ($eqLogic->getIsVisible() == '1' && $eqLogic->getEqType_name() == 'thermostat') {
-				$return['eqLogics'][] = array('eqLogic' => utils::o2a($eqLogic), 'html' => $eqLogic->toHtml(init('version')));
+				$return['eqLogics'][] = array('eqLogic' => utils::o2a($eqLogic), 'html' => $eqLogic->toHtml(init('version')), 'runtimeByDay' => array_values($eqLogic->runtimeByDay($date['start'], $date['end'])));
 			}
 		}
 		ajax::success($return);
 	}
 
 	if (init('action') == 'getLinkCalendar') {
+		if (!isConnect('admin')) {
+			throw new Exception(__('401 - Accès non autorisé', __FILE__));
+		}
 		$thermostat = thermostat::byId(init('id'));
 		if (!is_object($thermostat)) {
 			throw new Exception(__('Thermostat non trouvé : ', __FILE__) . init('id'));

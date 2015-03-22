@@ -3,8 +3,8 @@ if (!isConnect()) {
 	throw new Exception('{{401 - Accès non autorisé}}');
 }
 $date = array(
-	'start' => init('startDate', date('Y-m-d', strtotime('-6 days' . date('Y-m-d')))),
-	'end' => init('endDate', date('Y-m-d', strtotime('+1 days' . date('Y-m-d')))),
+	'start' => init('startDate', date('Y-m-d', strtotime('-1 month ' . date('Y-m-d')))),
+	'end' => init('endDate', date('Y-m-d', strtotime('+1 days ' . date('Y-m-d')))),
 );
 
 if (init('object_id') == '') {
@@ -41,25 +41,30 @@ foreach ($allObject as $object_li) {
 	}
 }
 ?>
-            </ul>
+         </ul>
+     </div>
+ </div>
+
+ <div class="col-lg-10">
+    <div id="div_object">
+        <legend style="height: 40px;">
+            <span class="objectName"></span>
+            <span class="pull-right">
+                {{Du}} <input class="form-control input-sm in_datepicker" id='in_startDate' style="display : inline-block; width: 150px;" value='<?php echo $date['start']?>'/> {{au}}
+                <input class="form-control input-sm in_datepicker" id='in_endDate' style="display : inline-block; width: 150px;" value='<?php echo $date['end']?>'/>
+                <a class="btn btn-success btn-sm tooltips" id='bt_validChangeDate' title="{{Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher}}">{{Ok}}</a>
+            </span>
+        </legend>
+    </div>
+    <div class="row">
+        <div class="col-lg-6" id="div_displayEquipement">
+        </div>
+        <div class="col-lg-6" id="div_chartRuntime">
         </div>
     </div>
 
-    <div class="col-lg-10">
-        <div id="div_object">
-            <legend style="height: 40px;">
-                <span class="objectName"></span>
-                <span class="pull-right">
-                    {{Du}} <input class="form-control input-sm in_datepicker" id='in_startDate' style="display : inline-block; width: 150px;" value='<?php echo $date['start']?>'/> {{au}}
-                    <input class="form-control input-sm in_datepicker" id='in_endDate' style="display : inline-block; width: 150px;" value='<?php echo $date['end']?>'/>
-                    <a class="btn btn-success btn-sm tooltips" id='bt_validChangeDate' title="{{Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher}}">{{Ok}}</a>
-                </span>
-            </legend>
-        </div>
-        <div id="div_displayEquipement"></div>
-
-        <div id="div_charts"></div>
-    </div>
+    <div id="div_charts"></div>
+</div>
 </div>
 
 </div>
