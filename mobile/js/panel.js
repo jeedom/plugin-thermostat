@@ -78,13 +78,24 @@ function displayThermostat(_object_id, _dateStart, _dateEnd) {
             $('#in_dateEnd').value(data.result.date.end);
             $('#div_displayEquipement').empty();
             $('#div_charts').empty();
+            $('#div_chartRuntime').empty();
+            var series = []
             for (var i in data.result.eqLogics) {
                 $('#div_displayEquipement').append(data.result.eqLogics[i].html).trigger('create');
                 var div_graph = '<legend>' + data.result.eqLogics[i].eqLogic.name + '</legend>'
                 div_graph += '<div class="chartContainer" id="div_graph' + data.result.eqLogics[i].eqLogic.id + '"></div>';
                 $('#div_charts').append(div_graph);
+                series.push({
+                    name: data.result.eqLogics[i].eqLogic.name,
+                    data: data.result.eqLogics[i].runtimeByDay,
+                    type: 'column',
+                    tooltip: {
+                        valueDecimals: 1
+                    },
+                });
                 graphThermostat(data.result.eqLogics[i].eqLogic.id);
             }
+            drawSimpleGraph('div_chartRuntime', series, 'column');
             setTileSize('.eqLogic');
             $('#div_displayEquipement').packery();
             $.hideLoading();
@@ -145,5 +156,93 @@ function graphThermostat(_eqLogic_id) {
                 }
             }
         }
+    });
+}
+
+function drawSimpleGraph(_el, _serie) {
+    var legend = {
+        enabled: true,
+        borderColor: 'black',
+        borderWidth: 2,
+        shadow: true
+    };
+
+    new Highcharts.StockChart({
+        chart: {
+            zoomType: 'x',
+            renderTo: _el,
+            height: 350,
+            spacingTop: 0,
+            spacingLeft: 0,
+            spacingRight: 0,
+            spacingBottom: 0
+        },
+        credits: {
+            text: 'Copyright Jeedom',
+            href: 'http://jeedom.fr',
+        },
+        navigator: {
+            enabled: false
+        },
+        rangeSelector: {
+            buttons: [{
+                type: 'minute',
+                count: 30,
+                text: '30m'
+            }, {
+                type: 'hour',
+                count: 1,
+                text: 'H'
+            }, {
+                type: 'day',
+                count: 1,
+                text: 'J'
+            }, {
+                type: 'week',
+                count: 1,
+                text: 'S'
+            }, {
+                type: 'month',
+                count: 1,
+                text: 'M'
+            }, {
+                type: 'year',
+                count: 1,
+                text: 'A'
+            }, {
+                type: 'all',
+                count: 1,
+                text: 'Tous'
+            }],
+            selected: 6,
+            inputEnabled: false
+        },
+        legend: legend,
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} {{heure(s)}}</b><br/>',
+            valueDecimals: 2,
+        },
+        yAxis: {
+            format: '{value}',
+            showEmpty: false,
+            showLastLabel: true,
+            min: 0,
+            labels: {
+                align: 'right',
+                x: -5
+            }
+        },
+        scrollbar: {
+            barBackgroundColor: 'gray',
+            barBorderRadius: 7,
+            barBorderWidth: 0,
+            buttonBackgroundColor: 'gray',
+            buttonBorderWidth: 0,
+            buttonBorderRadius: 7,
+            trackBackgroundColor: 'none', trackBorderWidth: 1,
+            trackBorderRadius: 8,
+            trackBorderColor: '#CCC'
+        },
+        series: _serie
     });
 }
