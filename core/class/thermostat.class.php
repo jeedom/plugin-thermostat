@@ -378,15 +378,14 @@ class thermostat extends eqLogic {
 						log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
 					}
 				}
+				$temperature = $thermostat->getCmd(null, 'temperature');
+				$temp_in = $temperature->execCmd();
 				if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
-					$cmd = $thermostat->getCmd(null, 'temperature');
-					$cmd->execCmd();
-					if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
+					if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
 						$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
 						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
 					}
 				}
-				$temp_in = $thermostat->getCmd(null, 'temperature')->execCmd();
 				if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
 					$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
 					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est en dessous du seuil autorisé : ', __FILE__));
