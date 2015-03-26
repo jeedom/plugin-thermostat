@@ -500,7 +500,7 @@ class thermostat extends eqLogic {
 		$diff_in = $_consigne - $temp_in;
 		$diff_out = $_consigne - $temp_out;
 		$direction = ($_consigne > $temp_in) ? +1 : -1;
-		if ($direction < 0 && ($temp_in < (($_consigne + 0.5) && $this->getConfiguration('lastState') == 'heat') || $temp_out < $_consigne)) {
+		if ($direction < 0 && (($temp_in < ($_consigne + 0.5) && $this->getConfiguration('lastState') == 'heat') || $temp_out < $_consigne)) {
 			$direction = +1;
 		}
 		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getConfiguration('lastState') == 'cool') || $temp_out > $_consigne)) {
