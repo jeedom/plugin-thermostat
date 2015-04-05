@@ -99,6 +99,36 @@ Imaginons que vous souhaitez arrêter momentanément votre chauffage ou votre cl
 
 image::../images/thermostat_screenshot2.png[]
 
+==== La gestion des défaillances
+Les défaillances peuvent provenir soit des sondes de température, par exemple en cas d'usure des piles, soit de la commande de chauffage. Le thermostat peut détecter un défaut lors d'un écart prolongé de la température avec la consigne.
+
+===== Défaillance des sondes de température
+Le paramètre qui permet au thermostat de décider d'une défaillance de sonde est situé dans l'onglet _Configuration avancée_. Il s'agit du +délai max entre 2 relevés de température+. Si les sondes ne répondent pas dans ce délai, alors le thermostat enclenche les actions de défaillance.
+
+Pour définir une action de défaillance :
+
+* cliquez sur l'onglet _Défaillance sonde de température_,
+* cliquez sur le bouton _Ajoutez une action de défaillance_
+* sélectionnez une action et remplissez les champs associés
+
+Vous pouvez saisir plusieurs actions, qui seront exécutées en séquence et dans le cas d'actions plus complexes, faire appel à un scénario.
+
+===== Défaillance du chauffage/climatisation
+La bon fonctionnement du chauffage ou de la climatisation est conditionné par un bon suivi de consigne. Ainsi, si la température s'écarte de la plage de fonctionnement du thermostat, celui-ci enclenche les actions de défaillance du chauffage/climatisation.
+
+La plage de fonctionnement du thermostat est défini dans les champs +Borne de température inférieure+ et +Borne de température supérieure+
+
+Pour définir une action de défaillance :
+
+* cliquez sur l'onglet _Défaillance du chauffage/climatisation_,
+* cliquez sur le bouton _Ajoutez une action de défaillance_
+* sélectionnez une action et remplissez les champs associés
+
+Vous pouvez saisir plusieurs actions, qui seront exécutées en séquence et dans le cas d'actions plus 
+complexes, faire appel à un scénario.
+
+==== Configuration avancée du thermostat
+
 ==== Un exemple concret d'utilisation du thermostat
 Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l'expliquer est de prendre un cas d'utilisation. Admettons que dans certaines chambres, on souhaite réaliser une programmation hebdomadaire des thermostats, en fonction des heures de levée et de couché. Précisons que chaque chambre est indépendante, c'est à dire un thermostat est défini pour chacune des pièces.
 
