@@ -271,14 +271,15 @@ class thermostat extends eqLogic {
 			$thermostat->setConfiguration('lastTempOut', $temp_out);
 
 			$thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
 			if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
+				log::add('thermostat', 'debug', 'Durée du cycle trop courte, aucun lancement');
 				$thermostat->setConfiguration('lastState', 'stop');
 				$thermostat->stop();
 				$thermostat->save();
 				return;
 			}
 
-			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
 			if ($duration > 0) {
 				if ($temporal_data['power'] < 99) {
 					$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
