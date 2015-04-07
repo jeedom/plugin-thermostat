@@ -129,6 +129,20 @@ complexes, faire appel à un scénario.
 
 ==== Configuration avancée du thermostat
 
+Cet onglet contient tous les paramètres de réglage du thermostat en mode temporel. Dans la plupart des cas, il n'est pas nécessaire de modifier ces valeurs, car l'auto-apprentisssage va calculer automatiquement les coefficients. Cependant, même si le thermostat peut s'adapter à la plupart des cas de figure, il est possible d'ajuster les coefficients pour une configuration optimisée à votre installation. Les coefficients sont les suivants :
+
+* *Coefficient de chauffage / Coefficient de climatisation* : il s'agit du gain du système de régulation . Cette valeur est multipliée par l'écart entre la consigne et la température intérieure mesurée pour déduire le temps de chauffage/climatisation.
+* *Apprentissage chaud / Apprentissage froid* : ce paramètre indique l'état d'avancement de l'apprentissage. A 1, on est au début, l'algorithme effectue un réglage grossier des coefficients. Puis au fur et à mesure qu'il augmente, le réglage s'affine. Une valeur de 50 indique la fin de l'apprentissage.
+* *Isolation chauffage / Isolation clim* : ce coefficient est multiplié par l'écart entre la consigne et la température extérieure mesurée pour déduire le temps de chauffage/climatisation. Il représente la contributiion de la température extérieure au temps de chauffage/climatisation et sa valeur est normalement inférieure au coefficient de chauffage/climatisation, dans le cas d'une pièce bien isolée.
+* *Apprentissage isolation chaud / Apprentissage isolation froid* : même fonction que ci-dessus, mais pour les coefficients d'isolation.
+* *Offset chauffage(%) / Offset clim(%)* : L'offset du chauffage permet de tenir compte des _apports internes_, normalement il ne devrait pas être fixe mais on suppose que l'apprentissage intègre la partie dynamique dans les 2 autres coeffs. Les _apports internes_, c'est par exemple un ordinateur qui va provoquer une élévation de température lorsqu'on l'allume, mais ce peut-être aussi les individus (1 personne =80W en moyenne), le réfrigérateur dans la cuisine, dans une pièce au sud, c'est une façade ensoleillée qui peut réaliser un apport d'énergie supplémentaire. En théorie, ce coefficient est négatif.
+* *Auto apprentissage* : case à cocher pour activer/désactiver l'apprentissage des coefficients.
+* *Smart start* : Cette option permet de donner de l'intelligence au thermostat, en anticipant le changement de consigne pour que la température soit atteinte à l'heure programmée. Cette option nécessite d'avoir le plugin agenda. 
+* *cycle (min)* : il s'agit du cycle de calcul du thermostat.
+* *Temps de chauffe minimum (% du cycle)* : Si le calcul aboutit à un temps de chauffe inférieur à cette valeur, alors le thermostat considère qu'il n'est pas nécessaire de chauffer/climatiser, la commande se reportera sur le cycle suivant. Cela permet d'éviter d'endommager certains appareils comme les poêles, mais aussi d'obtenir une réelle efficacité énergétique.
+* *Marge de défaillance chaud / Marge de défaillance froid* :
+
+
 ==== Un exemple concret d'utilisation du thermostat
 Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l'expliquer est de prendre un cas d'utilisation. Admettons que dans certaines chambres, on souhaite réaliser une programmation hebdomadaire des thermostats, en fonction des heures de levée et de couché. Précisons que chaque chambre est indépendante, c'est à dire un thermostat est défini pour chacune des pièces.
 
@@ -154,9 +168,9 @@ Notez que dans les scénarios, le pilotage du thermostat est complet puisqu'on p
 
 Si la création de scénario est parfois compliqué, pour le cas de la programmation d'un thermostat, la combinaison des actions du thermostat avec le calendrier du plugin agenda permet de réaliser ceci simplement.
 
-Le plugin agenda permet d'aller plus loin dans la programmation et surtout présente moins de risque de se tromper. En effet, par rapport à la programmation précédente, le calendrier va apparaître en clair sur l'écran et on va pouvoir tenir compte des jours fériés, des vacances....Bref, piloter le thermostat en fonction de mon mode de vie.
+Le plugin agenda permet d'aller plus loin dans la programmation et surtout présente moins de risque de se tromper. En effet, par rapport à la programmation précédente, le calendrier va apparaître en clair sur l'écran et on va pouvoir tenir compte des jours fériés, des vacances....Bref, piloter le thermostat en fonction de son mode de vie.
 
-==== Le même avec le plugin agenda
+==== Programmation avec le plugin agenda
 Nous ne présenterons pas le plugin Agenda, l'objectif ici étant de le coupler avec la programmation du thermostat.
 
 Nous allons donc créer un nouvel agenda qui s'appelle "Programmation chauffage", auquel on ajoutera les événements de changement de mode du thermostat.
