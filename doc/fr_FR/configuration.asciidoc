@@ -64,7 +64,7 @@ Ce type de régulation est plus optimisé, il améliore le confort et permet de 
 ==== La configuration
 Outre le moteur de fonctionnement du thermostat, vous pouvez décider si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez sa plage d'utilisation : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget.
 
-image::../images/ConfigFonctionnement.png["Configuration du fonctionnement",align="Center"]
+image::../images/configFonctionnement.png["Configuration du fonctionnement",align="Center"]
 
 Ensuite, il faut préciser les commandes qui permettent de mesurer la température et de piloter le chauffage ou la climatisation. Notez que le moteur temporel peut prendre en compte la température extérieure si vous disposez d'un capteur extérieur (elle peut être également fournie par le plugin météo).
 
