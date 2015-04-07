@@ -171,7 +171,7 @@ Si la création de scénario est parfois compliqué, pour le cas de la programma
 Le plugin agenda permet d'aller plus loin dans la programmation et surtout présente moins de risque de se tromper. En effet, par rapport à la programmation précédente, le calendrier va apparaître en clair sur l'écran et on va pouvoir tenir compte des jours fériés, des vacances....Bref, piloter le thermostat en fonction de son mode de vie.
 
 ==== Programmation avec le plugin agenda
-Nous ne présenterons pas le plugin Agenda, l'objectif ici étant de le coupler avec la programmation du thermostat.
+Nous ne présenterons pas le plugin Agenda, l'objectif ici étant de le coupler avec la programmation du thermostat. A noter que si vous disposez du plugin agenda, un onglet _programmation_ apparaît dans la configuration du thermostat, permettant d'accéder directement à l'agenda associé.
 
 Nous allons donc créer un nouvel agenda qui s'appelle "Programmation chauffage", auquel on ajoutera les événements de changement de mode du thermostat.
 
