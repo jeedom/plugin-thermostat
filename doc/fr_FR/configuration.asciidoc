@@ -24,7 +24,7 @@ On trouve ensuite différents onglets :
 Votre thermostat est maintenant opérationnel, et par l'utilisation de scénarios ou en le combinant avec d'autre plugins (agenda, virtuel,présence,...), il va se fondre en douceur dans votre installation domotique.
 Voilà ce qu'on obtient sur le dashboard :
 
-image::../images/thermostat.png[]
+image::../images/thermostat.png["Aspect sur le dashboard",align="Center"]
 
 Le verrou présent sur le widget permet de bloquer le thermostat dans une consigne donnée, suite à un imprévu : congés, invités,....
 
@@ -33,41 +33,38 @@ TIP: il est possible de changer l'apparence de la roue de réglage d la consigne
 ==== La création d'un thermostat en détail
 Pour créer un nouveau thermostat, rendez-vous sur la page de configuration en déroulant le menu Plugins/Bien-être et sélectionnez Thermostat. Cliquez sur le bouton Ajouter un thermostat situé en haut à gauche et renseignez le nom souhaité pour votre thermostat.
 
-image::../images/thermostat2.png[]
+image::../images/thermostat_config_générale.png["Configuration générale",align="Center"]
 
 Dans un premier temps, nous allons renseigner les paramètres généraux du thermostat. On les trouve en haut à gauche, section général et il faut préciser ici l'objet parent, l'activation et la visibilité du thermostat, informations habituelles pour tout utilisateur de jeedom.
 
-image::../images/thermostat3.png[]
-
 ==== Le choix de l'algorithme du thermostat
+
+image::../images/thermostat31.png["Choix de l'algorithme",align="Center"]
+
 En évidence sur cette image le Moteur de fonctionnement du thermostat. Il y a 2 algorithmes possibles pour la régulation de température.
 
 Lorsque vous sélectionnez le mode Hystérésis, la mise en route de votre chauffage se produit dès que la température est inférieure à la consigne moins l'hystérésis et il s'éteint dès que la température dépasse la consigne plus l’hystérésis.
 
---- rajouter un graphe pour expliquer l'hystérésis
+image::../images/PrincipeHysteresis.png["Principe du mode hystérésis",align="Center"]
 
 Par exemple, si on règle l'hystérésis à 1°C et que la valeur de consigne vaut 19°C, alors le chauffage s'active lorsque la température passe en dessous de 18°C et s'arrête dès qu'il atteint 20°C.
 
-C'est un mode relativement basique mais qui peut s'avérer suffisant. Les paramètres à fournir sont l'hystérésis en °C et la commande qui permet de récupérer la mesure de température. Il est inutile de chercher une régulation plus fine que la précision du capteur, par conséquent, la valeur de l'hystérésis ne doit pas normalement descendre en dessous de cette valeur.
+Les paramètres à fournir sont l'hystérésis en °C et la commande qui permet de récupérer la mesure de température. On règlera l'hystérésis en fonction de la précision du capteur, par exemple pour une sonde précise à 0.5°C, un hystérésis de 0.2°C est un bon compromis.
 
-image::../images/thermostat4.png[]
+TIP: le paramètre hystérésis se trouve dans l'onglet _Configuration avancée_, accessible en mode expert.
 
 Dans le cas du mode temporel, la commande de chauffage ou de climatisation est définie sur un cycle prédéfini et la durée d’exécution de la commande est fonction de l'écart entre la consigne et la température mesurée par le capteur. L'algorithme va également calculer le temps de chauffe (ou de climatisation) sur un cycle en fonction de l'inertie et de l'isolation de la pièce.
 
-(à supprimer
-Rassurez-vous, il est recommandé de ne pas modifier ces 3 paramètres qui sont ajustés automatiquement en fin de cycle par l'algorithme.)
---- ici, changer par un graphe explicatif des temps de cycle,... 
-
-image::../images/thermostat5.png[]
+image::../images/PrincipeTemporel.png["Principe du mode temporel",align="Center"]
 
 Enfin, plus le temps de cycle sera grand, plus la régulation sera lente. A l'inverse, un temps trop faible provoquera des commutations fréquentes de votre système de chauffage qui n'aura peut-être pas le temps de chauffer le volume de la pièce efficacement. Il est recommandé de ne pas diminuer trop ce temps de cycle (les valeurs acceptables sont comprises entre 30 et 60mn).
 
 Ce type de régulation est plus optimisé, il améliore le confort et permet de réaliser des économies d'énergie substantielles.
 
 ==== La configuration
-Là, c'est assez simple, vous décidez si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez la plage d'utilisation de votre thermostat : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget ou par programmation.
+Outre le moteur de fonctionnement du thermostat, vous pouvez décider si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez sa plage d'utilisation : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget.
 
-image::../images/thermostat6.png[]
+image::../images/ConfigFonctionnement.png["Configuration du fonctionnement",align="Center"]
 
 Ensuite, il faut préciser les commandes qui permettent de mesurer la température et de piloter le chauffage ou la climatisation. Notez que le moteur temporel peut prendre en compte la température extérieure si vous disposez d'un capteur extérieur (elle peut être également fournie par le plugin météo).
 
