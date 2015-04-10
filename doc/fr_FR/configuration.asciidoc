@@ -68,35 +68,46 @@ image::../images/configFonctionnement.png["Configuration du fonctionnement",alig
 
 Ensuite, il faut préciser les commandes qui permettent de mesurer la température et de piloter le chauffage ou la climatisation. Notez que le moteur temporel peut prendre en compte la température extérieure si vous disposez d'un capteur extérieur (elle peut être également fournie par le plugin météo).
 
-image::../images/thermostat7.png[]
+image::../images/selectionsondes.png["Sélection des sondes",align="Center"]
 
-Pour la commande du radiateur ou du climatiseur, il est décrit dans l'onglet "configuration des actions". On peut ici définir plusieurs actions, ce qui donne la possibilité à notre thermostat de piloter plusieurs équipements (cas d'un fonctionnement par zone par exemple ou contrôle d'un autre thermostat...)
+NOTE: Les champs +Borne de température inférieure+ et +Borne de température supérieure+ définissent la plage de fonctionnement du thermostat en dehpors de laquelle une défaillance du chauffage est enclenchée. Voir ci dessous le paragraphe sur les actions de défaillance.
 
-image::../images/thermostat_screenshot1.png[]
+Pour la commande du radiateur ou du climatiseur, il est décrit dans l'onglet _configuration des actions_. On peut ici définir plusieurs actions, ce qui donne la possibilité à notre thermostat de piloter différents équipements (cas d'un fonctionnement par zone par exemple ou contrôle d'un autre thermostat)
+
+image::../images/actionssurappareil.png["Actions sur les appareils",align="Center"]
 
 Les actions ici sont celles qui permettent de chauffer, de refroidir (climatisation), d'arrêter la commande. Une action complémentaire peut être envisagée à chaque changement de consigne, que ce soit en mode manuel ou automatique.
 
 ==== Les modes : le point de départ pour l'automatisation
-Les modes (définis dans l'onglet "configuration des modes") sont des consignes prédéterminées du thermostat qui correspondent à votre mode de vie. Par exemple, le mode "Nuit" ou "Eco" donne la température que vous souhaitez lorsque tout le monde dort. Le mode "Jour" ou "Confort" détermine le comportement du thermostat pour avoir une température de confort lorsque vous êtes présent au domicile. Ici, rien n'est figé. Vous pouvez définir autant de modes que vous souhaitez pour les utiliser via des scénarios (Nous y reviendrons plus tard).
+Les modes (définis dans l'onglet _configuration des modes_) sont des consignes prédéterminées du thermostat qui correspondent à votre mode de vie. Par exemple, le mode [blue]#*Nuit*# ou [blue]#*Eco*# donne la température que vous souhaitez lorsque tout le monde dort. Le mode [blue]#*Jour*# ou [blue]#*Confort*# détermine le comportement du thermostat pour avoir une température de confort lorsque vous êtes présent au domicile. Ici, rien n'est figé. Vous pouvez définir autant de modes que vous souhaitez pour les utiliser via des scénarios (Nous y reviendrons plus tard).
 
-Dans l'image ci-dessous, le mode "Confort" a une valeur de consigne de 20°C et pour le mode "Eco", le thermostat est réglé à 18°C.
+Dans l'image ci-dessous, le mode [blue]#*Confort*# a une valeur de consigne de 19°C et pour le mode [blue]#*Eco*#, le thermostat est réglé à 17°C. Le mode [blue]#*Vacances*# programme le thermostat à 15°C en cas d'absence prolongée. Il n'est pas visible sur le dashboard, car c'est un scénario qui programme tous les équipements en _vacances_ qui va positionner le thermostat sur ce mode. 
 
-image::../images/thermostat9.png[]
+image::../images/Definitionmodes.png["Définition des modes",align="Center"]
 
 Pour définir un mode, procédez comme suit :
 
-* Cliquez sur le bouton Ajouter Mode,
+* Cliquez sur le bouton _Ajouter Mode_,
 * donnez un nom à ce mode, par exemple Eco,
-* ajoutez une action et choisissez la commande _Thermostat_ de votre équipement,
+* ajoutez une action et choisissez la commande _Thermostat_ de votre équipement thermostat,
 * ajustez la température souhaitée pour ce mode,
 * cochez la case *Visible* pour faire apparaître ce mode sur le widget du thermostat sur le Dashboard.
 
 ==== Les ouvertures : pour interrompre temporairement le thermostat
 Imaginons que vous souhaitez arrêter momentanément votre chauffage ou votre climatiseur, par exemple pour aérer la pièce pour laquelle le thermostat est actif. Pour détecter l'ouverture de la fenêtre, vous utiliserez un capteur situé sur l'ouvrant de votre fenêtre, vous permettant ainsi de réaliser cette interruption en l'ajoutant dans l'onglet de configuration des ouvertures. 2 paramètres supplémentaires sont réglables ici, ce sont les durées d'ouverture et de fermeture de la fenêtre qui vont provoquer l'interruption et la reprise du fonctionnement du thermostat.
 
-image::../images/thermostat_screenshot2.png[]
+image::../images/configouvertures.png["Configuration des ouvertures",align="Center"]
 
-==== La gestion des défaillances
+Pour configurer le fonctionnement à l'ouverture de la fenêtre :
+
+* Sélectionnez l'info du capteur d'ouverture dans le champ +Ouverture+
+* ajuster le temps avant coupure du thermostat après l'ouverture dans le champ +Eteindre si ouvert plus de (min) :+
+* ajuster le temps après fermeture de la fenêtre permettant de relancer le thermostat dans le champ +Rallumer si fermé depuis (min) :+
+* cliquez sur le bouton _Sauvegarder_ pour enregistrer la prise en compte des ouvertures
+
+NOTE: Il est possible de définir plusieurs ouvertures, ceci est nécessaire lorsque le thermostat contrôle une zone de plusieurs pièces.
+
+==== Prévoir un mode dégradé grâce à la gestion des défaillances
 Les défaillances peuvent provenir soit des sondes de température, par exemple en cas d'usure des piles, soit de la commande de chauffage. Le thermostat peut détecter un défaut lors d'un écart prolongé de la température avec la consigne.
 
 ===== Défaillance des sondes de température
@@ -145,7 +156,7 @@ Lorsque votre thermostat est configuré, il faut réaliser la programmation. La 
 
 Dans un premier temps, je vais utiliser 2 scénarios pour mettre le chauffage en mode confort (consigne 20°C) tous les matins de la semaine entre 5h et 7h30, puis le soir entre 17h et 21h. Le mode confort sera également activé le mercredi après-midi de 12h à 21h et le week-end de 8h à 22h. Le reste du temps, le chauffage bascule en mode Eco, avec une consigne de 18°C.
 
-On crée donc le scénario "Chauffage confort", en mode programmé :
+On crée donc le scénario *_Chauffage confort_*, en mode programmé :
 
 image::../images/thermostat11.png[]
 
