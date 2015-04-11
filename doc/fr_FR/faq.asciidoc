@@ -1,5 +1,5 @@
 [panel,primary]
-.Combien de temps faut-il, en mode temporel, pour apprendre
+.Combien de temps faut-il, en mode temporel, pour apprendre ?
 --
 Il faut en moyenne 3 jours pour que le système apprenne et regule de maniere optimale
 --
@@ -7,5 +7,11 @@ Il faut en moyenne 3 jours pour que le système apprenne et regule de maniere op
 [panel,primary]
 .Mes coefficients n'arretent pas de bouger
 --
-C'est normal, le systeme corrige en permanence ses coefficients
+C'est normal, le systeme corrige en permanence ses coefficients grâce au système d'auto-apprentissage
+--
+
+[panel,primary]
+.Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une forte inertie ?
+--
+Le thermostat s'adapte pratiquement à tous les cas de figure mais cela nécessite une analyse approfondie de votre installation pour ajuster les coefficients, si vous êtes dans une situation particulière. Consultez la section sur la _configuration avancée_ pour ajuster les coefficients, notamment dans le cas d'un plancher chauffant. Plusieurs sujets sur le forum traitent de l'utilisation du thermostat pour les différents types de chauffage (poêle, chaudière plancher chauffant,...etc)
 --
