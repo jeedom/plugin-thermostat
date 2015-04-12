@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.2">
+<title>La configuration en quelques clics</title>
+<link rel="stylesheet" href="file://C:/Users/pb/AppData/Roaming/Brackets/extensions/user/nerk.asciidoc-preview/themes/asciidoctor.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p>Ce plugin est destiné à la création de thermostats dans Jeedom. Il permet de piloter le chauffage, la climatisation ou les deux à la fois.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;intérêt par rapport à un thermostat classique, c&#8217;est qu&#8217;il va pouvoir s&#8217;intégrer totalement dans votre installation domotique. Outre la régulation de température, car c&#8217;est bien ce qu&#8217;on lui demande en premier lieu, le thermostat peut interagir avec tous les équipements de la maison.</p>
+</div>
+<div class="paragraph">
+<p>Dans un premier temps, nous allons vous montrer la mise en œuvre, puis détailler les différents réglages de la configuration du thermostat et enfin, au travers de quelques cas d&#8217;utilisation, comment on peut l&#8217;enrichir en combinaison avec d&#8217;autres plugins ou à l&#8217;aide de scénarios.</p>
+</div>
+<div class="paragraph">
+<p>Le plugin thermostat disposent de nombreux paramètres et certains ne sont accessibles qu&#8217;en mode expert. Nous supposerons être dans ce mode tout au long de cette présentation.</p>
+</div>
+<div class="sect3">
+<h4 id="_la_configuration_en_quelques_clics">La configuration en quelques clics</h4>
+<div class="paragraph">
+<p>Le thermostat de Jeedom est très puissant mais pour une utilisation traditionnelle, sa mise en œuvre est vraiment simple et rapide, à partir du moment où on a compris les étapes essentielles :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>définition du Moteur de thermostat (hystérésis ou temporel). C&#8217;est le choix de l&#8217;algorithme de régulation.</p>
+</li>
+<li>
+<p>la configuration et la plage de fonctionnement : chauffage uniquement, climatisation ou bien les deux , températures min et max d&#8217;utilisation.</p>
+</li>
+<li>
+<p>La définition des actions que le thermostat doit exécuter pour chauffer, refroidir ou arrêter.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On trouve ensuite différents onglets :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>La configuration des modes définit des températures de consignes prédéterminées. Par exemple, le mode confort à 20°C, eco à 18°C. Il peut y avoir aussi jour, nuit, vacances, absence,&#8230;&#8203;vous commencez à entrevoir ici les possibilités de personnalisation du plugin.</p>
+</li>
+<li>
+<p>Pour affiner le mode de fonctionnement du thermostat, vous allez pouvoir également configurer des ouvertures qui vont interrompre temporairement la régulation (par exemple, une fenêtre ouverte peut arrêter le chauffage). La définition de cette interruption s&#8217;effectue ici simplement.</p>
+</li>
+<li>
+<p>La gestion des modes de défaillance pour les sondes de température ou pour le chauffage permet de définir des actions à exécuter pour un mode dégradé.</p>
+</li>
+<li>
+<p>L&#8217;onglet Configuration avancée  permet d&#8217;ajuster les paramètres de régulation du chauffage.</p>
+</li>
+<li>
+<p>Si de plus, vous disposez du plugin Agenda, la programmation des changement de mode devient possible directement depuis l&#8217;onglet programmation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Votre thermostat est maintenant opérationnel, et par l&#8217;utilisation de scénarios ou en le combinant avec d&#8217;autre plugins (agenda, virtuel), il va se fondre en douceur dans votre installation domotique.
+Voilà ce qu&#8217;on obtient sur le dashboard :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat.png" alt="thermostat.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Le verrou présent sur le widget permet de bloquer le thermostat dans une consigne donnée, suite à un imprévu : congés, invités,&#8230;&#8203;.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_la_cr_ation_d_un_thermostat_en_d_tail">La création d&#8217;un thermostat en détail</h4>
+<div class="paragraph">
+<p>Pour créer un nouveau thermostat, rendez-vous sur la page de configuration en déroulant le menu Plugins/Bien-être et sélectionnez Thermostat. Cliquez sur le bouton Ajouter un thermostat situé en haut à gauche et renseignez le nom souhaité pour votre thermostat.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat2.png" alt="thermostat2.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Dans un premier temps, nous allons renseigner les paramètres généraux du thermostat. On les trouve en haut à gauche, section général et il faut préciser ici l&#8217;objet parent, l&#8217;activation et la visibilité du thermostat, informations habituelles pour tout utilisateur de jeedom.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat3.png" alt="thermostat3.png">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_le_choix_de_l_algorithme_du_thermostat">Le choix de l&#8217;algorithme du thermostat</h4>
+<div class="paragraph">
+<p>En évidence sur cette image le Moteur de fonctionnement du thermostat. Il y a 2 algorithmes possibles pour la régulation de température.</p>
+</div>
+<div class="paragraph">
+<p>Lorsque vous sélectionnez le mode Hystérésis, la mise en route de votre chauffage se produit dès que la température est inférieure à la consigne moins l&#8217;hystérésis et il s'éteint dès que la température dépasse la consigne plus l’hystérésis.</p>
+</div>
+<div class="paragraph">
+<p>Par exemple, si on règle l&#8217;hystérésis à 1°C et que ma valeur de consigne vaut 19°C, alors mon radiateur s&#8217;active lorsque la température passe en dessous de 18°C et s&#8217;arrête dès qu&#8217;il atteint 20°C.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est un mode relativement basique mais qui peut s&#8217;avérer suffisant. Les paramètres à fournir sont l&#8217;hystérésis en °C et la commande qui permet de récupérer la mesure de température. Il est inutile de chercher une régulation plus fine que la précision de votre capteur, par conséquent, la valeur de l&#8217;hystérésis ne doit pas normalement descendre en dessous de cette valeur.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat4.png" alt="thermostat4.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Dans le cas du mode temporel, la commande de chauffage ou de climatisation est définie sur un cycle prédéfini et la durée d’exécution de la commande est fonction de l'écart entre la consigne et la température mesurée par le capteur. L&#8217;algorithme va également calculer le temps de chauffe (ou de climatisation) sur un cycle en fonction de l&#8217;inertie et de l&#8217;isolation de la pièce.</p>
+</div>
+<div class="paragraph">
+<p>Rassurez-vous, il est recommandé de ne pas modifier ces 3 paramètres qui sont ajustés automatiquement en fin de cycle par l&#8217;algorithme.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat5.png" alt="thermostat5.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Enfin, plus le temps de cycle sera grand, plus la régulation sera lente. A l&#8217;inverse, un temps trop faible provoquera des commutations fréquentes de votre système de chauffage qui n&#8217;aura peut-être pas le temps de chauffer le volume de la pièce efficacement. Il est recommandé de ne pas diminuer trop ce temps de cycle (les valeurs acceptables sont entre 30 et 60mn).</p>
+</div>
+<div class="paragraph">
+<p>Ce type de régulation est plus optimisé, il améliore le confort et permet de réaliser des économies d'énergie substantielles.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_la_configuration">La configuration</h4>
+<div class="paragraph">
+<p>Là, c&#8217;est assez simple, vous décidez si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez la plage d&#8217;utilisation de votre thermostat : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget ou par programmation.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat6.png" alt="thermostat6.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Ensuite, il faut préciser les commandes qui permettent de mesurer la température et de piloter le chauffage ou la climatisation. Notez que le moteur temporel peut prendre en compte la température extérieure si vous disposez d&#8217;un capteur extérieur (elle peut être également fournie par le plugin météo).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat7.png" alt="thermostat7.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Pour la commande du radiateur ou du climatiseur, il est décrit dans l&#8217;onglet "configuration des actions". On peut ici définir plusieurs actions, ce qui donne la possibilité à notre thermostat de piloter plusieurs équipements (cas d&#8217;un fonctionnement par zone par exemple ou contrôle d&#8217;un autre thermostat&#8230;&#8203;)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat_screenshot1.png" alt="thermostat screenshot1.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Les actions ici sont celles qui permettent de chauffer, de refroidir (climatisation), d&#8217;arrêter la commande. Une action complémentaire peut être envisagée à chaque changement de consigne, que ce soit ne mode manuel ou automatique.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_les_modes_le_point_de_d_part_pour_l_automatisation">Les modes : le point de départ pour l&#8217;automatisation</h4>
+<div class="paragraph">
+<p>Les modes (définis dans l&#8217;onglet "configuration des modes") sont des consignes prédéterminées du thermostat qui correspondent à votre mode de vie. Par exemple, le mode "Nuit" ou "Eco" donne la température que vous souhaitez lorsque tout le monde dort. Le mode "Jour" ou "Confort" détermine le comportement du thermostat pour avoir une température de confort lorsque vous êtes présent au domicile. Ici, rien n&#8217;est figé. Vous pouvez définir autant de modes que vous souhaitez pour les utiliser via des scénarios (Nous y reviendrons plus tard).</p>
+</div>
+<div class="paragraph">
+<p>Dans l&#8217;image ci-dessous, le mode "Confort" a une valeur de consigne de 20°C et pour le mode "Eco", le thermostat est réglé à 18°C.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat9.png" alt="thermostat9.png">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_les_ouvertures_pour_interrompre_temporairement_le_thermostat">Les ouvertures : pour interrompre temporairement le thermostat</h4>
+<div class="paragraph">
+<p>Imaginons que vous souhaitez arrêter momentanément votre chauffage ou votre climatiseur, par exemple pour aérer la pièce pour laquelle le thermostat est actif. Pour détecter l&#8217;ouverture de la fenêtre, vous utiliserez un capteur situé sur l&#8217;ouvrant de votre fenêtre, vous permettant ainsi de réaliser cette interruption en l&#8217;ajoutant dans l&#8217;onglet de configuration des ouvertures. 2 paramètres supplémentaires sont réglables ici, ce sont les durées d&#8217;ouverture et de fermeture de la fenêtre qui vont provoquer l&#8217;interruption et la reprise du fonctionnement du thermostat.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat_screenshot2.png" alt="thermostat screenshot2.png">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_un_exemple_concret_d_utilisation_du_thermostat">Un exemple concret d&#8217;utilisation du thermostat</h4>
+<div class="paragraph">
+<p>Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l&#8217;expliquer est de prendre un cas d&#8217;utilisation. Admettons que dans certaines chambres, on souhaite réaliser une programmation hebdomadaire des thermostats, en fonction des heures de levée et de couché. Précisons que chaque chambre est indépendante, c&#8217;est à dire un thermostat est défini pour chacune des pièces.</p>
+</div>
+<div class="paragraph">
+<p>Dans un premier temps, je vais utiliser 2 scénarios pour mettre le chauffage en mode confort (consigne 20°C) tous les matins de la semaine entre 5h et 7h30, puis le soir entre 17h et 21h. Le mode confort sera également activé le mercredi après-midi de 12h à 21h et le week-end de 8h à 22h. Le reste du temps, le chauffage bascule en mode Eco, avec une consigne de 18°C.</p>
+</div>
+<div class="paragraph">
+<p>On crée donc le scénario "Chauffage confort", en mode programmé :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat11.png" alt="thermostat11.png">
+</div>
+</div>
+<div class="paragraph">
+<p>et le code :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat12.png" alt="thermostat12.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Sur le même principe, le scénario "Chauffage Eco" :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat13.png" alt="thermostat13.png">
+</div>
+</div>
+<div class="paragraph">
+<p>et son code :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat14.png" alt="thermostat14.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Notez que dans les scénarios, le pilotage du thermostat est complet puisqu&#8217;on peut agir sur le mode de fonctionnement (chauffage ou climatisation seulement), les modes, la valeur de consigne et le verrou (lock, unlock).</p>
+</div>
+<div class="paragraph">
+<p>Si la création de scénario est parfois compliqué, pour le cas de la programmation d&#8217;un thermostat, la combinaison des actions du thermostat avec le calendrier du plugin agenda permet de réaliser ceci simplement.</p>
+</div>
+<div class="paragraph">
+<p>Le plugin agenda permet d&#8217;aller plus loin dans la programmation et surtout présente moins de risque de se tromper. En effet, par rapport à la programmation précédente, le calendrier va apparaître en clair sur l'écran et on va pouvoir tenir compte des jours fériés, des vacances&#8230;&#8203;.Bref, piloter le thermostat en fonction de mon mode de vie.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_le_m_me_avec_le_plugin_agenda">Le même avec le plugin agenda</h4>
+<div class="paragraph">
+<p>Nous ne présenterons pas le plugin Agenda, l&#8217;objectif ici étant de le coupler avec la programmation du thermostat.</p>
+</div>
+<div class="paragraph">
+<p>Nous allons donc créer un nouvel agenda qui s&#8217;appelle "Programmation chauffage", auquel on ajoutera les événements de changement de mode du thermostat.</p>
+</div>
+<div class="paragraph">
+<p>Une fois l&#8217;agenda créé, on va ajouter les événements "Matin" (du lundi au vendredi de 5h à 7h30), "Soir" (le lundi, mardi, jeudi et vendredi de 17h à 21h), "Mercredi" (le mercredi de 12h à 21h) et "Weekend" (de 8h à 22h). Tous ces événements, ont comme action de début la sélection du mode "confort" du thermostat et comme action de fin le mode "Eco" :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat15.png" alt="thermostat15.png">
+</div>
+</div>
+<div class="paragraph">
+<p>Nous procédons de la même façon pour définir les autres événements, par duplication et modification. Voilà ce que ça donne sur le calendrier :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/thermostat16.png" alt="thermostat16.png">
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2015-03-21 19:11:39 PM
+</div>
+</div>
+</body>
+</html>

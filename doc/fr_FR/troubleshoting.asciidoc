@@ -15,3 +15,9 @@ Verifiez que votre thermostat n'est pas verouillé
 --
 Si le thermostat n'a pas de commande correspondant au chauffage et/ou à la climatisation celui-ci ne peut pas passer dans ces modes.
 --
+
+[panel,danger]
+.Je n'arrive pas à programmer mon thermostat
+--
+La programmation du thermostat peut se faire soit par un scénario, soit avec l'utilisation du plugin Agenda.
+--
