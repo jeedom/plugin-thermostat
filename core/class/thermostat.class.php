@@ -379,6 +379,10 @@ class thermostat extends eqLogic {
 						log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
 					}
 				}
+
+				if (strtolower($thermostat->getCmd(null, 'mode')->execCmd()) == 'off') {
+					continue;
+				}
 				$temperature = $thermostat->getCmd(null, 'temperature');
 				$temp_in = $temperature->execCmd();
 				if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
