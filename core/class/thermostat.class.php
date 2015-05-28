@@ -1350,6 +1350,49 @@ class thermostat extends eqLogic {
 class thermostatCmd extends cmd {
 	/*     * *************************Attributs****************************** */
 
+	public function imperihomeGenerate($ISSStructure) {
+		$eqLogic = $this->getEqLogic();
+		$object = $eqLogic->getObject();
+		$type = 'DevThermostat';
+		$info_device = array(
+			'id' => $this->getId(),
+			'name' => $eqLogic->getName() . ' ' . $this->getName(),
+			'room' => (is_object($object)) ? $object->getId() : 99999,
+			'type' => $type,
+			'params' => array(),
+		);
+		$info_device['params'] = $ISSStructure[$info_device['type']]['params'];
+		$info_device['params'][0]['value'] = '#' . $eqLogic->getCmd('info', 'mode')->getId() . '#';
+		$info_device['params'][1]['value'] = '#' . $eqLogic->getCmd('info', 'temperature')->getId() . '#';
+		$info_device['params'][2]['value'] = '#' . $eqLogic->getCmd('info', 'order')->getId() . '#';
+		$info_device['params'][3]['value'] = 0.5;
+		$mode = '';
+		foreach ($eqLogic->getConfiguration('existingMode') as $existingMode) {
+			$mode .= $existingMode['name'] . ',';
+		}
+		$info_device['params'][4]['value'] = trim($mode, ',');
+		return $info_device;
+	}
+
+	public function imperihomeAction($_action, $_value) {
+		$eqLogic = $this->getEqLogic();
+		if ($_action == 'setSetPoint') {
+			$cmd = $eqLogic->getCmd('action', 'thermostat');
+			if (is_object($cmd)) {
+				$cmd->execCmd(array('slider' => $_value));
+			}
+		}
+		if ($_action == 'setMode') {
+			foreach ($eqLogic->getCmd('action', 'modeAction') as $action) {
+				if ($action->getName() == $_value) {
+					$action->execCmd();
+					break;
+				}
+			}
+
+		}
+	}
+
 	public function dontRemoveCmd() {
 		return true;
 	}
