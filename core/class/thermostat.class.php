@@ -1393,6 +1393,13 @@ class thermostatCmd extends cmd {
 		}
 	}
 
+	public function imperihomeCmd() {
+		if ($this->getLogicalId() == 'order') {
+			return true;
+		}
+		return false;
+	}
+
 	public function dontRemoveCmd() {
 		return true;
 	}
