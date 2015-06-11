@@ -211,7 +211,7 @@ function printEqLogic(_eqLogic) {
 }
 
 function printScheduling(_eqLogic){
-   $.ajax({
+ $.ajax({
     type: 'POST',
     url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
     data: {
@@ -235,12 +235,12 @@ function printScheduling(_eqLogic){
             for (var i in data.result) {
                 var color = init(data.result[i].cmd_param.color, '#2980b9');
                 if(data.result[i].cmd_param.transparent == 1){
-                 color = 'transparent';
-             }
-             html += '<span class="label label-info cursor" style="font-size:1.2em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
-             html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
+                   color = 'transparent';
+               }
+               html += '<span class="label label-info cursor" style="font-size:1.2em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
+               html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
 
-             if (data.result[i].cmd_param.eventName != '') {
+               if (data.result[i].cmd_param.eventName != '') {
                 html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.eventName;
             } else {
                 html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.name;
@@ -262,7 +262,7 @@ function addMode(_mode) {
     div += '<fieldset>';
     div += '<legend>';
     div += '<span class="rename cursor">' + _mode.name + '</span>';
-    div += ' (Visible : <input type="checkbox"  class="modeAttr" data-l1key="isVisible" checked /> )';
+    div += ' <input type="checkbox"  class="modeAttr bootstrapSwitch" data-size="mini" data-l1key="isVisible" data-label-text="Visible" checked /> ';
     div += ' <a class="btn btn-danger btn-xs removeMode pull-right"><i class="fa fa-minus-circle"></i> Supprimer mode</a> ';
     div += ' <a class="btn btn-default btn-xs addModeAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a> ';
     div += ' </legend>';
@@ -273,6 +273,7 @@ function addMode(_mode) {
     div += '</form>';
     $('#div_modes').append(div);
     $('#div_modes .mode:last').setValues(_mode, '.modeAttr');
+    initCheckBox();
     if (isset(_mode.actions)) {
         for (var i in _mode.actions) {
             if (init(_mode.actions[i].cmd) != '') {
