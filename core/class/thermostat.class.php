@@ -501,6 +501,9 @@ class thermostat extends eqLogic {
 		if (!is_numeric($temp_out)) {
 			$temp_out = $_consigne;
 		}
+		if ($temp_in > ($_consigne + 1)) {
+			return array('power' => 0, 'direction' => 0);
+		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Temp in : ' . $temp_in . ' - Temp out : ' . $temp_out . ' - Consigne : ' . $_consigne);
 		$diff_in = $_consigne - $temp_in;
 		$diff_out = $_consigne - $temp_out;
