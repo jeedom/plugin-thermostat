@@ -513,10 +513,10 @@ class thermostat extends eqLogic {
 			$direction = -1;
 		}
 		if ($temp_in >= ($_consigne + 1.5) && $direction == 1) {
-			return array('power' => 0, 'direction' => 0);
+			return array('power' => 0, 'direction' => $direction);
 		}
 		if ($temp_in <= ($_consigne - 1.5) && $direction == -1) {
-			return array('power' => 0, 'direction' => 0);
+			return array('power' => 0, 'direction' => $direction);
 		}
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
 		$coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
