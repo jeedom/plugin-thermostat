@@ -501,9 +501,7 @@ class thermostat extends eqLogic {
 		if (!is_numeric($temp_out)) {
 			$temp_out = $_consigne;
 		}
-		if ($temp_in >= ($_consigne + 1.5)) {
-			return array('power' => 0, 'direction' => 0);
-		}
+
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Temp in : ' . $temp_in . ' - Temp out : ' . $temp_out . ' - Consigne : ' . $_consigne);
 		$diff_in = $_consigne - $temp_in;
 		$diff_out = $_consigne - $temp_out;
@@ -513,6 +511,12 @@ class thermostat extends eqLogic {
 		}
 		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getConfiguration('lastState') == 'cool') || $temp_out > $_consigne)) {
 			$direction = -1;
+		}
+		if ($temp_in >= ($_consigne + 1.5) && $direction == 1) {
+			return array('power' => 0, 'direction' => 0);
+		}
+		if ($temp_in <= ($_consigne - 1.5) && $direction == -1) {
+			return array('power' => 0, 'direction' => 0);
 		}
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
 		$coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
