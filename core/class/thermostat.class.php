@@ -1330,7 +1330,7 @@ class thermostat extends eqLogic {
 		foreach ($actifCmd->getHistory($_startDate, $_endDate) as $history) {
 			if (date('Y-m-d', strtotime($history->getDatetime())) != $day && $prevValue == 1 && $day != null) {
 				if (strtotime($day . ' 23:59:59') > $prevDatetime) {
-					$return[$day][1] += round((strtotime($day . ' 23:59:59') - $prevDatetime) / 3600, 1);
+					$return[$day][1] += (strtotime($day . ' 23:59:59') - $prevDatetime) / 3600;
 				}
 				$prevDatetime = strtotime(date('Y-m-d 00:00:00', strtotime($history->getDatetime())));
 			}
@@ -1344,7 +1344,7 @@ class thermostat extends eqLogic {
 			}
 			if ($history->getValue() == 0 && $prevValue == 1) {
 				if ($prevDatetime > 0 && strtotime($history->getDatetime()) > $prevDatetime) {
-					$return[$day][1] += round((strtotime($history->getDatetime()) - $prevDatetime) / 3600, 1);
+					$return[$day][1] += (strtotime($history->getDatetime()) - $prevDatetime) / 3600;
 				}
 				$prevValue = 0;
 			}
