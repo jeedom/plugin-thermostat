@@ -512,10 +512,13 @@ class thermostat extends eqLogic {
 		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getConfiguration('lastState') == 'cool') || $temp_out > $_consigne)) {
 			$direction = -1;
 		}
+		log::add('thermostat', 'debug', $this->getHumanName() . ' : Direction : ' . $direction);
 		if ($temp_in >= ($_consigne + 1.5) && $direction == 1) {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est supérieure à la consigne je ne fais rien');
 			return array('power' => 0, 'direction' => $direction);
 		}
 		if ($temp_in <= ($_consigne - 1.5) && $direction == -1) {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est inférieure à la consigne je ne fais rien');
 			return array('power' => 0, 'direction' => $direction);
 		}
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
