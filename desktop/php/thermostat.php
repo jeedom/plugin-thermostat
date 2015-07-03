@@ -25,12 +25,12 @@ foreach ($eqLogics as $eqLogic) {
     </legend>
     <div class="eqLogicThumbnailContainer">
       <div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
-       <center>
-        <i class="fa fa-plus-circle" style="font-size : 7em;color:#94ca02;"></i>
-    </center>
-    <span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#94ca02"><center>Ajouter</center></span>
-</div>
-<?php
+         <center>
+            <i class="fa fa-plus-circle" style="font-size : 7em;color:#94ca02;"></i>
+        </center>
+        <span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#94ca02"><center>Ajouter</center></span>
+    </div>
+    <?php
 foreach ($eqLogics as $eqLogic) {
 	echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >';
 	echo "<center>";
@@ -279,6 +279,12 @@ try {
         <form class="form-horizontal">
             <fieldset>
                 <br/><br/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{Masquer commande de vérouillage}}</label>
+                    <div class="col-sm-5">
+                        <input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-l1key="configuration" data-l2key="hideLockCmd" />
+                    </div>
+                </div>
                 <div class='form-group'>
                     <label class="col-sm-2 control-label">{{Cron de répétition de commande}}</label>
                     <div class="col-sm-2">
@@ -349,7 +355,6 @@ try {
                     </div>
                 </div>
                 <div class="form-group engine temporal">
-
                     <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
                     <div class="col-sm-2">
                         <input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-l1key="configuration" data-l2key="autolearn" checked />
