@@ -280,7 +280,7 @@ try {
             <fieldset>
                 <br/><br/>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{Masquer commande de vérouillage}}</label>
+                    <label class="col-sm-2 control-label">{{Masquer commande de verrouillage}}</label>
                     <div class="col-sm-5">
                         <input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-l1key="configuration" data-l2key="hideLockCmd" />
                     </div>

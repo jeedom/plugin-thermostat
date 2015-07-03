@@ -846,7 +846,7 @@ class thermostat extends eqLogic {
 			$lock->setType('action');
 			$lock->setSubType('other');
 			$lock->setLogicalId('lock');
-			if ($this->getConfiguration('hideLockCmd', 0) == 1) {
+			if ($this->getConfiguration('hideLockCmd') == 1) {
 				$lockState->setIsVisible(0);
 			} else {
 				$lockState->setIsVisible(1);
@@ -866,7 +866,7 @@ class thermostat extends eqLogic {
 			$unlock->setType('action');
 			$unlock->setSubType('other');
 			$unlock->setLogicalId('unlock');
-			if ($this->getConfiguration('hideLockCmd', 0) == 1) {
+			if ($this->getConfiguration('hideLockCmd') == 1) {
 				$lockState->setIsVisible(0);
 			} else {
 				$lockState->setIsVisible(1);
