@@ -73,7 +73,12 @@
             }
             drawSimpleGraph('div_chartRuntime', series, 'column');
             positionEqLogic();
-            $('#div_displayEquipement').packery({columnWidth: 1});
+            $('#div_displayEquipement').packery({
+                itemSelector: ".eqLogic-widget",
+                columnWidth: 40,
+                rowHeight: 80,
+                gutter : 2,
+            });
         }
     });
 }
