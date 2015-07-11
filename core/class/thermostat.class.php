@@ -512,10 +512,13 @@ class thermostat extends eqLogic {
 		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getConfiguration('lastState') == 'cool') || $temp_out > $_consigne)) {
 			$direction = -1;
 		}
+		log::add('thermostat', 'debug', $this->getHumanName() . ' : Direction : ' . $direction);
 		if ($temp_in >= ($_consigne + 1.5) && $direction == 1) {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est supérieure à la consigne je ne fais rien');
 			return array('power' => 0, 'direction' => $direction);
 		}
 		if ($temp_in <= ($_consigne - 1.5) && $direction == -1) {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est inférieure à la consigne je ne fais rien');
 			return array('power' => 0, 'direction' => $direction);
 		}
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
@@ -560,14 +563,19 @@ class thermostat extends eqLogic {
 					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0) {
 						continue;
 					}
-					if ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('start_type') == 'cmd' && $event->getCmd_param('end_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('end_type') == 'cmd') {
-						$position = null;
-					} elseif ($event->getCmd_param('start_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('start_type') == 'cmd') {
-						$position = 'start';
-					} elseif ($event->getCmd_param('end_name') == '#' . $mode->getId() . '#' && $event->getCmd_param('end_type') == 'cmd') {
-						$position = 'end';
-					} else {
-						continue;
+					foreach ($event->getCmd_param('start') as $action) {
+						if ($action['cmd'] == '#' . $mode->getId() . '#') {
+							$position = 'start';
+						}
+					}
+					foreach ($event->getCmd_param('end') as $action) {
+						if ($action['cmd'] == '#' . $mode->getId() . '#') {
+							if ($position == 'start') {
+								$position = null;
+							} else {
+								$position = 'end';
+							}
+						}
 					}
 					$nextOccurence = $event->nextOccurrence($position, true);
 					if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
@@ -602,18 +610,24 @@ class thermostat extends eqLogic {
 					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0) {
 						continue;
 					}
-					if ($event->getCmd_param('start_name') == '#' . $thermostat->getId() . '#' && $event->getCmd_param('start_type') == 'cmd' && $event->getCmd_param('end_name') == '#' . $thermostat->getId() . '#' && $event->getCmd_param('end_type') == 'cmd') {
-						$position = null;
-					} elseif ($event->getCmd_param('start_name') == '#' . $thermostat->getId() . '#' && $event->getCmd_param('start_type') == 'cmd') {
-						$position = 'start';
-					} elseif ($event->getCmd_param('end_name') == '#' . $thermostat->getId() . '#' && $event->getCmd_param('end_type') == 'cmd') {
-						$position = 'end';
-					} else {
-						continue;
+					foreach ($event->getCmd_param('start') as $action) {
+						if ($action['cmd'] == '#' . $mode->getId() . '#') {
+							$position = 'start';
+							$options = $action['options'];
+						}
+					}
+					foreach ($event->getCmd_param('end') as $action) {
+						if ($action['cmd'] == '#' . $mode->getId() . '#') {
+							if ($position == 'start') {
+								$position = null;
+							} else {
+								$position = 'end';
+								$options = $action['options'];
+							}
+						}
 					}
 					$nextOccurence = $event->nextOccurrence($position, true);
 					if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
-						$options = $this->getCmd_param($nextOccurence['position'] . '_options');
 						$next = array(
 							'date' => $nextOccurence,
 							'event' => $event,
@@ -843,7 +857,11 @@ class thermostat extends eqLogic {
 			$lock->setType('action');
 			$lock->setSubType('other');
 			$lock->setLogicalId('lock');
-			$lock->setIsVisible(1);
+			if ($this->getConfiguration('hideLockCmd') == 1) {
+				$lockState->setIsVisible(0);
+			} else {
+				$lockState->setIsVisible(1);
+			}
 			$lock->setValue($lockState->getId());
 			$lock->setOrder(7);
 			$lock->save();
@@ -859,8 +877,11 @@ class thermostat extends eqLogic {
 			$unlock->setType('action');
 			$unlock->setSubType('other');
 			$unlock->setLogicalId('unlock');
-
-			$unlock->setIsVisible(1);
+			if ($this->getConfiguration('hideLockCmd') == 1) {
+				$lockState->setIsVisible(0);
+			} else {
+				$lockState->setIsVisible(1);
+			}
 			$unlock->setValue($lockState->getId());
 			$unlock->setOrder(7);
 			$unlock->save();
