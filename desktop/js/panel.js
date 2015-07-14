@@ -117,7 +117,8 @@ function graphThermostat(_eqLogic_id) {
                                 graphStep: 1,
                                 graphColor: color,
                                 graphScale : 1,
-                                graphType : 'area'
+                                graphType : 'area',
+                                derive : 0
                             }
                         });
                     }
