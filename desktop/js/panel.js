@@ -102,7 +102,8 @@ function graphThermostat(_eqLogic_id) {
                             end: $('#in_endDate').value(),
                             option: {
                                 graphStep: 1,
-                                graphColor: color
+                                graphColor: color,
+                                derive : 0
                             }
                         });
                     }
@@ -130,7 +131,8 @@ function graphThermostat(_eqLogic_id) {
                         start: $('#in_startDate').value(),
                         end: $('#in_endDate').value(),
                         option: {
-                            graphColor: '#f39c12'
+                            graphColor: '#f39c12',
+                            derive : 0
                         }
                     });
                 }
