@@ -29,7 +29,7 @@ class thermostat extends eqLogic {
 		if (is_object($thermostat)) {
 			if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
 				if (isset($_options['stop']) && $_options['stop'] == 1) {
-					$thermostat->stop();
+					$thermostat->stopThermostat();
 					$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
 					if (is_object($cron)) {
 						$cron->remove(true);
@@ -80,7 +80,7 @@ class thermostat extends eqLogic {
 			$status = $thermostat->getCmd(null, 'status')->execCmd();
 			if ($thermostat->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__)) {
 				if ($status != __('Arrêté', __FILE__)) {
-					$thermostat->stop();
+					$thermostat->stopThermostat();
 				}
 				return;
 			}
@@ -97,7 +97,7 @@ class thermostat extends eqLogic {
 			$cmd = $thermostat->getCmd(null, 'temperature');
 			$temp = $cmd->execCmd();
 			if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-				$thermostat->stop();
+				$thermostat->stopThermostat();
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . __(' min', __FILE__));
 				return;
 			}
@@ -139,7 +139,7 @@ class thermostat extends eqLogic {
 			} elseif ($action == 'stop') {
 				if ($status != __('Arrêté', __FILE__)) {
 					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je m\'arrete');
-					$thermostat->stop();
+					$thermostat->stopThermostat();
 				}
 			}
 		}
@@ -163,7 +163,7 @@ class thermostat extends eqLogic {
 			if ($mode == 'Off') {
 				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat sur off');
 				if ($status != __('Arrêté', __FILE__)) {
-					$thermostat->stop();
+					$thermostat->stopThermostat();
 				}
 				return;
 			}
@@ -181,7 +181,7 @@ class thermostat extends eqLogic {
 			$cmd = $thermostat->getCmd(null, 'temperature');
 			$temp_in = $cmd->execCmd();
 			if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-				$thermostat->stop();
+				$thermostat->stopThermostat();
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
 				return;
 			}
@@ -275,7 +275,7 @@ class thermostat extends eqLogic {
 			if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
 				log::add('thermostat', 'debug', 'Durée du cycle trop courte, aucun lancement');
 				$thermostat->setConfiguration('lastState', 'stop');
-				$thermostat->stop();
+				$thermostat->stopThermostat();
 				$thermostat->save();
 				return;
 			}
@@ -290,11 +290,11 @@ class thermostat extends eqLogic {
 
 			if ($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['direction'] < 0) {
 				$thermostat->setConfiguration('lastState', 'stop');
-				$thermostat->stop();
+				$thermostat->stopThermostat();
 			}
 			if ($thermostat->getConfiguration('lastState') == 'cool' && $temporal_data['direction'] > 0) {
 				$thermostat->setConfiguration('lastState', 'stop');
-				$thermostat->stop();
+				$thermostat->stopThermostat();
 			}
 			$thermostat->save();
 			if ($duration > 0) {
@@ -340,7 +340,7 @@ class thermostat extends eqLogic {
 									$thermostat->heat(true);
 									break;
 								case __('Arrêté', __FILE__):
-									$thermostat->stop(true);
+									$thermostat->stopThermostat(true);
 									break;
 								case __('Climatisation', __FILE__):
 									$thermostat->cool(true);
@@ -409,7 +409,7 @@ class thermostat extends eqLogic {
 				if (strtolower($thermostat->getCmd(null, 'mode')->execCmd()) == 'off') {
 					continue;
 				}
-				$thermostat->stop();
+				$thermostat->stopThermostat();
 				if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
 					thermostat::temporal(array('thermostat_id' => $thermostat->getId()));
 				}
@@ -459,7 +459,7 @@ class thermostat extends eqLogic {
 				}
 				$cmd = cmd::byId($_trigger_id);
 				if (is_object($cmd) && $cmd->execCmd() == 1) {
-					$this->stop();
+					$this->stopThermostat();
 					$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
 				}
 			}
@@ -1110,7 +1110,7 @@ class thermostat extends eqLogic {
 			if ($this->getConfiguration('engine', 'temporal') != 'temporal' || $this->getIsEnable() != 1) {
 				$cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($this->getId())));
 				if (is_object($cron)) {
-					$cron->stop();
+					$cron->stopThermostat();
 					$cron->remove();
 				}
 			}
@@ -1140,11 +1140,11 @@ class thermostat extends eqLogic {
 				return;
 			}
 			if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'heat') {
-				$this->stop();
+				$this->stopThermostat();
 				return false;
 			}
 			if (count($this->getConfiguration('heating')) == 0) {
-				$this->stop();
+				$this->stopThermostat();
 				return false;
 			}
 		}
@@ -1179,11 +1179,11 @@ class thermostat extends eqLogic {
 				return;
 			}
 			if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'cool') {
-				$this->stop();
+				$this->stopThermostat();
 				return false;
 			}
 			if (count($this->getConfiguration('cooling')) == 0) {
-				$this->stop();
+				$this->stopThermostat();
 				return false;
 			}
 		}
@@ -1212,7 +1212,7 @@ class thermostat extends eqLogic {
 		}
 	}
 
-	public function stop($_repeat = false) {
+	public function stopThermostat($_repeat = false) {
 		if (!$_repeat) {
 			if ($this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
 				return;
@@ -1557,7 +1557,7 @@ class thermostatCmd extends cmd {
 			}
 			if ($this->getLogicalId() == 'off') {
 				$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
-				$eqLogic->stop();
+				$eqLogic->stopThermostat();
 			}
 		}
 		return '';
