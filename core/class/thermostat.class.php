@@ -1394,11 +1394,10 @@ class thermostatCmd extends cmd {
 		$info_device['params'][1]['value'] = '#' . $eqLogic->getCmd('info', 'temperature')->getId() . '#';
 		$info_device['params'][2]['value'] = '#' . $eqLogic->getCmd('info', 'order')->getId() . '#';
 		$info_device['params'][3]['value'] = 0.5;
-		$mode = '';
+		$info_device['params'][4]['value'] = 'Off';
 		foreach ($eqLogic->getConfiguration('existingMode') as $existingMode) {
-			$mode .= $existingMode['name'] . ',';
+			$info_device['params'][4]['value'] .= ',' . $existingMode['name'];
 		}
-		$info_device['params'][4]['value'] = trim($mode, ',');
 		return $info_device;
 	}
 
