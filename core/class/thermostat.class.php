@@ -1410,8 +1410,15 @@ class thermostatCmd extends cmd {
 			}
 		}
 		if ($_action == 'setMode') {
+			if ($_value == 'Off') {
+				$action = $eqLogic->getCmd('action', 'off');
+				if (is_object($action)) {
+					$action->execCmd();
+					return;
+				}
+			}
 			foreach ($eqLogic->getCmd('action', 'modeAction') as $action) {
-				if ($action->getName() == $_value) {
+				if (is_object($action) && $action->getName() == $_value) {
 					$action->execCmd();
 					break;
 				}
