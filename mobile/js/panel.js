@@ -38,13 +38,13 @@
 
     $('#bt_valideDate').on('click', function () {
         jeedom.history.chart = [];
-        $('#div_displayEquipement').packery('destroy');
+        $('#div_displayEquipementThermostat').packery('destroy');
         displayThermostat(_object_id, $('#in_dateStart').val(), $('#in_dateEnd').val());
     });
 
     $(window).on("orientationchange", function (event) {
         setTileSize('.eqLogic');
-        $('#div_displayEquipement').packery();
+        $('#div_displayEquipementThermostat').packery();
     });
 }
 
@@ -76,12 +76,12 @@ function displayThermostat(_object_id, _dateStart, _dateEnd) {
             $('#div_object').empty().append('<legend>' + icon + ' ' + data.result.object.name + '</legend>');
             $('#in_dateStart').value(data.result.date.start);
             $('#in_dateEnd').value(data.result.date.end);
-            $('#div_displayEquipement').empty();
+            $('#div_displayEquipementThermostat').empty();
             $('#div_charts').empty();
             $('#div_chartRuntime').empty();
             var series = []
             for (var i in data.result.eqLogics) {
-                $('#div_displayEquipement').append(data.result.eqLogics[i].html).trigger('create');
+                $('#div_displayEquipementThermostat').append(data.result.eqLogics[i].html).trigger('create');
                 var div_graph = '<legend>' + data.result.eqLogics[i].eqLogic.name + '</legend>'
                 div_graph += '<div class="chartContainer" id="div_graph' + data.result.eqLogics[i].eqLogic.id + '"></div>';
                 $('#div_charts').append(div_graph);
@@ -97,7 +97,7 @@ function displayThermostat(_object_id, _dateStart, _dateEnd) {
             }
             drawSimpleGraph('div_chartRuntime', series, 'column');
             setTileSize('.eqLogic');
-            $('#div_displayEquipement').packery();
+            $('#div_displayEquipementThermostat').packery();
             $.hideLoading();
         }
     });
