@@ -841,7 +841,11 @@ class thermostat extends eqLogic {
 			$lockState->setType('info');
 			$lockState->setSubType('binary');
 			$lockState->setLogicalId('lock_state');
-			$lockState->setIsVisible(0);
+			if ($this->getConfiguration('hideLockCmd') == 1) {
+				$lockState->setIsVisible(0);
+			} else {
+				$lockState->setIsVisible(1);
+			}
 			$lockState->setEventOnly(1);
 			$lockState->setOrder(7);
 			$lockState->save();
@@ -858,9 +862,9 @@ class thermostat extends eqLogic {
 			$lock->setSubType('other');
 			$lock->setLogicalId('lock');
 			if ($this->getConfiguration('hideLockCmd') == 1) {
-				$lockState->setIsVisible(0);
+				$lock->setIsVisible(0);
 			} else {
-				$lockState->setIsVisible(1);
+				$lock->setIsVisible(1);
 			}
 			$lock->setValue($lockState->getId());
 			$lock->setOrder(7);
@@ -878,9 +882,9 @@ class thermostat extends eqLogic {
 			$unlock->setSubType('other');
 			$unlock->setLogicalId('unlock');
 			if ($this->getConfiguration('hideLockCmd') == 1) {
-				$lockState->setIsVisible(0);
+				$unlock->setIsVisible(0);
 			} else {
-				$lockState->setIsVisible(1);
+				$unlock->setIsVisible(1);
 			}
 			$unlock->setValue($lockState->getId());
 			$unlock->setOrder(7);
