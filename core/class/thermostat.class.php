@@ -841,11 +841,7 @@ class thermostat extends eqLogic {
 			$lockState->setType('info');
 			$lockState->setSubType('binary');
 			$lockState->setLogicalId('lock_state');
-			if ($this->getConfiguration('hideLockCmd') == 1) {
-				$lockState->setIsVisible(0);
-			} else {
-				$lockState->setIsVisible(1);
-			}
+			$lockState->setIsVisible(0);
 			$lockState->setEventOnly(1);
 			$lockState->setOrder(7);
 			$lockState->save();
