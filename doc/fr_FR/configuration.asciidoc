@@ -6,11 +6,11 @@ Parmi ses caractéristiques, on trouve :
 
 - la prise en compte de la température extérieure, par conséquent du coefficient d'isolation de la maison,
 
-- un système de régulation qui apprend pour optimisée la régulation,
+- un système de régulation qui apprend pour optimiser la régulation,
 
 - la possibilité de gérer les ouvrants pour débrayer le thermostat,
 
-- la gestion des défaillances des équipement, sonde de température et appareil de chauffage,
+- la gestion des défaillances des équipements, sondes de température et appareils de chauffage,
 
 - une programmation complète avec le plugin agenda, avec notamment la possibilité d'anticiper le changement de consigne pour que la température soit atteinte à l'heure programmée (smart start)
 
