@@ -175,6 +175,7 @@ class thermostat extends eqLogic {
 			foreach ($windows as $window) {
 				$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
 				if (is_object($cmd) && $cmd->execCmd() == 1) {
+					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Window open stop');
 					return;
 				}
 			}
@@ -188,6 +189,7 @@ class thermostat extends eqLogic {
 			$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 
 			if (!is_numeric($temp_in)) {
+				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
 				return;
 			}
 			if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
