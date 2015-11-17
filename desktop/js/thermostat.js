@@ -15,6 +15,11 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+$("#div_heat").sortable({axis: "y", cursor: "move", items: ".heat", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#div_cool").sortable({axis: "y", cursor: "move", items: ".cool", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#div_stop").sortable({axis: "y", cursor: "move", items: ".stop", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#div_orderChange").sortable({axis: "y", cursor: "move", items: ".orderChange", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#div_failureActuator").sortable({axis: "y", cursor: "move", items: ".failureActuator", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
  $(".eqLogic").delegate(".listCmdInfo", 'click', function () {
     var el = $(this).closest('.form-group').find('.eqLogicAttr');
@@ -155,6 +160,8 @@
     return _eqLogic;
 }
 
+
+
 function printEqLogic(_eqLogic) {
     $('#div_heat').empty();
     $('#div_cool').empty();
@@ -211,7 +218,7 @@ function printEqLogic(_eqLogic) {
 }
 
 function printScheduling(_eqLogic){
-   $.ajax({
+ $.ajax({
     type: 'POST',
     url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
     data: {
@@ -235,12 +242,12 @@ function printScheduling(_eqLogic){
             for (var i in data.result) {
                 var color = init(data.result[i].cmd_param.color, '#2980b9');
                 if(data.result[i].cmd_param.transparent == 1){
-                 color = 'transparent';
-             }
-             html += '<span class="label label-info cursor" style="font-size:1.2em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
-             html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
+                   color = 'transparent';
+               }
+               html += '<span class="label label-info cursor" style="font-size:1.2em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
+               html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
 
-             if (data.result[i].cmd_param.eventName != '') {
+               if (data.result[i].cmd_param.eventName != '') {
                 html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.eventName;
             } else {
                 html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.name;
@@ -281,6 +288,7 @@ function addMode(_mode) {
             }
         }
     }
+    $("#div_modes .mode:last .div_modeAction").sortable({axis: "y", cursor: "move", items: ".modeAction", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 }
 
 function addModeAction(_modeAction, _el) {
@@ -404,5 +412,3 @@ function addFailureActuator(_info) {
     $('#div_failureActuator').append(div);
     $('#div_failureActuator .failureActuator:last').setValues(_info, '.expressionAttr');
 }
-
-
