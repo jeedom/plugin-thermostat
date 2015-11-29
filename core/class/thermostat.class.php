@@ -1418,7 +1418,7 @@ class thermostatCmd extends cmd {
 					return;
 				}
 			}
-			foreach ($eqLogic->getCmd('action', 'modeAction') as $action) {
+			foreach ($eqLogic->getCmd('action', 'modeAction', null, true) as $action) {
 				if (is_object($action) && $action->getName() == $_value) {
 					$action->execCmd();
 					break;
