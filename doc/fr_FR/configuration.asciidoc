@@ -18,7 +18,7 @@ Dans un premier temps, nous allons vous montrer la mise en œuvre, puis détaill
 
 Le plugin thermostat disposent de nombreux paramètres et certains ne sont accessibles qu'en mode expert. Nous supposerons être dans ce mode tout au long de cette présentation.
 
-==== La configuration en quelques clics
+=== La configuration en quelques clics
 Le thermostat de Jeedom est très puissant mais pour une utilisation traditionnelle, sa mise en œuvre est vraiment simple et rapide, à partir du moment où on a compris les étapes essentielles :
 
 - définition du Moteur de thermostat (hystérésis ou temporel). C'est le choix de l'algorithme de régulation.
@@ -40,18 +40,17 @@ image::../images/thermostat.png["Aspect sur le dashboard",align="Center"]
 
 Le verrou présent sur le widget permet de bloquer le thermostat dans une consigne donnée, suite à un imprévu : congés, invités,....
 
-[icon="../images/plugin/tip.png"]
 [TIP]
 Il est possible de changer l'apparence de la roue de réglage d la consigne en modifiant le widget du thermostat (par le menu Général/Affichage).
 
-==== La création d'un thermostat en détail
+=== La création d'un thermostat en détail
 Pour créer un nouveau thermostat, rendez-vous sur la page de configuration en déroulant le menu Plugins/Bien-être et sélectionnez Thermostat. Cliquez sur le bouton Ajouter un thermostat situé en haut à gauche et renseignez le nom souhaité pour votre thermostat.
 
 image::../images/thermostat_config_générale.png["Configuration générale",align="Center"]
 
 Dans un premier temps, nous allons renseigner les paramètres généraux du thermostat. On les trouve en haut à gauche, section général et il faut préciser ici l'objet parent, l'activation et la visibilité du thermostat, informations habituelles pour tout utilisateur de jeedom.
 
-==== Le choix de l'algorithme du thermostat
+=== Le choix de l'algorithme du thermostat
 
 image::../images/thermostat31.png["Choix de l'algorithme",align="Center"]
 
@@ -65,7 +64,6 @@ Par exemple, si on règle l'hystérésis à 1°C et que la valeur de consigne va
 
 Les paramètres à fournir sont l'hystérésis en °C et la commande qui permet de récupérer la mesure de température. On règlera l'hystérésis en fonction de la précision du capteur, par exemple pour une sonde précise à 0.5°C, un hystérésis de 0.2°C est un bon compromis.
 
-[icon="../images/plugin/tip.png"]
 [TIP]
 Le paramètre hystérésis se trouve dans l'onglet _Configuration avancée_, accessible en mode expert.
 
@@ -77,7 +75,7 @@ Enfin, plus le temps de cycle sera grand, plus la régulation sera lente. A l'in
 
 Ce type de régulation est plus optimisé, il améliore le confort et permet de réaliser des économies d'énergie substantielles.
 
-==== La configuration
+=== La configuration
 Outre le moteur de fonctionnement du thermostat, vous pouvez décider si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez sa plage d'utilisation : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget.
 
 image::../images/configFonctionnement.png["Configuration du fonctionnement",align="Center"]
@@ -86,7 +84,6 @@ Ensuite, il faut préciser les commandes qui permettent de mesurer la températu
 
 image::../images/selectionsondes.png["Sélection des sondes",align="Center"]
 
-[icon="../images/plugin/tip.png"]
 [TIP]
 Les champs `Borne de température inférieure` et `Borne de température supérieure` définissent la plage de fonctionnement du thermostat en dehors de laquelle une défaillance du chauffage est enclenchée. Voir ci dessous le paragraphe sur les actions de défaillance.
 
@@ -100,7 +97,7 @@ image::../images/actionssurappareil.png["Actions sur les appareils",align="Cente
 
 Les actions sont celles qui permettent de chauffer, de refroidir (climatisation), d'arrêter la commande. Une action complémentaire peut être envisagée à chaque changement de consigne, que ce soit en mode manuel ou automatique.
 
-==== Les modes : le point de départ pour l'automatisation
+=== Les modes : le point de départ pour l'automatisation
 Les modes (définis dans l'onglet _configuration des modes_) sont des consignes prédéterminées du thermostat qui correspondent à votre mode de vie. Par exemple, le mode [blue]#*Nuit*# ou [blue]#*Eco*# donne la température que vous souhaitez lorsque tout le monde dort. Le mode [blue]#*Jour*# ou [blue]#*Confort*# détermine le comportement du thermostat pour avoir une température de confort lorsque vous êtes présent au domicile. Ici, rien n'est figé. Vous pouvez définir autant de modes que vous souhaitez pour les utiliser via des scénarios (Nous y reviendrons plus tard).
 
 Dans l'image ci-dessous, le mode [blue]#*Confort*# a une valeur de consigne de 19°C et pour le mode [blue]#*Eco*#, le thermostat est réglé à 17°C. Le mode [blue]#*Vacances*# programme le thermostat à 15°C en cas d'absence prolongée. Il n'est pas visible sur le dashboard, car c'est un scénario qui programme tous les équipements en _vacances_ qui va positionner le thermostat sur ce mode. 
@@ -115,7 +112,7 @@ Pour définir un mode, procédez comme suit :
 * ajustez la température souhaitée pour ce mode,
 * cochez la case *Visible* pour faire apparaître ce mode sur le widget du thermostat sur le Dashboard.
 
-==== Les ouvertures : pour interrompre temporairement le thermostat
+=== Les ouvertures : pour interrompre temporairement le thermostat
 Imaginons que vous souhaitez arrêter momentanément votre chauffage ou votre climatiseur, par exemple pour aérer la pièce pour laquelle le thermostat est actif. Pour détecter l'ouverture de la fenêtre, vous utiliserez un capteur situé sur l'ouvrant de votre fenêtre, vous permettant ainsi de réaliser cette interruption en l'ajoutant dans l'onglet de configuration des ouvertures. Deux paramètres supplémentaires sont réglables ici, ce sont les durées d'ouverture et de fermeture de la fenêtre qui vont provoquer l'interruption et la reprise du fonctionnement du thermostat.
 
 image::../images/configouvertures.png["Configuration des ouvertures",align="Center"]
@@ -127,17 +124,15 @@ Pour configurer le fonctionnement à l'ouverture de la fenêtre :
 * ajuster le temps après fermeture de la fenêtre permettant de relancer le thermostat dans le champ `Rallumer si fermé depuis (min) :`
 * cliquez sur le bouton _Sauvegarder_ pour enregistrer la prise en compte des ouvertures
 
-[icon="../images/plugin/tip.png"]
 [TIP]
 Il est possible de définir plusieurs ouvertures, ceci est nécessaire lorsque le thermostat contrôle une zone composée de plusieurs pièces.
 
-==== Prévoir un mode dégradé grâce à la gestion des défaillances
+=== Prévoir un mode dégradé grâce à la gestion des défaillances
 Les défaillances peuvent provenir soit des sondes de température, soit de la commande de chauffage. Le thermostat peut détecter un défaut lors d'un écart prolongé de la température avec la consigne.
 
-===== Défaillance des sondes de température
+==== Défaillance des sondes de température
 Si les sondes utilisées par le thermostat ne renvoie plus l'information de température, par exemple en cas d'usure des piles, alors le thermostat enclenche les actions de défaillance. Lorsque le défaut survient, il est possible de mettre l'appareil dans un mode de fonctionnement prédéterminé, par exemple forcer l'ordre d'un radiateur fil pilote. Plus simplement l'envoi d'un message par sms ou pushbullet permet d'être prévenu et d'intervenir manuellement.
  
-[icon="../images/plugin/tip.png"]
 [TIP]
 Le paramètre qui permet au thermostat de décider d'une défaillance de sonde est situé dans l'onglet _Configuration avancée_. Il s'agit du `délai max entre 2 relevés de température`.
 
@@ -151,10 +146,9 @@ Pour définir une action de défaillance :
 
 Vous pouvez saisir plusieurs actions, qui seront exécutées en séquence et dans le cas d'actions plus complexes, faire appel à un scénario.
 
-===== Défaillance du chauffage/climatisation
+==== Défaillance du chauffage/climatisation
 Le bon fonctionnement du chauffage ou de la climatisation est conditionné par un bon suivi de consigne. Ainsi, si la température s'écarte de la plage de fonctionnement du thermostat, celui-ci enclenche les actions de défaillance du chauffage/climatisation.
 
-[icon="../images/plugin/tip.png"]
 [TIP]
 Le paramètre qui permet au thermostat de décider d'une défaillance de sonde est situé dans l'onglet _Configuration avancée_. Il s'agit de la `Marge de défaillance chaud` pour le chauffage et de la `Marge de défaillance froid` pour la climatisation.
 
@@ -172,11 +166,10 @@ Pour définir une action de défaillance :
 
 Vous pouvez saisir plusieurs actions, qui seront exécutées en séquence et dans le cas d'actions plus complexes, faire appel à un scénario.
 
-==== Gérer des cas particulier avec la configuration avancée du thermostat
+=== Gérer des cas particulier avec la configuration avancée du thermostat
 
 Cet onglet contient tous les paramètres de réglage du thermostat en mode temporel. Dans la plupart des cas, il n'est pas nécessaire de modifier ces valeurs, car l'auto-apprentisssage va calculer automatiquement les coefficients. Cependant, même si le thermostat peut s'adapter à la plupart des cas de figure, il est possible d'ajuster les coefficients pour une configuration optimisée à votre installation.
 
-[icon="../images/plugin/important.png"]
 [IMPORTANT]
 Cet onglet n'est accessible qu'en mode expert (cocher `Profil, Mode expert`).
 
@@ -196,7 +189,7 @@ Les coefficients sont les suivants :
 * *Marge de défaillance chaud / Marge de défaillance froid* : cette valeur est utilisée pour détecter un défaut de fonctionnement du chauffage/climatisation. Lorsque la température sort de cette marge par rapport à la consigne pendant plus de 3 cycles consécutifs, le thermostat passe en mode de défaillance du chauffage. 
 
 
-==== Un exemple concret d'utilisation du thermostat
+=== Un exemple concret d'utilisation du thermostat
 Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l'expliquer est de prendre un cas d'utilisation. Ainsi, on souhaite programmer notre thermostat en fonction des heures de présence des occupants de la maison.
 
 Dans un premier temps, nous allons utiliser 2 scénarios pour mettre le chauffage en mode [blue]#*Confort*# (consigne 20°C) tous les matins de la semaine entre 5h et 7h30, puis le soir entre 17h et 21h. Le mode [blue]#*Confort*# sera également activé le mercredi après-midi de 12h à 21h et le week-end de 8h à 22h. Le reste du temps, le chauffage bascule en mode [blue]#*Eco*#, avec une consigne de 18°C.
@@ -223,10 +216,9 @@ Si la création de scénario est parfois compliqué, pour le cas de la programma
 
 Le plugin agenda permet d'aller plus loin dans la programmation et surtout présente moins de risque de se tromper. En effet, par rapport à la programmation précédente, le calendrier va apparaître en clair sur l'écran et on va pouvoir tenir compte des jours fériés, des vacances....Bref, piloter le thermostat en fonction de son mode de vie.
 
-==== Programmation avec le plugin agenda
+=== Programmation avec le plugin agenda
 Nous ne présentons pas ici le plugin Agenda, l'objectif étant de le coupler avec la programmation du thermostat. A noter que si vous disposez du plugin agenda, un onglet _programmation_ apparaît dans la configuration du thermostat, permettant d'accéder directement à l'agenda associé.
 
-[icon="../images/plugin/important.png"]
 [IMPORTANT]
 Cet onglet n'est accessible qu'en mode expert (cocher `Profil, Mode expert`).
 
@@ -248,7 +240,7 @@ En revenant dans la configuration du thermostat, on peut accéder aux évènemen
 
 image::../images/thermostatongletprogrammation.png["onglet programmation du thermostat",align="Center"]
 
-==== Visualisation du fonctionnement du thermostat
+=== Visualisation du fonctionnement du thermostat
 Une fois le thermostat configuré, il est important de vérifier son efficacité. 
 
 image::../images/menuaccueilthermostats.png["Menu de visualisation des thermostats",align="Center"]
