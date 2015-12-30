@@ -197,6 +197,7 @@ class thermostat extends eqLogic {
 
 				$thermostat->setConfiguration('nbConsecutiveFaillure', $thermostat->getConfiguration('nbConsecutiveFaillure') + 1);
 				if ($thermostat->getConfiguration('nbConsecutiveFaillure', 0) > 2) {
+					log::add('thermostat', 'error', $thermostat->getHumanName() . ' : Attention une défaillance du chauffage est détectée');
 					$thermostat->failureActuator();
 				}
 			} else {
