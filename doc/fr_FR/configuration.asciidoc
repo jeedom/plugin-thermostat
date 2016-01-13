@@ -190,11 +190,32 @@ image::../images/configurationavancee.png["Configuration avancée du thermostat"
 * *Marge de défaillance chaud / Marge de défaillance froid* : cette valeur est utilisée pour détecter un défaut de fonctionnement du chauffage/climatisation. Lorsque la température sort de cette marge par rapport à la consigne pendant plus de 3 cycles consécutifs, le thermostat passe en mode de défaillance du chauffage. 
 
 [TIP]
-L'apprentissage est toujours actif. Mais la phase d'initialisation peut être relativement longue (compter environ 3 jours). Pendant cette période, il convient d'avoir des périodes suffisamment longues pendant lesquelles la consigne ne change pas.
+L'apprentissage est toujours actif. Mais la phase d'initialisation peut être relativement longue (compter environ 3 jours). Pendant cette phase, il convient d'avoir des périodes suffisamment longues pendant lesquelles la consigne ne change pas.
 
 === Les commandes du thermostat
 Le widget du thermostat est intégré au plugin, les commandes du thermostat ne sont donc pas toutes directement accessibles dans la configuration du plugin. Il faudra utiliser le _Résumé Domotique_ (menu Général) pour les paramétrer. Elles seront également utilisables dans les scénarios.
-   
+
+image::../images/thermostatlistecommandes.png["Liste des commandes dans le résumé domotique",align="Center"]
+ 
+Toutes les commandes ne sont pas accessibles en programmation, certaines sont des informations d'état renvoyées par le plugin. 
+Dans les scénarios, on trouve :
+
+image::../images/thermostatcommandesscenario.png["Liste des commandes dans les scénarios",align="Center"]
+
+* *Les modes* : il est possible de faire les changements de mode, en exécutant directement les commandes (ici, Confort, Confort matin, Eco, Vacances) ;
+* *Off* : cette commande coupe le thermostat, la régulation n'est plus active, le chauffage/climatisation est arrêté ;
+* *Thermostat* : il s'agit de la consigne du thermostat ;
+* *lock* : commande de verrouillage, il n'est pas possible de modifier l'état du thermostat (changement de mode, consigne) ;
+* *unlock* : déverrouille le thermostat permetant de modifier son état ;
+* *Chauffage seulement* : la régulation n'intervient que pour chauffer ;
+* *Climatisation seulement* : la régulation n'est active que pour refroidir ;
+* *Offset chauffage* : modifie le coefficient d'offset du chauffage correspondant aux apports internes : un scénario peut modifier ce paramètre en fonction d'un détecteur de présence par exemple ;
+* *Offset froid* :  comme ci-dessus mais pour la climatisation ;
+* *Tout autorisé* : modifie le comportement du thermostat pour agir à la fois en chauffage et en climatisation ;
+
+[TIP]
+L'utilisation du thermostat en mode `Chauffage seulement` nécesite d'avoir défini les commandes _Pour chauffer je dois ?_ et _Pour tout arrêter je dois ?_
+En mode `Climatisation seulement`, il faut les commandes _Pour refroidir je dois ?_ et _Pour tout arrêter je dois ?_. Et en mode `Tout autorisé`, il est nécessaire d'avoir saisi les 3 commandes.
 
 === Un exemple concret d'utilisation du thermostat
 Lorsque votre thermostat est configuré, il faut réaliser la programmation. La meilleure méthode pour l'expliquer est de prendre un cas d'utilisation. Ainsi, on souhaite programmer notre thermostat en fonction des heures de présence des occupants de la maison.
