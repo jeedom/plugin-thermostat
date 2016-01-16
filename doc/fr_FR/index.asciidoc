@@ -1,7 +1,14 @@
-= Thermostats
+﻿= Thermostats
 
 == Description
-Plugin permetant de creer et gerer des thermostats
+[role="text-justify"]
+Ce plugin permet de créer et gérer des thermostats, pour piloter le chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
+
+[role="text-justify"]
+- le mode *hystéresis* correspond à l'allumage et l'extinction du chauffage en fonction de la température intérieure, par rapport à un seuil correspondant à la consigne. L'hystéresis permet d'éviter des commutations trop fréquentes lorsque la température est autour la consigne.
+
+[role="text-justify"]
+- le mode *temporel* calcule un pourcentage de chauffage sur un cycle temporel prédéfini, en tenant compte des écarts entre la consigne et les températures intérieure et extérieure (isolation). Ce mode est plus précis, dispose d'un apprentissage permettant d'ajuster automatiquement les coefficients mais peut nécessiter quelques réglages manuels pour l'adapter à votre installation.
 
 '''
 == Configuration
