@@ -653,6 +653,7 @@ class thermostat extends eqLogic {
 		if ($next['date'] != '' && strtotime($next['date']) > strtotime(date('Y-m-d H:i:s'))) {
 			$temporal_data = $this->calculTemporalData($next['consigne'], true);
 			if ($temporal_data['power'] < 0) {
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart non pris en compte car power < 0 ' . $temporal_data['power']);
 				return;
 			}
 			$duration = ($temporal_data['power'] * $cycle) / 100;
@@ -661,13 +662,16 @@ class thermostat extends eqLogic {
 				return '';
 			}
 			$next['schedule'] = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart duration : ' . $duration . ' à ' . $next['date'] . ' programmation : ' . $next['schedule']);
 			if (!$_autoschedule) {
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart non pris en compte car autoschedule true');
 				return $next;
 			}
 			if (strtotime($next['schedule']) > (strtotime('now') + 120)) {
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
 				$this->reschedule($next['schedule'], false, true);
 			} else {
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart programmation trop proche de la date actuel';
 				// $this->reschedule(null, false, true);
 			}
 		}
