@@ -183,12 +183,12 @@ class thermostat extends eqLogic {
 			$temp_in = $cmd->execCmd();
 			if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 				$thermostat->stopThermostat();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min');
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp')  . ' min.'. __('Thermostat mis en sécurité',__FILE__));
 				return;
 			}
 			$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 
-			if (!is_numeric($temp_in)) {
+			if (!is_numeric($temp_in)) { 
 				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
 				return;
 			}
