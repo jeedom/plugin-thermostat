@@ -1484,10 +1484,9 @@ class thermostatCmd extends cmd {
 					$cmd = cmd::byId($cmd_id);
 					if (is_object($cmd) && $cmd->getType() == 'info') {
 						$cmd->execCmd();
-						if ($date == '' || strtotime($date) < strtotime($$cmd->getCollectDate())) {
+						if ($date == '' || strtotime($date) < strtotime($cmd->getCollectDate())) {
 							$date = $cmd->getCollectDate();
 						}
-						break;
 					}
 				}
 			}
