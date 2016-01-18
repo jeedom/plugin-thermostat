@@ -183,12 +183,12 @@ class thermostat extends eqLogic {
 			$temp_in = $cmd->execCmd();
 			if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 				$thermostat->stopThermostat();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp')  . ' min.'. __('Thermostat mis en sécurité',__FILE__));
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min.' . __('Thermostat mis en sécurité', __FILE__));
 				return;
 			}
 			$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 
-			if (!is_numeric($temp_in)) { 
+			if (!is_numeric($temp_in)) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
 				return;
 			}
@@ -671,7 +671,7 @@ class thermostat extends eqLogic {
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
 				$this->reschedule($next['schedule'], false, true);
 			} else {
-				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart programmation trop proche de la date actuel';
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart programmation trop proche de la date actuel');
 				// $this->reschedule(null, false, true);
 			}
 		}
