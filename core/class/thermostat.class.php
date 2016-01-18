@@ -907,7 +907,7 @@ class thermostat extends eqLogic {
 			$temperature->setSubType('numeric');
 			$temperature->setLogicalId('temperature');
 			$temperature->setOrder(0);
-			$temperature->setEventOnly(0);
+			$temperature->setEventOnly(1);
 			$temperature->setUnite('°C');
 			$temperature->setIsVisible(1);
 			$temperature->setIsHistorized(1);
@@ -940,7 +940,7 @@ class thermostat extends eqLogic {
 			$temperature_outdoor->setSubType('numeric');
 			$temperature_outdoor->setLogicalId('temperature_outdoor');
 			$temperature_outdoor->setOrder(0);
-			$temperature_outdoor->setEventOnly(0);
+			$temperature_outdoor->setEventOnly(1);
 			$temperature_outdoor->setUnite('°C');
 			$temperature_outdoor->setIsVisible(0);
 			$temperature_outdoor->setIsHistorized(1);
