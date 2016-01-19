@@ -498,8 +498,8 @@ class thermostat extends eqLogic {
 	}
 
 	public function calculTemporalData($_consigne, $_allowOverfull = false) {
-		$temp_out = $cmd_tempout->execCmd();
-		$temp_in = $cmd_tempin->execCmd();
+		$temp_out = $this->getCmd(null, 'temperature_outdoor')->execCmd();
+		$temp_in = $this->getCmd(null, 'temperature')->execCmd();
 		if (!is_numeric($temp_out)) {
 			$temp_out = $_consigne;
 		}
