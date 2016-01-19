@@ -1479,21 +1479,18 @@ class thermostatCmd extends cmd {
 		}
 		if ($this->getLogicalId() == 'temperature') {
 			preg_match_all("/#([0-9]*)#/", $eqLogic->getConfiguration('temperature_indoor'), $matches);
-			log::add('thermostat', 'debug', 'Calcul indoor : ' . $eqLogic->getConfiguration('temperature_indoor') . ' => ' . print_r($matches, true));
 			$date = '';
 			foreach ($matches[1] as $cmd_id) {
 				if (is_numeric($cmd_id)) {
 					$cmd = cmd::byId($cmd_id);
 					if (is_object($cmd) && $cmd->getType() == 'info') {
 						$cmd->execCmd();
-						log::add('thermostat', 'debug', 'Collect date => ' . $cmd->getCollectDate() . ' for ' . $cmd->getId());
 						if ($date == '' || strtotime($date) < strtotime($cmd->getCollectDate())) {
 							$date = $cmd->getCollectDate();
 						}
 					}
 				}
 			}
-			log::add('thermostat', 'debug', 'Result collect date => ' . $date);
 			if ($date != '') {
 				$this->setCollectDate($date);
 			}
