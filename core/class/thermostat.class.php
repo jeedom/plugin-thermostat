@@ -98,7 +98,7 @@ class thermostat extends eqLogic {
 			$temp = $cmd->execCmd();
 			if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 				$thermostat->stopThermostat();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . __(' min', __FILE__));
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . __(' min', __FILE__) . ' (' . $cmd->getCollectDate() . ')');
 				return;
 			}
 			$consigne = $thermostat->getCmd(null, 'order')->execCmd();
@@ -183,7 +183,7 @@ class thermostat extends eqLogic {
 			$temp_in = $cmd->execCmd();
 			if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 				$thermostat->stopThermostat();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min.' . __('Thermostat mis en sécurité', __FILE__));
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
 				return;
 			}
 			$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
@@ -332,78 +332,77 @@ class thermostat extends eqLogic {
 	}
 
 	public static function cron() {
-		foreach (thermostat::byType('thermostat') as $thermostat) {
-			if ($thermostat->getIsEnable() == 1) {
-				if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
-					try {
-						$c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
-						if ($c->isDue()) {
-							switch ($thermostat->getCmd(null, 'status')->execCmd()) {
-								case __('Chauffage', __FILE__):
-									$thermostat->heat(true);
-									break;
-								case __('Arrêté', __FILE__):
-									$thermostat->stopThermostat(true);
-									break;
-								case __('Climatisation', __FILE__):
-									$thermostat->cool(true);
-									break;
-							}
-						}
-					} catch (Exception $e) {
-						log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
-					}
-				}
-				if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal' && date('i') % 10 == 0) {
-					$cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($thermostat->getId())));
-					if (!is_object($cron)) {
-						$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+2 min ' . date('Y-m-d H:i:s'))));
-					} else {
-						if ($cron->getState() != 'run') {
-							try {
-								$c = new Cron\CronExpression($cron->getSchedule(), new Cron\FieldFactory);
-								if (!$c->isDue()) {
-									$c->getNextRunDate();
-								}
-							} catch (Exception $ex) {
-								$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+2 min ' . date('Y-m-d H:i:s'))));
-							}
+		foreach (thermostat::byType('thermostat', true) as $thermostat) {
+			if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
+				try {
+					$c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
+					if ($c->isDue()) {
+						switch ($thermostat->getCmd(null, 'status')->execCmd()) {
+							case __('Chauffage', __FILE__):
+								$thermostat->heat(true);
+								break;
+							case __('Arrêté', __FILE__):
+								$thermostat->stopThermostat(true);
+								break;
+							case __('Climatisation', __FILE__):
+								$thermostat->cool(true);
+								break;
 						}
 					}
-				}
-				if ($thermostat->getConfiguration('engine', 'temporal') == 'hysteresis' && $thermostat->getConfiguration('hysteresis_cron') != '') {
-					try {
-						$c = new Cron\CronExpression($thermostat->getConfiguration('hysteresis_cron'), new Cron\FieldFactory);
-						if ($c->isDue()) {
-							$thermostat->getCmd(null, 'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
-							thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
-						}
-					} catch (Exception $e) {
-						log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
-					}
-				}
-
-				if (strtolower($thermostat->getCmd(null, 'mode')->execCmd()) == 'off') {
-					continue;
-				}
-				$temperature = $thermostat->getCmd(null, 'temperature');
-				$temp_in = $temperature->execCmd();
-				if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
-					if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
-						$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
-						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp'));
-					}
-				}
-				if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
-					$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
-					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est en dessous du seuil autorisé : ', __FILE__) . $temp_in);
-				}
-				if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in) {
-					$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
-					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est au dessus du seuil autorisé : ', __FILE__) . $temp_in);
+				} catch (Exception $e) {
+					log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
 				}
 			}
+			if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal' && date('i') % 10 == 0) {
+				$cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($thermostat->getId())));
+				if (!is_object($cron)) {
+					$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+2 min ' . date('Y-m-d H:i:s'))));
+				} else {
+					if ($cron->getState() != 'run') {
+						try {
+							$c = new Cron\CronExpression($cron->getSchedule(), new Cron\FieldFactory);
+							if (!$c->isDue()) {
+								$c->getNextRunDate();
+							}
+						} catch (Exception $ex) {
+							$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+2 min ' . date('Y-m-d H:i:s'))));
+						}
+					}
+				}
+			}
+			if ($thermostat->getConfiguration('engine', 'temporal') == 'hysteresis' && $thermostat->getConfiguration('hysteresis_cron') != '') {
+				try {
+					$c = new Cron\CronExpression($thermostat->getConfiguration('hysteresis_cron'), new Cron\FieldFactory);
+					if ($c->isDue()) {
+						$thermostat->getCmd(null, 'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
+						thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
+					}
+				} catch (Exception $e) {
+					log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
+				}
+			}
+
+			if (strtolower($thermostat->getCmd(null, 'mode')->execCmd()) == 'off') {
+				continue;
+			}
+			$temperature = $thermostat->getCmd(null, 'temperature');
+			$temp_in = $temperature->execCmd();
+			if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
+				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
+					$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
+					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . '(' . $temperature->getCollectDate() . ')');
+				}
+			}
+			if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
+				$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est en dessous du seuil autorisé : ', __FILE__) . $temp_in);
+			}
+			if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in) {
+				$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est au dessus du seuil autorisé : ', __FILE__) . $temp_in);
+			}
 		}
+
 	}
 
 	public static function start() {
@@ -499,8 +498,8 @@ class thermostat extends eqLogic {
 	}
 
 	public function calculTemporalData($_consigne, $_allowOverfull = false) {
-		$temp_out = $this->getCmd(null, 'temperature_outdoor')->execCmd();
-		$temp_in = $this->getCmd(null, 'temperature')->execCmd();
+		$temp_out = $cmd_tempout->execCmd();
+		$temp_in = $cmd_tempin->execCmd();
 		if (!is_numeric($temp_out)) {
 			$temp_out = $_consigne;
 		}
@@ -1478,18 +1477,21 @@ class thermostatCmd extends cmd {
 		}
 		if ($this->getLogicalId() == 'temperature') {
 			preg_match_all("/#([0-9]*)#/", $eqLogic->getConfiguration('temperature_indoor'), $matches);
+			log::add('thermostat', 'debug', 'Calcul indoor : ' . $eqLogic->getConfiguration('temperature_indoor') . ' => ' . print_r($matches, true));
 			$date = '';
 			foreach ($matches[1] as $cmd_id) {
 				if (is_numeric($cmd_id)) {
 					$cmd = cmd::byId($cmd_id);
 					if (is_object($cmd) && $cmd->getType() == 'info') {
 						$cmd->execCmd();
+						log::add('thermostat', 'debug', 'Collect date => ' . $cmd->getCollectDate() . ' for ' . $cmd->getId());
 						if ($date == '' || strtotime($date) < strtotime($cmd->getCollectDate())) {
 							$date = $cmd->getCollectDate();
 						}
 					}
 				}
 			}
+			log::add('thermostat', 'debug', 'Result collect date => ' . $date);
 			if ($date != '') {
 				$this->setCollectDate($date);
 			}
