@@ -856,7 +856,7 @@ class thermostat extends eqLogic {
 			$lock = $this->getCmd(null, 'lock');
 			if (!is_object($lock)) {
 				$lock = new thermostatCmd();
-				$lock->setTemplate('dashboard', 'smallLock');
+				$lock->setTemplate('dashboard', 'lock');
 				$lock->setTemplate('mobile', 'lock');
 			}
 			$lock->setEqLogic_id($this->getId());
@@ -876,7 +876,7 @@ class thermostat extends eqLogic {
 			$unlock = $this->getCmd(null, 'unlock');
 			if (!is_object($unlock)) {
 				$unlock = new thermostatCmd();
-				$unlock->setTemplate('dashboard', 'smallLock');
+				$unlock->setTemplate('dashboard', 'lock');
 				$unlock->setTemplate('mobile', 'lock');
 			}
 			$unlock->setEqLogic_id($this->getId());
