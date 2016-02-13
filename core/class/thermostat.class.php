@@ -786,7 +786,6 @@ class thermostat extends eqLogic {
 			$order->getConfiguration('historyDefaultValue', '#previsous#');
 			$order->setConfiguration('maxValue', $this->getConfiguration('order_max'));
 			$order->setConfiguration('minValue', $this->getConfiguration('order_min'));
-			$order->setEventOnly(1);
 			$order->setOrder(1);
 			$order->save();
 
@@ -819,7 +818,6 @@ class thermostat extends eqLogic {
 			$status->setSubType('string');
 			$status->setLogicalId('status');
 			$status->setIsVisible(1);
-			$status->setEventOnly(1);
 			$status->setOrder(5);
 			$status->save();
 
@@ -833,7 +831,6 @@ class thermostat extends eqLogic {
 			$actif->setSubType('binary');
 			$actif->setLogicalId('actif');
 			$actif->setIsVisible(0);
-			$actif->setEventOnly(1);
 			$actif->setIsHistorized(1);
 			$actif->save();
 
@@ -849,7 +846,6 @@ class thermostat extends eqLogic {
 			$lockState->setSubType('binary');
 			$lockState->setLogicalId('lock_state');
 			$lockState->setIsVisible(0);
-			$lockState->setEventOnly(1);
 			$lockState->setOrder(7);
 			$lockState->save();
 
@@ -906,7 +902,6 @@ class thermostat extends eqLogic {
 			$temperature->setSubType('numeric');
 			$temperature->setLogicalId('temperature');
 			$temperature->setOrder(0);
-			$temperature->setEventOnly(1);
 			$temperature->setUnite('°C');
 			$temperature->setIsVisible(1);
 			$temperature->setIsHistorized(1);
@@ -939,7 +934,6 @@ class thermostat extends eqLogic {
 			$temperature_outdoor->setSubType('numeric');
 			$temperature_outdoor->setLogicalId('temperature_outdoor');
 			$temperature_outdoor->setOrder(0);
-			$temperature_outdoor->setEventOnly(1);
 			$temperature_outdoor->setUnite('°C');
 			$temperature_outdoor->setIsVisible(0);
 			$temperature_outdoor->setIsHistorized(1);
@@ -1029,7 +1023,6 @@ class thermostat extends eqLogic {
 			$mode->setLogicalId('mode');
 			$mode->setOrder(3);
 			$mode->setIsVisible(1);
-			$mode->setEventOnly(1);
 			$mode->save();
 
 			$off = $this->getCmd(null, 'off');
