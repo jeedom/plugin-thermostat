@@ -15,11 +15,11 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$("#div_heat").sortable({axis: "y", cursor: "move", items: ".heat", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-$("#div_cool").sortable({axis: "y", cursor: "move", items: ".cool", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-$("#div_stop").sortable({axis: "y", cursor: "move", items: ".stop", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-$("#div_orderChange").sortable({axis: "y", cursor: "move", items: ".orderChange", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-$("#div_failureActuator").sortable({axis: "y", cursor: "move", items: ".failureActuator", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+ $("#div_heat").sortable({axis: "y", cursor: "move", items: ".heat", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+ $("#div_cool").sortable({axis: "y", cursor: "move", items: ".cool", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+ $("#div_stop").sortable({axis: "y", cursor: "move", items: ".stop", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+ $("#div_orderChange").sortable({axis: "y", cursor: "move", items: ".orderChange", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+ $("#div_failureActuator").sortable({axis: "y", cursor: "move", items: ".failureActuator", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
  $(".eqLogic").delegate(".listCmdInfo", 'click', function () {
     var el = $(this).closest('.form-group').find('.eqLogicAttr');
@@ -114,7 +114,9 @@ $("#div_failureActuator").sortable({axis: "y", cursor: "move", items: ".failureA
  $("body").delegate(".removeMode", 'click', function () {
     var el = $(this);
     bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce mode}} ?', function (result) {
-        el.closest('.mode').remove();
+        if (result !== null) {
+            el.closest('.mode').remove();
+        }
     });
 });
 
@@ -218,7 +220,7 @@ function printEqLogic(_eqLogic) {
 }
 
 function printScheduling(_eqLogic){
- $.ajax({
+   $.ajax({
     type: 'POST',
     url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
     data: {
@@ -242,12 +244,12 @@ function printScheduling(_eqLogic){
             for (var i in data.result) {
                 var color = init(data.result[i].cmd_param.color, '#2980b9');
                 if(data.result[i].cmd_param.transparent == 1){
-                   color = 'transparent';
-               }
-               html += '<span class="label label-info cursor" style="font-size:1.2em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
-               html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
+                 color = 'transparent';
+             }
+             html += '<span class="label label-info cursor" style="font-size:1.2em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
+             html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
 
-               if (data.result[i].cmd_param.eventName != '') {
+             if (data.result[i].cmd_param.eventName != '') {
                 html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.eventName;
             } else {
                 html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.name;
@@ -297,17 +299,17 @@ function addModeAction(_modeAction, _el) {
     div += '<label class="col-sm-1 control-label">Action</label>';
     div += '<div class="col-sm-3">';
     div += '<div class="input-group">';
+    div += '<span class="input-group-btn">';
+    div += '<a class="btn btn-default bt_removeAction btn-sm" data-type="modeAction"><i class="fa fa-minus-circle"></i></a>';
+    div += '</span>';
     div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="modeAction" />';
     div += '<span class="input-group-btn">';
     div += '<a class="btn btn-default btn-sm listCmdAction" data-type="modeAction"><i class="fa fa-list-alt"></i></a>';
     div += '</span>';
     div += '</div>';
     div += '</div>';
-    div += '<div class="col-sm-6 actionOptions">';
+    div += '<div class="col-sm-7 actionOptions">';
     div += jeedom.cmd.displayActionOption(init(_modeAction.cmd, ''), _modeAction.options);
-    div += '</div>';
-    div += '<div class="col-sm-1">';
-    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="modeAction"></i>';
     div += '</div>';
     div += '</div>';
     _el.append(div);
@@ -321,17 +323,17 @@ function addAction(_action, _type) {
     div += '<label class="col-sm-1 control-label">Action</label>';
     div += '<div class="col-sm-4">';
     div += '<div class="input-group">';
+    div += '<span class="input-group-btn">';
+    div += '<a class="btn btn-default bt_removeAction btn-sm" data-type="' + _type + '"><i class="fa fa-minus-circle"></i></a>';
+    div += '</span>';
     div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="' + _type + '" />';
     div += '<span class="input-group-btn">';
     div += '<a class="btn btn-default btn-sm listCmdAction" data-type="' + _type + '"><i class="fa fa-list-alt"></i></a>';
     div += '</span>';
     div += '</div>';
     div += '</div>';
-    div += '<div class="col-sm-6 actionOptions">';
+    div += '<div class="col-sm-7 actionOptions">';
     div += jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options);
-    div += '</div>';
-    div += '<div class="col-sm-1">';
-    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="' + _type + '"></i>';
     div += '</div>';
     div += '</div>';
     $('#div_' + _type).append(div);
@@ -345,6 +347,9 @@ function addWindow(_info) {
     div += '<label class="col-sm-1 control-label">Ouverture</label>';
     div += '<div class="col-sm-4">';
     div += '<div class="input-group">';
+    div += '<span class="input-group-btn">';
+    div += '<a class="btn btn-default bt_removeAction btn-sm" data-type="window"><i class="fa fa-minus-circle"></i></a>';
+    div += '</span>';
     div += '<input class="expressionAttr form-control input-sm cmdInfo" data-l1key="cmd" />';
     div += '<span class="input-group-btn">';
     div += '<a class="btn btn-default btn-sm listCmdInfoWindow"><i class="fa fa-list-alt"></i></a>';
@@ -359,9 +364,6 @@ function addWindow(_info) {
     div += '<div class="col-sm-1">';
     div += '<input class="expressionAttr form-control input-sm cmdInfo" data-l1key="restartTime"/>';
     div += '</div>';
-    div += '<div class="col-sm-1">';
-    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="window"></i>';
-    div += '</div>';
     div += '</div>';
     $('#div_window').append(div);
     $('#div_window .window:last').setValues(_info, '.expressionAttr');
@@ -373,17 +375,17 @@ function addFailure(_info) {
     div += '<label class="col-sm-1 control-label">Action</label>';
     div += '<div class="col-sm-4">';
     div += '<div class="input-group">';
+    div += '<span class="input-group-btn">';
+    div += '<a class="btn btn-default bt_removeAction btn-sm" data-type="failure"><i class="fa fa-minus-circle"></i></a>';
+    div += '</span>';
     div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="failure" />';
     div += '<span class="input-group-btn">';
     div += '<a class="btn btn-default btn-sm listCmdAction" data-type="failure"><i class="fa fa-list-alt"></i></a>';
     div += '</span>';
     div += '</div>';
     div += '</div>';
-    div += '<div class="col-sm-6 actionOptions">';
+    div += '<div class="col-sm-7 actionOptions">';
     div += jeedom.cmd.displayActionOption(init(_info.cmd, ''), _info.options);
-    div += '</div>';
-    div += '<div class="col-sm-1">';
-    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="failure"></i>';
     div += '</div>';
     div += '</div>';
     $('#div_failure').append(div);
@@ -396,17 +398,17 @@ function addFailureActuator(_info) {
     div += '<label class="col-sm-1 control-label">Action</label>';
     div += '<div class="col-sm-4">';
     div += '<div class="input-group">';
+    div += '<span class="input-group-btn">';
+    div += '<a class="btn btn-default bt_removeAction btn-sm" data-type="failureActuator"><i class="fa fa-minus-circle"></i></a>';
+    div += '</span>';
     div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="failureActuator" />';
     div += '<span class="input-group-btn">';
     div += '<a class="btn btn-default btn-sm listCmdAction" data-type="failureActuator"><i class="fa fa-list-alt"></i></a>';
     div += '</span>';
     div += '</div>';
     div += '</div>';
-    div += '<div class="col-sm-6 actionOptions">';
+    div += '<div class="col-sm-7 actionOptions">';
     div += jeedom.cmd.displayActionOption(init(_info.cmd, ''), _info.options);
-    div += '</div>';
-    div += '<div class="col-sm-1">';
-    div += '<i class="fa fa-minus-circle pull-right cursor bt_removeAction" data-type="failureActuator"></i>';
     div += '</div>';
     div += '</div>';
     $('#div_failureActuator').append(div);
