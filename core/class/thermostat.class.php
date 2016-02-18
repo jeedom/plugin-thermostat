@@ -1154,6 +1154,10 @@ class thermostat extends eqLogic {
 		$consigne = $this->getCmd(null, 'order')->execCmd();
 		foreach ($this->getConfiguration('heating') as $action) {
 			try {
+				$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
+				if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
+					continue;
+				}
 				$options = array();
 				if (isset($action['options'])) {
 					$options = $action['options'];
@@ -1193,6 +1197,10 @@ class thermostat extends eqLogic {
 		$consigne = $this->getCmd(null, 'order')->execCmd();
 		foreach ($this->getConfiguration('cooling') as $action) {
 			try {
+				$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
+				if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
+					continue;
+				}
 				$options = array();
 				if (isset($action['options'])) {
 					$options = $action['options'];
@@ -1222,6 +1230,10 @@ class thermostat extends eqLogic {
 		$consigne = $this->getCmd(null, 'order')->execCmd();
 		foreach ($this->getConfiguration('stoping') as $action) {
 			try {
+				$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
+				if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
+					continue;
+				}
 				$options = array();
 				if (isset($action['options'])) {
 					$options = $action['options'];
@@ -1250,6 +1262,10 @@ class thermostat extends eqLogic {
 			$consigne = $this->getCmd(null, 'order')->execCmd();
 			foreach ($this->getConfiguration('orderChange') as $action) {
 				try {
+					$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
+					if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
+						continue;
+					}
 					$options = array();
 					if (isset($action['options'])) {
 						$options = $action['options'];
