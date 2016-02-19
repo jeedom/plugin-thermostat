@@ -1134,6 +1134,10 @@ class thermostat extends eqLogic {
 				$listener->remove();
 			}
 		}
+
+		if ($this->getCmd(null, 'status')->execCmd() == 0) {
+			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
+		}
 	}
 
 	public function heat($_repeat = false) {
@@ -1567,7 +1571,7 @@ class thermostatCmd extends cmd {
 				}
 			} else {
 				$thermostat = $eqLogic->getCmd(null, 'thermostat');
-				nodejs::pushUpdate('eventCmd', array('cmd_id' => $thermostat->getId()));
+				event::add('eventCmd', array('cmd_id' => $thermostat->getId()));
 			}
 			return '';
 		}
