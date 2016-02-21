@@ -1112,7 +1112,7 @@ class thermostat extends eqLogic {
 			if ($this->getConfiguration('engine', 'temporal') != 'temporal' || $this->getIsEnable() != 1) {
 				$cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($this->getId())));
 				if (is_object($cron)) {
-					$cron->stopThermostat();
+					$this->stopThermostat();
 					$cron->remove();
 				}
 			}
