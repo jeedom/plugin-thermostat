@@ -501,6 +501,7 @@ class thermostat extends eqLogic {
 		$temp_out = $this->getCmd(null, 'temperature_outdoor')->execCmd();
 		$temp_in = $this->getCmd(null, 'temperature')->execCmd();
 		if (!is_numeric($temp_out)) {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : Attention température exterieur incorrection : ' . $temp_out);
 			$temp_out = $_consigne;
 		}
 
