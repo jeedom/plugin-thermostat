@@ -1555,8 +1555,8 @@ class thermostatCmd extends cmd {
 				}
 				$eqLogic->getCmd(null, 'order')->event($_options['slider']);
 				$eqLogic->getCmd(null, 'mode')->event(__('Aucun', __FILE__));
-
-				if ($eqLogic->getCmd(null, 'status')->execCmd() == 0 || trim($eqLogic->getCmd(null, 'status')->execCmd()) == '' || $eqLogic->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
+				$state = $eqLogic->getCmd(null, 'status')->execCmd();
+				if ($state == 0 || trim($state) == '' || $state != __('Suspendu', __FILE__)) {
 					$eqLogic->orderChange();
 					if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
 						thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
