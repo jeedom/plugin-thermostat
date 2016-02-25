@@ -643,8 +643,6 @@ class thermostat extends eqLogic {
 				}
 			}
 		}
-		log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule : ' . print_r($next, true));
-
 		if ($next == null || $next['date'] == '') {
 			return '';
 		}
