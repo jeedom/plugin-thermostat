@@ -47,12 +47,16 @@ class thermostat extends eqLogic {
 						}
 						if ($thermostat->getCmd(null, 'order')->execCmd() < $next['consigne']) {
 							if ($next['type'] == 'thermostat') {
+								log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type thermostat envoi de la consigne : ' . $next['consigne']);
 								$cmd = $thermostat->getCmd(null, 'thermostat');
 								$cmd->execCmd(array('slider' => $next['consigne']));
 							}
 							if ($next['type'] == 'mode' && is_object($next['cmd'])) {
+								log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type mode envoi de la commande : ' . $next['cmd']);
 								$next['cmd']->execCmd();
 							}
+						} else {
+							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Pas de smart start car la consigne est inferieure à la consigne actuel : ' . $thermostat->getCmd(null, 'order')->execCmd() . ' < ' . $next['consigne']);
 						}
 					}
 				} else {
