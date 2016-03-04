@@ -41,10 +41,7 @@ class thermostat extends eqLogic {
 						$cron->remove(false);
 					}
 					if ($thermostat->getConfiguration('smart_start') == 1) {
-						$next = $thermostat->getNextState();
-						if ($next == '' || strtotime($next['schedule']) > strtotime('now')) {
-							return;
-						}
+						$next = $_options['next'];
 						if ($thermostat->getCmd(null, 'order')->execCmd() < $next['consigne']) {
 							if ($next['type'] == 'thermostat') {
 								log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type thermostat envoi de la consigne : ' . $next['consigne']);
@@ -158,7 +155,7 @@ class thermostat extends eqLogic {
 
 			if ($thermostat->getConfiguration('smart_start') == 1) {
 				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
-				$thermostat->getNextState(true);
+				$thermostat->getNextState();
 				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart start end');
 			}
 
@@ -480,6 +477,7 @@ class thermostat extends eqLogic {
 		}
 		if ($_smartThermostat) {
 			$options['smartThermostat'] = intval(1);
+			$options['next'] = $_smartThermostat;
 		}
 		$cron = cron::byClassAndFunction('thermostat', 'pull', $options);
 		if ($_next != null) {
@@ -542,7 +540,7 @@ class thermostat extends eqLogic {
 		return array('power' => $power, 'direction' => $direction);
 	}
 
-	public function getNextState($_autoschedule = false) {
+	public function getNextState() {
 		if ($this->getConfiguration('engine', 'temporal') != 'temporal') {
 			return '';
 		}
@@ -665,10 +663,6 @@ class thermostat extends eqLogic {
 			}
 			$next['schedule'] = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
 			log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart duration : ' . $duration . ' à ' . $next['date'] . ' programmation : ' . $next['schedule']);
-			if (!$_autoschedule) {
-				log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart non pris en compte car autoschedule false');
-				return $next;
-			}
 			if (strtotime($next['schedule']) > (strtotime('now') + 120)) {
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
 				$this->reschedule($next['schedule'], false, true);
