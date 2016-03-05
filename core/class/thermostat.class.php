@@ -475,7 +475,7 @@ class thermostat extends eqLogic {
 		if ($_stop) {
 			$options['stop'] = intval(1);
 		}
-		if ($_smartThermostat) {
+		if ($_smartThermostat !== false) {
 			$options['smartThermostat'] = intval(1);
 			$options['next'] = $_smartThermostat;
 		}
@@ -665,7 +665,7 @@ class thermostat extends eqLogic {
 			log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart duration : ' . $duration . ' à ' . $next['date'] . ' programmation : ' . $next['schedule']);
 			if (strtotime($next['schedule']) > (strtotime('now') + 120)) {
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
-				$this->reschedule($next['schedule'], false, true);
+				$this->reschedule($next['schedule'], false, $next);
 			} else {
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart programmation trop proche de la date actuel');
 				// $this->reschedule(null, false, true);
