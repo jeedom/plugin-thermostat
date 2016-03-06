@@ -13,3 +13,5 @@ Ce plugin permet de créer et gérer des thermostats, pour piloter le chauffage 
 '''
 == Configuration
 include::configuration.asciidoc[]
+
+include::faq.asciidoc[]
