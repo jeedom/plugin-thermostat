@@ -35,12 +35,13 @@ class thermostat extends eqLogic {
 						$cron->remove(true);
 					}
 				} elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
-					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat::pull => mode smart');
+					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat::pull => mode smart : ' . print_($_options, true));
 					$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
 					if (is_object($cron)) {
 						$cron->remove(false);
 					}
 					if ($thermostat->getConfiguration('smart_start') == 1) {
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : next info : ' . print_($_options['next'], true));
 						$next = $_options['next'];
 						if ($thermostat->getCmd(null, 'order')->execCmd() < $next['consigne']) {
 							if ($next['type'] == 'thermostat') {
