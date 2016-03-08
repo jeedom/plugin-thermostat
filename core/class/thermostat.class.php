@@ -42,20 +42,16 @@ class thermostat extends eqLogic {
 					}
 					if ($thermostat->getConfiguration('smart_start') == 1) {
 						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : next info : ' . print_r($_options['next'], true));
-						if ($thermostat->getCmd(null, 'order')->execCmd() < $_options['next']['consigne']) {
-							if ($_options['next']['type'] == 'thermostat') {
-								log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type thermostat envoi de la consigne : ' . $_options['next']['consigne']);
-								$cmd = $thermostat->getCmd(null, 'thermostat');
-								$cmd->execCmd(array('slider' => $_options['next']['consigne']));
-							} else if ($_options['next']['type'] == 'mode' && isset($_options['next']['cmd'])) {
-								$mode = cmd::byId($_options['next']['cmd']);
-								if (is_object($mode)) {
-									log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type mode envoi de la commande : ' . $_options['next']['cmd']);
-									$mode->execCmd();
-								}
+						if ($_options['next']['type'] == 'thermostat') {
+							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type thermostat envoi de la consigne : ' . $_options['next']['consigne']);
+							$cmd = $thermostat->getCmd(null, 'thermostat');
+							$cmd->execCmd(array('slider' => $_options['next']['consigne']));
+						} else if ($_options['next']['type'] == 'mode' && isset($_options['next']['cmd'])) {
+							$mode = cmd::byId($_options['next']['cmd']);
+							if (is_object($mode)) {
+								log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type mode envoi de la commande : ' . $_options['next']['cmd']);
+								$mode->execCmd();
 							}
-						} else {
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Pas de smart start car la consigne est inferieure à la consigne actuel : ' . $thermostat->getCmd(null, 'order')->execCmd() . ' < ' . $_options['next']['consigne']);
 						}
 					}
 				} else {
@@ -586,7 +582,7 @@ class thermostat extends eqLogic {
 						}
 					}
 					$nextOccurence = $event->nextOccurrence($position, true);
-					if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
+					if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
 						$consigne = 0;
 						foreach ($this->getConfiguration('existingMode') as $existingMode) {
 							if ($mode->getName() == $existingMode['name']) {
@@ -634,7 +630,7 @@ class thermostat extends eqLogic {
 						}
 					}
 					$nextOccurence = $event->nextOccurrence($position, true);
-					if ($nextOccurence['date'] != '' && ($next == null || strtotime($next['date']) > strtotime($nextOccurence['date']))) {
+					if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
 						$next = array(
 							'date' => $nextOccurence,
 							'event' => $event,
