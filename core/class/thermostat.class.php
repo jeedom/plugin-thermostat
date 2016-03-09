@@ -597,6 +597,7 @@ class thermostat extends eqLogic {
 							$next = array(
 								'date' => $nextOccurence['date'],
 								'event' => $event,
+								'consigne' => $consigne,
 								'cmd' => $mode->getId(),
 								'type' => 'mode',
 							);
