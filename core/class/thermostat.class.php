@@ -1040,7 +1040,7 @@ class thermostat extends eqLogic {
 			$off->setLogicalId('off');
 			$off->setOrder(1);
 			$off->setIsVisible(1);
-			$off->setDisplay('generic_type', 'THERMOSTAT_MODE');
+			$off->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
 			$off->save();
 		}
 		$knowModes = array();
@@ -1074,6 +1074,7 @@ class thermostat extends eqLogic {
 				$mode->setIsVisible($knowMode['isVisible']);
 			}
 			$mode->setOrder(1);
+          	$mode->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
 			$mode->save();
 		}
 
