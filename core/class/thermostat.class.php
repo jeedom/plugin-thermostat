@@ -1053,6 +1053,7 @@ class thermostat extends eqLogic {
 			if ($cmd->getLogicalId() == 'modeAction') {
 				if (isset($knowModes[$cmd->getName()])) {
 					$cmd->setOrder(1);
+					$cmd->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
 					if (isset($knowModes[$cmd->getName()]['isVisible'])) {
 						$cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
 					}
