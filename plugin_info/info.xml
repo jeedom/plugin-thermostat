@@ -3,12 +3,9 @@
     <id>thermostat</id>
     <name>Thermostat</name>
     <description>Plugin pour la gestion de la température</description>
-    <icon>fa fa-tachometer</icon>
     <licence>AGPL</licence>
-    <author>Loïc Gevrey</author>
-    <installation>Aucune</installation>
-    <require>1.89</require>
-    <version>1.0</version>
+    <author>Loïc</author>
+    <require>2.0</require>
     <category>wellness</category>
     <display>panel</display>
     <mobile>panel</mobile>
