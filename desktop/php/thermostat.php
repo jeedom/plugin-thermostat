@@ -77,8 +77,8 @@ foreach (object::all() as $object) {
                    <div class="form-group">
                     <label class="col-sm-4 control-label">{{Activer}}</label>
                     <div class="col-sm-8">
-                        <input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
-                        <input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
+                        <input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>{{Activer}}
+                        <input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}
                     </div>
                 </div>
 
@@ -288,7 +288,7 @@ try {
                 <div class="form-group">
                     <label class="col-sm-2 control-label">{{Masquer commande de verrouillage}}</label>
                     <div class="col-sm-5">
-                        <input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-l1key="configuration" data-l2key="hideLockCmd" />
+                        <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="hideLockCmd" />
                     </div>
                 </div>
                 <div class='form-group'>
@@ -363,11 +363,11 @@ try {
                 <div class="form-group engine temporal">
                     <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
                     <div class="col-sm-2">
-                        <input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-l1key="configuration" data-l2key="autolearn" checked />
+                        <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
                     </div>
                     <label class="col-sm-2 control-label">{{Smart start}}</label>
                     <div class="col-sm-2">
-                        <input type="checkbox" class="eqLogicAttr bootstrapSwitch tooltips" data-l1key="configuration" data-l2key="smart_start" checked title="{{Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.}}" />
+                        <input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked title="{{Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.}}" />
                     </div>
                 </div>
                 <div class="form-group engine temporal">
