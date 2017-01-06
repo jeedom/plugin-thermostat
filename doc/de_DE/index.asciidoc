@@ -1,6 +1,6 @@
 ﻿= Thermostats
 
-== Description
+== Beschreibung
 [role="text-justify"]
 Ce plugin permet de créer et gérer des thermostats, pour piloter le chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
 
