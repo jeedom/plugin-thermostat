@@ -75,7 +75,7 @@ Enfin, plus le temps de cycle sera grand, plus la régulation sera lente. A l'in
 
 Ce type de régulation est plus optimisé, il améliore le confort et permet de réaliser des économies d'énergie substantielles.
 
-=== La configuration
+=== Konfiguration
 Outre le moteur de fonctionnement du thermostat, vous pouvez décider si le thermostat est utilisé en mode chauffage, climatisation ou les deux. Puis vous indiquez sa plage d'utilisation : les températures minimale et maximale vont définir les valeurs possibles de consigne accessibles sur le widget.
 
 image::../images/configFonctionnement.png["Configuration du fonctionnement",align="Center"]
