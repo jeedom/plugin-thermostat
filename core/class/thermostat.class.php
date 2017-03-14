@@ -1282,6 +1282,7 @@ class thermostat extends eqLogic {
 							$options[$key] = str_replace('#slider#', $consigne, $value);
 						}
 					}
+					$options['modeChange'] = true;
 					scenarioExpression::createAndExec('action', $action['cmd'], $options);
 				} catch (Exception $e) {
 					log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
@@ -1563,7 +1564,9 @@ class thermostatCmd extends cmd {
 					$_options['slider'] = $min;
 				}
 				$eqLogic->getCmd(null, 'order')->event($_options['slider']);
-				$eqLogic->getCmd(null, 'mode')->event(__('Aucun', __FILE__));
+				if (!isset($_options['modeChange'])) {
+					$eqLogic->getCmd(null, 'mode')->event(__('Aucun', __FILE__));
+				}
 				$state = $eqLogic->getCmd(null, 'status')->execCmd();
 				if ($state == 0 || trim($state) == '' || $state != __('Suspendu', __FILE__)) {
 					$eqLogic->orderChange();
