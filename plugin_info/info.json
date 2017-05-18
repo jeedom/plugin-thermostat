@@ -1,0 +1,11 @@
+{
+	"id" : "thermostat",
+	"name" : "Thermostat",
+	"description" : "Plugin pour la gestion de la température",
+	"licence" : "AGPL",
+	"author" : "Loïc",
+	"require" : "3.0",
+	"category" : "wellness",
+	"display" : "panel",
+	"mobile" : "panel"
+}
