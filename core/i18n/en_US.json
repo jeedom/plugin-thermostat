@@ -45,7 +45,7 @@
         "Masquer commande de verrouillage": "Hide lock command",
         "Cron de répétition de commande": "Command repetition cron",
         "Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron to send back thermostat commands (stop, heating, cooling), if your thermostat doesn't start or stop correctly, use this check.",
-        "Délai max entre 2 relevés de température (min)": "Maximim time between 2 temperature readings (min)",
+        "Délai max entre 2 relevés de température (min)": "Maximum time period between 2 temperature readings (min)",
         "Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance": "Maximum time between 2 temperature readings before putting the thermostat in failure state",
         "Pour une meilleure régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement": "For better control, it is advisable not to change these coefficients as they are computed and updated automatically.",
         "Coefficient chauffage": "Heating coefficient",
