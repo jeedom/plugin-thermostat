@@ -282,7 +282,6 @@ function addMode(_mode) {
     div += '</form>';
     $('#div_modes').append(div);
     $('#div_modes .mode:last').setValues(_mode, '.modeAttr');
-    initCheckBox();
     if (isset(_mode.actions)) {
         for (var i in _mode.actions) {
             if (init(_mode.actions[i].cmd) != '') {
