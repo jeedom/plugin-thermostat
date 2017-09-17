@@ -46,147 +46,155 @@ foreach ($eqLogics as $eqLogic) {
 </div>
 
 <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
-    <div class="row">
-        <div class="col-sm-6">
-            <form class="form-horizontal">
-                <fieldset>
-                    <legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}
-                        <i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i>
-                    </legend>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">{{Nom du thermostat}}</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-                            <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du thermostat}}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label" >{{Objet parent}}</label>
-                        <div class="col-sm-6">
-                            <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
-                                <option value="">{{Aucun}}</option>
-                                <?php
-foreach (object::all() as $object) {
-	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-}
-?>
-                           </select>
-                       </div>
-                   </div>
 
-                   <div class="form-group">
-                    <label class="col-sm-4 control-label">{{Activer}}</label>
-                    <div class="col-sm-8">
-                        <input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>{{Activer}}
-                        <input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}
-                    </div>
-                </div>
-
-            </fieldset>
-        </form>
-    </div>
-    <div class="col-sm-6">
-        <form class="form-horizontal">
-            <fieldset>
-                <legend>{{Configuration}}
-                    <a class="btn btn-xs btn-default pull-right eqLogicAction" data-action="copy"><i class="fa fa-files-o"></i> {{Dupliquer}}</a>
-                </legend>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">{{Moteur}}</label>
-                    <div class="col-sm-6">
-                        <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="engine" placeholder="" >
-                            <option value="temporal">Temporel</option>
-                            <option value="hysteresis">Hysteresis</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">{{Autoriser}}</label>
-                    <div class="col-sm-6">
-                        <select class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="allow_mode" title="{{Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.}}">
-                            <option value="all">Tout</option>
-                            <option value="heat">Chauffage uniquement</option>
-                            <option value="cool">Climatisation uniquement</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">{{Température min (°C)}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="order_min" title="{{Précisez l'écart de température que le thermostat est autorisé à piloter}}"/>
-                    </div>
-                    <label class="col-sm-2 control-label">{{max (°C)}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="order_max" title="{{Précisez l'écart de température que le thermostat est autorisé à piloter}}"/>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</div>
-<hr/>
-<form class="form-horizontal">
-    <fieldset>
-        <div class="alert alert-info">
-            {{Veuillez ajouter vos sondes de température}}
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">{{Température intérieure}}</label>
-            <div class="col-sm-9">
-                <div class="input-group">
-                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor" data-concat="1"/>
-                    <span class="input-group-btn">
-                        <a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group expertModeVisible">
-            <label class="col-sm-2 control-label">{{Borne de température inférieure}}</label>
-            <div class="col-sm-2">
-                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_min" />
-            </div>
-            <label class="col-sm-2 control-label">{{Borne de température supérieure}}</label>
-            <div class="col-sm-2">
-                <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_max" />
-            </div>
-        </div>
-        <div class="form-group engine temporal">
-            <label class="col-sm-2 control-label">{{Température extérieure}}</label>
-            <div class="col-sm-9">
-                <div class="input-group">
-                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
-                    <span class="input-group-btn">
-                        <a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
-                    </span>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-    <hr/>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#configureAction" data-toggle="tab">{{Configuration des actions}}</a></li>
-        <li><a href="#configureMode" data-toggle="tab">{{Configuration des modes}}</a></li>
-        <li><a href="#configureWindows" data-toggle="tab">{{Configuration des ouvertures}}</a></li>
-        <li><a href="#configureFailure" data-toggle="tab">{{Défaillance sonde de température}}</a></li>
-        <li><a href="#configureFailureActuator" data-toggle="tab">{{Défaillance du chauffage/climatisation}}</a></li>
-        <li class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab">{{Configuration avancée}}</a></li>
-        <?php
+   <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+   <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+   <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a>
+   <ul class="nav nav-tabs" role="tablist">
+     <li role="presentation"><a class="eqLogicAction cursor" aria-controls="home" role="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
+     <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipement}}</a></li>
+     <li role="presentation"><a href="#configureAction" data-toggle="tab"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{Actions}}</a></li>
+     <li role="presentation"><a href="#configureMode" data-toggle="tab"><i class="fa fa-modx" aria-hidden="true"></i> {{Modes}}</a></li>
+     <li role="presentation"><a href="#configureWindows" data-toggle="tab"><i class="icon jeedom-fenetre-ouverte"></i> {{Ouvertures}}</a></li>
+     <li role="presentation"><a href="#configureFailure" data-toggle="tab"><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Défaillance sonde}}</a></li>
+     <li role="presentation"><a href="#configureFailureActuator" data-toggle="tab"><i class="icon techno-heating3"></i>  {{Défaillance chauffage}}</a></li>
+     <?php
 try {
 	$plugin = plugin::byId('calendar');
 	if (is_object($plugin)) {
 		?>
-              <li class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab">{{Programmation}}</a></li>
-              <?php
+          <li  role="presentation" class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
+          <?php
 }
 } catch (Exception $e) {
 
 }
 ?>
-  </ul>
+  <li  role="presentation" class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="eqlogictab">
+        <div class="row">
+            <div class="col-sm-6">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}
+                            <i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i>
+                        </legend>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{Nom du thermostat}}</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+                                <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du thermostat}}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" >{{Objet parent}}</label>
+                            <div class="col-sm-6">
+                                <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
+                                    <option value="">{{Aucun}}</option>
+                                    <?php
+foreach (object::all() as $object) {
+	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+}
+?>
+                               </select>
+                           </div>
+                       </div>
 
-  <div class="tab-content">
-    <div class="tab-pane active" id="configureAction">
+                       <div class="form-group">
+                        <label class="col-sm-4 control-label">{{Activer}}</label>
+                        <div class="col-sm-8">
+                            <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>{{Activer}}</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>{{Configuration}}
+                        <a class="btn btn-xs btn-default pull-right eqLogicAction" data-action="copy"><i class="fa fa-files-o"></i> {{Dupliquer}}</a>
+                    </legend>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{Moteur}}</label>
+                        <div class="col-sm-6">
+                            <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="engine" placeholder="" >
+                                <option value="temporal">Temporel</option>
+                                <option value="hysteresis">Hysteresis</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{Autoriser}}</label>
+                        <div class="col-sm-6">
+                            <select class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="allow_mode" title="{{Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.}}">
+                                <option value="all">Tout</option>
+                                <option value="heat">Chauffage uniquement</option>
+                                <option value="cool">Climatisation uniquement</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{Température min (°C)}}</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="order_min" title="{{Précisez l'écart de température que le thermostat est autorisé à piloter}}"/>
+                        </div>
+                        <label class="col-sm-2 control-label">{{max (°C)}}</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="order_max" title="{{Précisez l'écart de température que le thermostat est autorisé à piloter}}"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="alert alert-info">
+                {{Veuillez ajouter vos sondes de température}}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{Température intérieure}}</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor" data-concat="1"/>
+                        <span class="input-group-btn">
+                            <a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group expertModeVisible">
+                <label class="col-sm-2 control-label">{{Borne de température inférieure}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_min" />
+                </div>
+                <label class="col-sm-2 control-label">{{Borne de température supérieure}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_max" />
+                </div>
+            </div>
+            <div class="form-group engine temporal">
+                <label class="col-sm-2 control-label">{{Température extérieure}}</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
+                        <span class="input-group-btn">
+                            <a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+
+    <div class="tab-pane" id="configureAction">
         <br/>
         <form class="form-horizontal">
             <fieldset>
@@ -418,16 +426,6 @@ try {
     </div>
 
 </div>
-
-<hr/>
-<form class="form-horizontal">
-    <fieldset>
-        <div class="form-actions">
-            <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
-            <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-        </div>
-    </fieldset>
-</form>
 </div>
 </div>
 
