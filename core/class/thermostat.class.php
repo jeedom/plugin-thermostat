@@ -565,7 +565,7 @@ class thermostat extends eqLogic {
 				foreach ($events as $event) {
 					$calendar = $event->getEqLogic();
 					$stateCalendar = $calendar->getCmd(null, 'state');
-					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() !=1)) {
+					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
 						continue;
 					}
 					foreach ($event->getCmd_param('start') as $action) {
@@ -613,7 +613,7 @@ class thermostat extends eqLogic {
 				foreach ($events as $event) {
 					$calendar = $event->getEqLogic();
 					$stateCalendar = $calendar->getCmd(null, 'state');
-					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() !=1)) {
+					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
 						continue;
 					}
 					foreach ($event->getCmd_param('start') as $action) {
@@ -746,8 +746,11 @@ class thermostat extends eqLogic {
 		if ($this->getConfiguration('coeff_indoor_heat_autolearn') === '' || $this->getConfiguration('coeff_indoor_heat_autolearn') < 1) {
 			$this->setConfiguration('coeff_indoor_heat_autolearn', 1);
 		}
-		if ($this->getConfiguration('coeff_outdoor_autolearn') === '') {
-			$this->setConfiguration('coeff_outdoor_autolearn', 0);
+		if ($this->getConfiguration('coeff_outdoor_heat_autolearn') === '' || $this->getConfiguration('coeff_outdoor_heat_autolearn') < 1) {
+			$this->setConfiguration('coeff_outdoor_heat_autolearn', 0);
+		}
+		if ($this->getConfiguration('coeff_outdoor_cool_autolearn') === '' || $this->getConfiguration('coeff_outdoor_cool_autolearn') < 1) {
+			$this->setConfiguration('coeff_outdoor_cool_autolearn', 0);
 		}
 		if (is_array($this->getConfiguration('existingMode'))) {
 			foreach ($this->getConfiguration('existingMode') as $existingMode) {
@@ -1077,7 +1080,7 @@ class thermostat extends eqLogic {
 				$mode->setIsVisible($knowMode['isVisible']);
 			}
 			$mode->setOrder(1);
-          	$mode->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
+			$mode->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
 			$mode->save();
 		}
 
