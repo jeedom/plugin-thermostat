@@ -778,6 +778,7 @@ class thermostat extends eqLogic {
 				$order->setDisplay('generic_type', 'THERMOSTAT_SETPOINT');
 				$order->setUnite('°C');
 				$order->setName(__('Consigne', __FILE__));
+				$order->setConfiguration('historizeMode', 'none');
 				$order->setIsHistorized(1);
 			}
 			$order->setEqLogic_id($this->getId());

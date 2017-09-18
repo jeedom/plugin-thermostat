@@ -136,6 +136,18 @@ function graphThermostat(_eqLogic_id) {
                         }
                     });
                 }
+                if (cmds[i].logicalId == 'temperature_outdoor') {
+                    jeedom.history.drawChart({
+                        cmd_id: cmds[i].id,
+                        el: 'div_graph' + _eqLogic_id,
+                        start: $('#in_startDate').value(),
+                        end: $('#in_endDate').value(),
+                        option: {
+                            graphColor: '#2E9AFE',
+                            derive : 0
+                        }
+                    });
+                }
             }
 
         }
