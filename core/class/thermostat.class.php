@@ -784,7 +784,6 @@ class thermostat extends eqLogic {
 			$order->setType('info');
 			$order->setSubType('numeric');
 			$order->setLogicalId('order');
-			$order->getConfiguration('historyDefaultValue', '#previsous#');
 			$order->setConfiguration('maxValue', $this->getConfiguration('order_max'));
 			$order->setConfiguration('minValue', $this->getConfiguration('order_min'));
 			$order->save();
@@ -898,8 +897,8 @@ class thermostat extends eqLogic {
 			$temperature = $this->getCmd(null, 'temperature');
 			if (!is_object($temperature)) {
 				$temperature = new thermostatCmd();
-				$temperature->setTemplate('dashboard', 'badge');
-				$temperature->setTemplate('mobile', 'badge');
+				$temperature->setTemplate('dashboard', 'line');
+				$temperature->setTemplate('mobile', 'line');
 				$temperature->setName(__('Température', __FILE__));
 				$temperature->setOrder(0);
 				$temperature->setIsVisible(1);
@@ -930,8 +929,8 @@ class thermostat extends eqLogic {
 			$temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
 			if (!is_object($temperature_outdoor)) {
 				$temperature_outdoor = new thermostatCmd();
-				$temperature_outdoor->setTemplate('dashboard', 'badge');
-				$temperature_outdoor->setTemplate('mobile', 'badge');
+				$temperature_outdoor->setTemplate('dashboard', 'line');
+				$temperature_outdoor->setTemplate('mobile', 'line');
 				$temperature_outdoor->setIsVisible(1);
 				$temperature_outdoor->setIsHistorized(1);
 				$temperature_outdoor->setOrder(0);
