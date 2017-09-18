@@ -51,26 +51,26 @@ foreach ($eqLogics as $eqLogic) {
    <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
    <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a>
    <ul class="nav nav-tabs" role="tablist">
-     <li role="presentation"><a class="eqLogicAction cursor" aria-controls="home" role="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
-     <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipement}}</a></li>
-     <li role="presentation"><a href="#configureAction" data-toggle="tab"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{Actions}}</a></li>
-     <li role="presentation"><a href="#configureMode" data-toggle="tab"><i class="fa fa-modx" aria-hidden="true"></i> {{Modes}}</a></li>
-     <li role="presentation"><a href="#configureWindows" data-toggle="tab"><i class="icon jeedom-fenetre-ouverte"></i> {{Ouvertures}}</a></li>
-     <li role="presentation"><a href="#configureFailure" data-toggle="tab"><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Défaillance sonde}}</a></li>
-     <li role="presentation"><a href="#configureFailureActuator" data-toggle="tab"><i class="icon techno-heating3"></i>  {{Défaillance chauffage}}</a></li>
+     <li role="presentation"><a class="eqLogicAction cursor" aria-controls="home" role="tab" data-action="returnToThumbnailDisplay" style="padding:10px 5px !important"><i class="fa fa-arrow-circle-left"></i></a></li>
+     <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-tachometer"></i> {{Equipement}}</a></li>
+     <li role="presentation"><a href="#configureAction" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{Actions}}</a></li>
+     <li role="presentation"><a href="#configureMode" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-modx" aria-hidden="true"></i> {{Modes}}</a></li>
+     <li role="presentation"><a href="#configureWindows" data-toggle="tab" style="padding:10px 5px !important"><i class="icon jeedom-fenetre-ouverte"></i> {{Ouvertures}}</a></li>
+     <li role="presentation"><a href="#configureFailure" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Défaillance sonde}}</a></li>
+     <li role="presentation"><a href="#configureFailureActuator" data-toggle="tab" style="padding:10px 5px !important"><i class="icon techno-heating3"></i>  {{Défaillance chauffage}}</a></li>
      <?php
 try {
 	$plugin = plugin::byId('calendar');
 	if (is_object($plugin)) {
 		?>
-          <li  role="presentation" class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
+          <li  role="presentation" class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
           <?php
 }
 } catch (Exception $e) {
 
 }
 ?>
-  <li  role="presentation" class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
+  <li  role="presentation" class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="eqlogictab">
