@@ -214,7 +214,7 @@ function drawSimpleGraph(_el, _serie) {
             enabled: false
         },
         tooltip: {
-            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} {{heure(s)}}</b><br/>',
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} {{minute(s)}}</b><br/>',
             valueDecimals: 2,
         },
         yAxis: {
