@@ -58,7 +58,7 @@
             var series = []
             for (var i in data.result.eqLogics) {
                 $('#div_displayEquipement').append(data.result.eqLogics[i].html);
-                var div_graph = '<legend>' + data.result.eqLogics[i].eqLogic.name + '</legend>'
+                var div_graph = ''
                 div_graph += '<div class="chartContainer" id="div_graph' + data.result.eqLogics[i].eqLogic.id + '"></div>';
                 $('#div_charts').append(div_graph);
                 series.push({
@@ -155,26 +155,15 @@ function graphThermostat(_eqLogic_id) {
 }
 
 function drawSimpleGraph(_el, _serie) {
-    var legend = {
-        enabled: true,
-        borderColor: 'black',
-        borderWidth: 2,
-        shadow: true
-    };
-
     new Highcharts.StockChart({
         chart: {
             zoomType: 'x',
             renderTo: _el,
-            height: 350,
+            height: 220,
             spacingTop: 0,
             spacingLeft: 0,
             spacingRight: 0,
             spacingBottom: 0
-        },
-        credits: {
-            text: 'Copyright Jeedom',
-            href: 'http://jeedom.fr',
         },
         navigator: {
             enabled: false
@@ -212,7 +201,9 @@ function drawSimpleGraph(_el, _serie) {
             selected: 6,
             inputEnabled: false
         },
-        legend: legend,
+        legend: {
+            enabled: false
+        },
         tooltip: {
             pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} {{heure(s)}}</b><br/>',
             valueDecimals: 2,

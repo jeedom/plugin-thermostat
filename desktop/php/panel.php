@@ -45,10 +45,9 @@ foreach ($allObject as $object_li) {
          </ul>
      </div>
  </div>
-
  <div class="col-lg-10">
     <div id="div_object">
-        <legend style="height: 40px;">
+        <legend style="height: 35px;">
             <span class="objectName"></span>
             <span class="pull-right">
                 {{Du}} <input class="form-control input-sm in_datepicker" id='in_startDate' style="display : inline-block; width: 150px;" value='<?php echo $date['start'] ?>'/> {{au}}
@@ -58,16 +57,11 @@ foreach ($allObject as $object_li) {
         </legend>
     </div>
     <div class="row">
-        <div class="col-lg-4" id="div_displayEquipement">
-        </div>
-        <div class="col-lg-8" id="div_chartRuntime">
-        </div>
+        <div class="col-lg-4" id="div_displayEquipement"></div>
+        <div class="col-lg-8" id="div_chartRuntime"></div>
     </div>
-
     <div id="div_charts"></div>
 </div>
 </div>
-
 </div>
-
 <?php include_file('desktop', 'panel', 'js', 'thermostat');?>
