@@ -91,38 +91,33 @@ function graphThermostat(_eqLogic_id) {
         },
         success: function (cmds) {
             for (var i  in cmds) {
-                if (cmds[i].logicalId == 'actif' || cmds[i].logicalId == 'order') {
-                    var color = '';
-                    if (cmds[i].logicalId == 'order') {
-                        color = '#27ae60';
-                        jeedom.history.drawChart({
-                            cmd_id: cmds[i].id,
-                            el: 'div_graph' + _eqLogic_id,
-                            start: $('#in_startDate').value(),
-                            end: $('#in_endDate').value(),
-                            option: {
-                                graphStep: 1,
-                                graphColor: color,
-                                derive : 0
-                            }
-                        });
-                    }
-                    if (cmds[i].logicalId == 'actif') {
-                        color = '#2c3e50';
-                        jeedom.history.drawChart({
-                            cmd_id: cmds[i].id,
-                            el: 'div_graph' + _eqLogic_id,
-                            start: $('#in_startDate').value(),
-                            end: $('#in_endDate').value(),
-                            option: {
-                                graphStep: 1,
-                                graphColor: color,
-                                graphScale : 1,
-                                graphType : 'area',
-                                derive : 0
-                            }
-                        });
-                    }
+                if (cmds[i].logicalId == 'order') {
+                    jeedom.history.drawChart({
+                        cmd_id: cmds[i].id,
+                        el: 'div_graph' + _eqLogic_id,
+                        start: $('#in_startDate').value(),
+                        end: $('#in_endDate').value(),
+                        option: {
+                            graphStep: 1,
+                            graphColor: '#27ae60',
+                            derive : 0
+                        }
+                    });
+                }
+                if (cmds[i].logicalId == 'actif') {
+                    jeedom.history.drawChart({
+                        cmd_id: cmds[i].id,
+                        el: 'div_graph' + _eqLogic_id,
+                        start: $('#in_startDate').value(),
+                        end: $('#in_endDate').value(),
+                        option: {
+                            graphStep: 1,
+                            graphColor: '#2c3e50',
+                            graphScale : 1,
+                            graphType : 'area',
+                            derive : 0
+                        }
+                    });
                 }
                 if (cmds[i].logicalId == 'temperature') {
                     jeedom.history.drawChart({
@@ -145,6 +140,20 @@ function graphThermostat(_eqLogic_id) {
                         option: {
                             graphColor: '#2E9AFE',
                             derive : 0
+                        }
+                    });
+                }
+                if (cmds[i].logicalId == 'power') {
+                    jeedom.history.drawChart({
+                        cmd_id: cmds[i].id,
+                        el: 'div_graph' + _eqLogic_id,
+                        start: $('#in_startDate').value(),
+                        end: $('#in_endDate').value(),
+                        option: {
+                            graphColor: '#FF0000',
+                            derive : 0,
+                            graphStep: 1,
+                            graphType : 'area'
                         }
                     });
                 }
