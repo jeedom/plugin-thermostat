@@ -95,8 +95,8 @@ function graphThermostat(_eqLogic_id) {
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
+                        dateStart: $('#in_startDate').value(),
+                        dateEnd: $('#in_endDate').value(),
                         option: {
                             graphStep: 1,
                             graphColor: '#27ae60',
@@ -108,8 +108,8 @@ function graphThermostat(_eqLogic_id) {
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
+                        dateStart: $('#in_startDate').value(),
+                        dateEnd: $('#in_endDate').value(),
                         option: {
                             graphStep: 1,
                             graphColor: '#2c3e50',
@@ -123,8 +123,8 @@ function graphThermostat(_eqLogic_id) {
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
+                        dateStart: $('#in_startDate').value(),
+                        dateEnd: $('#in_endDate').value(),
                         option: {
                             graphColor: '#f39c12',
                             derive : 0
@@ -135,8 +135,8 @@ function graphThermostat(_eqLogic_id) {
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
+                        dateStart: $('#in_startDate').value(),
+                        dateEnd: $('#in_endDate').value(),
                         option: {
                             graphColor: '#2E9AFE',
                             derive : 0
@@ -147,8 +147,8 @@ function graphThermostat(_eqLogic_id) {
                     jeedom.history.drawChart({
                         cmd_id: cmds[i].id,
                         el: 'div_graph' + _eqLogic_id,
-                        start: $('#in_startDate').value(),
-                        end: $('#in_endDate').value(),
+                        dateStart: $('#in_startDate').value(),
+                        dateEnd: $('#in_endDate').value(),
                         option: {
                             graphColor: '#FF0000',
                             derive : 0,
