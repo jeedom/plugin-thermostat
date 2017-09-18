@@ -774,19 +774,19 @@ class thermostat extends eqLogic {
 			if (!is_object($order)) {
 				$order = new thermostatCmd();
 				$order->setIsVisible(0);
+				$order->setOrder(1);
+				$order->setDisplay('generic_type', 'THERMOSTAT_SETPOINT');
+				$order->setUnite('°C');
+				$order->setName(__('Consigne', __FILE__));
+				$order->setIsHistorized(1);
 			}
 			$order->setEqLogic_id($this->getId());
-			$order->setName(__('Consigne', __FILE__));
 			$order->setType('info');
 			$order->setSubType('numeric');
-			$order->setIsHistorized(1);
 			$order->setLogicalId('order');
-			$order->setUnite('°C');
 			$order->getConfiguration('historyDefaultValue', '#previsous#');
 			$order->setConfiguration('maxValue', $this->getConfiguration('order_max'));
 			$order->setConfiguration('minValue', $this->getConfiguration('order_min'));
-			$order->setOrder(1);
-			$order->setDisplay('generic_type', 'THERMOSTAT_SETPOINT');
 			$order->save();
 
 			$thermostat = $this->getCmd(null, 'thermostat');
@@ -794,47 +794,47 @@ class thermostat extends eqLogic {
 				$thermostat = new thermostatCmd();
 				$thermostat->setTemplate('dashboard', 'thermostat');
 				$thermostat->setTemplate('mobile', 'thermostat');
+				$thermostat->setUnite('°C');
+				$thermostat->setDisplay('generic_type', 'THERMOSTAT_SET_SETPOINT');
+				$thermostat->setName(__('Thermostat', __FILE__));
+				$thermostat->setIsVisible(1);
+				$thermostat->setOrder(6);
 			}
 			$thermostat->setEqLogic_id($this->getId());
-			$thermostat->setName(__('Thermostat', __FILE__));
 			$thermostat->setConfiguration('maxValue', $this->getConfiguration('order_max'));
 			$thermostat->setConfiguration('minValue', $this->getConfiguration('order_min'));
 			$thermostat->setType('action');
 			$thermostat->setSubType('slider');
-			$thermostat->setUnite('°C');
 			$thermostat->setLogicalId('thermostat');
-			$thermostat->setIsVisible(1);
-			$thermostat->setOrder(6);
 			$thermostat->setValue($order->getId());
-			$thermostat->setDisplay('generic_type', 'THERMOSTAT_SET_SETPOINT');
 			$thermostat->save();
 
 			$status = $this->getCmd(null, 'status');
 			if (!is_object($status)) {
 				$status = new thermostatCmd();
+				$status->setIsVisible(1);
+				$status->setOrder(5);
+				$status->setDisplay('generic_type', 'THERMOSTAT_STATE_NAME');
+				$status->setName(__('Statut', __FILE__));
 			}
 			$status->setEqLogic_id($this->getId());
-			$status->setName(__('Statut', __FILE__));
 			$status->setType('info');
 			$status->setSubType('string');
 			$status->setLogicalId('status');
-			$status->setIsVisible(1);
-			$status->setOrder(5);
-			$status->setDisplay('generic_type', 'THERMOSTAT_STATE_NAME');
 			$status->save();
 
 			$actif = $this->getCmd(null, 'actif');
 			if (!is_object($actif)) {
 				$actif = new thermostatCmd();
+				$actif->setName(__('Actif', __FILE__));
+				$actif->setIsVisible(0);
+				$actif->setIsHistorized(1);
+				$actif->setDisplay('generic_type', 'THERMOSTAT_STATE');
 			}
 			$actif->setEqLogic_id($this->getId());
-			$actif->setName(__('Actif', __FILE__));
 			$actif->setType('info');
 			$actif->setSubType('binary');
 			$actif->setLogicalId('actif');
-			$actif->setIsVisible(0);
-			$actif->setIsHistorized(1);
-			$actif->setDisplay('generic_type', 'THERMOSTAT_STATE');
 			$actif->save();
 
 			$lockState = $this->getCmd(null, 'lock_state');
@@ -842,15 +842,15 @@ class thermostat extends eqLogic {
 				$lockState = new thermostatCmd();
 				$lockState->setTemplate('dashboard', 'lock');
 				$lockState->setTemplate('mobile', 'lock');
+				$lockState->setName(__('Verrouillage', __FILE__));
+				$lockState->setIsVisible(0);
+				$lockState->setOrder(7);
+				$lockState->setDisplay('generic_type', 'THERMOSTAT_LOCK');
 			}
 			$lockState->setEqLogic_id($this->getId());
-			$lockState->setName(__('Verrouillage', __FILE__));
 			$lockState->setType('info');
 			$lockState->setSubType('binary');
 			$lockState->setLogicalId('lock_state');
-			$lockState->setIsVisible(0);
-			$lockState->setOrder(7);
-			$lockState->setDisplay('generic_type', 'THERMOSTAT_LOCK');
 			$lockState->save();
 
 			$lock = $this->getCmd(null, 'lock');
@@ -858,9 +858,11 @@ class thermostat extends eqLogic {
 				$lock = new thermostatCmd();
 				$lock->setTemplate('dashboard', 'lock');
 				$lock->setTemplate('mobile', 'lock');
+				$lock->setName('lock');
+				$lock->setOrder(7);
+				$lock->setDisplay('generic_type', 'THERMOSTAT_SET_LOCK');
 			}
 			$lock->setEqLogic_id($this->getId());
-			$lock->setName('lock');
 			$lock->setType('action');
 			$lock->setSubType('other');
 			$lock->setLogicalId('lock');
@@ -870,8 +872,6 @@ class thermostat extends eqLogic {
 				$lock->setIsVisible(1);
 			}
 			$lock->setValue($lockState->getId());
-			$lock->setOrder(7);
-			$lock->setDisplay('generic_type', 'THERMOSTAT_SET_LOCK');
 			$lock->save();
 
 			$unlock = $this->getCmd(null, 'unlock');
@@ -879,9 +879,11 @@ class thermostat extends eqLogic {
 				$unlock = new thermostatCmd();
 				$unlock->setTemplate('dashboard', 'lock');
 				$unlock->setTemplate('mobile', 'lock');
+				$unlock->setName('unlock');
+				$unlock->setOrder(7);
+				$unlock->setDisplay('generic_type', 'THERMOSTAT_SET_UNLOCK');
 			}
 			$unlock->setEqLogic_id($this->getId());
-			$unlock->setName('unlock');
 			$unlock->setType('action');
 			$unlock->setSubType('other');
 			$unlock->setLogicalId('unlock');
@@ -891,8 +893,6 @@ class thermostat extends eqLogic {
 				$unlock->setIsVisible(1);
 			}
 			$unlock->setValue($lockState->getId());
-			$unlock->setOrder(7);
-			$unlock->setDisplay('generic_type', 'THERMOSTAT_SET_UNLOCK');
 			$unlock->save();
 
 			$temperature = $this->getCmd(null, 'temperature');
@@ -900,17 +900,16 @@ class thermostat extends eqLogic {
 				$temperature = new thermostatCmd();
 				$temperature->setTemplate('dashboard', 'badge');
 				$temperature->setTemplate('mobile', 'badge');
-				$temperature->setDisplay('parameters', array('displayHistory' => 'display : none;'));
+				$temperature->setName(__('Température', __FILE__));
+				$temperature->setOrder(0);
+				$temperature->setIsVisible(1);
+				$temperature->setIsHistorized(1);
 			}
 			$temperature->setEqLogic_id($this->getId());
-			$temperature->setName(__('Température', __FILE__));
 			$temperature->setType('info');
 			$temperature->setSubType('numeric');
 			$temperature->setLogicalId('temperature');
-			$temperature->setOrder(0);
 			$temperature->setUnite('°C');
-			$temperature->setIsVisible(1);
-			$temperature->setIsHistorized(1);
 
 			$value = '';
 			preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_indoor'), $matches);
@@ -933,17 +932,16 @@ class thermostat extends eqLogic {
 				$temperature_outdoor = new thermostatCmd();
 				$temperature_outdoor->setTemplate('dashboard', 'badge');
 				$temperature_outdoor->setTemplate('mobile', 'badge');
-				$temperature_outdoor->setDisplay('parameters', array('displayHistory' => 'display : none;'));
+				$temperature_outdoor->setIsVisible(1);
+				$temperature_outdoor->setIsHistorized(1);
+				$temperature_outdoor->setOrder(0);
+				$temperature_outdoor->setName(__('Temperature extérieure', __FILE__));
 			}
 			$temperature_outdoor->setEqLogic_id($this->getId());
-			$temperature_outdoor->setName(__('Temperature extérieure', __FILE__));
 			$temperature_outdoor->setType('info');
 			$temperature_outdoor->setSubType('numeric');
 			$temperature_outdoor->setLogicalId('temperature_outdoor');
-			$temperature_outdoor->setOrder(0);
 			$temperature_outdoor->setUnite('°C');
-			$temperature_outdoor->setIsVisible(0);
-			$temperature_outdoor->setIsHistorized(1);
 
 			$value = '';
 			preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_outdoor'), $matches);
@@ -963,49 +961,49 @@ class thermostat extends eqLogic {
 			$offsetheat = $this->getCmd(null, 'offset_heat');
 			if (!is_object($offsetheat)) {
 				$offsetheat = new thermostatCmd();
+				$offsetheat->setName(__('Offset chauffage', __FILE__));
+				$offsetheat->setIsVisible(0);
 			}
 			$offsetheat->setEqLogic_id($this->getId());
-			$offsetheat->setName(__('Offset chauffage', __FILE__));
 			$offsetheat->setType('action');
 			$offsetheat->setSubType('slider');
 			$offsetheat->setLogicalId('offset_heat');
-			$offsetheat->setIsVisible(0);
 			$offsetheat->save();
 
 			$offsetcool = $this->getCmd(null, 'offset_cool');
 			if (!is_object($offsetcool)) {
 				$offsetcool = new thermostatCmd();
+				$offsetcool->setName(__('Offset froid', __FILE__));
+				$offsetcool->setIsVisible(0);
 			}
 			$offsetcool->setEqLogic_id($this->getId());
-			$offsetcool->setName(__('Offset froid', __FILE__));
 			$offsetcool->setType('action');
 			$offsetcool->setSubType('slider');
 			$offsetcool->setLogicalId('offset_cool');
-			$offsetcool->setIsVisible(0);
 			$offsetcool->save();
 
 			$heatOnly = $this->getCmd(null, 'heat_only');
 			if (!is_object($heatOnly)) {
 				$heatOnly = new thermostatCmd();
+				$heatOnly->setName(__('Chauffage seulement', __FILE__));
+				$heatOnly->setIsVisible(0);
 			}
 			$heatOnly->setEqLogic_id($this->getId());
-			$heatOnly->setName(__('Chauffage seulement', __FILE__));
 			$heatOnly->setType('action');
 			$heatOnly->setSubType('other');
 			$heatOnly->setLogicalId('heat_only');
-			$heatOnly->setIsVisible(0);
 			$heatOnly->save();
 
 			$coolOnly = $this->getCmd(null, 'cool_only');
 			if (!is_object($coolOnly)) {
 				$coolOnly = new thermostatCmd();
+				$coolOnly->setIsVisible(0);
+				$coolOnly->setName(__('Climatisation seulement', __FILE__));
 			}
 			$coolOnly->setEqLogic_id($this->getId());
-			$coolOnly->setName(__('Climatisation seulement', __FILE__));
 			$coolOnly->setType('action');
 			$coolOnly->setSubType('other');
 			$coolOnly->setLogicalId('cool_only');
-			$coolOnly->setIsVisible(0);
 			$coolOnly->save();
 
 			$allAllow = $this->getCmd(null, 'all_allow');
@@ -1023,29 +1021,29 @@ class thermostat extends eqLogic {
 			$mode = $this->getCmd(null, 'mode');
 			if (!is_object($mode)) {
 				$mode = new thermostatCmd();
+				$mode->setName(__('Mode', __FILE__));
+				$mode->setOrder(3);
+				$mode->setIsVisible(1);
+				$mode->setDisplay('generic_type', 'THERMOSTAT_MODE');
 			}
 			$mode->setEqLogic_id($this->getId());
-			$mode->setName(__('Mode', __FILE__));
 			$mode->setType('info');
 			$mode->setSubType('string');
 			$mode->setLogicalId('mode');
-			$mode->setOrder(3);
-			$mode->setIsVisible(1);
-			$mode->setDisplay('generic_type', 'THERMOSTAT_MODE');
 			$mode->save();
 
 			$off = $this->getCmd(null, 'off');
 			if (!is_object($off)) {
 				$off = new thermostatCmd();
+				$off->setOrder(1);
+				$off->setIsVisible(1);
+				$off->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
+				$off->setName(__('Off', __FILE__));
 			}
 			$off->setEqLogic_id($this->getId());
-			$off->setName(__('Off', __FILE__));
 			$off->setType('action');
 			$off->setSubType('other');
 			$off->setLogicalId('off');
-			$off->setOrder(1);
-			$off->setIsVisible(1);
-			$off->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
 			$off->save();
 		}
 		$knowModes = array();
