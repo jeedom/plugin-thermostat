@@ -26,49 +26,47 @@ class thermostat extends eqLogic {
 
 	public static function pull($_options) {
 		$thermostat = thermostat::byId($_options['thermostat_id']);
-		if (is_object($thermostat)) {
-			if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
-				if (isset($_options['stop']) && $_options['stop'] == 1) {
-					$thermostat->stopThermostat();
-					$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
-					if (is_object($cron)) {
-						$cron->remove(true);
-					}
-				} elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
-					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat::pull => mode smart : ' . print_r($_options, true));
-					$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
-					if (is_object($cron)) {
-						$cron->remove(false);
-					}
-					if ($thermostat->getConfiguration('smart_start') == 1) {
-						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : next info : ' . print_r($_options['next'], true));
-						if ($_options['next']['type'] == 'thermostat') {
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type thermostat envoi de la consigne : ' . $_options['next']['consigne']);
-							$cmd = $thermostat->getCmd(null, 'thermostat');
-							$cmd->execCmd(array('slider' => $_options['next']['consigne']));
-						} else if ($_options['next']['type'] == 'mode' && isset($_options['next']['cmd'])) {
-							$mode = cmd::byId($_options['next']['cmd']);
-							if (is_object($mode)) {
-								log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type mode envoi de la commande : ' . $_options['next']['cmd']);
-								$mode->execCmd();
-							}
-						}
-					}
-				} else {
-					self::temporal($_options);
-				}
-			} else {
-				$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
-				if (is_object($cron)) {
-					$cron->remove();
-				}
-			}
-		} else {
+		if (!is_object($thermostat)) {
 			$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
 			if (is_object($cron)) {
 				$cron->remove();
 			}
 			throw new Exception('Thermostat ID non trouvé : ' . $_options['thermostat_id'] . '. Tache supprimé');
+		}
+		if ($thermostat->getConfiguration('engine', 'temporal') != 'temporal') {
+			$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
+			if (is_object($cron)) {
+				$cron->remove();
+			}
+		}
+		if (isset($_options['stop']) && $_options['stop'] == 1) {
+			$thermostat->stopThermostat();
+			$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
+			if (is_object($cron)) {
+				$cron->remove(true);
+			}
+		} elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat::pull => mode smart : ' . print_r($_options, true));
+			$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
+			if (is_object($cron)) {
+				$cron->remove(false);
+			}
+			if ($thermostat->getConfiguration('smart_start') == 1) {
+				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : next info : ' . print_r($_options['next'], true));
+				if ($_options['next']['type'] == 'thermostat') {
+					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type thermostat envoi de la consigne : ' . $_options['next']['consigne']);
+					$cmd = $thermostat->getCmd(null, 'thermostat');
+					$cmd->execCmd(array('slider' => $_options['next']['consigne']));
+				} else if ($_options['next']['type'] == 'mode' && isset($_options['next']['cmd'])) {
+					$mode = cmd::byId($_options['next']['cmd']);
+					if (is_object($mode)) {
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Type mode envoi de la commande : ' . $_options['next']['cmd']);
+						$mode->execCmd();
+					}
+				}
+			}
+		} else {
+			self::temporal($_options);
 		}
 	}
 
@@ -146,168 +144,165 @@ class thermostat extends eqLogic {
 
 	public static function temporal($_options) {
 		$thermostat = thermostat::byId($_options['thermostat_id']);
-		if (is_object($thermostat)) {
-			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
-			$thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
-			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
+		if (!is_object($thermostat)) {
+			return;
+		}
+		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
+		$thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
+		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
 
-			if ($thermostat->getConfiguration('smart_start') == 1) {
-				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
-				$thermostat->getNextState();
-				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart start end');
-			}
+		if ($thermostat->getConfiguration('smart_start') == 1) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
+			$thermostat->getNextState();
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart start end');
+		}
 
-			$mode = $thermostat->getCmd(null, 'mode')->execCmd();
-			$status = $thermostat->getCmd(null, 'status')->execCmd();
-			if ($mode == 'Off') {
-				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat sur off');
-				if ($status != __('Arrêté', __FILE__)) {
-					$thermostat->stopThermostat();
-				}
-				return;
-			}
-			if ($status == __('Suspendu', __FILE__)) {
-				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
-				return;
-			}
-			$windows = $thermostat->getConfiguration('window');
-			foreach ($windows as $window) {
-				$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
-				if (is_object($cmd) && $cmd->execCmd() == 1) {
-					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Window open stop');
-					return;
-				}
-			}
-			$cmd = $thermostat->getCmd(null, 'temperature');
-			$temp_in = $cmd->execCmd();
-			if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
+		$mode = $thermostat->getCmd(null, 'mode')->execCmd();
+		$status = $thermostat->getCmd(null, 'status')->execCmd();
+		if ($mode == 'Off') {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat sur off');
+			if ($status != __('Arrêté', __FILE__)) {
 				$thermostat->stopThermostat();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
+			}
+			return;
+		}
+		if ($status == __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
+			return;
+		}
+		$windows = $thermostat->getConfiguration('window');
+		foreach ($windows as $window) {
+			$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
+			if (is_object($cmd) && $cmd->execCmd() == 1) {
+				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Window open stop');
 				return;
 			}
-			$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
+		}
+		$cmd = $thermostat->getCmd(null, 'temperature');
+		$temp_in = $cmd->execCmd();
+		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
+			$thermostat->stopThermostat();
+			log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
+			return;
+		}
+		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 
-			if (!is_numeric($temp_in)) {
-				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
-				return;
+		if (!is_numeric($temp_in)) {
+			log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
+			return;
+		}
+		if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
+			($temp_in > ($thermostat->getConfiguration('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
+
+			$thermostat->setConfiguration('nbConsecutiveFaillure', $thermostat->getConfiguration('nbConsecutiveFaillure') + 1);
+			if ($thermostat->getConfiguration('nbConsecutiveFaillure', 0) > 2) {
+				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : Attention une défaillance du chauffage est détectée');
+				$thermostat->failureActuator();
 			}
-			if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
-				($temp_in > ($thermostat->getConfiguration('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
+		} else {
+			$thermostat->setConfiguration('nbConsecutiveFaillure', 0);
+		}
+		if ($thermostat->getConfiguration('nbConsecutiveFaillure', 0) < 3 && $thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getConfiguration('endDate')) < strtotime('now')) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Begin auto learning');
+			if ($thermostat->getConfiguration('last_power') < 100 && $thermostat->getConfiguration('last_power') > 0) {
+				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : ' . $thermostat->getConfiguration('lastState'));
+				$learn_outdoor = false;
+				if ($thermostat->getConfiguration('lastState') == 'heat') {
+					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is heat');
+					if ($temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') > $thermostat->getConfiguration('lastTempIn')) {
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in < at current temp in');
+						$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('lastTempIn')) / ($temp_in - $thermostat->getConfiguration('lastTempIn')));
+						$coeff_indoor_heat = ($thermostat->getConfiguration('coeff_indoor_heat') * $thermostat->getConfiguration('coeff_indoor_heat_autolearn') + $coeff_indoor_heat) / ($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1);
+						$thermostat->setConfiguration('coeff_indoor_heat_autolearn', min($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1, 50));
+						if ($coeff_indoor_heat < 0) {
+							$coeff_indoor_heat = 0;
+						}
+						$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff heat indoor : ' . $coeff_indoor_heat);
+					} else if ($temp_out < $thermostat->getConfiguration('lastOrder')) {
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor heat');
+						$coeff_in = $thermostat->getConfiguration('coeff_indoor_heat');
+						$coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
+						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_heat') * $thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1);
+						$thermostat->setConfiguration('coeff_outdoor_heat_autolearn', min($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1, 50));
+						if ($coeff_outdoor < 0) {
+							$coeff_outdoor = 0;
+						}
+						$thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor heat: ' . $coeff_outdoor);
+					}
+				}
 
-				$thermostat->setConfiguration('nbConsecutiveFaillure', $thermostat->getConfiguration('nbConsecutiveFaillure') + 1);
-				if ($thermostat->getConfiguration('nbConsecutiveFaillure', 0) > 2) {
-					log::add('thermostat', 'error', $thermostat->getHumanName() . ' : Attention une défaillance du chauffage est détectée');
-					$thermostat->failureActuator();
+				if ($thermostat->getConfiguration('lastState') == 'cool') {
+					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is cool');
+					if ($temp_in <= $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') < $thermostat->getConfiguration('lastTempIn')) {
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in > at current temp in');
+						$coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getConfiguration('lastTempIn') - $thermostat->getConfiguration('lastOrder')) / ($thermostat->getConfiguration('lastTempIn') - $temp_in));
+						$coeff_indoor_cool = ($thermostat->getConfiguration('coeff_indoor_cool') * $thermostat->getConfiguration('coeff_indoor_cool_autolearn') + $coeff_indoor_cool) / ($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1);
+						$thermostat->setConfiguration('coeff_indoor_cool_autolearn', min($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1, 50));
+						if ($coeff_indoor_cool < 0) {
+							$coeff_indoor_cool = 0;
+						}
+						$thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff cool indoor : ' . $coeff_indoor_cool);
+					} else if ($temp_out < $thermostat->getConfiguration('lastOrder')) {
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor cool');
+						$coeff_in = $thermostat->getConfiguration('coeff_indoor_cool');
+						$coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
+						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_cool') * $thermostat->getConfiguration('coeff_outdoor_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1);
+						$thermostat->setConfiguration('coeff_outdoor_cool_autolearn', min($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1, 50));
+						if ($coeff_outdoor < 0) {
+							$coeff_outdoor = 0;
+						}
+						$thermostat->setConfiguration('coeff_outdoor_cool', round($coeff_outdoor, 2));
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor cool : ' . $coeff_outdoor);
+					}
+				}
+			}
+		}
+
+		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
+		$temporal_data = $thermostat->calculTemporalData($consigne);
+		$thermostat->setConfiguration('last_power', $temporal_data['power']);
+		$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
+		$cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
+		$duration = ($temporal_data['power'] * $cycle) / 100;
+
+		$thermostat->setConfiguration('lastOrder', $consigne);
+		$thermostat->setConfiguration('lastTempIn', $temp_in);
+		$thermostat->setConfiguration('lastTempOut', $temp_out);
+
+		$thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
+		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
+		if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
+			log::add('thermostat', 'debug', 'Durée du cycle trop courte, aucun lancement');
+			$thermostat->setConfiguration('lastState', 'stop');
+			$thermostat->stopThermostat();
+			$thermostat->save();
+			return;
+		}
+
+		if ($duration > 0) {
+			$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
+		}
+
+		if ($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['direction'] < 0) {
+			$thermostat->setConfiguration('lastState', 'stop');
+			$thermostat->stopThermostat();
+		}
+		if ($thermostat->getConfiguration('lastState') == 'cool' && $temporal_data['direction'] > 0) {
+			$thermostat->setConfiguration('lastState', 'stop');
+			$thermostat->stopThermostat();
+		}
+		$thermostat->save();
+		if ($duration > 0) {
+			if ($temporal_data['direction'] > 0) {
+				if ($status != __('Chauffage', __FILE__)) {
+					$thermostat->heat();
 				}
 			} else {
-				$thermostat->setConfiguration('nbConsecutiveFaillure', 0);
-			}
-			if ($thermostat->getConfiguration('nbConsecutiveFaillure', 0) < 3 && $thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getConfiguration('endDate')) < strtotime('now')) {
-				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Begin auto learning');
-				if ($thermostat->getConfiguration('last_power') < 100 && $thermostat->getConfiguration('last_power') > 0) {
-					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : ' . $thermostat->getConfiguration('lastState'));
-					$learn_outdoor = false;
-					if ($thermostat->getConfiguration('lastState') == 'heat') {
-						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is heat');
-						if ($temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') > $thermostat->getConfiguration('lastTempIn')) {
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in < at current temp in');
-							$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('lastTempIn')) / ($temp_in - $thermostat->getConfiguration('lastTempIn')));
-							$coeff_indoor_heat = ($thermostat->getConfiguration('coeff_indoor_heat') * $thermostat->getConfiguration('coeff_indoor_heat_autolearn') + $coeff_indoor_heat) / ($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1);
-							$thermostat->setConfiguration('coeff_indoor_heat_autolearn', min($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1, 50));
-							if ($coeff_indoor_heat < 0) {
-								$coeff_indoor_heat = 0;
-							}
-							$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff heat indoor : ' . $coeff_indoor_heat);
-						} else if ($temp_out < $thermostat->getConfiguration('lastOrder')) {
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor heat');
-							$coeff_in = $thermostat->getConfiguration('coeff_indoor_heat');
-							$coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
-							$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_heat') * $thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1);
-							$thermostat->setConfiguration('coeff_outdoor_heat_autolearn', min($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1, 50));
-							if ($coeff_outdoor < 0) {
-								$coeff_outdoor = 0;
-							}
-							$thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor heat: ' . $coeff_outdoor);
-						}
-					}
-
-					if ($thermostat->getConfiguration('lastState') == 'cool') {
-						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is cool');
-						if ($temp_in <= $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') < $thermostat->getConfiguration('lastTempIn')) {
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in > at current temp in');
-							$coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getConfiguration('lastTempIn') - $thermostat->getConfiguration('lastOrder')) / ($thermostat->getConfiguration('lastTempIn') - $temp_in));
-							$coeff_indoor_cool = ($thermostat->getConfiguration('coeff_indoor_cool') * $thermostat->getConfiguration('coeff_indoor_cool_autolearn') + $coeff_indoor_cool) / ($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1);
-							$thermostat->setConfiguration('coeff_indoor_cool_autolearn', min($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1, 50));
-							if ($coeff_indoor_cool < 0) {
-								$coeff_indoor_cool = 0;
-							}
-							$thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff cool indoor : ' . $coeff_indoor_cool);
-						} else if ($temp_out < $thermostat->getConfiguration('lastOrder')) {
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor cool');
-							$coeff_in = $thermostat->getConfiguration('coeff_indoor_cool');
-							$coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
-							$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_cool') * $thermostat->getConfiguration('coeff_outdoor_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1);
-							$thermostat->setConfiguration('coeff_outdoor_cool_autolearn', min($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1, 50));
-							if ($coeff_outdoor < 0) {
-								$coeff_outdoor = 0;
-							}
-							$thermostat->setConfiguration('coeff_outdoor_cool', round($coeff_outdoor, 2));
-							log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff outdoor cool : ' . $coeff_outdoor);
-						}
-					}
-				}
-			}
-
-			$consigne = $thermostat->getCmd(null, 'order')->execCmd();
-			$temporal_data = $thermostat->calculTemporalData($consigne);
-			$thermostat->setConfiguration('last_power', $temporal_data['power']);
-			$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
-			$cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
-			$duration = ($temporal_data['power'] * $cycle) / 100;
-
-			$thermostat->setConfiguration('lastOrder', $consigne);
-			$thermostat->setConfiguration('lastTempIn', $temp_in);
-			$thermostat->setConfiguration('lastTempOut', $temp_out);
-
-			$thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
-			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
-			if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
-				log::add('thermostat', 'debug', 'Durée du cycle trop courte, aucun lancement');
-				$thermostat->setConfiguration('lastState', 'stop');
-				$thermostat->stopThermostat();
-				$thermostat->save();
-				return;
-			}
-
-			if ($duration > 0) {
-				if ($temporal_data['power'] < 99) {
-					$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
-				} else {
-					$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 1.2) . ' min ' . date('Y-m-d H:i:s'))), true);
-				}
-			}
-
-			if ($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['direction'] < 0) {
-				$thermostat->setConfiguration('lastState', 'stop');
-				$thermostat->stopThermostat();
-			}
-			if ($thermostat->getConfiguration('lastState') == 'cool' && $temporal_data['direction'] > 0) {
-				$thermostat->setConfiguration('lastState', 'stop');
-				$thermostat->stopThermostat();
-			}
-			$thermostat->save();
-			if ($duration > 0) {
-				if ($temporal_data['direction'] > 0) {
-					if ($status != __('Chauffage', __FILE__)) {
-						$thermostat->heat();
-					}
-				} else {
-					if ($status != __('Climatisation', __FILE__)) {
-						$thermostat->cool();
-					}
+				if ($status != __('Climatisation', __FILE__)) {
+					$thermostat->cool();
 				}
 			}
 		}
@@ -665,9 +660,6 @@ class thermostat extends eqLogic {
 			if (strtotime($next['schedule']) > (strtotime('now') + 120)) {
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart schedule date : ' . $next['schedule']);
 				$this->reschedule($next['schedule'], false, $next);
-			} else {
-				log::add('thermostat', 'debug', $this->getHumanName() . ' : Next smart programmation trop proche de la date actuel');
-				// $this->reschedule(null, false, true);
 			}
 		}
 	}
@@ -1264,11 +1256,16 @@ class thermostat extends eqLogic {
 				log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 			}
 		}
-		if (!$_repeat) {
-			$this->refresh();
-			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
-			$this->save();
-			$this->getCmd(null, 'actif')->event(0);
+		if ($_repeat) {
+			return;
+		}
+		$this->refresh();
+		$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
+		$this->save();
+		$this->getCmd(null, 'actif')->event(0);
+		$power = $this->getCmd(null, 'power');
+		if (is_object($power)) {
+			$power->event(0);
 		}
 	}
 
