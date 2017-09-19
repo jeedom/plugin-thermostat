@@ -1118,6 +1118,7 @@ class thermostat extends eqLogic {
 					$power->setName(__('Puissance', __FILE__));
 					$power->setIsVisible(1);
 					$power->setIsHistorized(1);
+					$power->setConfiguration('historizeMode', 'none');
 				}
 				$power->setEqLogic_id($this->getId());
 				$power->setType('info');
