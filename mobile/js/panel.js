@@ -119,11 +119,12 @@ function graphThermostat(_eqLogic_id) {
                     start: $('#in_startDate').value(),
                     end: $('#in_endDate').value(),
                     option: {
-                       graphColor: '#FF0000',
+                       graphColor: '#BDBDBD',
                        derive : 0,
                        graphStep: 1,
                        graphScale : 1,
-                       graphType : 'area'
+                       graphType : 'area',
+                       graphZindex :1
                    }
                });
                  foundPower = true;
@@ -138,7 +139,8 @@ function graphThermostat(_eqLogic_id) {
                     end: $('#in_endDate').value(),
                     option: {
                         graphStep: 1,
-                        graphColor: '#27ae60'
+                        graphColor: '#27ae60',
+                       graphZindex :2
                     }
                 });
             }
@@ -152,7 +154,8 @@ function graphThermostat(_eqLogic_id) {
                         graphStep: 1,
                         graphColor: '#2c3e50',
                         graphScale : 1,
-                        graphType : 'area'
+                        graphType : 'area',
+                       graphZindex :1
                     }
                 });
             }
@@ -163,7 +166,8 @@ function graphThermostat(_eqLogic_id) {
                     start: $('#in_startDate').value(),
                     end: $('#in_endDate').value(),
                     option: {
-                        graphColor: '#f39c12'
+                        graphColor: '#f39c12',
+                       graphZindex :4
                     }
                 });
             }
@@ -174,7 +178,8 @@ function graphThermostat(_eqLogic_id) {
                     start: $('#in_startDate').value(),
                     end: $('#in_endDate').value(),
                     option: {
-                        graphColor: '#2E9AFE'
+                        graphColor: '#2E9AFE',
+                       graphZindex :3
                     }
                 });
             }

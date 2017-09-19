@@ -300,54 +300,51 @@ foreach (object::all() as $object) {
                     <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="hideLockCmd" />
                 </div>
             </div>
-            <div class='form-group'>
-
+            <div class="form-group engine temporal">
+                <label class="col-sm-2 control-label">{{Cycle (min)}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieure à 15 min)}}"/>
+                </div>
+                <label class="col-sm-2 control-label">{{Temps de chauffe minimum (% du cycle)}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle à faire (sinon la mise en marche du chauffage est reportée au cyle suivant)}}" value="5"/>
+                </div>
             </div>
             <div class="form-group engine temporal">
-                <div class="form-group engine temporal">
-                    <label class="col-sm-2 control-label">{{Cycle (min)}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieure à 15 min)}}"/>
-                    </div>
-                    <label class="col-sm-2 control-label">{{Temps de chauffe minimum (% du cycle)}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle à faire (sinon la mise en marche du chauffage est reportée au cyle suivant)}}" value="5"/>
-                    </div>
+                <label class="col-sm-2 control-label">{{Marge de défaillance chaud}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" title="{{Seuil de déclenchement de la défaillance chaud (1 par défaut)}}" value="1"/>
                 </div>
-                <div class="form-group engine temporal">
-                    <label class="col-sm-2 control-label">{{Marge de défaillance chaud}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" title="{{Seuil de déclenchement de la défaillance chaud (1 par défaut)}}" value="1"/>
-                    </div>
-                    <label class="col-sm-2 control-label">{{Marge de défaillance froid}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetColdFaillure" title="{{Seuil de déclenchement de la défaillance froid (1 par défaut)}}" value="1"/>
-                    </div>
+                <label class="col-sm-2 control-label">{{Marge de défaillance froid}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetColdFaillure" title="{{Seuil de déclenchement de la défaillance froid (1 par défaut)}}" value="1"/>
                 </div>
-                <div class="form-group engine temporal">
-                    <label class="col-sm-2 control-label">{{Offset chauffage (%)}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_heat" />
-                    </div>
-                    <label class="col-sm-2 control-label">{{Offset Clim (%)}}</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_cool" />
-                    </div>
+            </div>
+            <div class="form-group engine temporal">
+                <label class="col-sm-2 control-label">{{Offset chauffage (%)}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_heat" />
                 </div>
-                <div class="form-group engine temporal">
-                    <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
-                    <div class="col-sm-2">
-                        <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
-                    </div>
-                    <label class="col-sm-2 control-label">{{Smart start}}</label>
-                    <div class="col-sm-2">
-                        <input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked title="{{Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.}}" />
-                    </div>
+                <label class="col-sm-2 control-label">{{Offset Clim (%)}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offset_cool" />
                 </div>
-                <div class="alert alert-warning">
-                    {{Pour une meilleure régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
-                    <a class="pull-right btn btn-warning tooltips" id="bt_razLearning" style="position:relative;top:-7px;" title="Relance le processus d'apprentissage. N'oubliez pas de sauvegarde votre thermostat après la remise à 0."><i class="fa fa-times"></i> RaZ apprentissage</a>
+            </div>
+            <div class="form-group engine temporal">
+                <label class="col-sm-2 control-label">{{Auto-apprentissage}}</label>
+                <div class="col-sm-2">
+                    <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
                 </div>
+                <label class="col-sm-2 control-label">{{Smart start}}</label>
+                <div class="col-sm-2">
+                    <input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked title="{{Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.}}" />
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                {{Pour une meilleure régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
+                <a class="pull-right btn btn-warning tooltips" id="bt_razLearning" style="position:relative;top:-7px;" title="Relance le processus d'apprentissage. N'oubliez pas de sauvegarde votre thermostat après la remise à 0."><i class="fa fa-times"></i> RaZ apprentissage</a>
+            </div>
+            <div class="form-group engine temporal">
                 <label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
                 <div class="col-sm-2">
                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_indoor_heat" />
