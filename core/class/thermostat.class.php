@@ -481,7 +481,6 @@ class thermostat extends eqLogic {
 				$cron->remove();
 			}
 			return;
-
 		}
 		if (!is_object($cron)) {
 			$cron = new cron();
