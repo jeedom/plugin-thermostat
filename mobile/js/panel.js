@@ -110,27 +110,28 @@ function graphThermostat(_eqLogic_id) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (cmds) {
-          var foundPower = false;
-          for (var i  in cmds) {
-             if (cmds[i].logicalId == 'power') {
-                 jeedom.history.drawChart({
+            jeedom.history.chart['div_graph' + _eqLogic_id] = null;
+            var foundPower = false;
+            for (var i  in cmds) {
+               if (cmds[i].logicalId == 'power') {
+                   jeedom.history.drawChart({
                     cmd_id: cmds[i].id,
                     el: 'div_graph' + _eqLogic_id,
                     start: $('#in_startDate').value(),
                     end: $('#in_endDate').value(),
                     option: {
-                       graphColor: '#BDBDBD',
-                       derive : 0,
-                       graphStep: 1,
-                       graphScale : 1,
-                       graphType : 'area',
-                       graphZindex :1
-                   }
-               });
-                 foundPower = true;
-             }
-         }
-         for (var i  in cmds) {
+                     graphColor: '#BDBDBD',
+                     derive : 0,
+                     graphStep: 1,
+                     graphScale : 1,
+                     graphType : 'area',
+                     graphZindex :1
+                 }
+             });
+                   foundPower = true;
+               }
+           }
+           for (var i  in cmds) {
             if (cmds[i].logicalId == 'order') {
                 jeedom.history.drawChart({
                     cmd_id: cmds[i].id,
@@ -140,7 +141,7 @@ function graphThermostat(_eqLogic_id) {
                     option: {
                         graphStep: 1,
                         graphColor: '#27ae60',
-                       graphZindex :2
+                        graphZindex :2
                     }
                 });
             }
@@ -155,7 +156,7 @@ function graphThermostat(_eqLogic_id) {
                         graphColor: '#2c3e50',
                         graphScale : 1,
                         graphType : 'area',
-                       graphZindex :1
+                        graphZindex :1
                     }
                 });
             }
@@ -167,7 +168,7 @@ function graphThermostat(_eqLogic_id) {
                     end: $('#in_endDate').value(),
                     option: {
                         graphColor: '#f39c12',
-                       graphZindex :4
+                        graphZindex :4
                     }
                 });
             }
@@ -179,7 +180,7 @@ function graphThermostat(_eqLogic_id) {
                     end: $('#in_endDate').value(),
                     option: {
                         graphColor: '#2E9AFE',
-                       graphZindex :3
+                        graphZindex :3
                     }
                 });
             }

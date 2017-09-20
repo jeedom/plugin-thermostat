@@ -24,8 +24,7 @@
     displayThermostat(object_id, $('#in_startDate').value(), $('#in_endDate').value());
 });
 
- displayThermostat(object_id,'','');
-
+displayThermostat(object_id,'','');
 
  function displayThermostat(object_id,_dateStart,_dateEnd) {
     $.ajax({
@@ -58,9 +57,7 @@
             var series = []
             for (var i in data.result.eqLogics) {
                 $('#div_displayEquipement').append(data.result.eqLogics[i].html);
-                var div_graph = ''
-                div_graph += '<div class="chartContainer" id="div_graph' + data.result.eqLogics[i].eqLogic.id + '"></div>';
-                $('#div_charts').append(div_graph);
+                $('#div_charts').append( '<div class="chartContainer" id="div_graph' + data.result.eqLogics[i].eqLogic.id + '"></div>');
                 series.push({
                     name: data.result.eqLogics[i].eqLogic.name,
                     data: data.result.eqLogics[i].runtimeByDay,
@@ -75,8 +72,6 @@
             positionEqLogic();
             $('#div_displayEquipement').packery({
                 itemSelector: ".eqLogic-widget",
-                columnWidth: 40,
-                rowHeight: 80,
                 gutter : 2,
             });
         }
@@ -90,9 +85,10 @@ function graphThermostat(_eqLogic_id) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (cmds) {
+            jeedom.history.chart['div_graph' + _eqLogic_id] = null;
             var foundPower = false;
             for (var i  in cmds) {
-             if (cmds[i].logicalId == 'power') {
+               if (cmds[i].logicalId == 'power') {
                 jeedom.history.drawChart({
                     cmd_id: cmds[i].id,
                     el: 'div_graph' + _eqLogic_id,
