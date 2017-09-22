@@ -15,6 +15,11 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+ $('#div_pageContainer').on( 'click','.eqLogic-widget .history', function () {
+    $('#md_modal2').dialog({title: "Historique"});
+    $("#md_modal2").load('index.php?v=d&modal=cmd.history&id=' + $(this).data('cmd_id')).dialog('open');
+});
+
 
  $(".in_datepicker").datepicker();
 
@@ -24,7 +29,7 @@
     displayThermostat(object_id, $('#in_startDate').value(), $('#in_endDate').value());
 });
 
-displayThermostat(object_id,'','');
+ displayThermostat(object_id,'','');
 
  function displayThermostat(object_id,_dateStart,_dateEnd) {
     $.ajax({
@@ -88,7 +93,7 @@ function graphThermostat(_eqLogic_id) {
             jeedom.history.chart['div_graph' + _eqLogic_id] = null;
             var foundPower = false;
             for (var i  in cmds) {
-               if (cmds[i].logicalId == 'power') {
+             if (cmds[i].logicalId == 'power') {
                 jeedom.history.drawChart({
                     cmd_id: cmds[i].id,
                     el: 'div_graph' + _eqLogic_id,
