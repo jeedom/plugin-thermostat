@@ -295,20 +295,16 @@ class thermostat extends eqLogic {
 		$thermostat->save();
 		if ($duration > 0) {
 			if ($temporal_data['direction'] > 0) {
-				if ($thermostat->getConfiguration('allow_mode', 'all') != 'all' && $thermostat->getConfiguration('allow_mode', 'all') != 'heat') {
-					return;
-				}
 				if ($status != __('Chauffage', __FILE__)) {
-					$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
-					$thermostat->heat();
+					if ($thermostat->heat()) {
+						$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
+					}
 				}
 			} else {
-				if ($thermostat->getConfiguration('allow_mode', 'all') != 'all' && $thermostat->getConfiguration('allow_mode', 'all') != 'cool') {
-					return;
-				}
 				if ($status != __('Climatisation', __FILE__)) {
-					$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
-					$thermostat->cool();
+					if ($thermostat->cool()) {
+						$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
+					}
 				}
 			}
 		}
@@ -1160,7 +1156,7 @@ class thermostat extends eqLogic {
 	public function heat($_repeat = false) {
 		if (!$_repeat) {
 			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
-				return;
+				return false;
 			}
 			if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'heat') {
 				$this->stopThermostat();
@@ -1198,12 +1194,13 @@ class thermostat extends eqLogic {
 			$this->save();
 			$this->getCmd(null, 'actif')->event(1);
 		}
+		return true;
 	}
 
 	public function cool($_repeat = false) {
 		if (!$_repeat) {
 			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
-				return;
+				return false;
 			}
 			if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'cool') {
 				$this->stopThermostat();
@@ -1241,6 +1238,7 @@ class thermostat extends eqLogic {
 			$this->save();
 			$this->getCmd(null, 'actif')->event(1);
 		}
+		return true;
 	}
 
 	public function stopThermostat($_repeat = false) {
