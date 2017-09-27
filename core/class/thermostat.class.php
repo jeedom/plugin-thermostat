@@ -1398,7 +1398,7 @@ class thermostat extends eqLogic {
 			}
 			$day = date('Y-m-d', strtotime($history->getDatetime()));
 			if (!isset($return[$day])) {
-				$return[$day] = array(strtotime($day . ' 00:00:00 UTC'), 0);
+				$return[$day] = array(strtotime($day . ' 00:00:00 UTC') * 1000, 0);
 			}
 			if ($history->getValue() == 1 && $prevValue == 0) {
 				$prevDatetime = strtotime($history->getDatetime());
