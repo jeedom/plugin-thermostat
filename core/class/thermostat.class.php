@@ -1480,13 +1480,13 @@ class thermostatCmd extends cmd {
 		$lockState = $eqLogic->getCmd(null, 'lock_state');
 		if ($this->getLogicalId() == 'lock') {
 			$lockState->event(1);
+		} else if ($this->getLogicalId() == 'unlock') {
+			$lockState->event(0);
 		} else if ($this->getLogicalId() == 'offset_heat' || $this->getLogicalId() == 'offset_cool') {
 			if (is_numeric($_options['slider'])) {
 				$eqLogic->setConfiguration($this->getLogicalId(), $_options['slider']);
 				$eqLogic->save();
 			}
-		} else if ($this->getLogicalId() == 'unlock') {
-			$lockState->event(0);
 		} else if ($this->getLogicalId() == 'temperature') {
 			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor')), 1);
 		} else if ($this->getLogicalId() == 'temperature_outdoor') {
@@ -1500,10 +1500,17 @@ class thermostatCmd extends cmd {
 		} else if ($this->getLogicalId() == 'all_allow') {
 			$eqLogic->setConfiguration('allow_mode', 'all');
 			$eqLogic->save();
+		}
+		if (!is_object($lockState) || $lockState->execCmd() == 1) {
+			$eqLogic->refreshWidget();
+			return;
+		}
+		if ($this->getLogicalId() == 'modeAction') {
+			$eqLogic->executeMode($this->getName());
+		} else if ($this->getLogicalId() == 'off') {
+			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
+			$eqLogic->stopThermostat();
 		} else if ($this->getLogicalId() == 'thermostat') {
-			if ($lockState->execCmd() != 1) {
-				$eqLogic->refreshWidget();
-			}
 			if (!isset($_options['slider']) || $_options['slider'] == '' || !is_numeric(intval($_options['slider']))) {
 				return;
 			}
@@ -1520,14 +1527,6 @@ class thermostatCmd extends cmd {
 				if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
 					thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
 				}
-			}
-		} else if (!is_object($lockState) || $lockState->execCmd() == 0) {
-			if ($this->getLogicalId() == 'modeAction') {
-				$eqLogic->executeMode($this->getName());
-			}
-			if ($this->getLogicalId() == 'off') {
-				$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
-				$eqLogic->stopThermostat();
 			}
 		}
 	}
