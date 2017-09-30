@@ -1389,6 +1389,12 @@ class thermostat extends eqLogic {
 		$prevValue = 0;
 		$prevDatetime = 0;
 		$day = null;
+		$day = strtotime($_startDate . ' 00:00:00 UTC');
+		$endDatetime = strtotime($_endDate . ' 00:00:00 UTC');
+		while ($day <= $endDatetime) {
+			$return[date('Y-m-d', $day)] = array($day * 1000, 0);
+			$day = $day + 3600 * 24;
+		}
 		foreach ($actifCmd->getHistory($_startDate, $_endDate) as $history) {
 			if (date('Y-m-d', strtotime($history->getDatetime())) != $day && $prevValue == 1 && $day != null) {
 				if (strtotime($day . ' 23:59:59') > $prevDatetime) {
