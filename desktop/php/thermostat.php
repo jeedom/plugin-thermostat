@@ -63,14 +63,14 @@ try {
 	$plugin = plugin::byId('calendar');
 	if (is_object($plugin)) {
 		?>
-          <li  role="presentation" class="expertModeVisible"><a href="#configureSchedule" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
+          <li  role="presentation"><a href="#configureSchedule" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
           <?php
 }
 } catch (Exception $e) {
 
 }
 ?>
-  <li  role="presentation" class="expertModeVisible"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
+  <li  role="presentation"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="eqlogictab">
@@ -162,7 +162,7 @@ foreach (object::all() as $object) {
                 </div>
             </div>
         </div>
-        <div class="form-group expertModeVisible">
+        <div class="form-group">
             <label class="col-sm-2 control-label">{{Borne de température inférieure}}</label>
             <div class="col-sm-2">
                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_min" />
