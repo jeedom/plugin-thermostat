@@ -280,7 +280,7 @@ class thermostat extends eqLogic {
 			$thermostat->save();
 			return;
 		}
-		if ($duration > 0) {
+		if ($duration > 0 && $duration < $cycle) {
 			$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
 		}
 
