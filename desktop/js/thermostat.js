@@ -355,13 +355,16 @@ function addWindow(_info) {
     div += '</span>';
     div += '</div>';
     div += '</div>';
-    div += '<label class="col-sm-2 control-label">Eteindre si ouvert plus de (min) :</label>';
+    div += '<label class="col-sm-2 control-label">{{Eteindre si ouvert plus de (min) :}}</label>';
     div += '<div class="col-sm-1">';
     div += '<input class="expressionAttr form-control input-sm cmdInfo" data-l1key="stopTime" />';
     div += '</div>';
-    div += '<label class="col-sm-2 control-label">Rallumer si fermé depuis (min) :</label>';
+    div += '<label class="col-sm-2 control-label">{{Rallumer si fermé depuis (min) :}}</label>';
     div += '<div class="col-sm-1">';
     div += '<input class="expressionAttr form-control input-sm cmdInfo" data-l1key="restartTime"/>';
+    div += '</div>';
+    div += '<div class="col-sm-1">';
+    div += '<label class="checkbox-inline"><input type="checkbox" class="expressionAttr cmdInfo" data-l1key="invert"/>{{Inverser}}</label></span>';
     div += '</div>';
     div += '</div>';
     $('#div_window').append(div);

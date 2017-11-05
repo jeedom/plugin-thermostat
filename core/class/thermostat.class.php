@@ -310,23 +310,6 @@ class thermostat extends eqLogic {
 		}
 	}
 
-	public static function window($_option) {
-		$thermostat = thermostat::byId($_option['thermostat_id']);
-		if (is_object($thermostat) && $thermostat->getIsEnable() == 1) {
-			$windows = $thermostat->getConfiguration('window');
-			foreach ($windows as $window) {
-				if ('#' . $_option['event_id'] . '#' == $window['cmd']) {
-					if ($_option['value'] == 0) {
-						$thermostat->windowClose($window);
-					}
-					if ($_option['value'] == 1) {
-						$thermostat->windowOpen($_option['event_id']);
-					}
-				}
-			}
-		}
-	}
-
 	public static function cron() {
 		foreach (thermostat::byType('thermostat', true) as $thermostat) {
 			if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
@@ -409,56 +392,82 @@ class thermostat extends eqLogic {
 			$thermostat->stopThermostat();
 			if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal') {
 				thermostat::temporal(array('thermostat_id' => $thermostat->getId()));
-			}
-			if ($thermostat->getConfiguration('engine', 'temporal') == 'hysteresis') {
+			} else if ($thermostat->getConfiguration('engine', 'temporal') == 'hysteresis') {
 				thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
+			}
+		}
+	}
+
+	public static function window($_option) {
+		$thermostat = thermostat::byId($_option['thermostat_id']);
+		if (is_object($thermostat) && $thermostat->getIsEnable() == 1) {
+			$windows = $thermostat->getConfiguration('window');
+			foreach ($windows as $window) {
+				if ('#' . $_option['event_id'] . '#' == $window['cmd']) {
+					if (isset($window['invert']) && $window['invert'] == 1) {
+						$_option['value'] = ($_option['value'] == 0) ? 1 : 0;
+					}
+					if ($_option['value'] == 0) {
+						$thermostat->windowClose($window);
+					} else {
+						$thermostat->windowOpen($window);
+					}
+				}
 			}
 		}
 	}
 
 /*     * *********************Methode d'instance************************* */
 
-	public function windowClose($window) {
+	public function windowClose($_window) {
 		if ($this->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
 			return;
 		}
-		$windows = $this->getConfiguration('window');
-		foreach ($windows as $window_state) {
-			$cmd = cmd::byId(str_replace('#', '', $window_state['cmd']));
-			if (is_object($cmd) && $cmd->execCmd() == 1) {
-				return;
-			}
-		}
-		$restartTime = (isset($window['restartTime']) && $window['restartTime'] != '') ? $window['restartTime'] : 0;
+		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] : 0;
 		if (is_numeric($restartTime) && $restartTime > 0) {
 			sleep($restartTime * 60);
+		}
+		$windows = $this->getConfiguration('window');
+		foreach ($windows as $window) {
+			$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
+			if (!is_object($cmd)) {
+				continue;
+			}
+			$value = $cmd->execCmd();
+			if (isset($window['invert']) && $window['invert'] == 1) {
+				$value = ($value == 0) ? 1 : 0;
+			}
+			if ($value == 1) {
+				return;
+			}
 		}
 		$this->getCmd(null, 'status')->event(__('Calcul', __FILE__));
 		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
 			thermostat::temporal(array('thermostat_id' => $this->getId()));
-		}
-		if ($this->getConfiguration('engine', 'temporal') == 'hysteresis') {
+		} else if ($this->getConfiguration('engine', 'temporal') == 'hysteresis') {
 			thermostat::hysteresis(array('thermostat_id' => $this->getId()));
 		}
 	}
 
-	public function windowOpen($_trigger_id) {
+	public function windowOpen($_window) {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		$windows = $this->getConfiguration('window');
-		foreach ($windows as $window) {
-			if ('#' . $_trigger_id . '#' == $window['cmd']) {
-				$stopTime = (isset($window['stopTime']) && $window['stopTime'] != '') ? $window['stopTime'] : 0;
-				if (is_numeric($stopTime) && $stopTime > 0) {
-					sleep($stopTime * 60);
-				}
-				$cmd = cmd::byId($_trigger_id);
-				if (is_object($cmd) && $cmd->execCmd() == 1) {
-					$this->stopThermostat();
-					$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
-				}
-			}
+		$stopTime = (isset($_window['stopTime']) && $_window['stopTime'] != '') ? $_window['stopTime'] : 0;
+		if (is_numeric($stopTime) && $stopTime > 0) {
+			sleep($stopTime * 60);
+		}
+		$cmd = cmd::byId($window['cmd']);
+		if (!is_object($cmd)) {
+			return;
+		}
+		$value = $cmd->execCmd();
+		if (isset($_window['invert']) && $_window['invert'] == 1) {
+			$value = ($value == 0) ? 1 : 0;
+		}
+		if ($value == 1) {
+			$this->stopThermostat();
+			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
 		}
 		return true;
 	}
