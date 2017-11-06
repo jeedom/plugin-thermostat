@@ -90,7 +90,14 @@ class thermostat extends eqLogic {
 		$windows = $thermostat->getConfiguration('window');
 		foreach ($windows as $window) {
 			$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
-			if (is_object($cmd) && $cmd->execCmd() == 1) {
+			if (!is_object($cmd)) {
+				continue;
+			}
+			$value = $cmd->execCmd();
+			if (isset($window['invert']) && $window['invert'] == 1) {
+				$value = ($value == 0) ? 1 : 0;
+			}
+			if ($cmd->execCmd() == 1) {
 				return;
 			}
 		}
@@ -175,7 +182,14 @@ class thermostat extends eqLogic {
 		$windows = $thermostat->getConfiguration('window');
 		foreach ($windows as $window) {
 			$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
-			if (is_object($cmd) && $cmd->execCmd() == 1) {
+			if (!is_object($cmd)) {
+				continue;
+			}
+			$value = $cmd->execCmd();
+			if (isset($window['invert']) && $window['invert'] == 1) {
+				$value = ($value == 0) ? 1 : 0;
+			}
+			if ($value == 1) {
 				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Window open stop');
 				return;
 			}
