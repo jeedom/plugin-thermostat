@@ -52,6 +52,15 @@ class thermostat extends eqLogic {
 			if (is_object($cron)) {
 				$cron->remove(false);
 			}
+			if (isset($_options['calendar_id'])) {
+				$calendar = calendar::byId($_options['calendar_id']);
+				if (is_object($calendar)) {
+					$stateCalendar = $calendar->getCmd(null, 'state');
+					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
+						return;
+					}
+				}
+			}
 			if ($thermostat->getConfiguration('smart_start') == 1) {
 				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : next info : ' . print_r($_options['next'], true));
 				if ($_options['next']['type'] == 'thermostat') {
@@ -593,7 +602,7 @@ class thermostat extends eqLogic {
 				foreach ($events as $event) {
 					$calendar = $event->getEqLogic();
 					$stateCalendar = $calendar->getCmd(null, 'state');
-					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
+					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
 						continue;
 					}
 					foreach ($event->getCmd_param('start') as $action) {
@@ -627,6 +636,7 @@ class thermostat extends eqLogic {
 								'date' => $nextOccurence['date'],
 								'event' => $event,
 								'consigne' => $consigne,
+								'calendar_id' => $calendar->getId(),
 								'cmd' => $mode->getId(),
 								'type' => 'mode',
 							);
@@ -665,6 +675,7 @@ class thermostat extends eqLogic {
 						$next = array(
 							'date' => $nextOccurence,
 							'event' => $event,
+							'calendar_id' => $calendar->getId(),
 							'consigne' => $options['slider'],
 							'type' => 'thermostat',
 						);
