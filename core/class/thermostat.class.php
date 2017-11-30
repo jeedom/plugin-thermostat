@@ -52,6 +52,15 @@ class thermostat extends eqLogic {
 			if (is_object($cron)) {
 				$cron->remove(false);
 			}
+			if (isset($_options['calendar_id'])) {
+				$calendar = calendar::byId($_options['calendar_id']);
+				if (is_object($calendar)) {
+					$stateCalendar = $calendar->getCmd(null, 'state');
+					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
+						return;
+					}
+				}
+			}
 			if ($thermostat->getConfiguration('smart_start') == 1) {
 				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : next info : ' . print_r($_options['next'], true));
 				if ($_options['next']['type'] == 'thermostat') {
@@ -297,6 +306,9 @@ class thermostat extends eqLogic {
 		if ($duration > 0 && $duration < $cycle) {
 			$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
 		}
+		if ($duration >= $cycle) {
+			$thermostat->reschedule(null, true);
+		}
 
 		if ($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['direction'] < 0) {
 			$thermostat->setConfiguration('lastState', 'stop');
@@ -522,7 +534,7 @@ class thermostat extends eqLogic {
 		$temp_out = $this->getCmd(null, 'temperature_outdoor')->execCmd();
 		$temp_in = $this->getCmd(null, 'temperature')->execCmd();
 		if (!is_numeric($temp_out)) {
-			log::add('thermostat', 'debug', $this->getHumanName() . ' : Attention température exterieur incorrection : ' . $temp_out);
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : Attention température exterieur erroné : ' . $temp_out);
 			$temp_out = $_consigne;
 		}
 
@@ -586,7 +598,7 @@ class thermostat extends eqLogic {
 				foreach ($events as $event) {
 					$calendar = $event->getEqLogic();
 					$stateCalendar = $calendar->getCmd(null, 'state');
-					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
+					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
 						continue;
 					}
 					foreach ($event->getCmd_param('start') as $action) {
@@ -620,6 +632,7 @@ class thermostat extends eqLogic {
 								'date' => $nextOccurence['date'],
 								'event' => $event,
 								'consigne' => $consigne,
+								'calendar_id' => $calendar->getId(),
 								'cmd' => $mode->getId(),
 								'type' => 'mode',
 							);
@@ -658,6 +671,7 @@ class thermostat extends eqLogic {
 						$next = array(
 							'date' => $nextOccurence,
 							'event' => $event,
+							'calendar_id' => $calendar->getId(),
 							'consigne' => $options['slider'],
 							'type' => 'thermostat',
 						);
