@@ -446,11 +446,14 @@ class thermostat extends eqLogic {
 /*     * *********************Methode d'instance************************* */
 
 	public function windowClose($_window) {
+		log::add('thermostat', 'debug', '[windowClose] => ' . json_encode($_window));
 		if ($this->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', '[windowClose] Thermostat non suspendu je ne fais rien');
 			return;
 		}
 		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] : 0;
 		if (is_numeric($restartTime) && $restartTime > 0) {
+			log::add('thermostat', 'debug', '[windowClose] Pause de ' . $stopTime . 's');
 			sleep($restartTime * 60);
 		}
 		$windows = $this->getConfiguration('window');
@@ -464,9 +467,11 @@ class thermostat extends eqLogic {
 				$value = ($value == 0) ? 1 : 0;
 			}
 			if ($value == 1) {
+				log::add('thermostat', 'debug', '[windowClose] Fenêtre ouverte, je ne fais rien : ' . $window['cmd']);
 				return;
 			}
 		}
+		log::add('thermostat', 'debug', '[windowClose] Toute les fenêtres sont fermées, je relance le chauffage');
 		$this->getCmd(null, 'status')->event(__('Calcul', __FILE__));
 		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
 			thermostat::temporal(array('thermostat_id' => $this->getId()));
@@ -476,22 +481,28 @@ class thermostat extends eqLogic {
 	}
 
 	public function windowOpen($_window) {
+		log::add('thermostat', 'debug', '[windowOpen] => ' . json_encode($_window));
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', '[windowOpen] Thermostat arreté ou suspendu je ne fais rien');
 			return;
 		}
 		$stopTime = (isset($_window['stopTime']) && $_window['stopTime'] != '') ? $_window['stopTime'] : 0;
 		if (is_numeric($stopTime) && $stopTime > 0) {
+			log::add('thermostat', 'debug', '[windowOpen] Pause de ' . $stopTime . 's');
 			sleep($stopTime * 60);
 		}
 		$cmd = cmd::byId($_window['cmd']);
 		if (!is_object($cmd)) {
+			log::add('thermostat', 'debug', '[windowOpen] Commande introuvable je ne fais rien');
 			return;
 		}
 		$value = $cmd->execCmd();
 		if (isset($_window['invert']) && $_window['invert'] == 1) {
 			$value = ($value == 0) ? 1 : 0;
 		}
+		log::add('thermostat', 'debug', '[windowOpen] Valeur commande : ' . $value);
 		if ($value == 1) {
+			log::add('thermostat', 'debug', '[windowOpen] Arret du thermostat');
 			$this->stopThermostat();
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
 		}
