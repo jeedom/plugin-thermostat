@@ -491,7 +491,7 @@ class thermostat extends eqLogic {
 			log::add('thermostat', 'debug', '[windowOpen] Pause de ' . $stopTime . 's');
 			sleep($stopTime * 60);
 		}
-		$cmd = cmd::byId($_window['cmd']);
+		$cmd = cmd::byId(str_replace('#', '', $_window['cmd']));
 		if (!is_object($cmd)) {
 			log::add('thermostat', 'debug', '[windowOpen] Commande introuvable je ne fais rien');
 			return;
