@@ -309,16 +309,12 @@ class thermostat extends eqLogic {
 		$thermostat->save();
 		if ($duration > 0) {
 			if ($temporal_data['direction'] > 0) {
-				if ($status != __('Chauffage', __FILE__)) {
-					if ($thermostat->heat()) {
-						$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
-					}
+				if ($thermostat->heat()) {
+					$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
 				}
 			} else {
-				if ($status != __('Climatisation', __FILE__)) {
-					if ($thermostat->cool()) {
-						$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
-					}
+				if ($thermostat->cool()) {
+					$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
 				}
 			}
 		}
