@@ -425,6 +425,7 @@ class thermostat extends eqLogic {
 	}
 
 	public static function window($_option) {
+		log::add('thermostat', 'debug', 'Detection d\'un changement d\'une fenetre');
 		$thermostat = thermostat::byId($_option['thermostat_id']);
 		if (is_object($thermostat) && $thermostat->getIsEnable() == 1) {
 			$windows = $thermostat->getConfiguration('window');
@@ -433,9 +434,12 @@ class thermostat extends eqLogic {
 					if (isset($window['invert']) && $window['invert'] == 1) {
 						$_option['value'] = ($_option['value'] == 0) ? 1 : 0;
 					}
+					log::add('thermostat', 'debug', 'Fenetre trouvée : ' . $window['cmd'] . ' valeur : ' . $_option['value']);
 					if ($_option['value'] == 0) {
+						log::add('thermostat', 'debug', 'Fenetre fermée');
 						$thermostat->windowClose($window);
 					} else {
+						log::add('thermostat', 'debug', 'Fenetre ouverte');
 						$thermostat->windowOpen($window);
 					}
 				}
@@ -483,7 +487,7 @@ class thermostat extends eqLogic {
 		if (is_numeric($stopTime) && $stopTime > 0) {
 			sleep($stopTime * 60);
 		}
-		$cmd = cmd::byId($window['cmd']);
+		$cmd = cmd::byId($_window['cmd']);
 		if (!is_object($cmd)) {
 			return;
 		}
