@@ -453,7 +453,7 @@ class thermostat extends eqLogic {
 		}
 		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] : 0;
 		if (is_numeric($restartTime) && $restartTime > 0) {
-			log::add('thermostat', 'debug', '[windowClose] Pause de ' . $stopTime . 's');
+			log::add('thermostat', 'debug', '[windowClose] Pause de ' . $restartTime . 'min');
 			sleep($restartTime * 60);
 		}
 		$windows = $this->getConfiguration('window');
@@ -488,7 +488,7 @@ class thermostat extends eqLogic {
 		}
 		$stopTime = (isset($_window['stopTime']) && $_window['stopTime'] != '') ? $_window['stopTime'] : 0;
 		if (is_numeric($stopTime) && $stopTime > 0) {
-			log::add('thermostat', 'debug', '[windowOpen] Pause de ' . $stopTime . 's');
+			log::add('thermostat', 'debug', '[windowOpen] Pause de ' . $stopTime . 'min');
 			sleep($stopTime * 60);
 		}
 		$cmd = cmd::byId(str_replace('#', '', $_window['cmd']));
