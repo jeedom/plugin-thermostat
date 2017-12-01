@@ -477,7 +477,7 @@ class thermostat extends eqLogic {
 				return;
 			}
 			$restartTime = (isset($window['restartTime']) && $window['restartTime'] != '') ? $window['restartTime'] * 60 : 0;
-			if ((strtotime($this->getCache('window::close::' . $cmd->getId() . '::datetime')) + $restartTime) > strtotime('now')) {
+			if ((strtotime($this->getCache('window::close::' . $cmd->getId() . '::datetime')) + $restartTime - 1) > strtotime('now')) {
 				log::add('thermostat', 'debug', '[windowClose] Fenêtre fermée depuis trop peu de temps, je ne fais rien : ' . $window['cmd'] . ' => ' . $this->getCache('window::close::' . $cmd->getId() . '::datetime') . '+' . $restartTime . 's');
 				return;
 			}
