@@ -451,10 +451,16 @@ class thermostat extends eqLogic {
 			log::add('thermostat', 'debug', '[windowClose] Thermostat non suspendu je ne fais rien');
 			return;
 		}
-		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] : 0;
+		if ($this->getCache('window::state::' . str_replace('#', '', $window['cmd']), 0) != 1) {
+			log::add('thermostat', 'debug', '[windowClose] Je n\'ai jamais vu cette fenete ouverte, je ne fais rien');
+			return;
+		}
+		$this->setCache('window::state::' . str_replace('#', '', $window['cmd']), 0);
+		$this->setCache('window::close::' . str_replace('#', '', $window['cmd']) . '::datetime', date('Y-m-d H:i:s'));
+		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] * 60 : 0;
 		if (is_numeric($restartTime) && $restartTime > 0) {
-			log::add('thermostat', 'debug', '[windowClose] Pause de ' . $restartTime . 'min');
-			sleep($restartTime * 60);
+			log::add('thermostat', 'debug', '[windowClose] Pause de ' . $restartTime . 's');
+			sleep($restartTime);
 		}
 		$windows = $this->getConfiguration('window');
 		foreach ($windows as $window) {
@@ -468,6 +474,11 @@ class thermostat extends eqLogic {
 			}
 			if ($value == 1) {
 				log::add('thermostat', 'debug', '[windowClose] Fenêtre ouverte, je ne fais rien : ' . $window['cmd']);
+				return;
+			}
+			$restartTime = (isset($window['restartTime']) && $window['restartTime'] != '') ? $window['restartTime'] * 60 : 0;
+			if ((strtotime($this->getCache('window::close::' . $cmd->getId() . '::datetime')) + $restartTime) > strtotime('now')) {
+				log::add('thermostat', 'debug', '[windowClose] Fenêtre fermée depuis trop peu de temps, je ne fais rien : ' . $window['cmd'] . ' => ' . $this->getCache('window::close::' . $cmd->getId() . '::datetime') . '+' . $restartTime . 's');
 				return;
 			}
 		}
@@ -502,6 +513,8 @@ class thermostat extends eqLogic {
 		}
 		log::add('thermostat', 'debug', '[windowOpen] Valeur commande : ' . $value);
 		if ($value == 1) {
+			$this->setCache('window::open::' . $cmd->getId() . '::datetime', date('Y-m-d H:i:s'));
+			$this->setCache('window::state::' . $cmd->getId(), 1);
 			log::add('thermostat', 'debug', '[windowOpen] Arret du thermostat');
 			$this->stopThermostat();
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
