@@ -451,12 +451,12 @@ class thermostat extends eqLogic {
 			log::add('thermostat', 'debug', '[windowClose] Thermostat non suspendu je ne fais rien');
 			return;
 		}
-		if ($this->getCache('window::state::' . str_replace('#', '', $window['cmd']), 0) != 1) {
+		if ($this->getCache('window::state::' . str_replace('#', '', $_window['cmd']), 0) != 1) {
 			log::add('thermostat', 'debug', '[windowClose] Je n\'ai jamais vu cette fenete ouverte, je ne fais rien');
 			return;
 		}
-		$this->setCache('window::state::' . str_replace('#', '', $window['cmd']), 0);
-		$this->setCache('window::close::' . str_replace('#', '', $window['cmd']) . '::datetime', date('Y-m-d H:i:s'));
+		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 0);
+		$this->setCache('window::close::' . str_replace('#', '', $_window['cmd']) . '::datetime', date('Y-m-d H:i:s'));
 		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] * 60 : 0;
 		if (is_numeric($restartTime) && $restartTime > 0) {
 			log::add('thermostat', 'debug', '[windowClose] Pause de ' . $restartTime . 's');
