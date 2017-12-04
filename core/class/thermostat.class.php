@@ -96,20 +96,6 @@ class thermostat extends eqLogic {
 		if ($status == __('Suspendu', __FILE__)) {
 			return;
 		}
-		$windows = $thermostat->getConfiguration('window');
-		foreach ($windows as $window) {
-			$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
-			if (!is_object($cmd)) {
-				continue;
-			}
-			$value = $cmd->execCmd();
-			if (isset($window['invert']) && $window['invert'] == 1) {
-				$value = ($value == 0) ? 1 : 0;
-			}
-			if ($cmd->execCmd() == 1) {
-				return;
-			}
-		}
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp = $cmd->execCmd();
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
