@@ -464,8 +464,8 @@ class thermostat extends eqLogic {
 
 	public function windowOpen($_window) {
 		log::add('thermostat', 'debug', '[windowOpen] => ' . json_encode($_window));
-		$this->setCache('window::open::' . $cmd->getId() . '::datetime', date('Y-m-d H:i:s'));
-		$this->setCache('window::state::' . $cmd->getId(), 1);
+		$this->setCache('window::open::' . str_replace('#', '', $_window['cmd']) . '::datetime', date('Y-m-d H:i:s'));
+		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 1);
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			log::add('thermostat', 'debug', '[windowOpen] Thermostat arreté ou suspendu je ne fais rien');
 			return;
