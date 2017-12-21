@@ -153,6 +153,10 @@ class thermostat extends eqLogic {
 		if (!is_object($thermostat)) {
 			return;
 		}
+		if ($status == __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
+			return;
+		}
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
 		$thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
@@ -170,10 +174,6 @@ class thermostat extends eqLogic {
 			if ($status != __('Arrêté', __FILE__)) {
 				$thermostat->stopThermostat();
 			}
-			return;
-		}
-		if ($status == __('Suspendu', __FILE__)) {
-			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
 			return;
 		}
 		$cmd = $thermostat->getCmd(null, 'temperature');
