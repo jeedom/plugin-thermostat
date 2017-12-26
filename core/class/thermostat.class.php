@@ -675,7 +675,7 @@ class thermostat extends eqLogic {
 				foreach ($events as $event) {
 					$calendar = $event->getEqLogic();
 					$stateCalendar = $calendar->getCmd(null, 'state');
-					if ($calendar->getIsEnable() == 0 || $calendar->getConfiguration('enableCalendar', 1) == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
+					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
 						continue;
 					}
 					foreach ($event->getCmd_param('start') as $action) {
