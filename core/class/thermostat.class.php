@@ -88,27 +88,15 @@ class thermostat extends eqLogic {
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement du calcul d\'hysteresis');
 		$status = $thermostat->getCmd(null, 'status')->execCmd();
 		if ($thermostat->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__)) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat arrêté je ne fais rien');
 			if ($status != __('Arrêté', __FILE__)) {
 				$thermostat->stopThermostat();
 			}
 			return;
 		}
 		if ($status == __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu je ne fais rien');
 			return;
-		}
-		$windows = $thermostat->getConfiguration('window');
-		foreach ($windows as $window) {
-			$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
-			if (!is_object($cmd)) {
-				continue;
-			}
-			$value = $cmd->execCmd();
-			if (isset($window['invert']) && $window['invert'] == 1) {
-				$value = ($value == 0) ? 1 : 0;
-			}
-			if ($cmd->execCmd() == 1) {
-				return;
-			}
 		}
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp = $cmd->execCmd();
@@ -165,6 +153,10 @@ class thermostat extends eqLogic {
 		if (!is_object($thermostat)) {
 			return;
 		}
+		if ($status == __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
+			return;
+		}
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
 		$thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
@@ -183,25 +175,6 @@ class thermostat extends eqLogic {
 				$thermostat->stopThermostat();
 			}
 			return;
-		}
-		if ($status == __('Suspendu', __FILE__)) {
-			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
-			return;
-		}
-		$windows = $thermostat->getConfiguration('window');
-		foreach ($windows as $window) {
-			$cmd = cmd::byId(str_replace('#', '', $window['cmd']));
-			if (!is_object($cmd)) {
-				continue;
-			}
-			$value = $cmd->execCmd();
-			if (isset($window['invert']) && $window['invert'] == 1) {
-				$value = ($value == 0) ? 1 : 0;
-			}
-			if ($value == 1) {
-				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Window open stop');
-				return;
-			}
 		}
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp_in = $cmd->execCmd();
@@ -297,7 +270,7 @@ class thermostat extends eqLogic {
 		$thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
 		if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
-			log::add('thermostat', 'debug', 'Durée du cycle trop courte, aucun lancement');
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Durée du cycle trop courte, aucun lancement');
 			$thermostat->setConfiguration('lastState', 'stop');
 			$thermostat->stopThermostat();
 			$thermostat->save();
@@ -446,16 +419,16 @@ class thermostat extends eqLogic {
 /*     * *********************Methode d'instance************************* */
 
 	public function windowClose($_window) {
-		log::add('thermostat', 'debug', '[windowClose] => ' . json_encode($_window));
-		if ($this->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
-			log::add('thermostat', 'debug', '[windowClose] Thermostat non suspendu je ne fais rien');
-			return;
-		}
 		if ($this->getCache('window::state::' . str_replace('#', '', $_window['cmd']), 0) != 1) {
 			log::add('thermostat', 'debug', '[windowClose] Je n\'ai jamais vu cette fenete ouverte, je ne fais rien');
 			return;
 		}
 		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 0);
+		log::add('thermostat', 'debug', '[windowClose] => ' . json_encode($_window));
+		if ($this->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', '[windowClose] Thermostat non suspendu je ne fais rien');
+			return;
+		}
 		$this->setCache('window::close::' . str_replace('#', '', $_window['cmd']) . '::datetime', date('Y-m-d H:i:s'));
 		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] * 60 : 0;
 		if (is_numeric($restartTime) && $restartTime > 0) {
@@ -493,6 +466,7 @@ class thermostat extends eqLogic {
 
 	public function windowOpen($_window) {
 		log::add('thermostat', 'debug', '[windowOpen] => ' . json_encode($_window));
+		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 1);
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			log::add('thermostat', 'debug', '[windowOpen] Thermostat arreté ou suspendu je ne fais rien');
 			return;
@@ -513,8 +487,7 @@ class thermostat extends eqLogic {
 		}
 		log::add('thermostat', 'debug', '[windowOpen] Valeur commande : ' . $value);
 		if ($value == 1) {
-			$this->setCache('window::open::' . $cmd->getId() . '::datetime', date('Y-m-d H:i:s'));
-			$this->setCache('window::state::' . $cmd->getId(), 1);
+
 			log::add('thermostat', 'debug', '[windowOpen] Arret du thermostat');
 			$this->stopThermostat();
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
@@ -578,11 +551,11 @@ class thermostat extends eqLogic {
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Direction : ' . $direction);
 		if ($temp_in >= ($_consigne + 1.5) && $direction == 1) {
-			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est supérieure à la consigne je ne fais rien');
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est supérieure à la consigne de plus de 1.5°C je ne fais rien');
 			return array('power' => 0, 'direction' => $direction);
 		}
 		if ($temp_in <= ($_consigne - 1.5) && $direction == -1) {
-			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est inférieure à la consigne je ne fais rien');
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est inférieure à la consigne de plus de 1.5°C je ne fais rien');
 			return array('power' => 0, 'direction' => $direction);
 		}
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
