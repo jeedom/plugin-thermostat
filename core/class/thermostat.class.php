@@ -809,12 +809,12 @@ class thermostat extends eqLogic {
 			if (!is_object($order)) {
 				$order = new thermostatCmd();
 				$order->setIsVisible(0);
-				$order->setDisplay('generic_type', 'THERMOSTAT_SETPOINT');
 				$order->setUnite('°C');
 				$order->setName(__('Consigne', __FILE__));
 				$order->setConfiguration('historizeMode', 'none');
 				$order->setIsHistorized(1);
 			}
+			$order->setDisplay('generic_type', 'THERMOSTAT_SETPOINT');
 			$order->setEqLogic_id($this->getId());
 			$order->setType('info');
 			$order->setSubType('numeric');
@@ -829,10 +829,10 @@ class thermostat extends eqLogic {
 				$thermostat->setTemplate('dashboard', 'thermostat');
 				$thermostat->setTemplate('mobile', 'thermostat');
 				$thermostat->setUnite('°C');
-				$thermostat->setDisplay('generic_type', 'THERMOSTAT_SET_SETPOINT');
 				$thermostat->setName(__('Thermostat', __FILE__));
 				$thermostat->setIsVisible(1);
 			}
+			$thermostat->setDisplay('generic_type', 'THERMOSTAT_SET_SETPOINT');
 			$thermostat->setEqLogic_id($this->getId());
 			$thermostat->setConfiguration('maxValue', $this->getConfiguration('order_max'));
 			$thermostat->setConfiguration('minValue', $this->getConfiguration('order_min'));
@@ -846,9 +846,9 @@ class thermostat extends eqLogic {
 			if (!is_object($status)) {
 				$status = new thermostatCmd();
 				$status->setIsVisible(1);
-				$status->setDisplay('generic_type', 'THERMOSTAT_STATE_NAME');
 				$status->setName(__('Statut', __FILE__));
 			}
+			$status->setDisplay('generic_type', 'THERMOSTAT_STATE_NAME');
 			$status->setEqLogic_id($this->getId());
 			$status->setType('info');
 			$status->setSubType('string');
@@ -861,8 +861,8 @@ class thermostat extends eqLogic {
 				$actif->setName(__('Actif', __FILE__));
 				$actif->setIsVisible(0);
 				$actif->setIsHistorized(1);
-				$actif->setDisplay('generic_type', 'THERMOSTAT_STATE');
 			}
+			$actif->setDisplay('generic_type', 'THERMOSTAT_STATE');
 			$actif->setEqLogic_id($this->getId());
 			$actif->setType('info');
 			$actif->setSubType('binary');
@@ -876,8 +876,8 @@ class thermostat extends eqLogic {
 				$lockState->setTemplate('mobile', 'lock');
 				$lockState->setName(__('Verrouillage', __FILE__));
 				$lockState->setIsVisible(0);
-				$lockState->setDisplay('generic_type', 'THERMOSTAT_LOCK');
 			}
+			$lockState->setDisplay('generic_type', 'THERMOSTAT_LOCK');
 			$lockState->setEqLogic_id($this->getId());
 			$lockState->setType('info');
 			$lockState->setSubType('binary');
@@ -890,8 +890,8 @@ class thermostat extends eqLogic {
 				$lock->setTemplate('dashboard', 'lock');
 				$lock->setTemplate('mobile', 'lock');
 				$lock->setName('lock');
-				$lock->setDisplay('generic_type', 'THERMOSTAT_SET_LOCK');
 			}
+			$lock->setDisplay('generic_type', 'THERMOSTAT_SET_LOCK');
 			$lock->setEqLogic_id($this->getId());
 			$lock->setType('action');
 			$lock->setSubType('other');
@@ -910,8 +910,8 @@ class thermostat extends eqLogic {
 				$unlock->setTemplate('dashboard', 'lock');
 				$unlock->setTemplate('mobile', 'lock');
 				$unlock->setName('unlock');
-				$unlock->setDisplay('generic_type', 'THERMOSTAT_SET_UNLOCK');
 			}
+			$unlock->setDisplay('generic_type', 'THERMOSTAT_SET_UNLOCK');
 			$unlock->setEqLogic_id($this->getId());
 			$unlock->setType('action');
 			$unlock->setSubType('other');
@@ -1049,9 +1049,9 @@ class thermostat extends eqLogic {
 			if (!is_object($mode)) {
 				$mode = new thermostatCmd();
 				$mode->setName(__('Mode', __FILE__));
-				$mode->setIsVisible(1);
-				$mode->setDisplay('generic_type', 'THERMOSTAT_MODE');
+				$mode->setIsVisible(1);	
 			}
+			$mode->setDisplay('generic_type', 'THERMOSTAT_MODE');
 			$mode->setEqLogic_id($this->getId());
 			$mode->setType('info');
 			$mode->setSubType('string');
@@ -1062,9 +1062,9 @@ class thermostat extends eqLogic {
 			if (!is_object($off)) {
 				$off = new thermostatCmd();
 				$off->setIsVisible(1);
-				$off->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
 				$off->setName(__('Off', __FILE__));
 			}
+			$off->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
 			$off->setEqLogic_id($this->getId());
 			$off->setType('action');
 			$off->setSubType('other');
