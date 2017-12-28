@@ -41,6 +41,10 @@ class thermostat extends eqLogic {
 			return;
 		}
 		if (isset($_options['stop']) && $_options['stop'] == 1) {
+			$status = $thermostat->getCmd(null, 'status')->execCmd();
+			if ($status == __('Suspendu', __FILE__)) {
+				return;
+			}
 			$thermostat->stopThermostat();
 			$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
 			if (is_object($cron)) {
