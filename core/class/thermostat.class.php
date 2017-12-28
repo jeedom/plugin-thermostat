@@ -153,22 +153,20 @@ class thermostat extends eqLogic {
 		if (!is_object($thermostat)) {
 			return;
 		}
+		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
+		$thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
+		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
+		$status = $thermostat->getCmd(null, 'status')->execCmd();
 		if ($status == __('Suspendu', __FILE__)) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu');
 			return;
 		}
-		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Debut calcul temporel');
-		$thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
-		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Reprogrammation automatique : ' . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
-
 		if ($thermostat->getConfiguration('smart_start') == 1) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart schedule');
 			$thermostat->getNextState();
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Smart start end');
 		}
-
 		$mode = $thermostat->getCmd(null, 'mode')->execCmd();
-		$status = $thermostat->getCmd(null, 'status')->execCmd();
 		if ($mode == 'Off') {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat sur off');
 			if ($status != __('Arrêté', __FILE__)) {
