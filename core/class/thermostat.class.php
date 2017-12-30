@@ -182,20 +182,26 @@ class thermostat extends eqLogic {
 		$temp_in = $cmd->execCmd();
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 			$thermostat->stopThermostat();
-			log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
+			if ($this->getCache('probe_failure', 0) == 0) {
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
+			}
+			$this->setCache('probe_failure', 1);
 			return;
 		}
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
-
 		if (!is_numeric($temp_in)) {
-			log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
+			if ($this->getCache('probe_failure', 0) == 0) {
+				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
+			}
+			$this->setCache('probe_failure', 1);
 			return;
 		}
+		$this->setCache('probe_failure', 0);
 		if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
 			($temp_in > ($thermostat->getConfiguration('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
 
 			$thermostat->setConfiguration('nbConsecutiveFaillure', $thermostat->getConfiguration('nbConsecutiveFaillure') + 1);
-			if ($thermostat->getConfiguration('nbConsecutiveFaillure', 0) > 2) {
+			if ($thermostat->getConfiguration('nbConsecutiveFaillure', 0) == 2) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : Attention une défaillance du chauffage est détectée');
 				$thermostat->failureActuator();
 			}
@@ -363,19 +369,34 @@ class thermostat extends eqLogic {
 			}
 			$temperature = $thermostat->getCmd(null, 'temperature');
 			$temp_in = $temperature->execCmd();
+			$failure = false;
 			if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
 				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
 					$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
-					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . '(' . $temperature->getCollectDate() . ')');
+					if ($this->getCache('temp_threshold', 0) == 0) {
+						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . '(' . $temperature->getCollectDate() . ')');
+					}
+					$failure = true;
 				}
 			}
 			if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
 				$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est en dessous du seuil autorisé : ', __FILE__) . $temp_in);
+				if ($this->getCache('temp_threshold', 0) == 0) {
+					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est en dessous du seuil autorisé : ', __FILE__) . $temp_in);
+				}
+				$failure = true;
 			}
 			if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in) {
 				$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est au dessus du seuil autorisé : ', __FILE__) . $temp_in);
+				if ($this->getCache('temp_threshold', 0) == 0) {
+					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est au dessus du seuil autorisé : ', __FILE__) . $temp_in);
+				}
+				$failure = true;
+			}
+			if (!$failure) {
+				$this->setCache('temp_threshold', 0);
+			} else {
+				$this->setCache('temp_threshold', 1);
 			}
 		}
 
@@ -553,13 +574,20 @@ class thermostat extends eqLogic {
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Direction : ' . $direction);
 		if ($temp_in >= ($_consigne + 1.5) && $direction == 1) {
-			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est supérieure à la consigne de plus de 1.5°C je ne fais rien');
+			if ($this->getCache('temp_threshold', 0) == 0) {
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est supérieure à la consigne de plus de 1.5°C je ne fais rien');
+			}
+			$this->setCache('temp_threshold', 1);
 			return array('power' => 0, 'direction' => $direction);
 		}
 		if ($temp_in <= ($_consigne - 1.5) && $direction == -1) {
-			log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est inférieure à la consigne de plus de 1.5°C je ne fais rien');
+			if ($this->getCache('temp_threshold', 0) == 0) {
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : La temperature est inférieure à la consigne de plus de 1.5°C je ne fais rien');
+			}
+			$this->setCache('temp_threshold', 1);
 			return array('power' => 0, 'direction' => $direction);
 		}
+		$this->setCache('temp_threshold', 0);
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
 		$coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
 		$offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
@@ -1374,7 +1402,7 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('failure')) > 0) {
+		if (count($this->getConfiguration('failureActuator')) > 0) {
 			$consigne = $this->getCmd(null, 'order')->execCmd();
 			foreach ($this->getConfiguration('failureActuator') as $action) {
 				try {
