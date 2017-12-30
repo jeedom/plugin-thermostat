@@ -182,21 +182,21 @@ class thermostat extends eqLogic {
 		$temp_in = $cmd->execCmd();
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 			$thermostat->stopThermostat();
-			if ($this->getCache('probe_failure', 0) == 0) {
+			if ($thermostat->getCache('probe_failure', 0) == 0) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
 			}
-			$this->setCache('probe_failure', 1);
+			$thermostat->setCache('probe_failure', 1);
 			return;
 		}
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 		if (!is_numeric($temp_in)) {
-			if ($this->getCache('probe_failure', 0) == 0) {
+			if ($thermostat->getCache('probe_failure', 0) == 0) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
 			}
-			$this->setCache('probe_failure', 1);
+			$thermostat->setCache('probe_failure', 1);
 			return;
 		}
-		$this->setCache('probe_failure', 0);
+		$thermostat->setCache('probe_failure', 0);
 		if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
 			($temp_in > ($thermostat->getConfiguration('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
 
