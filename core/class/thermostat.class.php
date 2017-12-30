@@ -443,19 +443,19 @@ class thermostat extends eqLogic {
 
 	public function windowClose($_window) {
 		if ($this->getCache('window::state::' . str_replace('#', '', $_window['cmd']), 0) != 1) {
-			log::add('thermostat', 'debug', '[windowClose] Je n\'ai jamais vu cette fenete ouverte, je ne fais rien');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Je n\'ai jamais vu cette fenete ouverte, je ne fais rien');
 			return;
 		}
 		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 0);
 		log::add('thermostat', 'debug', '[windowClose] => ' . json_encode($_window));
 		if ($this->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
-			log::add('thermostat', 'debug', '[windowClose] Thermostat non suspendu je ne fais rien');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Thermostat non suspendu je ne fais rien');
 			return;
 		}
 		$this->setCache('window::close::' . str_replace('#', '', $_window['cmd']) . '::datetime', date('Y-m-d H:i:s'));
 		$restartTime = (isset($_window['restartTime']) && $_window['restartTime'] != '') ? $_window['restartTime'] * 60 : 0;
 		if (is_numeric($restartTime) && $restartTime > 0) {
-			log::add('thermostat', 'debug', '[windowClose] Pause de ' . $restartTime . 's');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Pause de ' . $restartTime . 's');
 			sleep($restartTime);
 		}
 		$windows = $this->getConfiguration('window');
@@ -469,16 +469,16 @@ class thermostat extends eqLogic {
 				$value = ($value == 0) ? 1 : 0;
 			}
 			if ($value == 1) {
-				log::add('thermostat', 'debug', '[windowClose] Fenêtre ouverte, je ne fais rien : ' . $window['cmd']);
+				log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Fenêtre ouverte, je ne fais rien : ' . $window['cmd']);
 				return;
 			}
 			$restartTime = (isset($window['restartTime']) && $window['restartTime'] != '') ? $window['restartTime'] * 60 : 0;
 			if ((strtotime($this->getCache('window::close::' . $cmd->getId() . '::datetime')) + $restartTime - 1) > strtotime('now')) {
-				log::add('thermostat', 'debug', '[windowClose] Fenêtre fermée depuis trop peu de temps, je ne fais rien : ' . $window['cmd'] . ' => ' . $this->getCache('window::close::' . $cmd->getId() . '::datetime') . '+' . $restartTime . 's');
+				log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Fenêtre fermée depuis trop peu de temps, je ne fais rien : ' . $window['cmd'] . ' => ' . $this->getCache('window::close::' . $cmd->getId() . '::datetime') . '+' . $restartTime . 's');
 				return;
 			}
 		}
-		log::add('thermostat', 'debug', '[windowClose] Toute les fenêtres sont fermées, je relance le chauffage');
+		log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Toute les fenêtres sont fermées, je relance le chauffage');
 		$this->getCmd(null, 'status')->event(__('Calcul', __FILE__));
 		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
 			thermostat::temporal(array('thermostat_id' => $this->getId()));
@@ -491,27 +491,26 @@ class thermostat extends eqLogic {
 		log::add('thermostat', 'debug', '[windowOpen] => ' . json_encode($_window));
 		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 1);
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
-			log::add('thermostat', 'debug', '[windowOpen] Thermostat arreté ou suspendu je ne fais rien');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Thermostat arreté ou suspendu je ne fais rien');
 			return;
 		}
 		$stopTime = (isset($_window['stopTime']) && $_window['stopTime'] != '') ? $_window['stopTime'] : 0;
 		if (is_numeric($stopTime) && $stopTime > 0) {
-			log::add('thermostat', 'debug', '[windowOpen] Pause de ' . $stopTime . 'min');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Pause de ' . $stopTime . 'min');
 			sleep($stopTime * 60);
 		}
 		$cmd = cmd::byId(str_replace('#', '', $_window['cmd']));
 		if (!is_object($cmd)) {
-			log::add('thermostat', 'debug', '[windowOpen] Commande introuvable je ne fais rien');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Commande introuvable je ne fais rien');
 			return;
 		}
 		$value = $cmd->execCmd();
 		if (isset($_window['invert']) && $_window['invert'] == 1) {
 			$value = ($value == 0) ? 1 : 0;
 		}
-		log::add('thermostat', 'debug', '[windowOpen] Valeur commande : ' . $value);
+		log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Valeur commande : ' . $value);
 		if ($value == 1) {
-
-			log::add('thermostat', 'debug', '[windowOpen] Arret du thermostat');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Arret du thermostat');
 			$this->stopThermostat();
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
 		}
@@ -1077,7 +1076,7 @@ class thermostat extends eqLogic {
 			if (!is_object($mode)) {
 				$mode = new thermostatCmd();
 				$mode->setName(__('Mode', __FILE__));
-				$mode->setIsVisible(1);	
+				$mode->setIsVisible(1);
 			}
 			$mode->setDisplay('generic_type', 'THERMOSTAT_MODE');
 			$mode->setEqLogic_id($this->getId());
