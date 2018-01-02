@@ -157,8 +157,6 @@ Sur cette image, l'action de défaillance envoie l'ordre de passage en mode ECO 
 
 image::../images/defaillancechauffage.png["Défaillance du chauffage",align="Center"]
 
-La plage de fonctionnement du thermostat est défini dans les champs `Borne de température inférieure` et `Borne de température supérieure`
-
 Pour définir une action de défaillance :
 
 * cliquez sur l'onglet _Défaillance du chauffage/climatisation_,
