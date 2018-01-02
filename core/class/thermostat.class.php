@@ -715,7 +715,7 @@ class thermostat extends eqLogic {
 
 		$cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
 		if ($next['date'] != '' && strtotime($next['date']) > strtotime(date('Y-m-d H:i:s'))) {
-			$temporal_data = $this->calculTemporalData($next['consigne'], true);
+			$temporal_data = $this->calculTemporalData(jeedom::evaluateExpression($next['consigne']), true);
 			if ($temporal_data['power'] < 0) {
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart non pris en compte car power < 0 ' . $temporal_data['power']);
 				return;
