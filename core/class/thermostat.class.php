@@ -1575,14 +1575,20 @@ class thermostatCmd extends cmd {
 			$eqLogic->setConfiguration('allow_mode', 'all');
 			$eqLogic->save();
 		}
-		if (!is_object($lockState) || $lockState->execCmd() == 1) {
-			$eqLogic->refreshWidget();
-			return;
-		}
+
 		if ($this->getLogicalId() == 'modeAction') {
+			if (!is_object($lockState) || $lockState->execCmd() == 1) {
+				$eqLogic->getCmd(null, 'mode')->event($this->getName());
+				$eqLogic->refreshWidget();
+				return;
+			}
 			$eqLogic->executeMode($this->getName());
 		} else if ($this->getLogicalId() == 'off') {
 			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
+			if (!is_object($lockState) || $lockState->execCmd() == 1) {
+				$eqLogic->refreshWidget();
+				return;
+			}
 			$eqLogic->stopThermostat();
 		} else if ($this->getLogicalId() == 'thermostat') {
 			if (!isset($_options['slider']) || $_options['slider'] == '' || !is_numeric(intval($_options['slider']))) {
@@ -1591,6 +1597,10 @@ class thermostatCmd extends cmd {
 			$eqLogic->getCmd(null, 'order')->event($_options['slider']);
 			if (!isset($_options['modeChange'])) {
 				$eqLogic->getCmd(null, 'mode')->event(__('Aucun', __FILE__));
+			}
+			if (!is_object($lockState) || $lockState->execCmd() == 1) {
+				$eqLogic->refreshWidget();
+				return;
 			}
 			$state = $eqLogic->getCmd(null, 'status')->execCmd();
 			if ($state == 0 || trim($state) == '' || $state != __('Suspendu', __FILE__)) {
