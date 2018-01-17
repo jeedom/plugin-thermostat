@@ -479,7 +479,9 @@ class thermostat extends eqLogic {
 			}
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Toute les fenêtres sont fermées, je relance le chauffage');
-		$this->getCmd(null, 'unlock')->execCmd();
+		if ($this->getCache('window::state::lockBefore', 0) == 0) {
+			$this->getCmd(null, 'unlock')->execCmd();
+		}
 		$this->getCmd(null, 'status')->event(__('Calcul', __FILE__));
 		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
 			thermostat::temporal(array('thermostat_id' => $this->getId()));
@@ -514,6 +516,7 @@ class thermostat extends eqLogic {
 			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Arret du thermostat');
 			$this->stopThermostat();
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
+			$this->setCache('window::state::lockBefore', $this->getCmd(null, 'lock_state')->execCmd());
 			$this->getCmd(null, 'lock')->execCmd();
 		}
 		return true;
