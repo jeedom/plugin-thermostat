@@ -91,15 +91,15 @@ class thermostat extends eqLogic {
 		}
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Lancement du calcul d\'hysteresis');
 		$status = $thermostat->getCmd(null, 'status')->execCmd();
+		if ($status == __('Suspendu', __FILE__)) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu je ne fais rien');
+			return;
+		}
 		if ($thermostat->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__)) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat arrêté je ne fais rien');
 			if ($status != __('Arrêté', __FILE__)) {
 				$thermostat->stopThermostat();
 			}
-			return;
-		}
-		if ($status == __('Suspendu', __FILE__)) {
-			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat suspendu je ne fais rien');
 			return;
 		}
 		$cmd = $thermostat->getCmd(null, 'temperature');
@@ -479,9 +479,6 @@ class thermostat extends eqLogic {
 			}
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Toute les fenêtres sont fermées, je relance le chauffage');
-		if ($this->getCache('window::state::lockBefore', 0) == 0) {
-			$this->getCmd(null, 'unlock')->execCmd();
-		}
 		$this->getCmd(null, 'status')->event(__('Calcul', __FILE__));
 		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
 			thermostat::temporal(array('thermostat_id' => $this->getId()));
@@ -516,8 +513,6 @@ class thermostat extends eqLogic {
 			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Arret du thermostat');
 			$this->stopThermostat();
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
-			$this->setCache('window::state::lockBefore', $this->getCmd(null, 'lock_state')->execCmd());
-			$this->getCmd(null, 'lock')->execCmd();
 		}
 		return true;
 	}
@@ -825,10 +820,10 @@ class thermostat extends eqLogic {
 					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Off car une commande Off est automatiquement creer', __FILE__));
 				}
 				if (strtolower($existingMode['name']) == __('status', __FILE__)) {
-					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Status car une commande Off est automatiquement creer', __FILE__));
+					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Status car une commande Status éxiste déjà', __FILE__));
 				}
 				if (strtolower($existingMode['name']) == __('thermostat', __FILE__)) {
-					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Thermostat car une commande Off est automatiquement creer', __FILE__));
+					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Thermostat car une commande Thermostat éxiste déjà', __FILE__));
 				}
 			}
 		}
@@ -1575,20 +1570,14 @@ class thermostatCmd extends cmd {
 			$eqLogic->setConfiguration('allow_mode', 'all');
 			$eqLogic->save();
 		}
-
+		if (!is_object($lockState) || $lockState->execCmd() == 1) {
+			$eqLogic->refreshWidget();
+			return;
+		}
 		if ($this->getLogicalId() == 'modeAction') {
-			if (!is_object($lockState) || $lockState->execCmd() == 1) {
-				$eqLogic->getCmd(null, 'mode')->event($this->getName());
-				$eqLogic->refreshWidget();
-				return;
-			}
 			$eqLogic->executeMode($this->getName());
 		} else if ($this->getLogicalId() == 'off') {
 			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
-			if (!is_object($lockState) || $lockState->execCmd() == 1) {
-				$eqLogic->refreshWidget();
-				return;
-			}
 			$eqLogic->stopThermostat();
 		} else if ($this->getLogicalId() == 'thermostat') {
 			if (!isset($_options['slider']) || $_options['slider'] == '' || !is_numeric(intval($_options['slider']))) {
@@ -1598,19 +1587,15 @@ class thermostatCmd extends cmd {
 			if (!isset($_options['modeChange'])) {
 				$eqLogic->getCmd(null, 'mode')->event(__('Aucun', __FILE__));
 			}
-			if (!is_object($lockState) || $lockState->execCmd() == 1) {
-				$eqLogic->refreshWidget();
+			if ($eqLogic->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 				return;
 			}
-			$state = $eqLogic->getCmd(null, 'status')->execCmd();
-			if ($state == 0 || trim($state) == '' || $state != __('Suspendu', __FILE__)) {
-				$eqLogic->orderChange();
-				if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
-					thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
-				}
-				if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
-					thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
-				}
+			$eqLogic->orderChange();
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+			}
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
 			}
 		}
 	}
