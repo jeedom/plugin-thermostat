@@ -88,7 +88,7 @@ image::../images/selectionsondes.png["Sélection des sondes",align="Center"]
 Les champs `Borne de température inférieure` et `Borne de température supérieure` définissent la plage de fonctionnement du thermostat en dehors de laquelle une défaillance du chauffage est enclenchée. Voir ci dessous le paragraphe sur les actions de défaillance.
 
 [icon="../images/plugin/important.png"]
-[IMPORTANT]
+[IMPORTANTE]
 Ces champs ne sont accessibles qu'en mode expert (cocher `Profil, Mode expert`).
 
 Pour la commande du radiateur ou du climatiseur, il est décrit dans l'onglet _configuration des actions_. On peut ici définir plusieurs actions, ce qui donne la possibilité à notre thermostat de piloter différents équipements (cas d'un fonctionnement par zone par exemple ou contrôle d'un autre thermostat)
@@ -169,7 +169,7 @@ Vous pouvez saisir plusieurs actions, qui seront exécutées en séquence et dan
 
 Cet onglet contient tous les paramètres de réglage du thermostat en mode temporel. Dans la plupart des cas, il n'est pas nécessaire de modifier ces valeurs, car l'auto-apprentisssage va calculer automatiquement les coefficients. Cependant, même si le thermostat peut s'adapter à la plupart des cas de figure, il est possible d'ajuster les coefficients pour une configuration optimisée à votre installation.
 
-[IMPORTANT]
+[IMPORTANTE]
 Cet onglet n'est accessible qu'en mode expert (cocher `Profil, Mode expert`).
 
 image::../images/configurationavancee.png["Configuration avancée du thermostat",align="Center"]
@@ -245,7 +245,7 @@ Le plugin agenda permet d'aller plus loin dans la programmation et surtout prés
 === Programmation avec le plugin agenda
 Nous ne présentons pas ici le plugin Agenda, l'objectif étant de le coupler avec la programmation du thermostat. A noter que si vous disposez du plugin agenda, un onglet _programmation_ apparaît dans la configuration du thermostat, permettant d'accéder directement à l'agenda associé.
 
-[IMPORTANT]
+[IMPORTANTE]
 Cet onglet n'est accessible qu'en mode expert (cocher `Profil, Mode expert`).
 
 Nous allons donc créer un nouvel agenda nommé *Programmation chauffage*, auquel on ajoutera les événements de changement de mode du thermostat.
