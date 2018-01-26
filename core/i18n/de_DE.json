@@ -73,6 +73,56 @@
         "Cron de contrôle": "Cron Kontrolle",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron Prüfwerte Sonden Temperaturmessgerät, wenn Ihr Thermostat nicht startet oder stoppt nicht ordnungsgemäß diese Überprüfung einrichten",
         "Supprimer": "Löschen",
-        "Sauvegarder": "Speichern"
+        "Sauvegarder": "Speichern",
+        "Equipement": "Gerät",
+        "Actions": "Aktion",
+        "Modes": "Modus",
+        "Ouvertures": "Ouvertures",
+        "Défaillance sonde": "Défaillance sonde",
+        "Défaillance chauffage": "Défaillance chauffage",
+        "Avancée": "Fortschrittlich",
+        "Sonde de température": "Temperatursonde",
+        "Gestion": "Verwaltung"
+    },
+    "plugins/thermostat/core/class/thermostat.class.php": {
+        "Suspendu": "ausgesetzt",
+        "off": "Aus",
+        "status": "Status",
+        "thermostat": "Thermostat",
+        "Tout autorisé": "jeder autorisierte",
+        "Climatisation": "Klimaanlage",
+        "Off": "Aus",
+        "Arrêté": "Anordnung",
+        "Aucun": "Ohne",
+        "Chauffage": "Heizung",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Attention la température intérieure est en dessous du seuil autorisé :",
+        "Calcul": "Berechnung"
+    },
+    "plugins/thermostat/mobile/js/panel.js": {
+        "minute(s)": "Minute(n)"
+    },
+    "plugins/thermostat/desktop/php/panel.php": {
+        "Liste objets": "Objekt Liste",
+        "Rechercher": "Suchen nach",
+        "Du": "Vom",
+        "au": "bis",
+        "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher": "Warnung!  Ein zu großer Datumsbereich benötigt eine sehr lange Zeit zum berechnen oder kann auch nicht angezeigt werden.",
+        "Ok": "OK"
+    },
+    "plugins/thermostat/desktop/js/panel.js": {
+        "minute(s)": "Minute(n)"
+    },
+    "plugins/thermostat/desktop/js/thermostat.js": {
+        "Nouveau nom ?": "Neuer Name",
+        "Nom du mode ?": "Modus Name",
+        "Etes-vous sûr de vouloir supprimer ce mode": "Wollen sie diesen Modus wirklich löschen?",
+        "Configuration des modes": "Modus Konfiguration",
+        "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "Sie haben noch keine Programmierung. Bitte klicken \n<a href='index.php?v=d&m=calendar&p=calendar'> </a>\nden Thermostat programmieren über das Kalender-Plugin",
+        "Liste des programmations sur le thermostat du plugin agenda": "Thermostat Zeitplanliste für das  Kalender-Plugin ",
+        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
+        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Inverser": "umgekehrt",
+        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
+        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
     }
 }

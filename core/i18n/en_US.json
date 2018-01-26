@@ -73,6 +73,56 @@
         "Cron de contrôle": "Control cron",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Value temperature sensors check, if your thermostat doesn't start or stop correctly, use this ckeck.",
         "Supprimer": "Delete",
-        "Sauvegarder": "Save"
+        "Sauvegarder": "Save",
+        "Equipement": "Device",
+        "Actions": "Actions",
+        "Modes": "Modes",
+        "Ouvertures": "Ouvertures",
+        "Défaillance sonde": "Défaillance sonde",
+        "Défaillance chauffage": "Défaillance chauffage",
+        "Avancée": "Advanced",
+        "Sonde de température": "Temperature sensor",
+        "Gestion": "Management"
+    },
+    "plugins/thermostat/core/class/thermostat.class.php": {
+        "Suspendu": "Suspended",
+        "off": "off",
+        "status": "status",
+        "thermostat": "thermostat",
+        "Tout autorisé": "Allow everything",
+        "Climatisation": "Air conditioning",
+        "Off": "Off",
+        "Arrêté": "Stop",
+        "Aucun": "None",
+        "Chauffage": "Heating",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Attention la température intérieure est en dessous du seuil autorisé :",
+        "Calcul": "Calculation"
+    },
+    "plugins/thermostat/mobile/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/php/panel.php": {
+        "Liste objets": "Object list",
+        "Rechercher": "Search",
+        "Du": "From",
+        "au": "to",
+        "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher": "Warning: a too wide date range can take very long time to be calculated, or even will never be displayed",
+        "Ok": "Ok"
+    },
+    "plugins/thermostat/desktop/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/js/thermostat.js": {
+        "Nouveau nom ?": "New name?",
+        "Nom du mode ?": "Mode name?",
+        "Etes-vous sûr de vouloir supprimer ce mode": "Do you really want to deleted this mode",
+        "Configuration des modes": "Modes setup",
+        "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "You don't have any scheduling. Please click <a href='index.php?v=d&m=calendar&p=calendar'>here</a> to schedule your thermostat with Agenda plugin.",
+        "Liste des programmations sur le thermostat du plugin agenda": "Scheduling list on thermostat of Agenda plugin",
+        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
+        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Inverser": "Invert",
+        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
+        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
     }
 }

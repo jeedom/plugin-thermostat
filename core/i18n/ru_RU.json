@@ -73,6 +73,56 @@
         "Cron de contrôle": "Управление Cron",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron-верификация датчиков температуры. Если ваш термостат успешно не запустился или не остановился, установите эту проверку",
         "Supprimer": "Удалить",
-        "Sauvegarder": "Сохранить"
+        "Sauvegarder": "Сохранить",
+        "Equipement": "Оборудование",
+        "Actions": "Действия",
+        "Modes": "Режимы",
+        "Ouvertures": "Ouvertures",
+        "Défaillance sonde": "Défaillance sonde",
+        "Défaillance chauffage": "Défaillance chauffage",
+        "Avancée": "Прогресс",
+        "Sonde de température": "Sonde de température",
+        "Gestion": "Управление"
+    },
+    "plugins/thermostat/core/class/thermostat.class.php": {
+        "Suspendu": "Приостановлено",
+        "off": "Выключить",
+        "status": "статус",
+        "thermostat": "термостат",
+        "Tout autorisé": "Любой авторизованный",
+        "Climatisation": "Climatisation",
+        "Off": "Выключить",
+        "Arrêté": "Остановленный",
+        "Aucun": "нет",
+        "Chauffage": "Отопление",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Attention la température intérieure est en dessous du seuil autorisé :",
+        "Calcul": "Расчёт"
+    },
+    "plugins/thermostat/mobile/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/php/panel.php": {
+        "Liste objets": "Список элементов",
+        "Rechercher": "поиск",
+        "Du": "От",
+        "au": "   ",
+        "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher": "Предупреждение об избыточном диапазоне дат, который дает слишком большой период времени, что может привести к невозможности расчета и отображения",
+        "Ok": "Ок"
+    },
+    "plugins/thermostat/desktop/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/js/thermostat.js": {
+        "Nouveau nom ?": "Новое имя?",
+        "Nom du mode ?": "Название режима?",
+        "Etes-vous sûr de vouloir supprimer ce mode": "Вы уверены, что хотите удалить этот режим",
+        "Configuration des modes": "Настройка режимов",
+        "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "У вас нет какого-либо программирования. Пожалуйста, нажмите <a href='index.php?v=d&m=calendar&p=calendar'> here </a> чтобы запрограммировать термостат, используя плагин календарь",
+        "Liste des programmations sur le thermostat du plugin agenda": "Расписание плагина календарь для термостата  ",
+        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
+        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Inverser": "Обратный",
+        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
+        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
     }
 }

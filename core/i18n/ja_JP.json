@@ -73,6 +73,56 @@
         "Cron de contrôle": "cronの制御",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "あなたのサーモスタットが起動しない、または正しくこの検証を設定し停止しない場合はcronの検証は、プローブ温度計値",
         "Supprimer": "取り除きます",
-        "Sauvegarder": "セーブ"
+        "Sauvegarder": "セーブ",
+        "Equipement": "設備",
+        "Actions": "株式",
+        "Modes": "モード",
+        "Ouvertures": "Ouvertures",
+        "Défaillance sonde": "Défaillance sonde",
+        "Défaillance chauffage": "Défaillance chauffage",
+        "Avancée": "進捗",
+        "Sonde de température": "Sonde de température",
+        "Gestion": "管理"
+    },
+    "plugins/thermostat/core/class/thermostat.class.php": {
+        "Suspendu": "Suspendu",
+        "off": "off",
+        "status": "status",
+        "thermostat": "thermostat",
+        "Tout autorisé": "Tout autorisé",
+        "Climatisation": "Climatisation",
+        "Off": "オフ",
+        "Arrêté": "逮捕",
+        "Aucun": "いいえ",
+        "Chauffage": "加熱",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Attention la température intérieure est en dessous du seuil autorisé :",
+        "Calcul": "計算"
+    },
+    "plugins/thermostat/mobile/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/php/panel.php": {
+        "Liste objets": "リスト項目",
+        "Rechercher": "検索",
+        "Du": "Du",
+        "au": "インクルード",
+        "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher": "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher",
+        "Ok": "[OK]を"
+    },
+    "plugins/thermostat/desktop/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/js/thermostat.js": {
+        "Nouveau nom ?": "新しい名前は？",
+        "Nom du mode ?": "プロフィールの名前は？",
+        "Etes-vous sûr de vouloir supprimer ce mode": "Etes-vous sûr de vouloir supprimer ce mode",
+        "Configuration des modes": "Configuration des modes",
+        "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda",
+        "Liste des programmations sur le thermostat du plugin agenda": "Liste des programmations sur le thermostat du plugin agenda",
+        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
+        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Inverser": "逆",
+        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
+        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
     }
 }

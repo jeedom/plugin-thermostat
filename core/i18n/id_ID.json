@@ -73,6 +73,56 @@
         "Cron de contrôle": "kontrol cron",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "verifikasi Cron nilai probe Suhu meter, jika termostat Anda tidak memulai atau tidak berhenti benar mengatur verifikasi ini",
         "Supprimer": "Menghapus",
-        "Sauvegarder": "Menyimpan"
+        "Sauvegarder": "Menyimpan",
+        "Equipement": "Peralatan",
+        "Actions": "Tindakan",
+        "Modes": "mode",
+        "Ouvertures": "Ouvertures",
+        "Défaillance sonde": "Défaillance sonde",
+        "Défaillance chauffage": "Défaillance chauffage",
+        "Avancée": "Lanjutan",
+        "Sonde de température": "Sonde de température",
+        "Gestion": "Manajemen"
+    },
+    "plugins/thermostat/core/class/thermostat.class.php": {
+        "Suspendu": "Suspendu",
+        "off": "off",
+        "status": "status",
+        "thermostat": "thermostat",
+        "Tout autorisé": "Tout autorisé",
+        "Climatisation": "Climatisation",
+        "Off": "Off",
+        "Arrêté": "Berhenti",
+        "Aucun": "tidak",
+        "Chauffage": "Pemanasan",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Attention la température intérieure est en dessous du seuil autorisé :",
+        "Calcul": "Perhitungan"
+    },
+    "plugins/thermostat/mobile/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/php/panel.php": {
+        "Liste objets": "Daftar objek",
+        "Rechercher": "pencarian",
+        "Du": "Du",
+        "au": "itu",
+        "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher": "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher",
+        "Ok": "Ok"
+    },
+    "plugins/thermostat/desktop/js/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins/thermostat/desktop/js/thermostat.js": {
+        "Nouveau nom ?": "nama baru?",
+        "Nom du mode ?": "nama profil?",
+        "Etes-vous sûr de vouloir supprimer ce mode": "Etes-vous sûr de vouloir supprimer ce mode",
+        "Configuration des modes": "Configuration des modes",
+        "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda",
+        "Liste des programmations sur le thermostat du plugin agenda": "Liste des programmations sur le thermostat du plugin agenda",
+        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
+        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Inverser": "Membalikkan",
+        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
+        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
     }
 }
