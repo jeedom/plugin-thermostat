@@ -73,6 +73,56 @@
         "Cron de contrôle": "Cron de contrôle",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification",
         "Supprimer": "Supprimer",
-        "Sauvegarder": "Sauvegarder"
+        "Sauvegarder": "Sauvegarder",
+        "Equipement": "Equipement",
+        "Actions": "Actions",
+        "Modes": "Modes",
+        "Ouvertures": "Ouvertures",
+        "Défaillance sonde": "Défaillance sonde",
+        "Défaillance chauffage": "Défaillance chauffage",
+        "Avancée": "Avancée",
+        "Sonde de température": "Sonde de température",
+        "Gestion": "Gestion"
+    },
+    "plugins\/thermostat\/core\/class\/thermostat.class.php": {
+        "Suspendu": "Suspendu",
+        "off": "off",
+        "status": "status",
+        "thermostat": "thermostat",
+        "Tout autorisé": "Tout autorisé",
+        "Climatisation": "Climatisation",
+        "Off": "Off",
+        "Arrêté": "Arrêté",
+        "Aucun": "Aucun",
+        "Chauffage": "Chauffage",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": " : Attention la température intérieure est en dessous du seuil autorisé : ",
+        "Calcul": "Calcul"
+    },
+    "plugins\/thermostat\/mobile\/js\/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins\/thermostat\/desktop\/php\/panel.php": {
+        "Liste objets": "Liste objets",
+        "Rechercher": "Rechercher",
+        "Du": "Du",
+        "au": "au",
+        "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher": "Attention une trop grande plage de date peut mettre très longtemps a etre calculer ou même ne pas s'afficher",
+        "Ok": "Ok"
+    },
+    "plugins\/thermostat\/desktop\/js\/panel.js": {
+        "minute(s)": "minute(s)"
+    },
+    "plugins\/thermostat\/desktop\/js\/thermostat.js": {
+        "Nouveau nom ?": "Nouveau nom ?",
+        "Nom du mode ?": "Nom du mode ?",
+        "Etes-vous sûr de vouloir supprimer ce mode": "Etes-vous sûr de vouloir supprimer ce mode",
+        "Configuration des modes": "Configuration des modes",
+        "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici<\/a> pour programmer votre thermostat à l'aide du plugin agenda": "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici<\/a> pour programmer votre thermostat à l'aide du plugin agenda",
+        "Liste des programmations sur le thermostat du plugin agenda": "Liste des programmations sur le thermostat du plugin agenda",
+        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
+        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Inverser": "Inverser",
+        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
+        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
     }
 }
