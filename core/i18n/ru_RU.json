@@ -42,7 +42,7 @@
         "La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.": "Определенные ранее открытые проемы, которые имеют отношение к термостату (двери, окна ...), позволяют ему регулировать температуру.",
         "Ajouter ouverture": "Добавить открывание",
         "Ajouter action de défaillance": "Добавить действие при сбое",
-        "Masquer commande de verrouillage": "Masquer commande de verrouillage",
+        "Masquer commande de verrouillage": "Скрыть контроль блокировки",
         "Cron de répétition de commande": "Команда повтора Cron",
         "Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Управление термостатом по отклонению Cron (остановка, отопление, охлаждение). Если термостат не запускается или не останавливается правильно, настроить эту проверку",
         "Délai max entre 2 relevés de température (min)": "Максимальное время между двумя показаниями температуры (мин)",
