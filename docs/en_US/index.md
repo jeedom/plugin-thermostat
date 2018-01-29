@@ -10,7 +10,7 @@ chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
     commutations trop fréquentes lorsque la température est autour
     la consigne.
 
-<!-- -->
+<! - ->
 
 -   le mode **temporel** calcule un pourcentage de chauffage sur un
     cycle temporel prédéfini, en tenant compte des écarts entre la
@@ -630,7 +630,7 @@ thermostat](../images/graphecourbesthermostat.png)
 
 *Graphe des courbes du thermostat*
 
-FAQ 
+FAQ
 ===
 
 Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une forte inertie ?
@@ -644,41 +644,41 @@ Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une for
     l’utilisation du thermostat pour les différents types de chauffage
     (poêle, chaudière plancher chauffant,…​etc)
 
-<!-- -->
+<! - ->
 
 Mes coefficients n’arretent pas de bouger
 
 :   C’est normal, le systeme corrige en permanence ses coefficients
     grâce au système d’auto-apprentissage
 
-<!-- -->
+<! - ->
 
 Combien de temps faut-il, en mode temporel, pour apprendre ?
 
 :   Il faut en moyenne 3 jours pour que le système apprenne et regule de
     maniere optimale
 
-<!-- -->
+<! - ->
 
 Je n’arrive pas à programmer mon thermostat
 
 :   La programmation du thermostat peut se faire soit par un scénario,
     soit avec l’utilisation du plugin Agenda.
 
-<!-- -->
+<! - ->
 
 Mon thermostat semble ne jamais passer en mode chauffage ou climatisation
 
 :   Si le thermostat n’a pas de commande correspondant au chauffage
     et/ou à la climatisation celui-ci ne peut pas passer dans ces modes.
 
-<!-- -->
+<! - ->
 
 J’ai beau changer la température ou de mode, le thermostat revient toujours à l’état précedent
 
 :   Verifiez que votre thermostat n’est pas verouillé
 
-<!-- -->
+<! - ->
 
 En mode histéresis mon thermostat ne change jamais d’état
 

@@ -31,7 +31,7 @@ régulation de température, car c’est bien ce qu’on lui demande en
 premier lieu, le thermostat peut interagir avec tous les équipements de
 la maison.
 
-Parmi ses caractéristiques, on trouve :
+Entre sus principales características, destacan:
 
 -   la prise en compte de la température extérieure, par conséquent du
     coefficient d’isolation de la maison,
