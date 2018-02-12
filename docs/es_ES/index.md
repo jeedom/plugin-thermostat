@@ -10,7 +10,7 @@ chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
     commutations trop fréquentes lorsque la température est autour
     la consigne.
 
-<!-- -->
+<! - ->
 
 -   le mode **temporel** calcule un pourcentage de chauffage sur un
     cycle temporel prédéfini, en tenant compte des écarts entre la
@@ -630,7 +630,7 @@ thermostat](../images/graphecourbesthermostat.png)
 
 *Graphe des courbes du thermostat*
 
-FAQ 
+Preguntas frecuentes
 ===
 
 >**Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une forte inertie ?**
