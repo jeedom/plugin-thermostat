@@ -372,7 +372,7 @@ class thermostat extends eqLogic {
 			$failure = false;
 			if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
 				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
-					$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
+					$thermostat->failure();
 					if ($thermostat->getCache('temp_threshold', 0) == 0) {
 						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . '(' . $temperature->getCollectDate() . ')');
 					}
@@ -380,14 +380,14 @@ class thermostat extends eqLogic {
 				}
 			}
 			if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
-				$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
+				$thermostat->failure();
 				if ($thermostat->getCache('temp_threshold', 0) == 0) {
 					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est en dessous du seuil autorisé : ', __FILE__) . $temp_in);
 				}
 				$failure = true;
 			}
 			if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in) {
-				$thermostat->failure($thermostat->getConfiguration('maxTimeUpdateTemp', 5));
+				$thermostat->failure();
 				if ($thermostat->getCache('temp_threshold', 0) == 0) {
 					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est au dessus du seuil autorisé : ', __FILE__) . $temp_in);
 				}
@@ -1373,51 +1373,50 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (($this->getConfiguration('failureTime', 0) + ($_failureRepeat * 60)) > strtotime('now')) {
+		if (count($this->getConfiguration('failure')) > 0) {
 			return;
 		}
-		if (count($this->getConfiguration('failure')) > 0) {
-			$consigne = $this->getCmd(null, 'order')->execCmd();
-			foreach ($this->getConfiguration('failure') as $action) {
-				try {
-					$options = array();
-					if (isset($action['options'])) {
-						$options = $action['options'];
-						foreach ($options as $key => $value) {
-							$options[$key] = str_replace('#slider#', $consigne, $value);
-						}
+		$consigne = $this->getCmd(null, 'order')->execCmd();
+		foreach ($this->getConfiguration('failure') as $action) {
+			try {
+				$options = array();
+				if (isset($action['options'])) {
+					$options = $action['options'];
+					foreach ($options as $key => $value) {
+						$options[$key] = str_replace('#slider#', $consigne, $value);
 					}
-					scenarioExpression::createAndExec('action', $action['cmd'], $options);
-				} catch (Exception $e) {
-					log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 				}
+				scenarioExpression::createAndExec('action', $action['cmd'], $options);
+			} catch (Exception $e) {
+				log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 			}
 		}
-		$this->setConfiguration('failureTime', strtotime('now'));
-		$this->save();
+		$this->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 	}
 
 	public function failureActuator() {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('failureActuator')) > 0) {
-			$consigne = $this->getCmd(null, 'order')->execCmd();
-			foreach ($this->getConfiguration('failureActuator') as $action) {
-				try {
-					$options = array();
-					if (isset($action['options'])) {
-						$options = $action['options'];
-						foreach ($options as $key => $value) {
-							$options[$key] = str_replace('#slider#', $consigne, $value);
-						}
+		if (count($this->getConfiguration('failureActuator')) == 0) {
+			return;
+		}
+		$consigne = $this->getCmd(null, 'order')->execCmd();
+		foreach ($this->getConfiguration('failureActuator') as $action) {
+			try {
+				$options = array();
+				if (isset($action['options'])) {
+					$options = $action['options'];
+					foreach ($options as $key => $value) {
+						$options[$key] = str_replace('#slider#', $consigne, $value);
 					}
-					scenarioExpression::createAndExec('action', $action['cmd'], $options);
-				} catch (Exception $e) {
-					log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 				}
+				scenarioExpression::createAndExec('action', $action['cmd'], $options);
+			} catch (Exception $e) {
+				log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 			}
 		}
+		$this->getCmd(null, 'status')->event(__('Défaillance chauffage', __FILE__));
 	}
 
 	public function executeMode($_name) {
