@@ -511,8 +511,8 @@ class thermostat extends eqLogic {
 		log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Valeur commande : ' . $value);
 		if ($value == 1) {
 			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Arret du thermostat');
-			$this->stopThermostat();
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
+			$this->stopThermostat();
 		}
 		return true;
 	}
