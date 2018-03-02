@@ -77,9 +77,9 @@
         "Equipement": "Device",
         "Actions": "Actions",
         "Modes": "Modes",
-        "Ouvertures": "Ouvertures",
-        "Défaillance sonde": "Défaillance sonde",
-        "Défaillance chauffage": "Défaillance chauffage",
+        "Ouvertures": "Openings",
+        "Défaillance sonde": "Sensor failure",
+        "Défaillance chauffage": "Heating failure",
         "Avancée": "Advanced",
         "Sonde de température": "Temperature sensor",
         "Gestion": "Management"
@@ -95,7 +95,7 @@
         "Arrêté": "Stop",
         "Aucun": "None",
         "Chauffage": "Heating",
-        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Attention la température intérieure est en dessous du seuil autorisé :",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Be careful the indoor temperature is below the allowed threshold :",
         "Calcul": "Calculation"
     },
     "plugins/thermostat/mobile/js/panel.js": {
@@ -119,10 +119,10 @@
         "Configuration des modes": "Modes setup",
         "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "You don't have any scheduling. Please click <a href='index.php?v=d&m=calendar&p=calendar'>here</a> to schedule your thermostat with Agenda plugin.",
         "Liste des programmations sur le thermostat du plugin agenda": "Scheduling list on thermostat of Agenda plugin",
-        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
-        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Eteindre si ouvert plus de (min) :": "Turn off if open more than (min) :",
+        "Rallumer si fermé depuis (min) :": "Turn on if closed since (min):",
         "Inverser": "Invert",
-        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
-        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
+        "Eteindre si ouvert plus de (min)": "Turn off if open more than (min)",
+        "Rallumer si fermé depuis (min)": "Turn on if closed since (min)"
     }
 }
