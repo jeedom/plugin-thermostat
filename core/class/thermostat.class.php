@@ -321,13 +321,13 @@ class thermostat extends eqLogic {
 					if ($c->isDue()) {
 						switch ($thermostat->getCmd(null, 'status')->execCmd()) {
 							case __('Chauffage', __FILE__):
-								$thermostat->heat();
+								$thermostat->heat(true);
 								break;
 							case __('Arrêté', __FILE__):
-								$thermostat->stopThermostat();
+								$thermostat->stopThermostat(true);
 								break;
 							case __('Climatisation', __FILE__):
-								$thermostat->cool();
+								$thermostat->cool(true);
 								break;
 						}
 					}
@@ -1216,17 +1216,19 @@ class thermostat extends eqLogic {
 		}
 	}
 
-	public function heat() {
-		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
-			return false;
-		}
-		if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'heat') {
-			$this->stopThermostat();
-			return false;
-		}
-		if (count($this->getConfiguration('heating')) == 0) {
-			$this->stopThermostat();
-			return false;
+	public function heat($_repeat = false) {
+		if (!$_repeat) {
+			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+				return false;
+			}
+			if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'heat') {
+				$this->stopThermostat();
+				return false;
+			}
+			if (count($this->getConfiguration('heating')) == 0) {
+				$this->stopThermostat();
+				return false;
+			}
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action chauffage');
 		$consigne = $this->getCmd(null, 'order')->execCmd();
@@ -1258,18 +1260,19 @@ class thermostat extends eqLogic {
 		return true;
 	}
 
-	public function cool() {
-
-		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
-			return false;
-		}
-		if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'cool') {
-			$this->stopThermostat();
-			return false;
-		}
-		if (count($this->getConfiguration('cooling')) == 0) {
-			$this->stopThermostat();
-			return false;
+	public function cool($_repeat = false) {
+		if (!$_repeat) {
+			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+				return false;
+			}
+			if ($this->getConfiguration('allow_mode', 'all') != 'all' && $this->getConfiguration('allow_mode', 'all') != 'cool') {
+				$this->stopThermostat();
+				return false;
+			}
+			if (count($this->getConfiguration('cooling')) == 0) {
+				$this->stopThermostat();
+				return false;
+			}
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action froid');
 		$consigne = $this->getCmd(null, 'order')->execCmd();
