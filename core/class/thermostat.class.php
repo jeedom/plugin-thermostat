@@ -647,7 +647,7 @@ class thermostat extends eqLogic {
 					}
 					$nextOccurence = $event->nextOccurrence($position, true);
 					if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
-						$consigne = 0;
+						$consigne = null;
 						foreach ($this->getConfiguration('existingMode') as $existingMode) {
 							if ($mode->getName() == $existingMode['name']) {
 								foreach ($existingMode['actions'] as $action) {
@@ -657,7 +657,7 @@ class thermostat extends eqLogic {
 								}
 							}
 						}
-						if ($consigne != 0) {
+						if ($consigne !== null) {
 							$next = array(
 								'date' => $nextOccurence['date'],
 								'event' => $event,
@@ -671,48 +671,46 @@ class thermostat extends eqLogic {
 				}
 			}
 		}
-		if (is_object($thermostat)) {
-			$events = calendar_event::searchByCmd($thermostat->getId());
-			if (is_array($events) && count($events) > 0) {
-				foreach ($events as $event) {
-					$calendar = $event->getEqLogic();
-					$stateCalendar = $calendar->getCmd(null, 'state');
-					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
-						continue;
+		$events = calendar_event::searchByCmd($thermostat->getId());
+		if (is_array($events) && count($events) > 0) {
+			foreach ($events as $event) {
+				$calendar = $event->getEqLogic();
+				$stateCalendar = $calendar->getCmd(null, 'state');
+				if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
+					continue;
+				}
+				foreach ($event->getCmd_param('start') as $action) {
+					if ($action['cmd'] == '#' . $mode->getId() . '#') {
+						$position = 'start';
+						$options = $action['options'];
 					}
-					foreach ($event->getCmd_param('start') as $action) {
-						if ($action['cmd'] == '#' . $mode->getId() . '#') {
-							$position = 'start';
+				}
+				foreach ($event->getCmd_param('end') as $action) {
+					if ($action['cmd'] == '#' . $mode->getId() . '#') {
+						if ($position == 'start') {
+							$position = null;
+						} else {
+							$position = 'end';
 							$options = $action['options'];
 						}
 					}
-					foreach ($event->getCmd_param('end') as $action) {
-						if ($action['cmd'] == '#' . $mode->getId() . '#') {
-							if ($position == 'start') {
-								$position = null;
-							} else {
-								$position = 'end';
-								$options = $action['options'];
-							}
-						}
-					}
-					$nextOccurence = $event->nextOccurrence($position, true);
-					if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
-						$next = array(
-							'date' => $nextOccurence,
-							'event' => $event,
-							'calendar_id' => $calendar->getId(),
-							'consigne' => $options['slider'],
-							'type' => 'thermostat',
-						);
-					}
+				}
+				$nextOccurence = $event->nextOccurrence($position, true);
+				if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
+					$next = array(
+						'date' => $nextOccurence,
+						'event' => $event,
+						'calendar_id' => $calendar->getId(),
+						'consigne' => $options['slider'],
+						'type' => 'thermostat',
+					);
 				}
 			}
 		}
 		if ($next == null || $next['date'] == '') {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : Smartstart aucun événement trouvé');
 			return '';
 		}
-
 		$cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
 		if ($next['date'] != '' && strtotime($next['date']) > strtotime(date('Y-m-d H:i:s'))) {
 			$temporal_data = $this->calculTemporalData(jeedom::evaluateExpression($next['consigne']), true);
