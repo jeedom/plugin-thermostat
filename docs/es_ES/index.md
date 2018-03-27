@@ -1,7 +1,7 @@
 Description 
 ===========
 
-Ce plugin permet de créer et gérer des thermostats, pour piloter le
+Ce plugin permet de créer et gérer des thermostats pour piloter le
 chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
 
 -   le mode **hystéresis** correspond à l’allumage et l’extinction du
@@ -53,10 +53,6 @@ enfin, au travers de quelques cas d’utilisation, comment on peut
 l’enrichir en combinaison avec d’autres plugins ou à l’aide de
 scénarios.
 
-Le plugin thermostat disposent de nombreux paramètres et certains ne
-sont accessibles qu’en mode expert. Nous supposerons être dans ce mode
-tout au long de cette présentation.
-
 La configuration en quelques clics 
 ----------------------------------
 
@@ -100,9 +96,9 @@ On trouve ensuite différents onglets :
     l’onglet programmation.
 
 Votre thermostat est maintenant opérationnel, et par l’utilisation de
-scénarios ou en le combinant avec d’autre plugins (agenda,
+scénarios ou en le combinant avec d’autres plugins (agenda,
 virtuel,présence,…​), il va se fondre en douceur dans votre installation
-domotique. Voilà ce qu’on obtient sur le dashboard :
+domotique. Voilà ce que l’on obtient sur le dashboard :
 
 ![Aspect sur le dashboard](../images/thermostat.png)
 
@@ -156,8 +152,7 @@ fonction de la précision du capteur, par exemple pour une sonde précise
 
 > **Tip**
 >
-> Le paramètre hystérésis se trouve dans l’onglet *Configuration
-> avancée*, accessible en mode expert.
+> Le paramètre hystérésis se trouve dans l’onglet *avancée*.
 
 Dans le cas du mode temporel, la commande de chauffage ou de
 climatisation est définie sur un cycle prédéfini et la durée d’exécution
@@ -205,13 +200,8 @@ le plugin météo.
 > chauffage est enclenchée. Voir ci dessous le paragraphe sur les
 > actions de défaillance.
 
-> **Important**
->
-> Ces champs ne sont accessibles qu’en mode expert (cocher
-> `Profil, Mode expert`).
-
 Pour la commande du radiateur ou du climatiseur, il est décrit dans
-l’onglet *configuration des actions*. On peut ici définir plusieurs
+l’onglet *Actions*. On peut ici définir plusieurs
 actions, ce qui donne la possibilité à notre thermostat de piloter
 différents équipements (cas d’un fonctionnement par zone par exemple ou
 contrôle d’un autre thermostat)
@@ -226,13 +216,13 @@ manuel ou automatique.
 Les modes : le point de départ pour l’automatisation 
 ----------------------------------------------------
 
-Les modes (définis dans l’onglet *configuration des modes*) sont des
+Les modes (définis dans l’onglet *Modes*) sont des
 consignes prédéterminées du thermostat qui correspondent à votre mode de
 vie. Par exemple, le mode **Nuit**ou**Eco** donne la température que
 vous souhaitez lorsque tout le monde dort. Le mode **Jour** ou
 **Confort** détermine le comportement du thermostat pour avoir une
 température de confort lorsque vous êtes présent au domicile. Ici, rien
-n’est figé. Vous pouvez définir autant de modes que vous souhaitez pour
+n’est figé. Vous pouvez définir autant de modes que vous le souhaitez pour
 les utiliser via des scénarios (Nous y reviendrons plus tard).
 
 Dans l’image ci-dessous, le mode **Confort** a une valeur de consigne de
@@ -275,7 +265,7 @@ du fonctionnement du thermostat.
 
 Pour configurer le fonctionnement à l’ouverture de la fenêtre :
 
--   Sélectionnez l’info du capteur d’ouverture dans le champ `Ouverture`
+-   sélectionnez l’info du capteur d’ouverture dans le champ `Ouverture`
 
 -   ajuster le temps avant coupure du thermostat après l’ouverture dans
     le champ `Eteindre si ouvert plus de (min) :`
@@ -301,7 +291,7 @@ d’un écart prolongé de la température avec la consigne.
 
 ### Défaillance des sondes de température 
 
-Si les sondes utilisées par le thermostat ne renvoie plus l’information
+Si les sondes utilisées par le thermostat ne renvoient plus l’information
 de température, par exemple en cas d’usure des piles, alors le
 thermostat enclenche les actions de défaillance. Lorsque le défaut
 survient, il est possible de mettre l’appareil dans un mode de
@@ -312,14 +302,14 @@ notification permet d’être prévenu et d’intervenir manuellement.
 > **Tip**
 >
 > Le paramètre qui permet au thermostat de décider d’une défaillance de
-> sonde est situé dans l’onglet *Configuration avancée*. Il s’agit du
+> sonde est situé dans l’onglet *Avancée*. Il s’agit du
 > `délai max entre 2 relevés de température`.
 
 ![Défaillance des sondes](../images/defaillancesonde.png)
 
 Pour définir une action de défaillance :
 
--   cliquez sur l’onglet *Défaillance sonde de température*,
+-   cliquez sur l’onglet *Défaillance sonde*,
 
 -   cliquez sur le bouton *Ajoutez une action de défaillance*
 
@@ -341,7 +331,7 @@ s’effecue sur plusieurs cycles.
 > **Tip**
 >
 > Le paramètre qui permet au thermostat de décider d’une défaillance de
-> sonde est situé dans l’onglet *Configuration avancée*. Il s’agit de la
+> sonde est situé dans l’onglet *Avancée*. Il s’agit de la
 > `Marge de défaillance chaud` pour le chauffage et de la
 > `Marge de défaillance froid` pour la climatisation.
 
@@ -364,7 +354,7 @@ et dans le cas d’actions plus complexes, faire appel à un scénario
 (taper `scenario` sans accent dans le champs action puis cliquer
 ailleurs pour pouvoir saisir le nom du scénario).
 
-Gérer des cas particulier avec la configuration avancée du thermostat 
+Gérer des cas particuliers avec la configuration avancée du thermostat 
 ---------------------------------------------------------------------
 
 Cet onglet contient tous les paramètres de réglage du thermostat en mode
@@ -373,11 +363,6 @@ ces valeurs, car l’auto-apprentisssage va calculer automatiquement les
 coefficients. Cependant, même si le thermostat peut s’adapter à la
 plupart des cas de figure, il est possible d’ajuster les coefficients
 pour une configuration optimisée à votre installation.
-
-> **Important**
->
-> Cet onglet n’est accessible qu’en mode expert (cocher
-> `Profil, Mode expert`).
 
 ![Configuration avancée du
 thermostat](../images/configurationavancee.png)
@@ -561,14 +546,9 @@ Programmation avec le plugin agenda
 
 Nous ne présentons pas ici le plugin Agenda, l’objectif étant de le
 coupler avec la programmation du thermostat. A noter que si vous
-disposez du plugin agenda, un onglet *programmation* apparaît dans la
+disposez du plugin agenda, un onglet *Programmation* apparaît dans la
 configuration du thermostat, permettant d’accéder directement à l’agenda
 associé.
-
-> **Important**
->
-> Cet onglet n’est accessible qu’en mode expert (cocher
-> `Profil, Mode expert`).
 
 Nous allons donc créer un nouvel agenda nommé **Programmation
 chauffage**, auquel on ajoutera les événements de changement de mode du
@@ -644,14 +624,14 @@ Preguntas frecuentes
 >    l’utilisation du thermostat pour les différents types de chauffage
 >    (poêle, chaudière plancher chauffant,…​etc)
 
->**Mes coefficients n’arretent pas de bouger**
+>**Mes coefficients n’arrêtent pas de bouger**
 >
->   C’est normal, le systeme corrige en permanence ses coefficients
+>   C’est normal, le système corrige en permanence ses coefficients
 >   grâce au système d’auto-apprentissage
 
 >**Combien de temps faut-il, en mode temporel, pour apprendre ?**
 >
->   Il faut en moyenne 7 jours pour que le système apprenne et regule de
+>   Il faut en moyenne 7 jours pour que le système apprenne et régule de
 >   maniere optimale
 
 >**Je n’arrive pas à programmer mon thermostat**
@@ -664,16 +644,16 @@ Preguntas frecuentes
 >   Si le thermostat n’a pas de commande correspondant au chauffage
 >    et/ou à la climatisation celui-ci ne peut pas passer dans ces modes.
 
->**J’ai beau changer la température ou de mode, le thermostat revient toujours à l’état précedent**
+>**J’ai beau changer la température ou le mode, le thermostat revient toujours à l’état précedent**
 >
 >   Verifiez que votre thermostat n’est pas verouillé
 
 >**En mode histéresis mon thermostat ne change jamais d’état**
 >
->   C’est que les sondes de temperature ne remontent pas automatiquement
+>   C’est que les sondes de température ne remontent pas automatiquement
 >    leur valeur, il est conseillé de mettre en place un "Cron de
->    controle"
+>    contrôle"
 
->**Les courbes du thermostat (en particulier la consigne) ne semble pas être juste**
+>**Les courbes du thermostat (en particulier la consigne) ne semblent pas être juste**
 >
 >   Regarder du coté du lissage de l'historique des commandes en question. En effet pour gagner en efficacité Jeedom fait une moyenne des valeurs sur 5 min puis sur l'heure.

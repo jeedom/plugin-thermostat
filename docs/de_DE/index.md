@@ -1,4 +1,4 @@
-Description 
+Beschreibung
 ===========
 
 Ce plugin permet de créer et gérer des thermostats pour piloter le
