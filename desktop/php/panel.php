@@ -17,9 +17,9 @@ if (!is_object($object)) {
 }
 $allObject = jeeObject::buildTree();
 if (count($object->getEqLogic(true, false, 'thermostat')) == 0) {
-	foreach ($allObject as $object_li) {
-		if (count($object_li->getEqLogic(true, false, 'thermostat')) > 0) {
-			$object = $object_li;
+	foreach ($allObject as $object_sel) {
+		if (count($object_sel->getEqLogic(true, false, 'thermostat')) > 0) {
+			$object = $object_sel;
 			break;
 		}
 	}
