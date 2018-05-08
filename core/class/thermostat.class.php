@@ -1369,7 +1369,7 @@ class thermostat extends eqLogic {
 		}
 	}
 
-	public function failure($_failureRepeat) {
+	public function failure($_failureRepeat = 999) {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
