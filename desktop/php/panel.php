@@ -8,17 +8,25 @@ $date = array(
 );
 
 if (init('object_id') == '') {
-	$object = object::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
+	$object = jeeObject::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
 } else {
-	$object = object::byId(init('object_id'));
+	$object = jeeObject::byId(init('object_id'));
 }
 if (!is_object($object)) {
-	$object = object::rootObject();
+	$object = jeeObject::rootObject();
+}
+$allObject = jeeObject::buildTree();
+if (count($object->getEqLogic(true, false, 'thermostat')) == 0) {
+	foreach ($allObject as $object_li) {
+		if (count($object_li->getEqLogic(true, false, 'thermostat')) > 0) {
+			$object = $object_li;
+			break;
+		}
+	}
 }
 if (is_object($object)) {
 	$_GET['object_id'] = $object->getId();
 }
-
 sendVarToJs('object_id', init('object_id'));
 ?>
 
@@ -29,15 +37,14 @@ sendVarToJs('object_id', init('object_id'));
                 <li class="nav-header">{{Liste objets}}</li>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
                 <?php
-$allObject = object::buildTree();
+
 foreach ($allObject as $object_li) {
 	if ($object_li->getIsVisible() == 1 && count($object_li->getEqLogic(true, false, 'thermostat')) > 0) {
-		$margin = 15 * $object_li->parentNumber();
+		$margin = 5 * $object_li->parentNumber();
 		if ($object_li->getId() == init('object_id')) {
-			echo '<li class="cursor li_object active" ><a href="index.php?v=d&m=thermostat&p=panel&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getHumanName(true) . '</a></li>';
+			echo '<li class="cursor li_object active" ><a data-object_id="' . $object_li->getId() . '" href="index.php?v=d&p=panel&m=camera&object_id=' . $object_li->getId() . '" style="padding: 2px 0px;"><span style="position:relative;left:' . $margin . 'px;">' . $object_li->getHumanName(true) . '</span><span style="font-size : 0.65em;float:right;position:relative;top:7px;">' . $object_li->getHtmlSummary() . '</span></a></li>';
 		} else {
-			echo '<li class="cursor li_object" ><a href="index.php?v=d&m=thermostat&p=panel&object_id=' . $object_li->getId() . '" style="position:relative;left:' . $margin . 'px;">' . $object_li->getHumanName(true) . '</a></li>';
-
+			echo '<li class="cursor li_object" ><a data-object_id="' . $object_li->getId() . '" href="index.php?v=d&p=panel&m=camera&object_id=' . $object_li->getId() . '" style="padding: 2px 0px;"><span style="position:relative;left:' . $margin . 'px;">' . $object_li->getHumanName(true) . '</span><span style="font-size : 0.65em;float:right;position:relative;top:7px;">' . $object_li->getHtmlSummary() . '</span></a></li>';
 		}
 	}
 }
