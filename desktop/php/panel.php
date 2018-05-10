@@ -8,14 +8,14 @@ $date = array(
 );
 
 if (init('object_id') == '') {
-	$object = jeeObject::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
+	$object = object::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
 } else {
-	$object = jeeObject::byId(init('object_id'));
+	$object = object::byId(init('object_id'));
 }
 if (!is_object($object)) {
-	$object = jeeObject::rootObject();
+	$object = object::rootObject();
 }
-$allObject = jeeObject::buildTree();
+$allObject = object::buildTree();
 if (count($object->getEqLogic(true, false, 'thermostat')) == 0) {
 	foreach ($allObject as $object_sel) {
 		if (count($object_sel->getEqLogic(true, false, 'thermostat')) > 0) {
