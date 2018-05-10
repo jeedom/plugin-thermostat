@@ -28,15 +28,15 @@ try {
 		if (init('object_id') == '') {
 			$_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject');
 		}
-		$object = object::byId(init('object_id'));
+		$object = jeeObject::byId(init('object_id'));
 		if (!is_object($object)) {
-			$object = object::rootObject();
+			$object = jeeObject::rootObject();
 		}
 		if (!is_object($object)) {
 			throw new Exception(__('Aucun objet racine trouvé', __FILE__));
 		}
 		if (count($object->getEqLogic(true, false, 'thermostat')) == 0) {
-			$allObject = jeeObject::buildTree();
+			$allObject = jeejeeObject::buildTree();
 			foreach ($allObject as $object_sel) {
 				if (count($object_sel->getEqLogic(true, false, 'thermostat')) > 0) {
 					$object = $object_sel;
