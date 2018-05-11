@@ -10,7 +10,7 @@ chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
     commutations trop fréquentes lorsque la température est autour
     la consigne.
 
-<!-- -->
+<! - ->
 
 -   le mode **temporel** calcule un pourcentage de chauffage sur un
     cycle temporel prédéfini, en tenant compte des écarts entre la
@@ -630,60 +630,50 @@ thermostat](../images/graphecourbesthermostat.png)
 
 *Graphe des courbes du thermostat*
 
-FAQ 
+Preguntas frecuentes
 ===
 
-Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une forte inertie ?
+>**Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une forte inertie ?**
+>
+>    Le thermostat s’adapte pratiquement à tous les cas de figure mais
+>    cela nécessite une analyse approfondie de votre installation pour
+>    ajuster les coefficients, si vous êtes dans une
+>    situation particulière. Consultez la section sur la *configuration
+>    avancée* pour ajuster les coefficients, notamment dans le cas d’un
+>    plancher chauffant. Plusieurs sujets sur le forum traitent de
+>    l’utilisation du thermostat pour les différents types de chauffage
+>    (poêle, chaudière plancher chauffant,…​etc)
 
-:   Le thermostat s’adapte pratiquement à tous les cas de figure mais
-    cela nécessite une analyse approfondie de votre installation pour
-    ajuster les coefficients, si vous êtes dans une
-    situation particulière. Consultez la section sur la *configuration
-    avancée* pour ajuster les coefficients, notamment dans le cas d’un
-    plancher chauffant. Plusieurs sujets sur le forum traitent de
-    l’utilisation du thermostat pour les différents types de chauffage
-    (poêle, chaudière plancher chauffant,…​etc)
+>**Mes coefficients n’arretent pas de bouger**
+>
+>   C’est normal, le systeme corrige en permanence ses coefficients
+>   grâce au système d’auto-apprentissage
 
-<!-- -->
+>**Combien de temps faut-il, en mode temporel, pour apprendre ?**
+>
+>   Il faut en moyenne 7 jours pour que le système apprenne et regule de
+>   maniere optimale
 
-Mes coefficients n’arretent pas de bouger
+>**Je n’arrive pas à programmer mon thermostat**
+>
+>   La programmation du thermostat peut se faire soit par un scénario,
+>   soit avec l’utilisation du plugin Agenda.
 
-:   C’est normal, le systeme corrige en permanence ses coefficients
-    grâce au système d’auto-apprentissage
+>**Mon thermostat semble ne jamais passer en mode chauffage ou climatisation**
+>
+>   Si le thermostat n’a pas de commande correspondant au chauffage
+>    et/ou à la climatisation celui-ci ne peut pas passer dans ces modes.
 
-<!-- -->
+>**J’ai beau changer la température ou de mode, le thermostat revient toujours à l’état précedent**
+>
+>   Verifiez que votre thermostat n’est pas verouillé
 
-Combien de temps faut-il, en mode temporel, pour apprendre ?
+>**En mode histéresis mon thermostat ne change jamais d’état**
+>
+>   C’est que les sondes de temperature ne remontent pas automatiquement
+>    leur valeur, il est conseillé de mettre en place un "Cron de
+>    controle"
 
-:   Il faut en moyenne 3 jours pour que le système apprenne et regule de
-    maniere optimale
-
-<!-- -->
-
-Je n’arrive pas à programmer mon thermostat
-
-:   La programmation du thermostat peut se faire soit par un scénario,
-    soit avec l’utilisation du plugin Agenda.
-
-<!-- -->
-
-Mon thermostat semble ne jamais passer en mode chauffage ou climatisation
-
-:   Si le thermostat n’a pas de commande correspondant au chauffage
-    et/ou à la climatisation celui-ci ne peut pas passer dans ces modes.
-
-<!-- -->
-
-J’ai beau changer la température ou de mode, le thermostat revient toujours à l’état précedent
-
-:   Verifiez que votre thermostat n’est pas verouillé
-
-<!-- -->
-
-En mode histéresis mon thermostat ne change jamais d’état
-
-:   C’est que les sondes de temperature ne remontent pas automatiquement
-    leur valeur, il est conseillé de mettre en place un "Cron de
-    controle"
-
-
+>**Les courbes du thermostat (en particulier la consigne) ne semble pas être juste**
+>
+>   Regarder du coté du lissage de l'historique des commandes en question. En effet pour gagner en efficacité Jeedom fait une moyenne des valeurs sur 5 min puis sur l'heure.

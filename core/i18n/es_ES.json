@@ -77,9 +77,9 @@
         "Equipement": "Dispositivos",
         "Actions": "Acciones",
         "Modes": "Modos",
-        "Ouvertures": "Ouvertures",
-        "Défaillance sonde": "Défaillance sonde",
-        "Défaillance chauffage": "Défaillance chauffage",
+        "Ouvertures": "Aperturas",
+        "Défaillance sonde": "Fallo de sonda",
+        "Défaillance chauffage": "Fallo de calefacción",
         "Avancée": "Avanzada",
         "Sonde de température": "Sonda de temperatura",
         "Gestion": "Administración"
@@ -119,10 +119,10 @@
         "Configuration des modes": "Configuración de los modos",
         "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "Usted no tiene ningún tipo de programación. Por favor, haga clic en <a href='index.php?v=d&m=calendar&p=calendar'> aquí </a> para programar el termostato usando el plugin de calendario",
         "Liste des programmations sur le thermostat du plugin agenda": "Lista de las programaciones en el termostato del plugin calendario",
-        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
-        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Eteindre si ouvert plus de (min) :": "Apagar si se abre más de (min.) :",
+        "Rallumer si fermé depuis (min) :": "Encender si está cerrado desde (min.) :",
         "Inverser": "Invertir",
-        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
-        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
+        "Eteindre si ouvert plus de (min)": "Apagar si se abre más de (min) ",
+        "Rallumer si fermé depuis (min)": "Encender si está cerrado desde (min) "
     }
 }
