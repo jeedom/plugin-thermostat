@@ -77,9 +77,9 @@
         "Equipement": "Gerät",
         "Actions": "Aktion",
         "Modes": "Modus",
-        "Ouvertures": "Ouvertures",
-        "Défaillance sonde": "Défaillance sonde",
-        "Défaillance chauffage": "Défaillance chauffage",
+        "Ouvertures": "Öffnung",
+        "Défaillance sonde": "Sensorausfall",
+        "Défaillance chauffage": "Heizungsfehler",
         "Avancée": "Fortschrittlich",
         "Sonde de température": "Temperatursonde",
         "Gestion": "Verwaltung"
@@ -95,7 +95,7 @@
         "Arrêté": "Anordnung",
         "Aucun": "Ohne",
         "Chauffage": "Heizung",
-        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Attention la température intérieure est en dessous du seuil autorisé :",
+        " : Attention la température intérieure est en dessous du seuil autorisé : ": ": Achtung, die innere Temperatur ist unter dem zulässigen Grenzwert :",
         "Calcul": "Berechnung"
     },
     "plugins/thermostat/mobile/js/panel.js": {
@@ -119,10 +119,10 @@
         "Configuration des modes": "Modus Konfiguration",
         "Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda": "Sie haben noch keine Programmierung. Bitte klicken \n<a href='index.php?v=d&m=calendar&p=calendar'> </a>\nden Thermostat programmieren über das Kalender-Plugin",
         "Liste des programmations sur le thermostat du plugin agenda": "Thermostat Zeitplanliste für das  Kalender-Plugin ",
-        "Eteindre si ouvert plus de (min) :": "Eteindre si ouvert plus de (min) :",
-        "Rallumer si fermé depuis (min) :": "Rallumer si fermé depuis (min) :",
+        "Eteindre si ouvert plus de (min) :": "Ausschalten wenn länger als (min) geöffnet ist :",
+        "Rallumer si fermé depuis (min) :": "Einschalten wenn seit (min) geschlossen ist :",
         "Inverser": "umgekehrt",
-        "Eteindre si ouvert plus de (min)": "Eteindre si ouvert plus de (min)",
-        "Rallumer si fermé depuis (min)": "Rallumer si fermé depuis (min)"
+        "Eteindre si ouvert plus de (min)": "Ausschalten wenn länger als (min) geöffnet ist",
+        "Rallumer si fermé depuis (min)": "Einschalten wenn seit (min) geschlossen ist"
     }
 }
