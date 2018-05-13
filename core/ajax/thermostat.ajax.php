@@ -36,7 +36,7 @@ try {
 			throw new Exception(__('Aucun objet racine trouvé', __FILE__));
 		}
 		if (count($object->getEqLogic(true, false, 'thermostat')) == 0) {
-			$allObject = jeejeeObject::buildTree();
+			$allObject = jeeObject::buildTree();
 			foreach ($allObject as $object_sel) {
 				if (count($object_sel->getEqLogic(true, false, 'thermostat')) > 0) {
 					$object = $object_sel;
