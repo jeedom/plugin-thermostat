@@ -24,6 +24,8 @@ try {
 		throw new Exception(__('401 - Accès non autorisé', __FILE__));
 	}
 
+	ajax::init();
+
 	if (init('action') == 'getThermostat') {
 		if (init('object_id') == '') {
 			$_GET['object_id'] = $_SESSION['user']->getOptions('defaultDashboardObject');
