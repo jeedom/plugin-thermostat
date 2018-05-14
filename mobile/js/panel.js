@@ -16,19 +16,22 @@
 
  function initThermostatPanel(_object_id) {
     jeedom.object.all({
+        onlyHasEqLogic : 'thermostat', 
+        searchOnchild : '0',
         error: function (error) {
             $('#div_alert').showAlert({message: error.message, level: 'danger'});
         },
         success: function (objects) {
             var li = ' <ul data-role="listview">';
             for (var i in objects) {
-                if (objects[i].isVisible == 1) {
-                    var icon = '';
-                    if (isset(objects[i].display) && isset(objects[i].display.icon)) {
-                        icon = objects[i].display.icon;
-                    }
-                    li += '<li></span><a href="#" class="link" data-page="panel" data-plugin="thermostat" data-title="' + icon.replace(/\"/g, "\'") + ' ' + objects[i].name + '" data-option="' + objects[i].id + '"><span>' + icon + '</span> ' + objects[i].name + '</a></li>';
+                if (objects[i].isVisible != 1) {
+                    continue;
                 }
+                var icon = '';
+                if (isset(objects[i].display) && isset(objects[i].display.icon)) {
+                    icon = objects[i].display.icon;
+                }
+                li += '<li></span><a href="#" class="link" data-page="panel" data-plugin="thermostat" data-title="' + icon.replace(/\"/g, "\'") + ' ' + objects[i].name + '" data-option="' + objects[i].id + '"><span>' + icon + '</span> ' + objects[i].name + '</a></li>';
             }
             li += '</ul>';
             panel(li);
@@ -113,25 +116,25 @@ function graphThermostat(_eqLogic_id) {
             jeedom.history.chart['div_graph' + _eqLogic_id] = null;
             var foundPower = false;
             for (var i  in cmds) {
-               if (cmds[i].logicalId == 'power') {
-                   jeedom.history.drawChart({
+             if (cmds[i].logicalId == 'power') {
+                 jeedom.history.drawChart({
                     cmd_id: cmds[i].id,
                     el: 'div_graph' + _eqLogic_id,
                     start: $('#in_startDate').value(),
                     end: $('#in_endDate').value(),
                     option: {
-                     graphColor: '#BDBDBD',
-                     derive : 0,
-                     graphStep: 1,
-                     graphScale : 1,
-                     graphType : 'area',
-                     graphZindex :1
-                 }
-             });
-                   foundPower = true;
-               }
-           }
-           for (var i  in cmds) {
+                       graphColor: '#BDBDBD',
+                       derive : 0,
+                       graphStep: 1,
+                       graphScale : 1,
+                       graphType : 'area',
+                       graphZindex :1
+                   }
+               });
+                 foundPower = true;
+             }
+         }
+         for (var i  in cmds) {
             if (cmds[i].logicalId == 'order') {
                 jeedom.history.drawChart({
                     cmd_id: cmds[i].id,
