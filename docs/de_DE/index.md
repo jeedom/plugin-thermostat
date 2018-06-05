@@ -19,7 +19,7 @@ chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
     d’ajuster automatiquement les coefficients mais peut nécessiter
     quelques réglages manuels pour l’adapter à votre installation.
 
-Configuration 
+Konfiguration
 =============
 
 Ce plugin est destiné à la création de thermostats dans Jeedom. Il
