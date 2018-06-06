@@ -220,7 +220,7 @@ class thermostat extends eqLogic {
 						$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('lastTempIn')) / ($temp_in - $thermostat->getConfiguration('lastTempIn')));
 						$coeff_indoor_heat = ($thermostat->getConfiguration('coeff_indoor_heat') * $thermostat->getConfiguration('coeff_indoor_heat_autolearn') + $coeff_indoor_heat) / ($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_indoor_heat_autolearn', min($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1, 50));
-						if ($coeff_indoor_heat < 0) {
+						if ($coeff_indoor_heat < 0 || is_nan($coeff_indoor_heat)) {
 							$coeff_indoor_heat = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
@@ -231,7 +231,7 @@ class thermostat extends eqLogic {
 						$coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
 						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_heat') * $thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_outdoor_heat_autolearn', min($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1, 50));
-						if ($coeff_outdoor < 0) {
+						if ($coeff_outdoor < 0 || is_nan($coeff_outdoor)) {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
