@@ -1,3 +1,7 @@
+# 06/06/2018
+
+- Correction de bug
+
 # 23/02/2018
 
 - Correction d'un warning dans le code
