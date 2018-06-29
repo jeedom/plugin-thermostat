@@ -512,7 +512,7 @@ class thermostat extends eqLogic {
 		if ($value == 1) {
 			log::add('thermostat', 'debug', $this->getHumanName() . '[windowOpen] Arret du thermostat');
 			$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
-			$this->stopThermostat();
+			$this->stopThermostat(false, true);
 		}
 		return true;
 	}
@@ -1302,7 +1302,7 @@ class thermostat extends eqLogic {
 		return true;
 	}
 
-	public function stopThermostat($_repeat = false) {
+	public function stopThermostat($_repeat = false, $_suspend = false) {
 		if (!$_repeat && $this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
 			return;
 		}
@@ -1330,7 +1330,9 @@ class thermostat extends eqLogic {
 			return;
 		}
 		$this->refresh();
-		$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
+		if (!$_suspend) {
+			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
+		}
 		$this->save();
 		$this->getCmd(null, 'actif')->event(0);
 		$power = $this->getCmd(null, 'power');
