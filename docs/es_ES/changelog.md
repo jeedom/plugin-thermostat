@@ -1,3 +1,7 @@
+# 01/07/2018
+
+- Correction d'un bug sur la suspension du thermostat lors de l'ouverture d'une fenetre
+
 # 06/06/2018
 
 - Correction de bug
