@@ -179,7 +179,7 @@ function drawSimpleGraph(_el, _serie) {
         chart: {
             zoomType: 'x',
             renderTo: _el,
-            height: 220,
+            height: 200,
             spacingTop: 0,
             spacingLeft: 0,
             spacingRight: 0,
