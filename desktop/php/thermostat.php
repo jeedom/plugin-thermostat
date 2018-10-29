@@ -18,11 +18,11 @@ foreach ($eqLogics as $eqLogic) {
 	echo '<li class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '" style="' . $opacity . '"><a>' . $eqLogic->getHumanName(true) . '</a></li>';
 }
 ?>
-           </ul>
-       </div>
-   </div>
+         </ul>
+     </div>
+ </div>
 
-   <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
+ <div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
     <legend>{{Gestion}}</legend>
     <div class="eqLogicThumbnailContainer">
         <div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
@@ -67,14 +67,14 @@ try {
 	$plugin = plugin::byId('calendar');
 	if (is_object($plugin)) {
 		?>
-          <li  role="presentation"><a href="#configureSchedule" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
-          <?php
+      <li  role="presentation"><a href="#configureSchedule" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
+      <?php
 }
 } catch (Exception $e) {
 
 }
 ?>
-  <li  role="presentation"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
+<li  role="presentation"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="eqlogictab">
@@ -102,10 +102,10 @@ foreach (jeeObject::all() as $object) {
 	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
 }
 ?>
-                               </select>
-                           </div>
-                       </div>
-                       <div class="form-group">
+                             </select>
+                         </div>
+                     </div>
+                     <div class="form-group">
                         <label class="col-sm-4 control-label">{{Activer}}</label>
                         <div class="col-sm-8">
                             <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>{{Activer}}</label>
@@ -156,7 +156,7 @@ foreach (jeeObject::all() as $object) {
     <fieldset>
         <legend><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Sonde de température}}</legend>
         <div class="form-group">
-            <label class="col-sm-2 control-label">{{Température intérieure}}</label>
+            <label class="col-sm-3 control-label">{{Température intérieure}}</label>
             <div class="col-sm-9">
                 <div class="input-group">
                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor" data-concat="1"/>
@@ -167,17 +167,17 @@ foreach (jeeObject::all() as $object) {
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">{{Borne de température inférieure}}</label>
+            <label class="col-sm-3 control-label">{{Borne de température inférieure}}</label>
             <div class="col-sm-2">
                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_min" />
             </div>
-            <label class="col-sm-2 control-label">{{Borne de température supérieure}}</label>
+            <label class="col-sm-3 control-label">{{Borne de température supérieure}}</label>
             <div class="col-sm-2">
                 <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_max" />
             </div>
         </div>
         <div class="form-group engine temporal">
-            <label class="col-sm-2 control-label">{{Température extérieure}}</label>
+            <label class="col-sm-3 control-label">{{Température extérieure}}</label>
             <div class="col-sm-9">
                 <div class="input-group">
                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
@@ -186,8 +186,28 @@ foreach (jeeObject::all() as $object) {
                     </span>
                 </div>
             </div>
-        </fieldset>
-    </form>
+        </div>
+    </fieldset>
+</form>
+
+<form class="form-horizontal">
+    <fieldset>
+        <legend><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Consommation}}</legend>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{Consommation (par jour en kWh)}}</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="consumption"/>
+                    <span class="input-group-btn">
+                        <a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+    </fieldset>
+</form>
 </div>
 
 

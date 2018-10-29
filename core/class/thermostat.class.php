@@ -84,6 +84,22 @@ class thermostat extends eqLogic {
 		}
 	}
 
+	public static function updatePerformance($_options) {
+		$thermostat = thermostat::byId($_options['thermostat_id']);
+		if (!is_object($thermostat)) {
+			return;
+		}
+		$dju = $thermostat->calculDju();
+		if ($dju === null) {
+			return;
+		}
+		$cmd = $thermostat->getCmd('info', 'performance');
+		if (!is_object($cmd)) {
+			return;
+		}
+		$cmd->event(round(jeedom::evaluateExpression($thermostat->getConfiguration('consumption')) / $dju, 2));
+	}
+
 	public static function hysteresis($_options) {
 		$thermostat = thermostat::byId($_options['thermostat_id']);
 		if (!is_object($thermostat)) {
@@ -1095,6 +1111,37 @@ class thermostat extends eqLogic {
 			$off->setSubType('other');
 			$off->setLogicalId('off');
 			$off->save();
+
+			if ($this->getConfiguration('consumption') != '') {
+				$performance = $this->getCmd(null, 'performance');
+				if (!is_object($performance)) {
+					$performance = new thermostatCmd();
+					$performance->setIsVisible(0);
+					$performance->setName(__('Performance', __FILE__));
+				}
+				$performance->setEqLogic_id($this->getId());
+				$performance->setType('info');
+				$performance->setSubType('numeric');
+				$performance->setLogicalId('performance');
+				$performance->setIsHistorized(1);
+				$performance->setDisplay('groupingType', 'high::day');
+				$performance->setConfiguration('historizeMode', 'max');
+				$performance->save();
+				$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('thermostat_id' => intval($this->getId())));
+				if (!is_object($listener)) {
+					$listener = new listener();
+				}
+				$listener->setClass('thermostat');
+				$listener->setFunction('updatePerformance');
+				$listener->setOption(array('thermostat_id' => intval($this->getId())));
+				$listener->emptyEvent();
+				preg_match_all("/#([0-9]*)#/", $this->getConfiguration('consumption'), $matches);
+				foreach ($matches[1] as $cmd_id) {
+					$listener->addEvent($cmd_id);
+				}
+				$listener->addEvent($this->getCmd(null, 'temperature_outdoor')->getId());
+				$listener->save();
+			}
 		}
 		$knowModes = array();
 		if (is_array($this->getConfiguration('existingMode'))) {
@@ -1480,6 +1527,21 @@ class thermostat extends eqLogic {
 			}
 		}
 		return $return;
+	}
+
+	public function calculDju($_date = null) {
+		if ($_date == null) {
+			$_date = date('Y-m-d');
+		}
+		$cmd = $this->getCmd(null, 'temperature_outdoor');
+		if (!is_object($cmd)) {
+			return null;
+		}
+		$stats = $cmd->getStatistique($_date . ' 00:00:01', $_date . ' 23:59:59');
+		if (!isset($stats['min']) || !isset($stats['max'])) {
+			return null;
+		}
+		return 18 - (($stats['min'] + $stats['max']) / 2);
 	}
 
 }
