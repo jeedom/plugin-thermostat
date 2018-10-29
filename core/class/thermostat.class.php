@@ -1126,6 +1126,7 @@ class thermostat extends eqLogic {
 				$performance->setIsHistorized(1);
 				$performance->setDisplay('groupingType', 'high::day');
 				$performance->setConfiguration('historizeMode', 'max');
+				$performance->setUnite('kWh/DJU');
 				$performance->save();
 				$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('thermostat_id' => intval($this->getId())));
 				if (!is_object($listener)) {
