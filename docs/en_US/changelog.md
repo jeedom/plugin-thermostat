@@ -1,3 +1,5 @@
+- Ajout d'un calcul de performance (kWh/DJU) si une commande de consommation est donnée au plugin
+
 # 01/07/2018
 
 - Correction d'un bug sur la suspension du thermostat lors de l'ouverture d'une fenetre
