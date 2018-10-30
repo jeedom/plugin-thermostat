@@ -319,11 +319,11 @@ class thermostat extends eqLogic {
 		if ($duration > 0) {
 			if ($temporal_data['direction'] > 0) {
 				if ($thermostat->heat()) {
-					$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
+					$thermostat->getCmd(null, 'power')->event(round($temporal_data['power']));
 				}
 			} else {
 				if ($thermostat->cool()) {
-					$thermostat->getCmd(null, 'power')->event($temporal_data['power']);
+					$thermostat->getCmd(null, 'power')->event(round($temporal_data['power']));
 				}
 			}
 		}
