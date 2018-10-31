@@ -979,7 +979,6 @@ class thermostat extends eqLogic {
 			$temperature->setSubType('numeric');
 			$temperature->setLogicalId('temperature');
 			$temperature->setUnite('°C');
-
 			$value = '';
 			preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_indoor'), $matches);
 			foreach ($matches[1] as $cmd_id) {
@@ -995,6 +994,36 @@ class thermostat extends eqLogic {
 			$temperature->setDisplay('generic_type', 'THERMOSTAT_TEMPERATURE');
 			$temperature->save();
 			$temperature->event($temperature->execute());
+
+			$humidity = $this->getCmd(null, 'humidity');
+			if (!is_object($humidity)) {
+				$humidity = new thermostatCmd();
+				$humidity->setTemplate('dashboard', 'line');
+				$humidity->setTemplate('mobile', 'line');
+				$humidity->setName(__('Humidité', __FILE__));
+				$humidity->setIsVisible(1);
+				$humidity->setIsHistorized(1);
+			}
+			$humidity->setEqLogic_id($this->getId());
+			$humidity->setType('info');
+			$humidity->setSubType('numeric');
+			$humidity->setLogicalId('humidity');
+			$humidity->setUnite('%');
+			$value = '';
+			preg_match_all("/#([0-9]*)#/", $this->getConfiguration('humidity_indoor'), $matches);
+			foreach ($matches[1] as $cmd_id) {
+				if (is_numeric($cmd_id)) {
+					$cmd = cmd::byId($cmd_id);
+					if (is_object($cmd) && $cmd->getType() == 'info') {
+						$value .= '#' . $cmd_id . '#';
+						break;
+					}
+				}
+			}
+			$humidity->setValue($value);
+			$humidity->setDisplay('generic_type', 'HUMIDITY');
+			$humidity->save();
+			$humidity->event($humidity->execute());
 
 			$temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
 			if (!is_object($temperature_outdoor)) {
@@ -1620,6 +1649,8 @@ class thermostatCmd extends cmd {
 			}
 		} else if ($this->getLogicalId() == 'temperature') {
 			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor')), 1);
+		} else if ($this->getLogicalId() == 'humidity') {
+			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('humidity_indoor')), 1);
 		} else if ($this->getLogicalId() == 'temperature_outdoor') {
 			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor')), 1);
 		} else if ($this->getLogicalId() == 'cool_only') {

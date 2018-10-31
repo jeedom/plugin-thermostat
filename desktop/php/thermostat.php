@@ -154,7 +154,7 @@ foreach (jeeObject::all() as $object) {
 </div>
 <form class="form-horizontal">
     <fieldset>
-        <legend><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Sonde de température}}</legend>
+        <legend><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Sonde}}</legend>
         <div class="form-group">
             <label class="col-sm-3 control-label">{{Température intérieure}}</label>
             <div class="col-sm-9">
@@ -181,6 +181,17 @@ foreach (jeeObject::all() as $object) {
             <div class="col-sm-9">
                 <div class="input-group">
                     <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
+                    <span class="input-group-btn">
+                        <a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+                    </span>
+                </div>
+            </div>
+        </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{Humidité}}</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="humidity_indoor" data-concat="1"/>
                     <span class="input-group-btn">
                         <a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
                     </span>
