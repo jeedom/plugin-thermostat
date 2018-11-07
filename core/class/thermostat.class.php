@@ -993,7 +993,9 @@ class thermostat extends eqLogic {
 			$temperature->setValue($value);
 			$temperature->setDisplay('generic_type', 'THERMOSTAT_TEMPERATURE');
 			$temperature->save();
-			$temperature->event($temperature->execute());
+			if (is_nan($temperature->execCmd()) || $temperature->execCmd() == '') {
+				$temperature->event($temperature->execute());
+			}
 
 			$humidity = $this->getCmd(null, 'humidity');
 			if (!is_object($humidity)) {
@@ -1023,7 +1025,9 @@ class thermostat extends eqLogic {
 			$humidity->setValue($value);
 			$humidity->setDisplay('generic_type', 'HUMIDITY');
 			$humidity->save();
-			$humidity->event($humidity->execute());
+			if (is_nan($humidity->execCmd()) || $humidity->execCmd() == '') {
+				$humidity->event($humidity->execute());
+			}
 
 			$temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
 			if (!is_object($temperature_outdoor)) {
@@ -1054,6 +1058,9 @@ class thermostat extends eqLogic {
 			$temperature_outdoor->setValue($value);
 			$temperature_outdoor->setDisplay('generic_type', 'THERMOSTAT_TEMPERATURE_OUTDOOR');
 			$temperature_outdoor->save();
+			if (is_nan($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
+				$temperature_outdoor->event($temperature_outdoor->execute());
+			}
 
 			$offsetheat = $this->getCmd(null, 'offset_heat');
 			if (!is_object($offsetheat)) {
