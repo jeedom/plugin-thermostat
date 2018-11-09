@@ -1,4 +1,5 @@
 - Ajout d'un calcul de performance (kWh/DJU) si une commande de consommation est donnée au plugin
+- Correction d'un bug sur la gestion des alertes de défaillance des sondes de température
 
 # 01/07/2018
 
