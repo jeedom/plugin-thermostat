@@ -197,19 +197,20 @@ class thermostat extends eqLogic {
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp_in = $cmd->execCmd();
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-			$thermostat->failure();
-			if ($thermostat->getCache('probe_failure', 0) == 0) {
+
+			if ($thermostat->getCache('temp_threshold', 0) == 0) {
+				$thermostat->failure();
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
 			}
-			$thermostat->setCache('probe_failure', 1);
+			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 		if (!is_numeric($temp_in)) {
-			if ($thermostat->getCache('probe_failure', 0) == 0) {
+			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
 			}
-			$thermostat->setCache('probe_failure', 1);
+			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
 		$thermostat->setCache('probe_failure', 0);
@@ -390,7 +391,7 @@ class thermostat extends eqLogic {
 				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
 					$thermostat->failure();
 					if ($thermostat->getCache('temp_threshold', 0) == 0) {
-						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . '(' . $temperature->getCollectDate() . ')');
+						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
 					}
 					$failure = true;
 				}
