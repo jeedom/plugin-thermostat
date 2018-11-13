@@ -125,10 +125,14 @@ class thermostat extends eqLogic {
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp = $cmd->execCmd();
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-			$thermostat->stopThermostat();
-			log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . __(' min', __FILE__) . ' (' . $cmd->getCollectDate() . ')');
+			if ($thermostat->getCache('temp_threshold', 0) == 0) {
+				$thermostat->failure();
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
+			}
+			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
+		$thermostat->setCache('temp_threshold', 0);
 		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
 		$thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
 		$hysteresis_low = $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
@@ -201,10 +205,9 @@ class thermostat extends eqLogic {
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp_in = $cmd->execCmd();
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				$thermostat->failure();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention, défaillance de la sonde de température, il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' min (' . $cmd->getCollectDate() . ').' . __('Thermostat mis en sécurité', __FILE__));
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
 			}
 			$thermostat->setCache('temp_threshold', 1);
 			return;
@@ -393,23 +396,23 @@ class thermostat extends eqLogic {
 			$failure = false;
 			if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
 				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
-					$thermostat->failure();
 					if ($thermostat->getCache('temp_threshold', 0) == 0) {
-						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
+						$thermostat->failure();
+						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
 					}
 					$failure = true;
 				}
 			}
 			if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in) {
-				$thermostat->failure();
 				if ($thermostat->getCache('temp_threshold', 0) == 0) {
+					$thermostat->failure();
 					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est en dessous du seuil autorisé : ', __FILE__) . $temp_in);
 				}
 				$failure = true;
 			}
 			if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in) {
-				$thermostat->failure();
 				if ($thermostat->getCache('temp_threshold', 0) == 0) {
+					$thermostat->failure();
 					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention la température intérieure est au dessus du seuil autorisé : ', __FILE__) . $temp_in);
 				}
 				$failure = true;
