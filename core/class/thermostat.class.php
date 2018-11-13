@@ -89,7 +89,7 @@ class thermostat extends eqLogic {
 		if (!is_object($thermostat)) {
 			return;
 		}
-		$dju = $thermostat->calculDju();
+		$dju = $thermostat->calculDju(date('Y-m-d'));
 		if ($dju === null) {
 			return;
 		}
@@ -97,7 +97,11 @@ class thermostat extends eqLogic {
 		if (!is_object($cmd)) {
 			return;
 		}
-		$cmd->event(round(jeedom::evaluateExpression($thermostat->getConfiguration('consumption')) / $dju, 2));
+		$performance = round(jeedom::evaluateExpression($thermostat->getConfiguration('consumption')) / $dju, 2);
+		if ($performance <= 0) {
+			return;
+		}
+		$cmd->event($performance);
 	}
 
 	public static function hysteresis($_options) {
@@ -213,7 +217,7 @@ class thermostat extends eqLogic {
 			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
-		$thermostat->setCache('probe_failure', 0);
+		$thermostat->setCache('temp_threshold', 0);
 		if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
 			($temp_in > ($thermostat->getConfiguration('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
 
