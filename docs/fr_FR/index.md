@@ -458,33 +458,37 @@ scénarios](../images/thermostatcommandesscenario.png)
 
 -   **Les modes** : il est possible de faire les changements de mode, en
     exécutant directement les commandes (ici, Confort, Confort matin,
-    Eco, Vacances) ;
+    Eco, Vacances)
 
 -   **Off** : cette commande coupe le thermostat, la régulation n’est
-    plus active, le chauffage/climatisation est arrêté ;
+    plus active, le chauffage/climatisation est arrêté
 
--   **Thermostat** : il s’agit de la consigne du thermostat ;
+-   **Thermostat** : il s’agit de la consigne du thermostat
 
 -   **lock** : commande de verrouillage, il n’est pas possible de
-    modifier l’état du thermostat (changement de mode, consigne) ;
+    modifier l’état du thermostat (changement de mode, consigne)
 
 -   **unlock** : déverrouille le thermostat permetant de modifier son
-    état ;
+    état
 
 -   **Chauffage seulement** : la régulation n’intervient que pour
-    chauffer ;
+    chauffer
 
 -   **Climatisation seulement** : la régulation n’est active que pour
-    refroidir ;
+    refroidir
 
 -   **Offset chauffage** : modifie le coefficient d’offset du chauffage
     correspondant aux apports internes : un scénario peut modifier ce
-    paramètre en fonction d’un détecteur de présence par exemple ;
+    paramètre en fonction d’un détecteur de présence par exemple
 
--   **Offset froid** : comme ci-dessus mais pour la climatisation ;
+-   **Offset froid** : comme ci-dessus mais pour la climatisation
 
 -   **Tout autorisé** : modifie le comportement du thermostat pour agir
-    à la fois en chauffage et en climatisation ;
+    à la fois en chauffage et en climatisation
+
+-   **Puissance** : uniquement disponible en mode temporel, cette commande indique le pourcentage de temps de chauffe/refroidissement sur le temps de cycle.
+
+-   **Performance** : uniquement disponible si vous avez une commande de températeur extérieure et une commande de consommation (en kwh, remis à 0 tous les jours à 00h00). Celle-ci vous indique la performance de votre systeme de chauffage par rapport au degrès jour unifié.
 
 > **Tip**
 >
