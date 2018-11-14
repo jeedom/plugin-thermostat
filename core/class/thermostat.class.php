@@ -1468,6 +1468,7 @@ class thermostat extends eqLogic {
 		if (count($this->getConfiguration('failure')) > 0) {
 			return;
 		}
+		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action failure');
 		$consigne = $this->getCmd(null, 'order')->execCmd();
 		foreach ($this->getConfiguration('failure') as $action) {
 			try {
@@ -1493,6 +1494,7 @@ class thermostat extends eqLogic {
 		if (count($this->getConfiguration('failureActuator')) == 0) {
 			return;
 		}
+		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action failure actuor');
 		$consigne = $this->getCmd(null, 'order')->execCmd();
 		foreach ($this->getConfiguration('failureActuator') as $action) {
 			try {
