@@ -127,7 +127,7 @@ class thermostat extends eqLogic {
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				$thermostat->failure();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $temperature->getCollectDate() . ')');
 			}
 			$thermostat->setCache('temp_threshold', 1);
 			return;
@@ -207,7 +207,7 @@ class thermostat extends eqLogic {
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				$thermostat->failure();
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $temperature->getCollectDate() . ')');
 			}
 			$thermostat->setCache('temp_threshold', 1);
 			return;
@@ -398,7 +398,7 @@ class thermostat extends eqLogic {
 				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
 					if ($thermostat->getCache('temp_threshold', 0) == 0) {
 						$thermostat->failure();
-						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' (' . $temperature->getCollectDate() . ')');
+						log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $temperature->getCollectDate() . ')');
 					}
 					$failure = true;
 				}
@@ -1465,7 +1465,7 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('failure')) > 0) {
+		if (count($this->getConfiguration('failure')) == 0) {
 			return;
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action failure');
