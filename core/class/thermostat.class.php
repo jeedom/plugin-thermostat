@@ -85,6 +85,9 @@ class thermostat extends eqLogic {
 	}
 
 	public static function updatePerformance($_options) {
+		if (date('Gi') > 2358 && date('Gi') < 1) {
+			return;
+		}
 		$thermostat = thermostat::byId($_options['thermostat_id']);
 		if (!is_object($thermostat)) {
 			return;
