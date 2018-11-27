@@ -1,3 +1,7 @@
+# 27/11/2018
+
+- Correction de bug
+
 # 20/11/2018
 
 - Ajout d'un calcul de performance (kWh/DJU) si une commande de consommation est donnée au plugin
