@@ -276,7 +276,7 @@ foreach (jeeObject::all() as $object) {
         <fieldset>
             <br/>
             <div class="alert alert-info">
-                {{Avec les modes, vous pouvez rajouter à votre thermostat des consignes prédéfinies. Par exemple un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C}}
+                {{Les modes, permettent d'ajouter à votre thermostat des consignes prédéfinies. Exemple : un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C}}
                 <a class="btn btn-success addMode pull-right" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter mode</a>
             </div>
             <br/><br/>
