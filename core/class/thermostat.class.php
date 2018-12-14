@@ -760,23 +760,23 @@ class thermostat extends eqLogic {
 	}
 
 	public function preRemove() {
-		$cron = cron::byClassAndFunction('thermostat', 'pull', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+		$cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($this->getId())));
 		if (is_object($cron)) {
 			$cron->remove();
 		}
-		$cron = cron::byClassAndFunction('thermostat', 'pull', array('repeat' => false, 'thermostat_id' => intval($this->getId()), 'stop' => intval(1)));
+		$cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($this->getId()), 'stop' => intval(1)));
 		if (is_object($cron)) {
 			$cron->remove();
 		}
-		$listener = listener::byClassAndFunction('thermostat', 'window', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+		$listener = listener::byClassAndFunction('thermostat', 'window', array('thermostat_id' => intval($this->getId())));
 		if (is_object($listener)) {
 			$listener->remove();
 		}
-		$listener = listener::byClassAndFunction('thermostat', 'hysteresis', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+		$listener = listener::byClassAndFunction('thermostat', 'hysteresis', array('thermostat_id' => intval($this->getId())));
 		if (is_object($listener)) {
 			$listener->remove();
 		}
-		$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+		$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('thermostat_id' => intval($this->getId())));
 		if (is_object($listener)) {
 			$listener->remove();
 		}
@@ -1179,13 +1179,13 @@ class thermostat extends eqLogic {
 				$performance->setConfiguration('historizeMode', 'max');
 				$performance->setUnite('kWh/DJU');
 				$performance->save();
-				$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+				$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('thermostat_id' => intval($this->getId())));
 				if (!is_object($listener)) {
 					$listener = new listener();
 				}
 				$listener->setClass('thermostat');
 				$listener->setFunction('updatePerformance');
-				$listener->setOption(array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+				$listener->setOption(array('thermostat_id' => intval($this->getId())));
 				$listener->emptyEvent();
 				preg_match_all("/#([0-9]*)#/", $this->getConfiguration('consumption'), $matches);
 				foreach ($matches[1] as $cmd_id) {
@@ -1232,13 +1232,13 @@ class thermostat extends eqLogic {
 		if ($this->getIsEnable() == 1) {
 			$windows = $this->getConfiguration('window');
 			if (count($windows) > 0) {
-				$listener = listener::byClassAndFunction('thermostat', 'window', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+				$listener = listener::byClassAndFunction('thermostat', 'window', array('thermostat_id' => intval($this->getId())));
 				if (!is_object($listener)) {
 					$listener = new listener();
 				}
 				$listener->setClass('thermostat');
 				$listener->setFunction('window');
-				$listener->setOption(array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+				$listener->setOption(array('thermostat_id' => intval($this->getId())));
 				$listener->emptyEvent();
 				foreach ($windows as $window) {
 					$listener->addEvent($window['cmd']);
@@ -1247,13 +1247,13 @@ class thermostat extends eqLogic {
 			}
 
 			if ($this->getConfiguration('engine', 'temporal') == 'hysteresis') {
-				$listener = listener::byClassAndFunction('thermostat', 'hysteresis', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+				$listener = listener::byClassAndFunction('thermostat', 'hysteresis', array('thermostat_id' => intval($this->getId())));
 				if (!is_object($listener)) {
 					$listener = new listener();
 				}
 				$listener->setClass('thermostat');
 				$listener->setFunction('hysteresis');
-				$listener->setOption(array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+				$listener->setOption(array('thermostat_id' => intval($this->getId())));
 				$listener->emptyEvent();
 				preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_indoor'), $matches);
 				foreach ($matches[1] as $cmd_id) {
@@ -1265,7 +1265,7 @@ class thermostat extends eqLogic {
 					$power->remove();
 				}
 			} else {
-				$listener = listener::byClassAndFunction('thermostat', 'hysteresis', array('repeat' => false, 'thermostat_id' => intval($this->getId())));
+				$listener = listener::byClassAndFunction('thermostat', 'hysteresis', array('thermostat_id' => intval($this->getId())));
 				if (is_object($listener)) {
 					$listener->remove();
 				}
