@@ -15,7 +15,7 @@
  */
 
  function initThermostatPanel(_object_id) {
-    setBackgroundImage('plugins/thermostat/core/img/panel.jpg');
+    //setBackgroundImage('plugins/thermostat/core/img/panel.jpg');
     jeedom.object.all({
         onlyHasEqLogic : 'thermostat', 
         searchOnchild : '0',
