@@ -1,3 +1,7 @@
+# 28/12/2018
+
+- Correction de bug sur le panel mobile
+
 # 27/11/2018
 
 - Correction de bug
