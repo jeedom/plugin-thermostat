@@ -56,8 +56,8 @@ class thermostat extends eqLogic {
 			if (is_object($cron)) {
 				$cron->remove(false);
 			}
-			if (isset($_options['calendar_id'])) {
-				$calendar = calendar::byId($_options['calendar_id']);
+			if (isset($_options['next']) && isset($_options['next']['calendar_id'])) {
+				$calendar = calendar::byId($_options['next']['calendar_id']);
 				if (is_object($calendar)) {
 					$stateCalendar = $calendar->getCmd(null, 'state');
 					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
