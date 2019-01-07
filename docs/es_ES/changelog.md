@@ -1,3 +1,7 @@
+# 04/01/2019
+
+- Correction d'un bug sur le smart start si l'agenda est désactivé après la planification
+
 # 28/12/2018
 
 - Correction de bug sur le panel mobile
