@@ -1,3 +1,5 @@
+- Possibilité d'ajouter un message d'alerte si le thermostat est suspendu depuis plus de XX minutes
+
 # 04/01/2019
 
 - Correction d'un bug sur le smart start si l'agenda est désactivé après la planification
