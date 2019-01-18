@@ -177,7 +177,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 						<div class="form-group engine temporal">
-							<label class="col-sm-3 control-label">{{Température extérieure}}</label>
+							<label class="col-sm-3 control-label" title="{{Obligatoire en mode temporel}}">{{Température extérieure}}</label>
 							<div class="col-sm-9">
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
