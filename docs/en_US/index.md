@@ -1,4 +1,4 @@
-Description 
+Description
 ===========
 
 Ce plugin permet de créer et gérer des thermostats pour piloter le
@@ -53,7 +53,7 @@ enfin, au travers de quelques cas d’utilisation, comment on peut
 l’enrichir en combinaison avec d’autres plugins ou à l’aide de
 scénarios.
 
-La configuration en quelques clics 
+La configuration en quelques clics
 ----------------------------------
 
 Le thermostat de Jeedom est très puissant mais pour une utilisation
@@ -111,7 +111,7 @@ consigne donnée, suite à un imprévu : congés, invités,…​.
 > consigne en modifiant le widget du thermostat (par le menu
 > Général/Résumé domotique).
 
-La création d’un thermostat en détail 
+La création d’un thermostat en détail
 -------------------------------------
 
 Pour créer un nouveau thermostat, rendez-vous sur la page de
@@ -126,7 +126,7 @@ thermostat. On les trouve en haut à gauche, section général et il faut
 préciser ici l’objet parent, l’activation et la visibilité du
 thermostat, informations habituelles pour tout utilisateur de jeedom.
 
-Le choix de l’algorithme du thermostat 
+Le choix de l’algorithme du thermostat
 --------------------------------------
 
 ![Choix de l'algorithme](../images/thermostat31.png)
@@ -173,7 +173,7 @@ entre 30 et 60mn).
 Ce type de régulation est plus optimisé, il améliore le confort et
 permet de réaliser des économies d’énergie substantielles.
 
-La configuration 
+La configuration
 ----------------
 
 Outre le moteur de fonctionnement du thermostat, vous pouvez décider si
@@ -213,7 +213,7 @@ Les actions sont celles qui permettent de chauffer, de refroidir
 être envisagée à chaque changement de consigne, que ce soit en mode
 manuel ou automatique.
 
-Les modes : le point de départ pour l’automatisation 
+Les modes : le point de départ pour l’automatisation
 ----------------------------------------------------
 
 Les modes (définis dans l’onglet *Modes*) sont des
@@ -248,7 +248,7 @@ Pour définir un mode, procédez comme suit :
 -   cochez la case **Visible** pour faire apparaître ce mode sur le
     widget du thermostat sur le Dashboard.
 
-Les ouvertures : pour interrompre temporairement le thermostat 
+Les ouvertures : pour interrompre temporairement le thermostat
 --------------------------------------------------------------
 
 Imaginons que vous souhaitez arrêter momentanément votre chauffage ou
@@ -282,16 +282,16 @@ Pour configurer le fonctionnement à l’ouverture de la fenêtre :
 > Il est possible de définir plusieurs ouvertures, ceci est nécessaire
 > lorsque le thermostat contrôle une zone composée de plusieurs pièces.
 
-Prévoir un mode dégradé grâce à la gestion des défaillances 
+Prévoir un mode dégradé grâce à la gestion des défaillances
 -----------------------------------------------------------
 
 Les défaillances peuvent provenir soit des sondes de température, soit
 de la commande de chauffage. Le thermostat peut détecter un défaut lors
 d’un écart prolongé de la température avec la consigne.
 
-### Défaillance des sondes de température 
+### Défaillance des sondes de température
 
-Si les sondes utilisées par le thermostat ne renvoient plus l’information
+Si les sondes utilisées par le thermostat ne renvoient pas de **changement**
 de température, par exemple en cas d’usure des piles, alors le
 thermostat enclenche les actions de défaillance. Lorsque le défaut
 survient, il est possible de mettre l’appareil dans un mode de
@@ -320,7 +320,7 @@ et dans le cas d’actions plus complexes, faire appel à un scénario
 (taper `scenario` sans accent dans le champs action puis cliquer
 ailleurs pour pouvoir saisir le nom du scénario).
 
-### Défaillance du chauffage/climatisation 
+### Défaillance du chauffage/climatisation
 
 Le bon fonctionnement du chauffage ou de la climatisation est
 conditionné par un bon suivi de consigne. Ainsi, si la température
@@ -354,7 +354,7 @@ et dans le cas d’actions plus complexes, faire appel à un scénario
 (taper `scenario` sans accent dans le champs action puis cliquer
 ailleurs pour pouvoir saisir le nom du scénario).
 
-Gérer des cas particuliers avec la configuration avancée du thermostat 
+Gérer des cas particuliers avec la configuration avancée du thermostat
 ---------------------------------------------------------------------
 
 Cet onglet contient tous les paramètres de réglage du thermostat en mode
@@ -437,7 +437,7 @@ Les coefficients sont les suivants :
 > phase, il convient d’avoir des périodes suffisamment longues pendant
 > lesquelles la consigne ne change pas.
 
-Les commandes du thermostat 
+Les commandes du thermostat
 ---------------------------
 
 Le widget du thermostat est intégré au plugin, les commandes du
@@ -499,7 +499,7 @@ scénarios](../images/thermostatcommandesscenario.png)
 > Et en mode `Tout autorisé`, il est nécessaire d’avoir saisi les 3
 > commandes.
 
-Un exemple concret d’utilisation du thermostat 
+Un exemple concret d’utilisation du thermostat
 ----------------------------------------------
 
 Lorsque votre thermostat est configuré, il faut réaliser la
@@ -545,7 +545,7 @@ la programmation précédente, le calendrier va apparaître en clair sur
 l’écran et on va pouvoir tenir compte des jours fériés, des
 vacances…​.Bref, piloter le thermostat en fonction de son mode de vie.
 
-Programmation avec le plugin agenda 
+Programmation avec le plugin agenda
 -----------------------------------
 
 Nous ne présentons pas ici le plugin Agenda, l’objectif étant de le
@@ -582,7 +582,7 @@ En revenant dans la configuration du thermostat, on peut accéder aux
 ![onglet programmation du
 thermostat](../images/thermostatongletprogrammation.png)
 
-Visualisation du fonctionnement du thermostat 
+Visualisation du fonctionnement du thermostat
 ---------------------------------------------
 
 Une fois le thermostat configuré, il est important de vérifier son
