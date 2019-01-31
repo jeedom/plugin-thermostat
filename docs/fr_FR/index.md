@@ -293,7 +293,7 @@ d’un écart prolongé de la température avec la consigne.
 
 ### Défaillance des sondes de température
 
-Si les sondes utilisées par le thermostat ne renvoient plus l’information
+Si les sondes utilisées par le thermostat ne renvoient pas de **changement**
 de température, par exemple en cas d’usure des piles, alors le
 thermostat enclenche les actions de défaillance. Lorsque le défaut
 survient, il est possible de mettre l’appareil dans un mode de
