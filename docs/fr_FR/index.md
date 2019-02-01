@@ -411,7 +411,9 @@ Les coefficients sont les suivants :
 -   **Smart start** : Cette option permet de donner de l’intelligence au
     thermostat, en anticipant le changement de consigne pour que la
     température soit atteinte à l’heure programmée. Cette option
-    nécessite d’avoir le plugin agenda.
+    nécessite d’avoir le plugin agenda. Attention pour que le smart start marche
+    il faut absolument que l'apprentissage soit à plus de 25. Autre point il ne
+    prend que l'évenement le plus proche à venir
 
 -   **cycle (min)** : il s’agit du cycle de calcul du thermostat. En fin
     de cycle et en fonction de l’écart entre les températures et la
