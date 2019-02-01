@@ -18,6 +18,8 @@ chauffage de votre domicile. Il fonctionne selon 2 modes, au choix :
     Ce mode est plus précis, dispose d’un apprentissage permettant
     d’ajuster automatiquement les coefficients mais peut nécessiter
     quelques réglages manuels pour l’adapter à votre installation.
+    Important pour que le mode temporel marche il faut absolument une
+    sonde de température intérieure ET extérieure.
 
 Configuration
 =============
