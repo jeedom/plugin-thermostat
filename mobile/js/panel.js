@@ -15,13 +15,9 @@
 */
 
 function initThermostatPanel(_object_id) {
-  <<<<<<< HEAD
-  //setBackgroundImage('plugins/thermostat/core/img/panel.jpg');
-  =======
   if(typeof setBackgroundImage == 'function'){
     setBackgroundImage('plugins/thermostat/core/img/panel.jpg');
   }
-  >>>>>>> 7637eff096c88960f5d04ead31f97830bbaf07c3
   jeedom.object.all({
     onlyHasEqLogic : 'thermostat',
     searchOnchild : '0',
@@ -120,6 +116,7 @@ function graphThermostat(_eqLogic_id) {
       $('#div_alert').showAlert({message: error.message, level: 'danger'});
     },
     success: function (cmds) {
+      console.log($('#in_dateStart').value());
       jeedom.history.chart['div_graph' + _eqLogic_id] = null;
       var foundPower = false;
       for (var i  in cmds) {
@@ -127,8 +124,8 @@ function graphThermostat(_eqLogic_id) {
           jeedom.history.drawChart({
             cmd_id: cmds[i].id,
             el: 'div_graph' + _eqLogic_id,
-            start: $('#in_startDate').value(),
-            end: $('#in_endDate').value(),
+            dateStart: $('#in_dateStart').value(),
+            dateEnd: $('#in_dateEnd').value(),
             option: {
               graphColor: '#BDBDBD',
               derive : 0,
@@ -146,8 +143,8 @@ function graphThermostat(_eqLogic_id) {
           jeedom.history.drawChart({
             cmd_id: cmds[i].id,
             el: 'div_graph' + _eqLogic_id,
-            start: $('#in_startDate').value(),
-            end: $('#in_endDate').value(),
+            dateStart: $('#in_dateStart').value(),
+            dateEnd: $('#in_dateEnd').value(),
             option: {
               graphStep: 1,
               graphColor: '#27ae60',
@@ -159,8 +156,8 @@ function graphThermostat(_eqLogic_id) {
           jeedom.history.drawChart({
             cmd_id: cmds[i].id,
             el: 'div_graph' + _eqLogic_id,
-            start: $('#in_startDate').value(),
-            end: $('#in_endDate').value(),
+            dateStart: $('#in_dateStart').value(),
+            dateEnd: $('#in_dateEnd').value(),
             option: {
               graphStep: 1,
               graphColor: '#2c3e50',
@@ -174,8 +171,8 @@ function graphThermostat(_eqLogic_id) {
           jeedom.history.drawChart({
             cmd_id: cmds[i].id,
             el: 'div_graph' + _eqLogic_id,
-            start: $('#in_startDate').value(),
-            end: $('#in_endDate').value(),
+            dateStart: $('#in_dateStart').value(),
+            dateEnd: $('#in_dateEnd').value(),
             option: {
               graphColor: '#f39c12',
               graphZindex :4
@@ -186,8 +183,8 @@ function graphThermostat(_eqLogic_id) {
           jeedom.history.drawChart({
             cmd_id: cmds[i].id,
             el: 'div_graph' + _eqLogic_id,
-            start: $('#in_startDate').value(),
-            end: $('#in_endDate').value(),
+            dateStart: $('#in_dateStart').value(),
+            dateEnd: $('#in_dateEnd').value(),
             option: {
               graphColor: '#2E9AFE',
               graphZindex :3
