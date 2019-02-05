@@ -102,6 +102,7 @@ function displayThermostat(_object_id, _dateStart, _dateEnd) {
         graphThermostat(data.result.eqLogics[i].eqLogic.id);
       }
       drawSimpleGraph('div_chartRuntime', series, 'column');
+      $('#div_displayEquipementThermostat .eqLogic').addClass('col2');
       setTileSize('.eqLogic');
       $('#div_displayEquipementThermostat').packery();
       $.hideLoading();
