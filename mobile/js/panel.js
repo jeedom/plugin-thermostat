@@ -75,6 +75,11 @@ function displayThermostat(_object_id, _dateStart, _dateEnd) {
         $('#div_alert').showAlert({message: data.result, level: 'danger'});
         return;
       }
+      if(typeof widget_margin == 'undefined'){
+        widget_margin = 4;
+      }
+      $('#div_charts').css('margin',widget_margin+'px');
+      $('#div_chartRuntime').css('margin',widget_margin+'px');
       var icon = '';
       if (isset(data.result.object.display) && isset(data.result.object.display.icon)) {
         icon = data.result.object.display.icon;
