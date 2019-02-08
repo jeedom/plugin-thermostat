@@ -1184,8 +1184,8 @@ class thermostat extends eqLogic {
 					$deltaOrder->setIsVisible(0);
 				}
 				$deltaOrder->setEqLogic_id($this->getId());
-				$deltaOrder->setConfiguration('maxValue', 0);
-				$deltaOrder->setConfiguration('minValue', 5);
+				$deltaOrder->setConfiguration('maxValue', 5);
+				$deltaOrder->setConfiguration('minValue', 0);
 				$deltaOrder->setType('action');
 				$deltaOrder->setSubType('slider');
 				$deltaOrder->setLogicalId('deltaOrder');
