@@ -226,7 +226,6 @@ class thermostat extends eqLogic {
 		$thermostat->setCache('temp_threshold', 0);
 		if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
 		($temp_in > ($thermostat->getConfiguration('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
-			
 			$thermostat->setCache('nbConsecutiveFaillure', $thermostat->getCache('nbConsecutiveFaillure') + 1);
 			if ($thermostat->getCache('nbConsecutiveFaillure', 0) == 2) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : Attention une défaillance du chauffage est détectée');
@@ -293,9 +292,17 @@ class thermostat extends eqLogic {
 				}
 			}
 		}
-		
+		$delta = $thermostat->getCache('deltaOrder',0);
+		if($delta > 0){
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Delta consigne > 0, je lance le calcul avec consigne - delta/2');
+			$delta = $delta / 2;
+		}
 		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
-		$temporal_data = $thermostat->calculTemporalData($consigne);
+		$temporal_data = $thermostat->calculTemporalData($consigne - $delta);
+		if($temporal_data['power'] > 0 && $delta > 0){
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Power > 0 et delta consigne > 0, je relance le calcul avec consigne + delta/2');
+			$temporal_data = $thermostat->calculTemporalData($consigne + $delta);
+		}
 		$thermostat->setConfiguration('last_power', $temporal_data['power']);
 		$cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
 		$duration = ($temporal_data['power'] * $cycle) / 100;
@@ -1168,6 +1175,23 @@ class thermostat extends eqLogic {
 			$off->setLogicalId('off');
 			$off->save();
 			
+			if($this->getConfiguration('engine', 'temporal') == 'temporal'){
+				$deltaOrder = $this->getCmd(null, 'deltaOrder');
+				if (!is_object($deltaOrder)) {
+					$deltaOrder = new thermostatCmd();
+					$deltaOrder->setUnite('°C');
+					$deltaOrder->setName(__('Delta consigne', __FILE__));
+					$deltaOrder->setIsVisible(0);
+				}
+				$deltaOrder->setEqLogic_id($this->getId());
+				$deltaOrder->setConfiguration('maxValue', 0);
+				$deltaOrder->setConfiguration('minValue', 5);
+				$deltaOrder->setType('action');
+				$deltaOrder->setSubType('slider');
+				$deltaOrder->setLogicalId('deltaOrder');
+				$deltaOrder->save();
+			}
+			
 			if ($this->getConfiguration('consumption') != '') {
 				$performance = $this->getCmd(null, 'performance');
 				if (!is_object($performance)) {
@@ -1671,7 +1695,11 @@ class thermostatCmd extends cmd {
 	public function execute($_options = array()) {
 		$eqLogic = $this->getEqLogic();
 		$lockState = $eqLogic->getCmd(null, 'lock_state');
-		if ($this->getLogicalId() == 'lock') {
+		
+		if ($this->getLogicalId() == 'deltaOrder') {
+			$eqLogic->setCache('deltaOrder',$_options['slider']);
+			return;
+		} else if ($this->getLogicalId() == 'lock') {
 			$lockState->event(1);
 		} else if ($this->getLogicalId() == 'unlock') {
 			$lockState->event(0);

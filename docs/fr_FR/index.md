@@ -494,6 +494,8 @@ scénarios](../images/thermostatcommandesscenario.png)
 
 -   **Performance** : uniquement disponible si vous avez une commande de températeur extérieure et une commande de consommation (en kwh, remis à 0 tous les jours à 00h00). Celle-ci vous indique la performance de votre systeme de chauffage par rapport au degrès jour unifié.
 
+-   **Delta consigne** : uniquement disponible en mode temporel, cette commande permet de saisir un delta de calcul sur la consigne. Si > 0 alors le thermostat va chercher si il doit chauffer pour (consigne - delta/2) si oui alors il va chercher à chauffer jusqu'a (consigne + delta/2). L'interet est de chauffer plus longtemps mais moins souvent.
+
 > **Tip**
 >
 > L’utilisation du thermostat en mode `Chauffage seulement` nécesite
