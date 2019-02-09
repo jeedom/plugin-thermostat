@@ -46,10 +46,7 @@ class thermostat extends eqLogic {
 				return;
 			}
 			$thermostat->stopThermostat();
-			$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
-			if (is_object($cron)) {
-				$cron->remove(true);
-			}
+			return;
 		} elseif (isset($_options['smartThermostat']) && $_options['smartThermostat'] == 1) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Thermostat::pull => mode smart : ' . print_r($_options, true));
 			$cron = cron::byClassAndFunction('thermostat', 'pull', $_options);
