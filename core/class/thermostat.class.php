@@ -562,7 +562,7 @@ class thermostat extends eqLogic {
 			$crons = cron::searchClassAndFunction('thermostat', 'pull', '"thermostat_id":' . intval($this->getId()) . '%"smartThermostat":1');
 			if (is_array($crons) && count($crons)) {
 				foreach ($crons as $cron) {
-					$cron->remove();
+					$cron->remove(false);
 				}
 			}
 			$options['smartThermostat'] = intval(1);
@@ -571,7 +571,7 @@ class thermostat extends eqLogic {
 		$cron = cron::byClassAndFunction('thermostat', 'pull', $options);
 		if ($_next == null) {
 			if (is_object($cron)) {
-				$cron->remove();
+				$cron->remove(false);
 			}
 			return;
 		}
