@@ -569,18 +569,13 @@ class thermostat extends eqLogic {
 			$options['next'] = $_smartThermostat;
 		}
 		$cron = cron::byClassAndFunction('thermostat', 'pull', $options);
-		if ($_next == null) {
-			if (is_object($cron)) {
-				$cron->remove(false);
-			}
-			return;
+		if (is_object($cron)) {
+			$cron->remove(false);
 		}
-		if (!is_object($cron)) {
-			$cron = new cron();
-			$cron->setClass('thermostat');
-			$cron->setFunction('pull');
-			$cron->setOption($options);
-		}
+		$cron = new cron();
+		$cron->setClass('thermostat');
+		$cron->setFunction('pull');
+		$cron->setOption($options);
 		$_next = strtotime($_next);
 		$cron->setTimeout($this->getConfiguration('cycle', 60) + 10);
 		$cron->setSchedule(cron::convertDateToCron($_next));
