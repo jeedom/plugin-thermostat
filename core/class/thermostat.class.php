@@ -1729,6 +1729,7 @@ class thermostatCmd extends cmd {
 			if (!isset($_options['slider']) || $_options['slider'] == '' || !is_numeric(intval($_options['slider']))) {
 				return;
 			}
+			$changed = ($eqLogic->getCmd(null, 'order')->execCmd() != $_options['slider']);
 			$eqLogic->getCmd(null, 'order')->event($_options['slider']);
 			if (!isset($_options['modeChange'])) {
 				$eqLogic->getCmd(null, 'mode')->event(__('Aucun', __FILE__));
@@ -1737,11 +1738,13 @@ class thermostatCmd extends cmd {
 				return;
 			}
 			$eqLogic->orderChange();
-			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
-				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
-			}
-			if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
-				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+			if($changed){
+				if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+					thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+				}
+				if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+					thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+				}
 			}
 		}
 	}
