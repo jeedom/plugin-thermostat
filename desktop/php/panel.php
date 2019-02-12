@@ -71,9 +71,10 @@ sendVarToJs('object_id', init('object_id'));
 		</legend>
 	</div>
 	<div class="row">
-		<div class="col-lg-4" id="div_displayEquipement"></div>
-		<div class="col-lg-8" id="div_chartRuntime"></div>
+		<div class="col-lg-5" id="div_displayEquipement"></div>
+		<div class="col-lg-7" id="div_chartRuntime"></div>
 	</div>
+	<br/>
 	<div id="div_charts"></div>
 </div>
 </div>

@@ -181,11 +181,15 @@ function drawSimpleGraph(_el, _serie) {
     chart: {
       zoomType: 'x',
       renderTo: _el,
-      height: 200,
+      height: 180,
       spacingTop: 0,
       spacingLeft: 0,
       spacingRight: 0,
       spacingBottom: 0
+    },
+    credits: {
+      text: '',
+      href: '',
     },
     navigator: {
       enabled: false

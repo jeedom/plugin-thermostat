@@ -223,6 +223,10 @@ function drawSimpleGraph(_el, _serie) {
       spacingRight: 0,
       spacingBottom: 0
     },
+    credits: {
+      text: '',
+      href: '',
+    },
     navigator: {
       enabled: false
     },
