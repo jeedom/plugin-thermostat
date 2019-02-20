@@ -348,7 +348,7 @@ class thermostat extends eqLogic {
 		foreach (thermostat::byType('thermostat', true) as $thermostat) {
 			if ($thermostat->getConfiguration('repeat_commande_cron') != '') {
 				try {
-					$c = new Cron\CronExpression($thermostat->getConfiguration('repeat_commande_cron'), new Cron\FieldFactory);
+					$c = new Cron\CronExpression(checkAndFixCron($thermostat->getConfiguration('repeat_commande_cron')), new Cron\FieldFactory);
 					if ($c->isDue()) {
 						switch ($thermostat->getCmd(null, 'status')->execCmd()) {
 							case __('Chauffage', __FILE__):
@@ -376,7 +376,7 @@ class thermostat extends eqLogic {
 				} else {
 					if ($cron->getState() != 'run') {
 						try {
-							$c = new Cron\CronExpression($cron->getSchedule(), new Cron\FieldFactory);
+							$c = new Cron\CronExpression(checkAndFixCron($cron->getSchedule()), new Cron\FieldFactory);
 							if (!$c->isDue()) {
 								$c->getNextRunDate();
 							}
@@ -388,7 +388,7 @@ class thermostat extends eqLogic {
 			}
 			if ($thermostat->getConfiguration('engine', 'temporal') == 'hysteresis' && $thermostat->getConfiguration('hysteresis_cron') != '') {
 				try {
-					$c = new Cron\CronExpression($thermostat->getConfiguration('hysteresis_cron'), new Cron\FieldFactory);
+					$c = new Cron\CronExpression(checkAndFixCron($thermostat->getConfiguration('hysteresis_cron')), new Cron\FieldFactory);
 					if ($c->isDue()) {
 						$thermostat->getCmd(null, 'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
 						thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
