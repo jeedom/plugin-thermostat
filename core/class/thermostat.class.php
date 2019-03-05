@@ -366,8 +366,19 @@ class thermostat extends eqLogic {
 					log::add('thermostat', 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
 				}
 			}
-			if($thermostat->getConfiguration('window_alertIfOpenMoreThan') != '' && $thermostat->getConfiguration('window_alertIfOpenMoreThan') > 0 && $thermostat->getCache('window::state::open',-1) != -1 && (strtotime('now') - $thermostat->getCache('window::state::open',-1)) > ($thermostat->getConfiguration('window_alertIfOpenMoreThan') * 60) && $thermostat->getCmd(null, 'status')->execCmd() == __('Suspendu',__FILE__)){
-				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention le thermostat est suspendu à cause d\'une fenetre ouverte depuis : ', __FILE__) .  ((strtotime('now') - $thermostat->getCache('window::state::open',-1)) * 60). __(' min',__FILE__));
+			if($thermostat->getConfiguration('window_alertIfOpenMoreThan') != ''
+			&& $thermostat->getConfiguration('window_alertIfOpenMoreThan') > 0
+			&& $thermostat->getCache('window::state::open',-1) != -1
+			&& (strtotime('now') - $thermostat->getCache('window::state::open',-1)) > ($thermostat->getConfiguration('window_alertIfOpenMoreThan') * 60)
+			&& $thermostat->getCmd(null, 'status')->execCmd() == __('Suspendu',__FILE__)){
+				if($thermostat->getCache('alertSendForWindow',0) != 1){
+					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention le thermostat est suspendu à cause d\'une fenetre ouverte depuis : ', __FILE__) .  ((strtotime('now') - $thermostat->getCache('window::state::open',-1)) / 60). __(' min',__FILE__));
+					$thermostat->setCache('alertSendForWindow',1);
+				}
+			}else{
+				if($thermostat->getCache('alertSendForWindow',0) != 0){
+					$thermostat->setCache('alertSendForWindow',0);
+				}
 			}
 			if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal' && date('i') % 10 == 0) {
 				$cron = cron::byClassAndFunction('thermostat', 'pull', array('thermostat_id' => intval($thermostat->getId())));
