@@ -1,5 +1,8 @@
+# 11/03/2019
+
 - Possibilité d'ajouter un message d'alerte si le thermostat est suspendu depuis plus de XX minutes
 - Ajout en mode temporel d'un delta de consigne
+- Corrección de errores
 
 # 04/01/2019
 
