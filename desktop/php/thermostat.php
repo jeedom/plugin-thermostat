@@ -278,7 +278,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter ouverture}}</a>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">{{Alerte si l'ouverture dur plus de (min)}}</label>
+							<label class="col-sm-3 control-label">{{Alerte si l'ouverture dure plus de (min)}}</label>
 							<div class="col-sm-1">
 								<input type="number" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="window_alertIfOpenMoreThan" />
 							</div>
