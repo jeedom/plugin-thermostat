@@ -284,6 +284,11 @@ Pour configurer le fonctionnement à l’ouverture de la fenêtre :
 > Il est possible de définir plusieurs ouvertures, ceci est nécessaire
 > lorsque le thermostat contrôle une zone composée de plusieurs pièces.
 
+> **Tip**
+>
+> Il est possible de définir une alerte si l'ouverture dure plus de xx minutes.
+
+
 Prévoir un mode dégradé grâce à la gestion des défaillances
 -----------------------------------------------------------
 
