@@ -37,12 +37,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 	<div class="col-xs-12 eqLogic" style="display: none;">
 		<div class="input-group pull-right" style="display:inline-flex">
 			<span class="input-group-btn">
-				<a class="btn btn-default eqLogicAction btn-sm roundedLeft" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-danger btn-sm eqLogicAction roundedRight" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+				<a class="btn btn-default eqLogicAction btn-sm roundedLeft" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-danger btn-sm eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
 			</span>
 		</div>
 		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation"><a class="eqLogicAction cursor" aria-controls="home" role="tab" data-action="returnToThumbnailDisplay" style="padding:10px 5px !important"><i class="fa fa-arrow-circle-left"></i></a></li>
-			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-tachometer"></i> {{Equipement}}</a></li>
+			<li role="presentation"><a class="eqLogicAction cursor" aria-controls="home" role="tab" data-action="returnToThumbnailDisplay" style="padding:10px 5px !important"><i class="fas fa-arrow-circle-left"></i></a></li>
+			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" style="padding:10px 5px !important"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
 			<li role="presentation"><a href="#configureAction" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{Actions}}</a></li>
 			<li role="presentation"><a href="#configureMode" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-modx" aria-hidden="true"></i> {{Modes}}</a></li>
 			<li role="presentation"><a href="#configureWindows" data-toggle="tab" style="padding:10px 5px !important"><i class="icon jeedom-fenetre-ouverte"></i> {{Ouvertures}}</a></li>
@@ -60,12 +60,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				
 			}
 			?>
-			<li  role="presentation"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
+			<li  role="presentation"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fas fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="eqlogictab">
 				<br/>
-				<legend><i class="fa fa-tachometer"></i> {{Général}}</legend>
+				<legend><i class="fas fa-tachometer-alt"></i> {{Général}}</legend>
 				<div class="row">
 					<div class="col-sm-6">
 						<form class="form-horizontal">
@@ -146,7 +146,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor" data-concat="1"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
@@ -167,7 +167,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
@@ -178,7 +178,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="humidity_indoor" data-concat="1"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
@@ -195,7 +195,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="consumption"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fa fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
