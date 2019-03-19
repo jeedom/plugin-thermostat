@@ -273,7 +273,7 @@ function addMode(_mode) {
   div += '<span class="rename cursor">' + _mode.name + '</span>';
   div += ' <input type="checkbox"  class="modeAttr" data-l1key="isVisible" checked />Visible ';
   div += ' <a class="btn btn-danger btn-xs removeMode pull-right"><i class="fa fa-minus-circle"></i> Supprimer mode</a> ';
-  div += ' <a class="btn btn-default btn-xs addModeAction pull-right"><i class="fa fa-plus-circle"></i> Ajouter action</a> ';
+  div += ' <a class="btn btn-default btn-xs addModeAction pull-right"><i class="fas fa-plus-circle"></i> Ajouter action</a> ';
   div += ' </legend>';
   div += '<input class="modeAttr" data-l1key="name"  style="display : none;" value="' + _mode.name + '"/>';
   div += ' <div class="div_modeAction">';

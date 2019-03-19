@@ -12,7 +12,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction logoPrimary" data-action="add" style="background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
-					<i class="fa fa-plus-circle"></i>
+					<i class="fas fa-plus-circle"></i>
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#94ca02"><center>Ajouter</center></span>
 			</div>
@@ -213,7 +213,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 					<fieldset>
 						<legend>
 							{{Pour chauffer je dois ?}}
-							<a class="btn btn-danger btn-xs pull-right addAction" data-type="heat" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+							<a class="btn btn-danger btn-xs pull-right addAction" data-type="heat" style="position: relative; top : 5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
 						</legend>
 						<div id="div_heat">
 							
@@ -225,7 +225,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 					<fieldset>
 						<legend>
 							{{Pour refroidir je dois ?}}
-							<a class="btn btn-primary btn-xs pull-right addAction" data-type="cool" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+							<a class="btn btn-primary btn-xs pull-right addAction" data-type="cool" style="position: relative; top : 5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
 						</legend>
 						<div id="div_cool">
 							
@@ -237,7 +237,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 					<fieldset>
 						<legend>
 							{{Pour tout arrêter je dois ?}}
-							<a class="btn btn-default btn-xs pull-right addAction" data-type="stop" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+							<a class="btn btn-default btn-xs pull-right addAction" data-type="stop" style="position: relative; top : 5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
 						</legend>
 						<div id="div_stop">
 							
@@ -248,7 +248,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 					<fieldset>
 						<legend>
 							{{A chaque changement de consigne je dois aussi faire ?}}
-							<a class="btn btn-default btn-xs pull-right addAction" data-type="orderChange" style="position: relative; top : 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a>
+							<a class="btn btn-default btn-xs pull-right addAction" data-type="orderChange" style="position: relative; top : 5px;"><i class="fas fa-plus-circle"></i> {{Ajouter une action}}</a>
 						</legend>
 						<div id="div_orderChange">
 							
@@ -262,7 +262,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<br/>
 						<div class="alert alert-info">
 							{{Les modes, permettent d'ajouter à votre thermostat des consignes prédéfinies. Exemple : un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C}}
-							<a class="btn btn-success addMode pull-right" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> Ajouter mode</a>
+							<a class="btn btn-success addMode pull-right" style="position: relative;top: -7px;"><i class="fas fa-plus-circle"></i> Ajouter mode</a>
 						</div>
 						<br/><br/>
 						<div id="div_modes"></div>
@@ -275,7 +275,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<br/>
 						<div class="alert alert-info">
 							{{La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.}}
-							<a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter ouverture}}</a>
+							<a class="btn btn-success addWindow pull-right" data-type="window" style="position: relative;top: -7px;"><i class="fas fa-plus-circle"></i> {{Ajouter ouverture}}</a>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">{{Alerte si l'ouverture dure plus de (min)}}</label>
@@ -292,7 +292,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				<form class="form-horizontal">
 					<fieldset>
 						<br/>
-						<a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
+						<a class="btn btn-success addFailure pull-right" data-type="failure" style="position: relative;top: -7px;"><i class="fas fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
 						<br/><br/>
 						<div id="div_failure"></div>
 					</fieldset>
@@ -302,7 +302,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				<form class="form-horizontal">
 					<fieldset>
 						<br/>
-						<a class="btn btn-success addFailureActuator pull-right" data-type="failureActuator" style="position: relative;top: -7px;"><i class="fa fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
+						<a class="btn btn-success addFailureActuator pull-right" data-type="failureActuator" style="position: relative;top: -7px;"><i class="fas fa-plus-circle"></i> {{Ajouter action de défaillance}}</a>
 						<br/><br/>
 						<div id="div_failureActuator"></div>
 					</fieldset>
