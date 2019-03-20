@@ -10,11 +10,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 	<div class="col-xs-12 eqLogicThumbnailDisplay">
 		<legend>{{Gestion}}</legend>
 		<div class="eqLogicThumbnailContainer">
-			<div class="cursor eqLogicAction logoPrimary" data-action="add" style="background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
+			<div class="cursor eqLogicAction logoPrimary" data-action="add"  >
 				<center>
 					<i class="fas fa-plus-circle"></i>
 				</center>
-				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#94ca02"><center>Ajouter</center></span>
+				<span ><center>Ajouter</center></span>
 			</div>
 		</div>
 		<legend>{{Mes thermostats}}</legend>
