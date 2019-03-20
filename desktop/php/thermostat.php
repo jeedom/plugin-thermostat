@@ -37,7 +37,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 	<div class="col-xs-12 eqLogic" style="display: none;">
 		<div class="input-group pull-right" style="display:inline-flex">
 			<span class="input-group-btn">
-				<a class="btn btn-default eqLogicAction btn-sm roundedLeft" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-danger btn-sm eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
+				<a class="btn btn-default eqLogicAction btn-sm roundedLeft" data-action="configure"><i class="fas fa-cogs"></i> {{Configuration avancée}}</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-danger btn-sm eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
 			</span>
 		</div>
 		<ul class="nav nav-tabs" role="tablist">
@@ -368,7 +368,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						</div>
 						<div class="alert alert-warning">
 							{{Pour une meilleure régulation, il est conseillé de ne pas toucher à ces coefficients, car ils sont calculés et mis à jour automatiquement}}
-							<a class="pull-right btn btn-warning tooltips" id="bt_razLearning" style="position:relative;top:-7px;" title="Relance le processus d'apprentissage. N'oubliez pas de sauvegarde votre thermostat après la remise à 0."><i class="fa fa-times"></i> RaZ apprentissage</a>
+							<a class="pull-right btn btn-warning tooltips" id="bt_razLearning" style="position:relative;top:-7px;" title="Relance le processus d'apprentissage. N'oubliez pas de sauvegarde votre thermostat après la remise à 0."><i class="fas fa-times"></i> RaZ apprentissage</a>
 						</div>
 						<div class="form-group engine temporal">
 							<label class="col-sm-2 control-label">{{Coefficient chauffage}}</label>
