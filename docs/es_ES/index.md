@@ -625,7 +625,7 @@ thermostat](../images/graphecourbesthermostat.png)
 
 *Graphe des courbes du thermostat*
 
-FAQ
+Preguntas frecuentes
 ===
 
 >**Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une forte inertie ?**
