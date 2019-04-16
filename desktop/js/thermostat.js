@@ -281,7 +281,7 @@ function addMode(_mode) {
   div += '</fieldset> ';
   div += '</form>';
   $('#div_modes').append(div);
-  $('#div_modes .mode:last').setValues(_mode, '.modeAttr');
+  $('#div_modes .mode').last().setValues(_mode, '.modeAttr');
   if (isset(_mode.actions)) {
     for (var i in _mode.actions) {
       if (init(_mode.actions[i].cmd) != '') {
@@ -312,7 +312,7 @@ function addModeAction(_modeAction, _el) {
   div += '</div>';
   div += '</div>';
   _el.append(div);
-  _el.find('.modeAction:last').setValues(_modeAction, '.expressionAttr');
+  _el.find('.modeAction').last().setValues(_modeAction, '.expressionAttr');
 }
 
 
@@ -336,7 +336,7 @@ function addAction(_action, _type) {
   div += '</div>';
   div += '</div>';
   $('#div_' + _type).append(div);
-  $('#div_' + _type + ' .' + _type + ':last').setValues(_action, '.expressionAttr');
+  $('#div_' + _type + ' .' + _type + '').last().setValues(_action, '.expressionAttr');
 }
 
 
@@ -368,7 +368,7 @@ function addWindow(_info) {
   div += '</div>';
   div += '</div>';
   $('#div_window').append(div);
-  $('#div_window .window:last').setValues(_info, '.expressionAttr');
+  $('#div_window .window').last().setValues(_info, '.expressionAttr');
 }
 
 function addFailure(_info) {
@@ -391,7 +391,7 @@ function addFailure(_info) {
   div += '</div>';
   div += '</div>';
   $('#div_failure').append(div);
-  $('#div_failure .failure:last').setValues(_info, '.expressionAttr');
+  $('#div_failure .failure').last().setValues(_info, '.expressionAttr');
 }
 
 function addFailureActuator(_info) {
@@ -414,5 +414,5 @@ function addFailureActuator(_info) {
   div += '</div>';
   div += '</div>';
   $('#div_failureActuator').append(div);
-  $('#div_failureActuator .failureActuator:last').setValues(_info, '.expressionAttr');
+  $('#div_failureActuator .failureActuator').last().setValues(_info, '.expressionAttr');
 }
