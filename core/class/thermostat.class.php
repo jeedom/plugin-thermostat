@@ -885,7 +885,7 @@ class thermostat extends eqLogic {
 				$order->setConfiguration('historizeMode', 'none');
 				$order->setIsHistorized(1);
 			}
-			$order->setDisplay('generic_type', 'THERMOSTAT_SETPOINT');
+			$order->setGeneric_type( 'THERMOSTAT_SETPOINT');
 			$order->setEqLogic_id($this->getId());
 			$order->setType('info');
 			$order->setSubType('numeric');
@@ -903,7 +903,7 @@ class thermostat extends eqLogic {
 				$thermostat->setName(__('Thermostat', __FILE__));
 				$thermostat->setIsVisible(1);
 			}
-			$thermostat->setDisplay('generic_type', 'THERMOSTAT_SET_SETPOINT');
+			$thermostat->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
 			$thermostat->setEqLogic_id($this->getId());
 			$thermostat->setConfiguration('maxValue', $this->getConfiguration('order_max'));
 			$thermostat->setConfiguration('minValue', $this->getConfiguration('order_min'));
@@ -919,7 +919,7 @@ class thermostat extends eqLogic {
 				$status->setIsVisible(1);
 				$status->setName(__('Statut', __FILE__));
 			}
-			$status->setDisplay('generic_type', 'THERMOSTAT_STATE_NAME');
+			$status->setGeneric_type( 'THERMOSTAT_STATE_NAME');
 			$status->setEqLogic_id($this->getId());
 			$status->setType('info');
 			$status->setSubType('string');
@@ -933,7 +933,7 @@ class thermostat extends eqLogic {
 				$actif->setIsVisible(0);
 				$actif->setIsHistorized(1);
 			}
-			$actif->setDisplay('generic_type', 'THERMOSTAT_STATE');
+			$actif->setGeneric_type( 'THERMOSTAT_STATE');
 			$actif->setEqLogic_id($this->getId());
 			$actif->setType('info');
 			$actif->setSubType('binary');
@@ -948,7 +948,7 @@ class thermostat extends eqLogic {
 				$lockState->setName(__('Verrouillage', __FILE__));
 				$lockState->setIsVisible(0);
 			}
-			$lockState->setDisplay('generic_type', 'THERMOSTAT_LOCK');
+			$lockState->setGeneric_type( 'THERMOSTAT_LOCK');
 			$lockState->setEqLogic_id($this->getId());
 			$lockState->setType('info');
 			$lockState->setSubType('binary');
@@ -962,7 +962,7 @@ class thermostat extends eqLogic {
 				$lock->setTemplate('mobile', 'lock');
 				$lock->setName('lock');
 			}
-			$lock->setDisplay('generic_type', 'THERMOSTAT_SET_LOCK');
+			$lock->setGeneric_type( 'THERMOSTAT_SET_LOCK');
 			$lock->setEqLogic_id($this->getId());
 			$lock->setType('action');
 			$lock->setSubType('other');
@@ -982,7 +982,7 @@ class thermostat extends eqLogic {
 				$unlock->setTemplate('mobile', 'lock');
 				$unlock->setName('unlock');
 			}
-			$unlock->setDisplay('generic_type', 'THERMOSTAT_SET_UNLOCK');
+			$unlock->setGeneric_type( 'THERMOSTAT_SET_UNLOCK');
 			$unlock->setEqLogic_id($this->getId());
 			$unlock->setType('action');
 			$unlock->setSubType('other');
@@ -1021,7 +1021,7 @@ class thermostat extends eqLogic {
 				}
 			}
 			$temperature->setValue($value);
-			$temperature->setDisplay('generic_type', 'THERMOSTAT_TEMPERATURE');
+			$temperature->setGeneric_type( 'THERMOSTAT_TEMPERATURE');
 			$temperature->save();
 			if (is_nan($temperature->execCmd()) || $temperature->execCmd() == '') {
 				$temperature->event($temperature->execute());
@@ -1053,7 +1053,7 @@ class thermostat extends eqLogic {
 				}
 			}
 			$humidity->setValue($value);
-			$humidity->setDisplay('generic_type', 'HUMIDITY');
+			$humidity->setGeneric_type( 'HUMIDITY');
 			$humidity->save();
 			if (is_nan($humidity->execCmd()) || $humidity->execCmd() == '') {
 				$humidity->event($humidity->execute());
@@ -1086,7 +1086,7 @@ class thermostat extends eqLogic {
 				}
 			}
 			$temperature_outdoor->setValue($value);
-			$temperature_outdoor->setDisplay('generic_type', 'THERMOSTAT_TEMPERATURE_OUTDOOR');
+			$temperature_outdoor->setGeneric_type( 'THERMOSTAT_TEMPERATURE_OUTDOOR');
 			$temperature_outdoor->save();
 			if (is_nan($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
 				$temperature_outdoor->event($temperature_outdoor->execute());
@@ -1158,7 +1158,7 @@ class thermostat extends eqLogic {
 				$mode->setName(__('Mode', __FILE__));
 				$mode->setIsVisible(1);
 			}
-			$mode->setDisplay('generic_type', 'THERMOSTAT_MODE');
+			$mode->setGeneric_type( 'THERMOSTAT_MODE');
 			$mode->setEqLogic_id($this->getId());
 			$mode->setType('info');
 			$mode->setSubType('string');
@@ -1171,7 +1171,7 @@ class thermostat extends eqLogic {
 				$off->setIsVisible(1);
 				$off->setName(__('Off', __FILE__));
 			}
-			$off->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
+			$off->setGeneric_type( 'THERMOSTAT_SET_MODE');
 			$off->setEqLogic_id($this->getId());
 			$off->setType('action');
 			$off->setSubType('other');
@@ -1236,7 +1236,7 @@ class thermostat extends eqLogic {
 		foreach ($this->getCmd() as $cmd) {
 			if ($cmd->getLogicalId() == 'modeAction') {
 				if (isset($knowModes[$cmd->getName()])) {
-					$cmd->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
+					$cmd->setGeneric_type( 'THERMOSTAT_SET_MODE');
 					if (isset($knowModes[$cmd->getName()]['isVisible'])) {
 						$cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
 					}
@@ -1257,7 +1257,7 @@ class thermostat extends eqLogic {
 			if (isset($knowMode['isVisible'])) {
 				$mode->setIsVisible($knowMode['isVisible']);
 			}
-			$mode->setDisplay('generic_type', 'THERMOSTAT_SET_MODE');
+			$mode->setGeneric_type( 'THERMOSTAT_SET_MODE');
 			$mode->save();
 		}
 		
