@@ -41,10 +41,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation"><a class="eqLogicAction cursor" aria-controls="home" role="tab" data-action="returnToThumbnailDisplay" style="padding:10px 5px !important"><i class="fas fa-arrow-circle-left"></i></a></li>
 			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" style="padding:10px 5px !important"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
-			<li role="presentation"><a href="#configureAction" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{Actions}}</a></li>
-			<li role="presentation"><a href="#configureMode" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-modx" aria-hidden="true"></i> {{Modes}}</a></li>
+			<li role="presentation"><a href="#configureAction" data-toggle="tab" style="padding:10px 5px !important"><i class="far fa-hand-paper"></i> {{Actions}}</a></li>
+			<li role="presentation"><a href="#configureMode" data-toggle="tab" style="padding:10px 5px !important"><i class="fab fa-modx"></i> {{Modes}}</a></li>
 			<li role="presentation"><a href="#configureWindows" data-toggle="tab" style="padding:10px 5px !important"><i class="icon jeedom-fenetre-ouverte"></i> {{Ouvertures}}</a></li>
-			<li role="presentation"><a href="#configureFailure" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-thermometer-empty" aria-hidden="true"></i> {{Défaillance sonde}}</a></li>
+			<li role="presentation"><a href="#configureFailure" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-thermometer-empty"></i> {{Défaillance sonde}}</a></li>
 			<li role="presentation"><a href="#configureFailureActuator" data-toggle="tab" style="padding:10px 5px !important"><i class="icon techno-heating3"></i>  {{Défaillance chauffage}}</a></li>
 			<?php
 			try {
@@ -58,7 +58,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				
 			}
 			?>
-			<li  role="presentation"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fas fa-cog" aria-hidden="true"></i> {{Avancée}}</a></li>
+			<li  role="presentation"><a href="#configureAdvanced" data-toggle="tab" style="padding:10px 5px !important"><i class="fas fa-cog"></i> {{Avancée}}</a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="eqlogictab">
