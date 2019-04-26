@@ -335,6 +335,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 						<div class="form-group engine temporal">
+							<label class="col-sm-2 control-label">{{Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID}}</label>
+							<div class="col-sm-2">
+								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="stove_boiler" />
+							</div>
+						</div>
+						<div class="form-group engine temporal">
 							<label class="col-sm-2 control-label">{{Marge de défaillance chaud}}</label>
 							<div class="col-sm-2">
 								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" title="{{Seuil de déclenchement de la défaillance chaud (1 par défaut)}}" value="1"/>

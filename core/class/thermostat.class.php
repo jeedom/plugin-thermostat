@@ -308,15 +308,20 @@ class thermostat extends eqLogic {
 		$thermostat->setConfiguration('lastTempOut', $temp_out);
 		$thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
-		if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
+		if (($thermostat->getConfiguration('stove_boiler') == 0 && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) || (($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['power'] < 1) || ($thermostat->getConfiguration('lastState') != 'heat' && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)))) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Durée du cycle trop courte, aucun lancement');
 			$thermostat->setConfiguration('lastState', 'stop');
 			$thermostat->stopThermostat();
 			$thermostat->save();
 			return;
 		}
+		
 		if ($duration > 0 && $duration < $cycle) {
-			$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
+			if($thermostat->getConfiguration('stove_boiler') == 0){
+				$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . round($duration) . ' min ' . date('Y-m-d H:i:s'))), true);
+			}else{
+				$thermostat->reschedule(null, true);
+			}
 		}
 		if ($duration >= $cycle) {
 			$thermostat->reschedule(null, true);
