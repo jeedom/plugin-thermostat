@@ -142,9 +142,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<label class="col-sm-3 control-label">{{Température intérieure}}</label>
 							<div class="col-sm-9">
 								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor" data-concat="1"/>
+									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="temperature_indoor" data-concat="1"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo roundedRight"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
@@ -163,9 +163,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<label class="col-sm-3 control-label" title="{{Obligatoire en mode temporel}}">{{Température extérieure}}</label>
 							<div class="col-sm-9">
 								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
+									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo roundedRight"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
@@ -174,9 +174,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<label class="col-sm-3 control-label">{{Humidité}}</label>
 							<div class="col-sm-9">
 								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="humidity_indoor" data-concat="1"/>
+									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="humidity_indoor" data-concat="1"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo roundedRight"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
@@ -191,9 +191,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<label class="col-sm-3 control-label">{{Consommation (par jour en kWh)}}</label>
 							<div class="col-sm-9">
 								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="consumption"/>
+									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="consumption"/>
 									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo"><i class="fas fa-list-alt"></i></a>
+										<a class="btn btn-default listCmdInfo roundedRight"><i class="fas fa-list-alt"></i></a>
 									</span>
 								</div>
 							</div>
