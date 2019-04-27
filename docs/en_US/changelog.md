@@ -1,3 +1,5 @@
+- Ajout d'une option "Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID". Merci @Pierrik
+
 # 11/03/2019
 
 - Possibilité d'ajouter un message d'alerte si le thermostat est suspendu depuis plus de XX minutes
