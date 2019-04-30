@@ -1,3 +1,5 @@
+# 29/04/2019
+
 - Ajout d'une option "Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID". Merci @Pierrik
 
 # 11/03/2019
