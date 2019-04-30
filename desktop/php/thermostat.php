@@ -333,8 +333,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="col-sm-2">
 								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle à faire (sinon la mise en marche du chauffage est reportée au cyle suivant)}}" value="5"/>
 							</div>
-						</div>
-						<div class="form-group engine temporal">
 							<label class="col-sm-2 control-label">{{Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID}}</label>
 							<div class="col-sm-2">
 								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="stove_boiler" />
