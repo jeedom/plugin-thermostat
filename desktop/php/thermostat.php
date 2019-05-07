@@ -112,9 +112,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Autoriser}}</label>
+									<label class="col-sm-3 control-label">{{Autoriser}}
+										<sup><i class="fas fa-question-circle tooltips" title="{{Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.}}"></i></sup>
+									</label>
 									<div class="col-sm-6">
-										<select class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="allow_mode" title="{{Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.}}">
+										<select class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="allow_mode">
 											<option value="all">Tout</option>
 											<option value="heat">Chauffage uniquement</option>
 											<option value="cool">Climatisation uniquement</option>
@@ -160,7 +162,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 						<div class="form-group engine temporal">
-							<label class="col-sm-3 control-label" title="{{Obligatoire en mode temporel}}">{{Température extérieure}}</label>
+							<label class="col-sm-3 control-label">{{Température extérieure}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Obligatoire en mode temporel}}"></i></sup>
+							</label>
 							<div class="col-sm-9">
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
@@ -311,13 +315,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
 					<fieldset>
 						<br/><br/>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">{{Cron de répétition de commande}}</label>
+							<label class="col-sm-2 control-label">{{Cron de répétition de commande}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron" title="{{Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
 							</div>
-							<label class="col-sm-2 control-label">{{Délai max entre 2 relevés de température (min)}}</label>
+							<label class="col-sm-2 control-label">{{Délai max entre 2 relevés de température (min)}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp" title="{{Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance}}"/>
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp"/>
 							</div>
 							<label class="col-sm-2 control-label">{{Masquer commande de verrouillage}}</label>
 							<div class="col-sm-2">
@@ -325,13 +333,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 						<div class="form-group engine temporal">
-							<label class="col-sm-2 control-label">{{Cycle (min)}}</label>
+							<label class="col-sm-2 control-label">{{Cycle (min)}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieure à 15 min)}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieure à 15 min)}}"/>
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle"/>
 							</div>
-							<label class="col-sm-2 control-label">{{Temps de chauffe minimum (% du cycle)}}</label>
+							<label class="col-sm-2 control-label">{{Temps de chauffe minimum (% du cycle)}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{% minimum de cycle à faire (sinon la mise en marche du chauffage est reportée au cyle suivant)}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" title="{{% minimum de cycle à faire (sinon la mise en marche du chauffage est reportée au cyle suivant)}}" value="5"/>
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" value="5"/>
 							</div>
 							<label class="col-sm-2 control-label">{{Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID}}</label>
 							<div class="col-sm-2">
@@ -339,13 +351,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 						<div class="form-group engine temporal">
-							<label class="col-sm-2 control-label">{{Marge de défaillance chaud}}</label>
+							<label class="col-sm-2 control-label">{{Marge de défaillance chaud}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Seuil de déclenchement de la défaillance chaud (1 par défaut)}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" title="{{Seuil de déclenchement de la défaillance chaud (1 par défaut)}}" value="1"/>
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetHeatFaillure" value="1"/>
 							</div>
-							<label class="col-sm-2 control-label">{{Marge de défaillance froid}}</label>
+							<label class="col-sm-2 control-label">{{Marge de défaillance froid}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Seuil de déclenchement de la défaillance froid (1 par défaut)}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetColdFaillure" title="{{Seuil de déclenchement de la défaillance froid (1 par défaut)}}" value="1"/>
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="offsetColdFaillure" value="1"/>
 							</div>
 						</div>
 						<div class="form-group engine temporal">
@@ -363,9 +379,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="col-sm-2">
 								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
 							</div>
-							<label class="col-sm-2 control-label">{{Smart start}}</label>
+							<label class="col-sm-2 control-label">{{Smart start}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked title="{{Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.}}" />
+								<input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked />
 							</div>
 						</div>
 						<div class="alert alert-warning">
@@ -417,9 +435,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="col-sm-2">
 								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_threshold" placeholder="1"/>
 							</div>
-							<label class="col-sm-2 control-label">{{Cron de contrôle}}</label>
+							<label class="col-sm-2 control-label">{{Cron de contrôle}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"></i></sup>
+							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron" title="{{Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"/>
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron"/>
 							</div>
 							<div class="col-sm-1">
 								<i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
