@@ -439,6 +439,8 @@ Les coefficients sont les suivants :
     consécutifs, le thermostat passe en mode de défaillance
     du chauffage.
 
+- **Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID** : LCette option permet de faire de la régulation avec différents niveaux de chauffe. Le retour de la puissance du prochain cycle doit donné la nouvelle consigne de niveau de chauffe à l'appareil de chauffage. Les cycles se terminent à 100%, il faut donc avoir un temps de cycle court. 
+
 > **Tip**
 >
 > L’apprentissage est toujours actif. Mais la phase d’initialisation
