@@ -334,7 +334,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						</div>
 						<div class="form-group engine temporal">
 							<label class="col-sm-2 control-label">{{Cycle (min)}}
-								<sup><i class="fas fa-question-circle tooltips" title="{{Durée des cycles de chauffe/climatisation (ne peut être inferieure à 15 min)}}"></i></sup>
+								<sup><i class="fas fa-question-circle tooltips" title="{{Durée des cycles de chauffe/climatisation (ne peut être inférieure à 15 min)}}"></i></sup>
 							</label>
 							<div class="col-sm-2">
 								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="cycle"/>
@@ -380,7 +380,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autolearn" checked />
 							</div>
 							<label class="col-sm-2 control-label">{{Smart start}}
-								<sup><i class="fas fa-question-circle tooltips" title="{{Autorise le thermostat à partir avant pour que la température soit égale à la consigne à l'heure voulue. Attention ne marche que si le thermostat est géré par le plugin agenda.}}"></i></sup>
+								<sup><i class="fas fa-question-circle tooltips" title="{{Autoriser le thermostat à démarrer avant l’heure afin que la température atteigne la consigne à l’heure voulue. Attention ne fonctionne que si le thermostat est géré via le plugin agenda}}"></i></sup>
 							</label>
 							<div class="col-sm-2">
 								<input type="checkbox" class="eqLogicAttr tooltips" data-l1key="configuration" data-l2key="smart_start" checked />
