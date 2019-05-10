@@ -48,7 +48,7 @@ function initThermostatPanel(_object_id) {
     displayThermostat(_object_id, $('#in_dateStart').val(), $('#in_dateEnd').val());
   });
   
-  $(window).on("orientationchange", function (event) {
+  $(window).on("resize", function (event) {
     setTileSize('.eqLogic');
     $('#div_displayEquipementThermostat').packery();
   });
