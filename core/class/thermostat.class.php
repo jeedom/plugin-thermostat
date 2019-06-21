@@ -1071,7 +1071,7 @@ class thermostat extends eqLogic {
 				$temperature_outdoor->setTemplate('mobile', 'line');
 				$temperature_outdoor->setIsVisible(1);
 				$temperature_outdoor->setIsHistorized(1);
-				$temperature_outdoor->setName(__('Temperature extérieure', __FILE__));
+				$temperature_outdoor->setName(__('Température extérieure', __FILE__));
 			}
 			$temperature_outdoor->setEqLogic_id($this->getId());
 			$temperature_outdoor->setType('info');
