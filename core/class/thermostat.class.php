@@ -863,6 +863,9 @@ class thermostat extends eqLogic {
 		if ($this->getConfiguration('coeff_outdoor_cool_autolearn') === '' || $this->getConfiguration('coeff_outdoor_cool_autolearn') < 1) {
 			$this->setConfiguration('coeff_outdoor_cool_autolearn', 0);
 		}
+		if ($this->getConfiguration('engine') == 'hysteresis') {
+			$this->setConfiguration('hysteresis_threshold', str_replace(',','.',$this->getConfiguration('hysteresis_threshold', 1)));
+		}
 		if (is_array($this->getConfiguration('existingMode'))) {
 			foreach ($this->getConfiguration('existingMode') as $existingMode) {
 				if (strtolower($existingMode['name']) == __('off', __FILE__)) {
