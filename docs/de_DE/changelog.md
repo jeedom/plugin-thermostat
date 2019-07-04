@@ -1,10 +1,11 @@
 # 02/07/2019
 
-- Correction de bugs
+- Fehlerbehebungen
 
 # 30/04/2019
 
-- Amélioration de l'interface
+- Verbesserung der Schnittstelle
+        
 
 # 29/04/2019
 
@@ -14,7 +15,7 @@
 
 - Possibilité d'ajouter un message d'alerte si le thermostat est suspendu depuis plus de XX minutes
 - Ajout en mode temporel d'un delta de consigne
-- Correction de bugs
+- Fehlerbehebungen
 
 # 04/01/2019
 
