@@ -107,11 +107,6 @@ domotique. Voilà ce que l’on obtient sur le dashboard :
 Le verrou présent sur le widget permet de bloquer le thermostat dans une
 consigne donnée, suite à un imprévu : congés, invités,…​.
 
-> **Tip**
->
-> Il est possible de changer l’apparence de la roue de réglage de la
-> consigne en modifiant le widget du thermostat (par le menu
-> Général/Résumé domotique).
 
 La création d’un thermostat en détail
 -------------------------------------
@@ -249,6 +244,12 @@ Pour définir un mode, procédez comme suit :
 
 -   cochez la case **Visible** pour faire apparaître ce mode sur le
     widget du thermostat sur le Dashboard.
+
+
+>**IMPORTANT**
+>
+>Attention lors du renommage d'un mode il faut absoluement revoir les scénarios/équipement qui utiliser l'ancien nom pour les passer sur le nouveau
+
 
 Les ouvertures : pour interrompre temporairement le thermostat
 --------------------------------------------------------------
@@ -439,7 +440,7 @@ Les coefficients sont les suivants :
     consécutifs, le thermostat passe en mode de défaillance
     du chauffage.
 
-- **Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID** : LCette option permet de faire de la régulation avec différents niveaux de chauffe. Le retour de la puissance du prochain cycle doit donné la nouvelle consigne de niveau de chauffe à l'appareil de chauffage. Les cycles se terminent à 100%, il faut donc avoir un temps de cycle court. 
+- **Limite les cycles marche/arrêt incessants (pellet, gaz, fioul) et PID** : LCette option permet de faire de la régulation avec différents niveaux de chauffe. Le retour de la puissance du prochain cycle doit donné la nouvelle consigne de niveau de chauffe à l'appareil de chauffage. Les cycles se terminent à 100%, il faut donc avoir un temps de cycle court.
 
 > **Tip**
 >
