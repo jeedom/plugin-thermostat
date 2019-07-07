@@ -863,6 +863,9 @@ class thermostat extends eqLogic {
 		if ($this->getConfiguration('coeff_outdoor_cool_autolearn') === '' || $this->getConfiguration('coeff_outdoor_cool_autolearn') < 1) {
 			$this->setConfiguration('coeff_outdoor_cool_autolearn', 0);
 		}
+		if ($this->getConfiguration('engine') == 'hysteresis') {
+			$this->setConfiguration('hysteresis_threshold', str_replace(',','.',$this->getConfiguration('hysteresis_threshold', 1)));
+		}
 		if (is_array($this->getConfiguration('existingMode'))) {
 			foreach ($this->getConfiguration('existingMode') as $existingMode) {
 				if (strtolower($existingMode['name']) == __('off', __FILE__)) {
@@ -1071,7 +1074,7 @@ class thermostat extends eqLogic {
 				$temperature_outdoor->setTemplate('mobile', 'line');
 				$temperature_outdoor->setIsVisible(1);
 				$temperature_outdoor->setIsHistorized(1);
-				$temperature_outdoor->setName(__('Temperature extérieure', __FILE__));
+				$temperature_outdoor->setName(__('Température extérieure', __FILE__));
 			}
 			$temperature_outdoor->setEqLogic_id($this->getId());
 			$temperature_outdoor->setType('info');

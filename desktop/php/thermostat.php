@@ -321,8 +321,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="col-sm-2">
 								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
 							</div>
-							<label class="col-sm-2 control-label">{{Délai max entre 2 relevés de température (min)}}
-								<sup><i class="fas fa-question-circle tooltips" title="{{Délai maximum entre 2 relévés de température avant de mettre le thermostat en défaillance}}"></i></sup>
+							<label class="col-sm-2 control-label">{{Délai max entre 2 changements de température de la sonde (min)}}
+								<sup><i class="fas fa-question-circle tooltips" title="{{Délai maximum entre 2 changement de température avant de mettre le thermostat en défaillance}}"></i></sup>
 							</label>
 							<div class="col-sm-2">
 								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp"/>
