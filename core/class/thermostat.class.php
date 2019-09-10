@@ -503,6 +503,7 @@ class thermostat extends eqLogic {
 			}
 			return $return;
 		}
+	}
 		
 		/*     * *********************Methode d'instance************************* */
 		
