@@ -21,7 +21,7 @@ $("#div_stop").sortable({axis: "y", cursor: "move", items: ".stop", placeholder:
 $("#div_orderChange").sortable({axis: "y", cursor: "move", items: ".orderChange", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#div_failureActuator").sortable({axis: "y", cursor: "move", items: ".failureActuator", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
-$(".eqLogic").delegate(".listCmdInfo", 'click', function () {
+$(".eqLogic").off('click','.listCmdInfo').on('click','.listCmdInfo', function () {
   var el = $(this).closest('.form-group').find('.eqLogicAttr');
   jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
     if (el.attr('data-concat') == 1) {
@@ -32,7 +32,7 @@ $(".eqLogic").delegate(".listCmdInfo", 'click', function () {
   });
 });
 
-$('body').delegate('.rename', 'click', function () {
+$('body').off('click','.rename').on('click','.rename', function () {
   var el = $(this);
   bootbox.prompt("{{Nouveau nom ?}}", function (result) {
     if (result !== null) {
@@ -42,7 +42,7 @@ $('body').delegate('.rename', 'click', function () {
   });
 });
 
-$("body").delegate(".listCmdAction", 'click', function () {
+$("body").off('click','.listCmdAction').on('click','.listCmdAction', function () {
   var type = $(this).attr('data-type');
   var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
   jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function (result) {
@@ -54,13 +54,13 @@ $("body").delegate(".listCmdAction", 'click', function () {
   });
 });
 
-$('#bt_cronGenerator').on('click',function(){
+$('#bt_cronGenerator').off('click').on('click',function(){
   jeedom.getCronSelectModal({},function (result) {
     $('.eqLogicAttr[data-l1key=configuration][data-l2key=repeat_commande_cron]').value(result.value);
   });
 });
 
-$('#bt_razLearning').on('click',function(){
+$('#bt_razLearning').off('click').on('click',function(){
   $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_indoor_heat_autolearn]').value(1);
   $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_indoor_cool_autolearn]').value(1);
   $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_heat_autolearn]').value(1);
@@ -71,35 +71,35 @@ $('#bt_razLearning').on('click',function(){
   $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_cool]').value(2);
 });
 
-$('.addAction').on('click', function () {
+$('.addAction').off('click').on('click', function () {
   addAction({}, $(this).attr('data-type'));
 });
 
-$('.addWindow').on('click', function () {
+$('.addWindow').off('click').on('click', function () {
   addWindow({});
 });
 
-$('.addFailure').on('click', function () {
+$('.addFailure').off('click').on('click', function () {
   addFailure({});
 });
 
-$('.addFailureActuator').on('click', function () {
+$('.addFailureActuator').off('click').on('click', function () {
   addFailureActuator({});
 });
 
-$('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').on('change', function () {
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').off('change').on('change', function () {
   $('.engine').hide();
   $('.' + $(this).value()).show();
 });
 
-$("body").delegate(".listCmdInfoWindow", 'click', function () {
+$("body").off('click', '.listCmdInfoWindow').on('click', '.listCmdInfoWindow',function () {
   var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
   jeedom.cmd.getSelectModal({cmd: {type: 'info', subtype: 'binary'}}, function (result) {
     el.value(result.human);
   });
 });
 
-$('.addMode').on('click', function () {
+$('.addMode').off('click').on('click', function () {
   bootbox.prompt("{{Nom du mode ?}}", function (result) {
     if (result !== null) {
       addMode({name: result});
@@ -107,11 +107,11 @@ $('.addMode').on('click', function () {
   });
 });
 
-$("body").delegate(".addModeAction", 'click', function () {
+$("body").off('click','.addModeAction').on('click','.addModeAction',function () {
   addModeAction({}, $(this).closest('.mode').find('.div_modeAction'));
 });
 
-$("body").delegate(".removeMode", 'click', function () {
+$("body").off('click','.removeMode').on('click','.removeMode',function () {
   var el = $(this);
   bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce mode}} ?', function (result) {
     if (result !== null) {
@@ -120,7 +120,7 @@ $("body").delegate(".removeMode", 'click', function () {
   });
 });
 
-$('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', function (event) {
+$('body').off('focusout','.cmdAction.expressionAttr[data-l1key=cmd]').on('focusout','.cmdAction.expressionAttr[data-l1key=cmd]',function (event) {
   var type = $(this).attr('data-type');
   var expression = $(this).closest('.' + type).getValues('.expressionAttr');
   var el = $(this);
@@ -130,12 +130,12 @@ $('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', func
   
 });
 
-$("body").delegate('.bt_removeAction', 'click', function () {
+$("body").off('click','.bt_removeAction').on('click','.bt_removeAction',function () {
   var type = $(this).attr('data-type');
   $(this).closest('.' + type).remove();
 });
 
-$('#bt_configureMode').on('click', function () {
+$('#bt_configureMode').off('click').on('click', function () {
   $('#md_modal').dialog({title: "{{Configuration des modes}}"});
   $('#md_modal').load('index.php?v=d&plugin=thermostat&modal=configure.mode').dialog('open');
 });
