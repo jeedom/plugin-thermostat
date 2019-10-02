@@ -1,3 +1,12 @@
+# 01/10/2019
+
+- Fehlerbehebungen
+
+# 15/08/2019
+
+- Aktualisierung des Dokuments
+- Support de php 7.3
+
 # 02/07/2019
 
 - Fehlerbehebungen

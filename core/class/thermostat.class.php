@@ -489,6 +489,22 @@ class thermostat extends eqLogic {
 		}
 	}
 	
+	public static function deadCmd() {
+		$return = array();
+		foreach (eqLogic::byType('thermostat') as $thermostat) {
+			$thermostat_json = json_encode(utils::o2a($thermostat));
+			preg_match_all("/#([0-9]*)#/", $thermostat_json, $matches);
+			foreach ($matches[1] as $cmd_id) {
+				if (is_numeric($cmd_id)) {
+					if (!cmd::byId(str_replace('#', '', $cmd_id))) {
+						$return[] = array('detail' => 'Thermostat ' . $thermostat->getHumanName(), 'help' => 'Action', 'who' => '#' . $cmd_id . '#');
+					}
+				}
+			}
+			return $return;
+		}
+	}
+	
 	/*     * *********************Methode d'instance************************* */
 	
 	public function windowClose($_window) {
@@ -969,6 +985,7 @@ class thermostat extends eqLogic {
 				$lock->setTemplate('dashboard', 'lock');
 				$lock->setTemplate('mobile', 'lock');
 				$lock->setName('lock');
+				$lock->setOrder(1);
 			}
 			$lock->setGeneric_type( 'THERMOSTAT_SET_LOCK');
 			$lock->setEqLogic_id($this->getId());
@@ -989,6 +1006,7 @@ class thermostat extends eqLogic {
 				$unlock->setTemplate('dashboard', 'lock');
 				$unlock->setTemplate('mobile', 'lock');
 				$unlock->setName('unlock');
+				$unlock->setOrder(1);
 			}
 			$unlock->setGeneric_type( 'THERMOSTAT_SET_UNLOCK');
 			$unlock->setEqLogic_id($this->getId());
