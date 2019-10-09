@@ -316,10 +316,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<br/><br/>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Cron de répétition de commande}}
-								<sup><i class="fas fa-question-circle tooltips" title="{{Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"></i></sup>
+								<sup><i class="fas fa-question-circle tooltips cronConfigurationHelper" title="{{Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"></i></sup>
 							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
+								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
 							</div>
 							<label class="col-sm-2 control-label">{{Délai max entre 2 changements de température de la sonde (min)}}
 								<sup><i class="fas fa-question-circle tooltips" title="{{Délai maximum entre 2 changement de température avant de mettre le thermostat en défaillance}}"></i></sup>
@@ -439,10 +439,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<sup><i class="fas fa-question-circle tooltips" title="{{Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"></i></sup>
 							</label>
 							<div class="col-sm-2">
-								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="hysteresis_cron"/>
-							</div>
-							<div class="col-sm-1">
-								<i class="fa fa-question-circle cursor bt_pageHelp floatright" data-name="cronSyntaxe"></i>
+								<input type="text" class="eqLogicAttr form-control tooltips cronConfigurationHelper" data-l1key="configuration" data-l2key="hysteresis_cron"/>
 							</div>
 						</div>
 					</fieldset>
