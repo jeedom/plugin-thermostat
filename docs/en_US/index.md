@@ -675,3 +675,7 @@ FAQ
 >**Les courbes du thermostat (en particulier la consigne) ne semblent pas être juste**
 >
 >   Regarder du coté du lissage de l'historique des commandes en question. En effet pour gagner en efficacité Jeedom fait une moyenne des valeurs sur 5 min puis sur l'heure.
+
+>**L'onglet mode/action est vide et quand je clique sur les boutons ajouter ca ne fait rien**
+>
+> Essayez de désactiver Adblock (ou tout autre bloqueur de publicité), pour une raison inconnu ceux-ci bloque sans raison le JavaScript de la page.

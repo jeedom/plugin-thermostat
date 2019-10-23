@@ -1760,8 +1760,8 @@ class thermostatCmd extends cmd {
 		if ($this->getLogicalId() == 'modeAction') {
 			$eqLogic->executeMode($this->getName());
 		} else if ($this->getLogicalId() == 'off') {
-			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
 			$eqLogic->stopThermostat();
+			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
 		} else if ($this->getLogicalId() == 'thermostat') {
 			if (!isset($_options['slider']) || $_options['slider'] == '' || !is_numeric(intval($_options['slider']))) {
 				return;
