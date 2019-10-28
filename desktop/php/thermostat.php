@@ -51,7 +51,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				$plugin = plugin::byId('calendar');
 				if (is_object($plugin)) {
 					?>
-					<li  role="presentation"><a href="#configureSchedule" data-toggle="tab" style="padding:10px 5px !important"><i class="fa fa-clock-o" aria-hidden="true"></i> {{Programmation}}</a></li>
+					<li  role="presentation"><a href="#configureSchedule" data-toggle="tab" style="padding:10px 5px !important"><i class="far fa-clock"></i> {{Programmation}}</a></li>
 					<?php
 				}
 			} catch (Exception $e) {

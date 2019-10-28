@@ -1,3 +1,7 @@
+# 23/10/2019
+
+- Corrección de errores
+
 # 06/10/2019
 
 - Mise à jour de la FAQ sur les soucis de non affichage des actions/modes
