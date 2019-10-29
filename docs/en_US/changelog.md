@@ -1,5 +1,9 @@
 # 23/10/2019
 
+- Correction d'un bug sur le off
+
+# 23/10/2019
+
 - Correction de bugs
 
 # 06/10/2019
