@@ -1,3 +1,7 @@
+# 03/11/2019
+
+- Correction d'un bug sur les commandes orpheline
+
 # 23/10/2019
 
 - Correction d'un bug sur le off
