@@ -501,8 +501,8 @@ class thermostat extends eqLogic {
 					}
 				}
 			}
-			return $return;
 		}
+		return $return;
 	}
 	
 	/*     * *********************Methode d'instance************************* */
