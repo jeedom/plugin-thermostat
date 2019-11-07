@@ -215,7 +215,7 @@ class thermostat extends eqLogic {
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 		if (!is_numeric($temp_in)) {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
-				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : La température intérieur n\'est pas un numérique : ',__FILE__).$temp_in);
 			}
 			$thermostat->setCache('temp_threshold', 1);
 			return;
