@@ -661,6 +661,10 @@ class thermostat extends eqLogic {
 		if ($power < 0) {
 			$power = 0;
 		}
+		if($this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getCache('previousPower') == 100) {
+			$power -= $this->getConfiguration('offset_nextFullCyle');
+		}
+		$this->setCache('previousPower',$power);
 		return array('power' => $power, 'direction' => $direction);
 	}
 	
