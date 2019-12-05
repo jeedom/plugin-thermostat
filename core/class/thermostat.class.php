@@ -662,6 +662,7 @@ class thermostat extends eqLogic {
 			$power = 0;
 		}
 		if($this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getCache('previousPower') >= 100) {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at 100%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'%');
 			$power -= $this->getConfiguration('offset_nextFullCyle');
 		}
 		$this->setCache('previousPower',$power);
