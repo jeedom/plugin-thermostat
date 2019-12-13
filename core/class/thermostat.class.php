@@ -1510,26 +1510,27 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('orderChange')) > 0) {
-			$consigne = $this->getCmd(null, 'order')->execCmd();
-			foreach ($this->getConfiguration('orderChange') as $action) {
-				try {
-					$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
-					if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
-						continue;
-					}
-					$options = array();
-					if (isset($action['options'])) {
-						$options = $action['options'];
-						foreach ($options as $key => $value) {
-							$options[$key] = str_replace('#slider#', $consigne, $value);
-						}
-					}
-					$options['modeChange'] = true;
-					scenarioExpression::createAndExec('action', $action['cmd'], $options);
-				} catch (Exception $e) {
-					log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+		if (!is_array($this->getConfiguration('orderChange')) || count($this->getConfiguration('orderChange')) == 0) {
+			return;
+		}
+		$consigne = $this->getCmd(null, 'order')->execCmd();
+		foreach ($this->getConfiguration('orderChange') as $action) {
+			try {
+				$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
+				if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
+					continue;
 				}
+				$options = array();
+				if (isset($action['options'])) {
+					$options = $action['options'];
+					foreach ($options as $key => $value) {
+						$options[$key] = str_replace('#slider#', $consigne, $value);
+					}
+				}
+				$options['modeChange'] = true;
+				scenarioExpression::createAndExec('action', $action['cmd'], $options);
+			} catch (Exception $e) {
+				log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 			}
 		}
 	}
@@ -1538,7 +1539,7 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('failure')) == 0) {
+		if (!is_array($this->getConfiguration('failure')) || count($this->getConfiguration('failure')) == 0) {
 			return;
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action failure');
@@ -1564,7 +1565,7 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('failureActuator')) == 0) {
+		if (!is_array($this->getConfiguration('failureActuator')) || count($this->getConfiguration('failureActuator')) == 0) {
 			return;
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action failure actuor');
