@@ -215,7 +215,7 @@ class thermostat extends eqLogic {
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 		if (!is_numeric($temp_in)) {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
-				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : La température intérieur n\'est pas un numérique');
+				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : La température intérieure n\'est pas un numérique : ',__FILE__).$temp_in);
 			}
 			$thermostat->setCache('temp_threshold', 1);
 			return;
@@ -655,6 +655,10 @@ class thermostat extends eqLogic {
 		$offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
 		$power = ($direction * $diff_in * $coeff_in) + ($direction * $diff_out * $coeff_out) + $offset;
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset .' = '.$power);
+		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getConfiguration('last_power',0) >= 100) {
+			log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at 100%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'%');
+			$power -= $this->getConfiguration('offset_nextFullCyle');
+		}
 		if ($power > 100 && !$_allowOverfull) {
 			$power = 100;
 		}
@@ -1289,7 +1293,7 @@ class thermostat extends eqLogic {
 		
 		if ($this->getIsEnable() == 1) {
 			$windows = $this->getConfiguration('window');
-			if (count($windows) > 0) {
+			if (is_array($windows) && count($windows) > 0) {
 				$listener = listener::byClassAndFunction('thermostat', 'window', array('thermostat_id' => intval($this->getId())));
 				if (!is_object($listener)) {
 					$listener = new listener();
@@ -1506,26 +1510,27 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('orderChange')) > 0) {
-			$consigne = $this->getCmd(null, 'order')->execCmd();
-			foreach ($this->getConfiguration('orderChange') as $action) {
-				try {
-					$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
-					if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
-						continue;
-					}
-					$options = array();
-					if (isset($action['options'])) {
-						$options = $action['options'];
-						foreach ($options as $key => $value) {
-							$options[$key] = str_replace('#slider#', $consigne, $value);
-						}
-					}
-					$options['modeChange'] = true;
-					scenarioExpression::createAndExec('action', $action['cmd'], $options);
-				} catch (Exception $e) {
-					log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+		if (!is_array($this->getConfiguration('orderChange')) || count($this->getConfiguration('orderChange')) == 0) {
+			return;
+		}
+		$consigne = $this->getCmd(null, 'order')->execCmd();
+		foreach ($this->getConfiguration('orderChange') as $action) {
+			try {
+				$cmd = cmd::byId(str_replace('#', '', $action['cmd']));
+				if (is_object($cmd) && $this->getId() == $cmd->getEqLogic_id()) {
+					continue;
 				}
+				$options = array();
+				if (isset($action['options'])) {
+					$options = $action['options'];
+					foreach ($options as $key => $value) {
+						$options[$key] = str_replace('#slider#', $consigne, $value);
+					}
+				}
+				$options['modeChange'] = true;
+				scenarioExpression::createAndExec('action', $action['cmd'], $options);
+			} catch (Exception $e) {
+				log::add('thermostat', 'error', $this->getHumanName() . __(' : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 			}
 		}
 	}
@@ -1534,7 +1539,7 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('failure')) == 0) {
+		if (!is_array($this->getConfiguration('failure')) || count($this->getConfiguration('failure')) == 0) {
 			return;
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action failure');
@@ -1560,7 +1565,7 @@ class thermostat extends eqLogic {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
-		if (count($this->getConfiguration('failureActuator')) == 0) {
+		if (!is_array($this->getConfiguration('failureActuator')) || count($this->getConfiguration('failureActuator')) == 0) {
 			return;
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Action failure actuor');
@@ -1762,6 +1767,7 @@ class thermostatCmd extends cmd {
 		} else if ($this->getLogicalId() == 'off') {
 			$eqLogic->stopThermostat(true);
 			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
+			$eqLogic->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
 		} else if ($this->getLogicalId() == 'thermostat') {
 			if (!isset($_options['slider']) || $_options['slider'] == '' || !is_numeric(intval($_options['slider']))) {
 				return;

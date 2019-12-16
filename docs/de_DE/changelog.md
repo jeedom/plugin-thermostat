@@ -1,3 +1,9 @@
+- Ajout d'une option pour limiter la durée d'un second cycle à 100% du temps (permet de prendre en compte le faite que les radiateurs sont déjà chaud)
+
+# 03/11/2019
+
+- Correction d'un bug sur les commandes orpheline
+
 # 23/10/2019
 
 - Correction d'un bug sur le off
