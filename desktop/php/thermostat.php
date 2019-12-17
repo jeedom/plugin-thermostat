@@ -354,6 +354,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="col-sm-2">
 								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="stove_boiler" />
 							</div>
+						</div>
+						<div class="form-group engine temporal">
+							<label class="col-sm-2 control-label">{{Offset calcul cycle à 100% (utilisé dans l'option suivante))}}</label>
+							<div class="col-sm-2">
+								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="offset_fullCyle" />
+							</div>
 							<label class="col-sm-2 control-label">{{Offset lors d'un second cycle à 100% (% du cycle)}}</label>
 							<div class="col-sm-2">
 								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="offset_nextFullCyle" />

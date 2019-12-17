@@ -655,7 +655,9 @@ class thermostat extends eqLogic {
 		$offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
 		$power = ($direction * $diff_in * $coeff_in) + ($direction * $diff_out * $coeff_out) + $offset;
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset .' = '.$power);
-		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getConfiguration('last_power',0) >= 100) {
+		
+		$last_cyle = $this->getConfiguration('last_power',0) + $this->getConfiguration('offset_fullCyle',0);
+		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $last_cyle >= 100) {
 			log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at 100%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'%');
 			$power -= $this->getConfiguration('offset_nextFullCyle');
 		}
