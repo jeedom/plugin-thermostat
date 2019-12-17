@@ -356,11 +356,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 						<div class="form-group engine temporal">
-							<label class="col-sm-2 control-label">{{Offset calcul cycle à 100% (utilisé dans l'option suivante))}}</label>
+							<label class="col-sm-2 control-label">{{Seuil de cycle ou le chauffage est considéré comme chaud)}}</label>
 							<div class="col-sm-2">
-								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="offset_fullCyle" />
+								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="threshold_heathot" />
 							</div>
-							<label class="col-sm-2 control-label">{{Offset lors d'un second cycle à 100% (% du cycle)}}</label>
+							<label class="col-sm-2 control-label">{{Offset a appliqué si le radiateur est considéré chaud}}</label>
 							<div class="col-sm-2">
 								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="offset_nextFullCyle" />
 							</div>

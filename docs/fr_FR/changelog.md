@@ -1,3 +1,8 @@
+# 17/12/2019
+
+- Correction d'un soucis d'affichage
+- Ajout d'une option "Seuil de cycle ou le chauffage est considéré comme chaud"
+
 # 16/12/2019
 
 - Correction de bug sur le mode off du thermostat
