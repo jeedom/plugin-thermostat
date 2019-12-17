@@ -1295,7 +1295,7 @@ class thermostat extends eqLogic {
 		
 		if ($this->getIsEnable() == 1) {
 			$windows = $this->getConfiguration('window');
-			if (count($windows) > 0) {
+			if (is_array($windows) && count($windows) > 0) {
 				$listener = listener::byClassAndFunction('thermostat', 'window', array('thermostat_id' => intval($this->getId())));
 				if (!is_object($listener)) {
 					$listener = new listener();
