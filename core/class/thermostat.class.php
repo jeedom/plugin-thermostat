@@ -658,7 +658,11 @@ class thermostat extends eqLogic {
 		
 		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getConfiguration('last_power',0) >= $this->getConfiguration('threshold_heathot',100)) {
 			log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at 100%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'%');
-			$power -= $this->getConfiguration('offset_nextFullCyle');
+			if($power >= 100){
+				$power -= $this->getConfiguration('offset_nextFullCyle');
+			}else{
+				$power = 100 - $this->getConfiguration('offset_nextFullCyle');
+			}
 		}
 		if ($power > 100 && !$_allowOverfull) {
 			$power = 100;
