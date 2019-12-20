@@ -1,3 +1,11 @@
+# 17/12/2019
+
+- Correction d'un soucis d'affichage
+- Ajout d'une option "Seuil de cycle ou le chauffage est considéré comme chaud"
+
+# 16/12/2019
+
+- Correction de bug sur le mode off du thermostat
 - Ajout d'une option pour limiter la durée d'un second cycle à 100% du temps (permet de prendre en compte le faite que les radiateurs sont déjà chaud)
 
 # 03/11/2019

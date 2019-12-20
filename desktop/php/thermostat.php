@@ -318,7 +318,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<label class="col-sm-2 control-label">{{Cron de répétition de commande}}
 								<sup><i class="fas fa-question-circle tooltips" title="{{Cron de renvoi des commandes du thermostat (arrêt, chauffe, refroidissement), si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification}}"></i></sup>
 							</label>
-							<div class="col-sm-3">
+							<div class="col-sm-2">
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control jeeHelper" data-helper="cron" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
 									<span class="input-group-btn">
@@ -354,7 +354,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="col-sm-2">
 								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="stove_boiler" />
 							</div>
-							<label class="col-sm-2 control-label">{{Offset lors d'un second cycle à 100% (% du cycle)}}</label>
+						</div>
+						<div class="form-group engine temporal">
+							<label class="col-sm-2 control-label">{{Seuil de cycle où le chauffage est considéré comme chaud (%)}}</label>
+							<div class="col-sm-2">
+								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="threshold_heathot" />
+							</div>
+							<label class="col-sm-2 control-label">{{Offset à appliquer si le radiateur est considéré chaud (%)}}</label>
 							<div class="col-sm-2">
 								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="offset_nextFullCyle" />
 							</div>
