@@ -657,8 +657,13 @@ class thermostat extends eqLogic {
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset .' = '.$power);
 		
 		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getConfiguration('last_power',0) >= $this->getConfiguration('threshold_heathot',100)) {
-			log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at 100%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'%');
-			$power -= $this->getConfiguration('offset_nextFullCyle');
+			if($this->getConfiguration('last_power',0) >= 100){
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at 100%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'%');
+				$power -= $this->getConfiguration('offset_nextFullCyle');
+			}else{
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at '.$this->getConfiguration('last_power',0).'%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'% + '.(100 - $this->getConfiguration('last_power',0)));
+				$power -= $this->getConfiguration('offset_nextFullCyle') - (100 - $this->getConfiguration('last_power',0));
+			}
 		}
 		if ($power > 100 && !$_allowOverfull) {
 			$power = 100;
