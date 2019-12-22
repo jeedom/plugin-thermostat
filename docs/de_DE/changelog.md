@@ -1,3 +1,7 @@
+# 21/12/2019
+
+- Ajout d'option pour le seuil de cycle chaud afin de permetre la prise en compte de l'inertie
+
 # 17/12/2019
 
 - Correction d'un soucis d'affichage
