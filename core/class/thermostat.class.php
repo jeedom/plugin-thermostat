@@ -209,6 +209,7 @@ class thermostat extends eqLogic {
 				$thermostat->failure();
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $cmd->getCollectDate() . ')');
 			}
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je ne fais rien car il n\'y a pas eu de mise a jour de la temperature depuis plus de '.$thermostat->getConfiguration('maxTimeUpdateTemp').'min');
 			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
@@ -217,6 +218,7 @@ class thermostat extends eqLogic {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : La température intérieure n\'est pas un numérique : ',__FILE__).$temp_in);
 			}
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je ne fais rien car la température intérieure n\'est pas un numérique');
 			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
