@@ -358,11 +358,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<div class="form-group engine temporal">
 							<label class="col-sm-2 control-label">{{Seuil de cycle où le chauffage est considéré comme chaud (%)}}</label>
 							<div class="col-sm-2">
-								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="threshold_heathot" />
+								<input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="threshold_heathot" />
 							</div>
 							<label class="col-sm-2 control-label">{{Offset à appliquer si le radiateur est considéré chaud (%)}}</label>
 							<div class="col-sm-2">
-								<input type="number" class="eqLogicAttr" data-l1key="configuration" data-l2key="offset_nextFullCyle" />
+								<input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="offset_nextFullCyle" />
 							</div>
 						</div>
 						<div class="form-group engine temporal">
