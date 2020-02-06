@@ -933,8 +933,6 @@ class thermostat extends eqLogic {
 			$thermostat = $this->getCmd(null, 'thermostat');
 			if (!is_object($thermostat)) {
 				$thermostat = new thermostatCmd();
-				$thermostat->setTemplate('dashboard', 'thermostat');
-				$thermostat->setTemplate('mobile', 'thermostat');
 				$thermostat->setUnite('°C');
 				$thermostat->setName(__('Thermostat', __FILE__));
 				$thermostat->setIsVisible(1);
