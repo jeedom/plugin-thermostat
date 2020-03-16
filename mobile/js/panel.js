@@ -138,7 +138,8 @@ function graphThermostat(_eqLogic_id) {
               graphStep: 1,
               graphScale : 1,
               graphType : 'area',
-              graphZindex :1
+              graphZindex :1,
+              lastPointToEnd : 1
             }
           });
           foundPower = true;
@@ -154,7 +155,8 @@ function graphThermostat(_eqLogic_id) {
             option: {
               graphStep: 1,
               graphColor: '#27ae60',
-              graphZindex :2
+              graphZindex :2,
+              lastPointToEnd : 1
             }
           });
         }
