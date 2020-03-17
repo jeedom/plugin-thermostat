@@ -9,7 +9,7 @@
 
 # 16/12/2019
 
-- Correction de bug sur le mode off du thermostat
+- Corrección de errores sur le mode off du thermostat
 - Ajout d'une option pour limiter la durée d'un second cycle à 100% du temps (permet de prendre en compte le faite que les radiateurs sont déjà chaud)
 
 # 03/11/2019
@@ -22,7 +22,7 @@
 
 # 23/10/2019
 
-- Corrección de errores
+- Correcciones de errores
 
 # 06/10/2019
 
@@ -30,16 +30,16 @@
 
 # 01/10/2019
 
-- Corrección de errores
+- Correcciones de errores
 
 # 15/08/2019
 
-- Actualización de la documentación
+- Actualizando el documento
 - Support de php 7.3
 
 # 02/07/2019
 
-- Corrección de errores
+- Correcciones de errores
 
 # 30/04/2019
 
@@ -53,7 +53,7 @@
 
 - Possibilité d'ajouter un message d'alerte si le thermostat est suspendu depuis plus de XX minutes
 - Ajout en mode temporel d'un delta de consigne
-- Corrección de errores
+- Correcciones de errores
 
 # 04/01/2019
 
@@ -61,11 +61,11 @@
 
 # 28/12/2018
 
-- Correction de bug sur le panel mobile
+- Corrección de errores sur le panel mobile
 
 # 27/11/2018
 
-- Correction de bug
+- Corrección de errores
 
 # 20/11/2018
 
@@ -79,7 +79,7 @@
 
 # 06/06/2018
 
-- Correction de bug
+- Corrección de errores
 
 # 23/02/2018
 
@@ -87,4 +87,4 @@
 
 # 29/01/2018
 
-- Correction de bug sur les ouvertures/fermetures de fênetres
+- Corrección de errores sur les ouvertures/fermetures de fênetres

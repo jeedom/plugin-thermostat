@@ -9,10 +9,10 @@
 
 # 16/12/2019
 
-- Correction de bug sur le mode off du thermostat
+- Fehlerbehebung sur le mode off du thermostat
 - Ajout d'une option pour limiter la durée d'un second cycle à 100% du temps (permet de prendre en compte le faite que les radiateurs sont déjà chaud)
 
-# 03/11/2019
+# 2019.03.11
 
 - Correction d'un bug sur les commandes orpheline
 
@@ -34,7 +34,7 @@
 
 # 15/08/2019
 
-- Aktualisierung des Dokuments
+- Aktualisieren des Dokuments
 - Support de php 7.3
 
 # 02/07/2019
@@ -43,8 +43,7 @@
 
 # 30/04/2019
 
-- Verbesserung der Schnittstelle
-        
+- Amélioration de l'interface
 
 # 29/04/2019
 
@@ -62,11 +61,11 @@
 
 # 28/12/2018
 
-- Correction de bug sur le panel mobile
+- Fehlerbehebung sur le panel mobile
 
 # 27/11/2018
 
-- Correction de bug
+- Fehlerbehebung
 
 # 20/11/2018
 
@@ -80,7 +79,7 @@
 
 # 06/06/2018
 
-- Correction de bug
+- Fehlerbehebung
 
 # 23/02/2018
 
@@ -88,4 +87,4 @@
 
 # 29/01/2018
 
-- Correction de bug sur les ouvertures/fermetures de fênetres
+- Fehlerbehebung sur les ouvertures/fermetures de fênetres
