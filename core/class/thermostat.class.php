@@ -1614,6 +1614,12 @@ class thermostat extends eqLogic {
 			}
 		}
 		$this->getCmd(null, 'mode')->event($_name);
+		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
+			thermostat::temporal(array('thermostat_id' => $this->getId()));
+		}
+		if ($this->getConfiguration('engine', 'temporal') == 'hysteresis') {
+			thermostat::hysteresis(array('thermostat_id' => $this->getId()));
+		}
 	}
 	
 	public function runtimeByDay($_startDate = null, $_endDate = null) {
