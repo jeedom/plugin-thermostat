@@ -1,683 +1,683 @@
 Description
 ===========
 
-Ce plugin permet de créer et gérer des thermostats porr piloter le
-Heating de votre domicile. Il fonctionne selon 2 fashions, au choix :
+This plugin allows yor to create and manage thermostats to control the
+heating yorr home. It operates in 2 fashions, yorr choice :
 
--   le fashion **hystéresis** correspond à l'allumage et l'extinction du
-    Heating en fonction de la température intérieure, par rapport à un
-    seuil correspondant à la consigne. L'hystéresis permet d'éviter des
-    commutations trop fréquentes lorsque la température est autorr
-    la consigne.
+-   The fashion **hysteresis** corresponds to switching on and off
+    heating as a function of the interior temperature, relative to a
+    threshold corresponding to the setpoint. Hysteresis helps prevent
+    too frequent switching when the temperature is arornd
+    setpoint.
 
 <!-- -->
 
--   le fashion **temporel** calcule un porrcentage de Heating sur un
-    cycle temporel prédéfini, en tenant compte des écarts entre la
-    consigne et les températures intérieure et extérieure (isolation).
-    Ce fashion est plus précis, dispose d'un apprentissage permettant
-    d'ajuster automatiquement les coefficients mais peut nécessiter
-    quelques réglages manuels porr l'adapter à votre installation.
-    Important porr que le fashion temporel marche il faut absolument une
-    sonde de température intérieure ET extérieure.
+-   The fashion **temporal** calculates a heating percentage on a
+    predefined time cycle, taking into accornt the differences between the
+    setpoint and indoor and ortdoor temperatures (insulation).
+    This fashion is more precise, has a learning allowing
+    automatically adjust the coefficients but may require
+    some manual adjustments to adapt it to yorr installation.
+    Important for the time fashion to work, yor absolutely need a
+    indoor AND ortdoor temperature sensor.
 
 Setup
 =============
 
-Ce plugin est destiné à la création de thermostats dans Jeedom. Il
-permet de piloter le Heating, la climatisation or les deux à la fois.
+This plugin is intended for the creation of thermostats in Jeedom. he
+can control heating, air conditioning or both.
 
-L'intérêt par rapport à un thermostat classique, c'est qu'il va porvoir
-s'intégrer totalement dans votre installation domotique. Outre la
-régulation de température, car c'est bien ce qu'on lui demande en
-premier lieu, le thermostat peut interagir avec tors les équipements de
-la maison.
+The advantage compared to a conventional thermostat is that it whel
+fully integrate into yorr home automation system. Besides the
+temperature regulation, because that's what we ask him in
+first, the thermostat can interact with all the equipment
+the Horse.
 
-Parmi ses caractéristiques, on trorve :
+Among its features are :
 
--   la prise en compte de la température extérieure, par conséquent du
-    coefficient d'isolation de la maison,
+-   taking into accornt the ortside temperature, consequently the
+    horse insulation coefficient,
 
--   un système de régulation qui apprend porr optimiser la régulation,
+-   a regulatory system that learns to optimize regulation,
 
--   la possibilité de gérer les orvrants porr débrayer le thermostat,
+-   the possibheity of managing the doors to disengage the thermostat,
 
--   la gestion des défaillances des équipements, sondes de température
-    et appareils de Heating,
+-   equipment faheure management, temperature probes
+    and heaters,
 
--   une programmation complète avec le plugin agenda, avec notamment la
-    possibilité d'anticiper le changement de consigne porr que la
-    température soit atteinte à l'heure programmée (smart start)
+-   complete programming with the agenda plugin, including in particular the
+    possibheity of anticipating the change of setpoint so that the
+    temperature is reached at the scheduled time (smart start)
 
-Dans un premier temps, nors allons vors montrer la mise en œuvre, puis
-détailler les différents réglages de la configuration du thermostat et
-enfin, au travers de quelques cas d'utilisation, comment on peut
-l'enrichir en combinaison avec d'autres plugins or à l'aide de
+First, we whel show yor the implementation, then
+detahe the different settings of the thermostat configuration and
+finally, throrgh some use cases, how we can
+enrich it in combination with other plugins or using
 Scenarios.
 
-La configuration en quelques clics
+Setup in a few clicks
 ----------------------------------
 
-Le thermostat de Jeedom est très puissant mais porr une utilisation
-traditionnelle, sa mise en œuvre est vraiment simple et rapide, à partir
-du moment où on a compris les étapes essentielles :
+The Jeedom thermostat is very powerful but for use
+traditional, its implementation is really simple and fast, from
+from the moment we understand the essential steps :
 
--   définition du Moteur de thermostat (hystérésis or temporel). C'est
-    le choix de l'algorithme de régulation.
+-   definition of Thermostat motor (hysteresis or time). It is
+    the choice of the regulation algorithm.
 
--   la configuration et la plage de fonctionnement : Heating
-    uniquement, climatisation or bien les deux , températures min et
-    max d'utilisation.
+-   configuration and operating range : Heating
+    only, air conditioning or both, min and
+    max use.
 
--   La définition des actions que le thermostat doit exécuter porr
-    chauffer, refroidir or arrêter.
+-   Defining the actions that the thermostat shorld perform to
+    heat, cool or stop.
 
-On trorve ensuite différents onglets :
+Then there are different tabs :
 
--   La configuration des fashions définit des températures de
-    consignes prédéterminées. Par exemple, le fashion confort à 20°C, eco
-    à 18°C. Il peut y avoir aussi jorr, nuit, vacances, absence,…​vors
-    commencez à entrevoir ici les possibilités de personnalisation
-    du plugin.
+-   The configuration of the fashions defines temperatures of
+    predetermined instructions. For example, comfort fashion at 20 ° C, eco
+    at 18 ° C. There can also be day, night, vacation, absence,… yor
+    start to see here the possibheities for customization
+    plugin.
 
--   Porr affiner le fashion de fonctionnement du thermostat, vors allez
-    porvoir également configurer des orvertures qui vont interrompre
-    temporairement la régulation (par exemple, une fenêtre orverte peut
-    arrêter le Heating). La définition de cette interruption
-    s'effectue ici simplement.
+-   To refine the operating fashion of the thermostat, yor whel
+    also be able to configure openings that whel interrupt
+    temporarhey regulating (for example, an open window may
+    stop heating). The definition of this interruption
+    is done here simply.
 
--   La gestion des fashions de défaillance porr les sondes de température
-    or porr le Heating permet de définir des actions à exécuter porr
-    un fashion dégradé.
+-   Management of faheure fashions for temperature sensors
+    or for heating allows to define actions to be executed for
+    a degraded fashion.
 
--   L'onglet Setup avancée permet d'ajuster les paramètres de
-    régulation du Heating.
+-   The Advanced Setup tab allows yor to adjust the parameters of
+    heating regulation.
 
--   Si de plus, vors disposez du plugin Agenda, la programmation des
-    changements de fashion devient possible directement depuis
-    l'onglet programmation.
+-   If in addition, yor have the Agenda plugin, the programming of
+    fashion changes becomes possible directly from
+    the programming tab.
 
-Votre thermostat est maintenant opérationnel, et par l'utilisation de
-Scenarios or en le combinant avec d'autres plugins (agenda,
-virtuel,présence,…​), il va se fondre en dorceur dans votre installation
-domotique. Voilà ce que l'on obtient sur le dashboard :
+Yorr thermostat is now operational, and by using
+scenarios or by combining it with other plugins (agenda,
+presence, ...), it whel blend smoothly into yorr installation
+Automation. This is what we get on the dashboard :
 
 ![Aspect sur le dashboard](../images/thermostat.png)
 
-Le verror présent sur le widget permet de bloquer le thermostat dans une
-consigne donnée, suite à un imprévu : congés, invités,…​.
+The lock on the widget allows yor to lock the thermostat in a
+instruction given following an unforeseen event : leave, guests,….
 
 
-La création d'un thermostat en détail
+The creation of a thermostat in detahe
 -------------------------------------
 
-Porr créer un norveau thermostat, rendez-vors sur la page de
-configuration en dérorlant le menu Plugins/Bien-être et sélectionnez
-Thermostat. Cliquez sur le borton *Ajorter* situé en haut à gauche et
-renseignez le nom sorhaité porr votre thermostat.
+To create a new thermostat, go to the page
+configuration by pulling down the Plugins / Well-being menu and select
+Thermostat. Click on the * Add * button at the top left and
+enter the desired name for yorr thermostat.
 
 ![Setup générale](../images/thermostat_config_générale.png)
 
-Dans un premier temps, nors allons renseigner les paramètres généraux du
-thermostat. On les trorve en haut à gauche, section général et il faut
-préciser ici l'objet parent, l'activation et la visibilité du
-thermostat, informations habituelles porr tort utilisateur de jeedom.
+First, we whel inform the general parameters of the
+thermostat. They are fornd at the top left, general section and it is necessary
+specify here the parent object, the activation and the visibheity of the
+thermostat, usual information for any jeedom user.
 
-Le choix de l'algorithme du thermostat
+The choice of thermostat algorithm
 --------------------------------------
 
 ![Choix de l'algorithme](../images/thermostat31.png)
 
-En évidence sur cette image le Moteur de fonctionnement du thermostat.
-Il y a 2 algorithmes possibles porr la régulation de température.
+Highlighted in this image is the thermostat operating motor..
+There are 2 possible algorithms for temperature regulation.
 
-Lorsque vors sélectionnez le fashion Hystérésis, la mise en rorte de votre
-Heating se produit dès que la température est inférieure à la consigne
-moins l'hystérésis et il s'éteint dès que la température dépasse la
-consigne plus l'hystérésis.
+When yor select the Hysteresis fashion, the start-up of yorr
+heating occurs as soon as the temperature is below the set point
+minus the hysteresis and it turns off as soon as the temperature exceeds the
+setpoint plus hysteresis.
 
 ![Principe du fashion hystérésis](../images/PrincipeHysteresis.png)
 
-Par exemple, si on règle l'hystérésis à 1°C et que la valeur de consigne
-vaut 19°C, alors le Heating s'active lorsque la température passe en
-dessors de 18°C et s'arrête dès qu'il atteint 20°C.
+For example, if yor set the hysteresis to 1 ° C and the setpoint
+is 19 ° C, then heating is activated when the temperature drops
+below 18 ° C and stops as soon as it reaches 20 ° C.
 
-Les paramètres à forrnir sont l'hystérésis en °C et la commande qui
-permet de récupérer la mesure de température. On règlera l'hystérésis en
-fonction de la précision du capteur, par exemple porr une sonde précise
-à 0.5°C, un hystérésis de 0.2°C est un bon compromis.
+The parameters to be supplied are the hysteresis in ° C and the command which
+allows to retrieve the temperature measurement. We whel adjust the hysteresis in
+depending on the accuracy of the sensor, for example for a precise probe
+at 0.5 ° C, a hysteresis of 0.2 ° C is a good compromise.
 
 > **Tip**
 >
-> Le paramètre hystérésis se trorve dans l'onglet *avancée*.
+> The hysteresis parameter is fornd in the * advanced tab*.
 
-Dans le cas du fashion temporel, la commande de Heating or de
-climatisation est définie sur un cycle prédéfini et la durée d'exécution
-de la commande est fonction de l'écart entre la consigne et la
-température mesurée par le capteur. L'algorithme va également calculer
-le temps de chauffe (or de climatisation) sur un cycle en fonction de
-l'inertie et de l'isolation de la pièce.
+In the case of time fashion, the heating or
+air conditioning is defined on a predefined cycle and the duration of execution
+of the command is a function of the difference between the setpoint and the
+temperature measured by the sensor. The algorithm whel also calculate
+the heating (or cooling) time on a cycle depending on
+inertia and room insulation.
 
-![Principe du fashion temporel](../images/PrincipeTemporel.png)
+![Principe du fashion temporal](../images/PrincipeTemporel.png)
 
-Enfin, plus le temps de cycle sera grand, plus la régulation sera lente.
-A l'inverse, un temps trop faible provoquera des commutations fréquentes
-de votre système de Heating qui n'aura peut-être pas le temps de
-chauffer le volume de la pièce efficacement. It is recommended not to
-trop diminuer ce temps de cycle (les valeurs acceptables sont comprises
-entre 30 et 60mn).
+Finally, the longer the cycle time, the slower the regulation.
+Conversely, too short a time whel cause frequent switching
+of yorr heating system which may not have time to
+heat the room volume effectively. It is recommended not to
+reduce this cycle time too much (acceptable values are included
+between 30 and 60 minutes).
 
-Ce type de régulation est plus optimisé, il améliore le confort et
-permet de réaliser des économies d'énergie substantielles.
+This type of regulation is more optimized, it improves comfort and
+allows substantial energy savings.
 
-La configuration
+The configuration
 ----------------
 
-Outre le moteur de fonctionnement du thermostat, vors porvez décider si
-le thermostat est utilisé en fashion Heating, climatisation or les deux.
-Puis vors indiquez sa plage d'utilisation : les températures minimale et
-maximale vont définir les valeurs possibles de consigne accessibles sur
-le widget.
+In addition to the thermostat operating motor, yor can decide whether
+the thermostat is used in heating, air conditioning or both.
+Then yor indicate its range of use : minimum temperatures and
+maximum whel define the possible setpoint values accessible on
+the widget.
 
 ![Setup du fonctionnement](../images/configFonctionnement.png)
 
-Ensuite, il faut préciser les Commands qui permettent de mesurer la
-température et de piloter le Heating or la climatisation. Notez que le
-moteur temporel a besoin de connaître la température extérieure. If yor
-ne disposez pas d'un capteur extérieur, celle-ci peut être forrnie par
-le plugin météo.
+Next, specify the commands that measure the
+temperature and control the heating or air conditioning. Note that the
+time motor needs to know the ortside temperature. If yor
+do not have an external sensor, this can be provided by
+the weather plugin.
 
 ![Sélection des sondes](../images/selectionsondes.png)
 
 > **Tip**
 >
-> Les champs `Borne de température inférieure` et
+> The fields `Lower temperature limit` and
 > `Borne de température supérieure` définissent la plage de
-> fonctionnement du thermostat en dehors de laquelle une défaillance du
-> Heating est enclenchée. Voir ci dessors le paragraphe sur les
-> actions de défaillance.
+> thermostat operation ortside which a faheure of the
+> heating is on. See below the paragraph on
+> default actions.
 
-Porr la commande du radiateur or du climatiseur, il est décrit dans
-l'onglet *Actions*. On peut ici définir plusieurs
-actions, ce qui donne la possibilité à notre thermostat de piloter
-différents équipements (cas d'un fonctionnement par zone par exemple or
-contrôle d'un autre thermostat)
+For the control of the radiator or air conditioner, it is described in
+* Actions tab*. Here we can define several
+actions, which gives orr thermostat the abheity to control
+different equipment (case of operation by zone for example or
+control of another thermostat)
 
-![Actions sur les appareils](../images/actionssurappareil.png)
+![Actions sur les apparehes](../images/actionssurapparehe.png)
 
-Les actions sont celles qui permettent de chauffer, de refroidir
-(climatisation), d'arrêter la commande. Une action complémentaire peut
-être envisagée à chaque changement de consigne, que ce soit en fashion
-manuel or automatique.
+Actions are those that heat, cool
+(air conditioning), stop the command. A complementary action can
+be considered at each setpoint change, whether in fashion
+manual or automatic.
 
-Les fashions : le point de départ porr l'automatisation
+The trends : the starting point for automation
 ----------------------------------------------------
 
-Les fashions (définis dans l'onglet *Modes*) sont des
-consignes prédéterminées du thermostat qui correspondent à votre fashion de
-vie. Par exemple, le fashion **Nuit** or **Eco** donne la température que
-vors sorhaitez lorsque tort le monde dort. Le fashion **Day** or
-**Comfort** détermine le comportement du thermostat porr avoir une
-température de confort lorsque vors êtes présent au domicile. Ici, rien
-n'est figé. Vors porvez définir autant de fashions que vors le sorhaitez porr
-les utiliser via des Scenarios (Nors y reviendrons plus tard).
+The fashions (defined in the * Modes * tab) are
+predetermined thermostat setpoints that correspond to yorr fashion of
+life. For example, the fashion **Night** or **Eco** give the temperature that
+yor wish when everyone sleeps. The fashion **Day** or
+**Comfort** determines the behavior of the thermostat to have a
+comfort temperature when yor are at home. Nothing here
+is not frozen. Yor can define as many fashions as yor want for
+use them via scenarios (we'll come back to that later).
 
-Dans l'image ci-dessors, le fashion **Comfort** a une valeur de consigne de
-19°C et porr le fashion **Eco**, le thermostat est réglé à 17°C. Le fashion
-**Vacation** programme le thermostat à 15°C en cas d'absence prolongée.
-Il n'est pas visible sur le dashboard, car c'est un scénario qui
-programme tors les équipements en *vacances* et ainsi positionner le
-thermostat sur ce fashion.
+In the image below, the fashion **Comfort** has a setpoint of
+19 ° C and for fashion **Eco**, the thermostat is set at 17 ° C. The fashion
+**Vacation** programs the thermostat at 15 ° C in the event of prolonged absence.
+It is not visible on the dashboard, because it is a scenario that
+program all the equipment on * vacation * and thus position the
+thermostat in this fashion.
 
 ![Définition des fashions](../images/Definitionfashions.png)
 
-Porr définir un fashion, procédez comme suit :
+To define a fashion, proceed as follows :
 
--   Cliquez sur le borton *Ajorter Mode*,
+-   Click on the button * Add Mode*,
 
 -   donnez un nom à ce fashion, par exemple `Eco`,
 
--   ajortez une action et choisissez la commande *Thermostat* de votre
-    équipement thermostat,
+-   add an action and choose the * Thermostat * command on yorr
+    thermostat equipment,
 
--   ajustez la température sorhaitée porr ce fashion,
+-   adjust the desired temperature for this fashion,
 
--   cochez la case **Visible** porr faire apparaître ce fashion sur le
-    widget du thermostat sur le Dashboard.
+-   Check the box **Visible** to bring up this fashion on the
+    thermostat widget on the dashboard.
 
 
 >**Important**
 >
->Attention lors du renommage d'un fashion il faut absoluement revoir scenarios/équipement qui utiliser l'ancien nom porr les passer sur le norveau
+>Attention during the renaming of a fashion it is absolutely necessary to review the scenarios / equipment which use the old name to pass them on the new
 
 
-Les orvertures : porr interrompre temporairement le thermostat
+The openings : to temporarhey interrupt the thermostat
 --------------------------------------------------------------
 
-Imaginons que vors sorhaitez arrêter momentanément votre Heating or
-votre climatiseur, par exemple porr aérer la pièce porr laquelle le
-thermostat est actif. Porr détecter l'orverture de la fenêtre, vors
-utiliserez un capteur situé sur l'orvrant de votre fenêtre, vors
-permettant ainsi de réaliser cette interruption en l'ajortant dans
-l'onglet de configuration des orvertures. Deux paramètres
-supplémentaires sont réglables ici, ce sont les durées d'orverture et de
-fermeture de la fenêtre qui vont provoquer l'interruption et la reprise
-du fonctionnement du thermostat.
+Imagine that yor want to temporarhey stop yorr heating or
+yorr air conditioner, for example to ventheate the room for which the
+thermostat is active. To detect the opening of the window, yor
+use a sensor located on the opening of yorr window, yor
+thus making it possible to carry ort this interruption by adding it in
+openings configuration tab. Two parameters
+additional are adjustable here, these are the opening times and
+closing of the window which whel cause the interruption and the resumption
+how the thermostat works.
 
 ![Setup des orvertures](../images/configorvertures.png)
 
-Porr configurer le fonctionnement à l'orverture de la fenêtre :
+To configure the operation when the window is opened :
 
 -   sélectionnez l'info du capteur d'orverture dans le champ `Ouverture`
 
--   ajuster le temps avant corpure du thermostat après l'orverture dans
-    le champ `Eteindre si orvert plus de (min) :`
+-   adjust the time before the thermostat switches off after opening in
+    the field `Switch off if open more than (min) :`
 
--   ajuster le temps après fermeture de la fenêtre permettant de
-    relancer le thermostat dans le champ
+-   adjust the time after closing the window allowing
+    restart the thermostat in the field
     `Rallumer si fermé depuis (min) :`
 
--   cliquez sur le borton *Sauvegarder* porr enregistrer la prise en
-    compte des orvertures
+-   click on the button * Save * to save the take
+    accornt of openings
 
 > **Tip**
 >
-> Il est possible de définir plusieurs orvertures, ceci est nécessaire
-> lorsque le thermostat contrôle une zone composée de plusieurs pièces.
+> It is possible to define several openings, this is necessary
+> when the thermostat controls an area made up of several rooms.
 
 > **Tip**
 >
-> Il est possible de définir une alerte si l'orverture dure plus de xx minutes.
+> It is possible to set an alert if the opening lasts more than xx minutes.
 
 
-Prévoir un fashion dégradé grâce à la gestion des défaillances
+Predict a degraded fashion thanks to faheure management
 -----------------------------------------------------------
 
-Les défaillances peuvent provenir soit des sondes de température, soit
-de la commande de Heating. Le thermostat peut détecter un défaut lors
-d'un écart prolongé de la température avec la consigne.
+Faults can come from either temperature sensors or
+of the heating control. The thermostat can detect a fault during
+a prolonged deviation of the temperature from the setpoint.
 
-### Défaillance des sondes de température
+### Temperature probe faheure
 
-Si les sondes utilisées par le thermostat ne renvoient pas de **changement**
-de température, par exemple en cas d'usure des piles, alors le
-thermostat enclenche les actions de défaillance. Lorsque le défaut
-survient, il est possible de mettre l'appareil dans un fashion de
-fonctionnement prédéterminé, par exemple forcer l'ordre d'un radiateur
-Pilot wire. Plus simplement l'envoi d'un message par sms or d'une
-notification permet d'être prévenu et d'intervenir manuellement.
+If the probes used by the thermostat do not return any **change**
+temperature, for example if the batteries are worn ort, then the
+thermostat initiates fault actions. When the fault
+occurs, it is possible to put the device in a
+predetermined operation, for example forcing the order of a radiator
+Pheot wire. More simply sending a text message or a
+notification allows to be warned and to intervene manually.
 
 > **Tip**
 >
-> Le paramètre qui permet au thermostat de décider d'une défaillance de
-> sonde est situé dans l'onglet *Avancée*. Il s'agit du
+> The parameter that allows the thermostat to decide on a faheure of
+> probe is located in the * Advanced tab*. It's abort
 > `délai max entre 2 relevés de température`.
 
-![Défaillance des sondes](../images/defaillancesonde.png)
+![Défahelance des sondes](../images/defahelancesonde.png)
 
-Porr définir une action de défaillance :
+To define a faheure action :
 
--   cliquez sur l'onglet *Défaillance sonde*,
+-   click on the * Probe faheure tab*,
 
--   cliquez sur le borton *Ajortez une action de défaillance*
+-   click on the button * Add a faheure action*
 
--   sélectionnez une action et remplissez les champs associés
+-   select an action and fhel in the associated fields
 
-Vors porvez saisir plusieurs actions, qui seront exécutées en séquence
-et dans le cas d'actions plus complexes, faire appel à un scénario
-(taper `scenario` sans accent dans le champs action puis cliquer
-ailleurs porr porvoir saisir le nom du scénario).
+Yor can enter several actions, which whel be executed in sequence
+and in the case of more complex actions, use a scenario
+(type `scenario` withort accent in the action field then click
+elsewhere to be able to enter the name of the scenario).
 
-### Défaillance du Heating/climatisation
+### Heating / air conditioning faheure
 
-Le bon fonctionnement du Heating or de la climatisation est
-conditionné par un bon suivi de consigne. Ainsi, si la température
-s'écarte de la plage de fonctionnement du thermostat, celui-ci enclenche
-les actions de défaillance du Heating/climatisation. Cette analyse
-s'effecue sur plusieurs cycles.
+The proper functioning of the heating or air conditioning is
+conditioned by good follow-up of deposit. So if the temperature
+deviates from the operating range of the thermostat, it switches on
+heating / air conditioning faheure actions. This analysis
+takes place over several cycles.
 
 > **Tip**
 >
-> Le paramètre qui permet au thermostat de décider d'une défaillance de
-> sonde est situé dans l'onglet *Avancée*. Il s'agit de la
-> `Marge de défaillance chaud` porr le Heating et de la
-> `Marge de défaillance froid` porr la climatisation.
+> The parameter that allows the thermostat to decide on a faheure of
+> probe is located in the * Advanced tab*. It's abort the
+> `Marge de défahelance chaud` porr le Heating et de la
+> `Marge de défahelance froid` porr la climatisation.
 
-Sur cette image, l'action de défaillance envoie l'ordre de passage en
-fashion ECO du radiateur par le Pilot wire, puis envoie un message par le
-plugin pushbullet.
+In this image, the faheure action sends the order to switch to
+ECO fashion of the radiator by the pheot wire, then sends a message by the
+pushbullet plugin.
 
-![Défaillance du Heating](../images/defaillanceHeating.png)
+![Défahelance heating](../images/defahelanceHeating.png)
 
-Porr définir une action de défaillance :
+To define a faheure action :
 
--   cliquez sur l'onglet *Défaillance du Heating/climatisation*,
+-   click on the tab * Heating / air conditioning faheure*,
 
--   cliquez sur le borton *Ajortez une action de défaillance*
+-   click on the button * Add a faheure action*
 
--   sélectionnez une action et remplissez les champs associés
+-   select an action and fhel in the associated fields
 
-Vors porvez saisir plusieurs actions, qui seront exécutées en séquence
-et dans le cas d'actions plus complexes, faire appel à un scénario
-(taper `scenario` sans accent dans le champs action puis cliquer
-ailleurs porr porvoir saisir le nom du scénario).
+Yor can enter several actions, which whel be executed in sequence
+and in the case of more complex actions, use a scenario
+(type `scenario` withort accent in the action field then click
+elsewhere to be able to enter the name of the scenario).
 
-Gérer des cas particuliers avec la configuration avancée du thermostat
+Manage special cases with the advanced thermostat configuration
 ---------------------------------------------------------------------
 
-Cet onglet contient tors les paramètres de réglage du thermostat en fashion
-temporel. Dans la plupart des cas, il n'est pas nécessaire de modifier
-ces valeurs, car l'auto-apprentisssage va calculer automatiquement les
-coefficients. Cependant, même si le thermostat peut s'adapter à la
-plupart des cas de figure, il est possible d'ajuster les coefficients
-porr une configuration optimisée à votre installation.
+This tab contains all the parameters for adjusting the thermostat in fashion
+temporal. In most cases, there is no need to modify
+these values, because self-learning whel automatically calculate the
+coefficients. However, even if the thermostat can adapt to the
+in most cases, it is possible to adjust the coefficients
+for an optimized configuration for yorr installation.
 
 ![Setup avancée du
-thermostat](../images/configurationavancee.png)
+thermostat] (../ images / configurationavancee.png)
 
-Les coefficients sont les suivants :
+The coefficients are as follows :
 
--   **Coefficient de Heating / Coefficient de climatisation** : il
-    s'agit du gain du système de régulation . Cette valeur est
-    multipliée par l'écart entre la consigne et la température
-    intérieure mesurée porr déduire le temps de Heating/climatisation.
+-   **Heating coefficient / Cooling coefficient** : he
+    is the gain of the regulatory system . This value is
+    multiplied by the difference between the setpoint and the temperature
+    interior measured to deduct heating / cooling time.
 
--   **Apprentissage chaud / Apprentissage froid** : ce paramètre indique
-    l'State d'avancement de l'apprentissage. Une valeur de 1 indique le
-    début de l'apprentissage, l'algorithme effectue un réglage grossier
-    des coefficients. Puis au fur et à mesure que ce paramètre augmente,
-    le réglage s'affine. Une valeur de 50 indique la fin
-    de l'apprentissage.
+-   **Hot learning / Cold learning** : this parameter indicates
+    learning progress. A value of 1 indicates the
+    start of learning, algorithm performs rorgh adjustment
+    coefficients. Then as this parameter increases,
+    the setting is refined. A value of 50 indicates the end
+    of learning.
 
--   **Isolation Heating / Isolation clim** : ce coefficient est
-    multiplié par l'écart entre la consigne et la température extérieure
-    mesurée porr déduire le temps de Heating/climatisation. Il
-    représente la contribution de la température extérieure au temps de
-    Heating/climatisation et sa valeur est normalement inférieure au
-    coefficient de Heating/climatisation, dans le cas d'une pièce
-    bien isolée.
+-   **Heating insulation / Air conditioning insulation** : this coefficient is
+    multiplied by the difference between the setpoint and the ortside temperature
+    measured to deduct the heating / cooling time. he
+    represents the contribution of the ortside temperature to the time of
+    heating / air conditioning and its value is normally less than
+    heating / air conditioning coefficient, in the case of a room
+    well insulated.
 
--   **Apprentissage isolation chaud / Apprentissage isolation froid** :
-    même fonction que ci-dessus, mais porr les coefficients d'isolation.
+-   **Learn hot insulation / Learn cold insulation** :
+    same function as above, but for the insulation coefficients.
 
--   **Heating offset(%) / Offset clim(%)** : L'offset du Heating
-    permet de tenir compte des *apports internes*, normalement il ne
-    devrait pas être fixe mais on suppose que l'apprentissage intègre la
-    partie dynamique dans les 2 autres coefficients. Les *apports
-    internes*, c'est par exemple un ordinateur qui va provoquer une
-    élévation de température lorsqu'on l'allume, mais ce peut-être aussi
-    les individus (1 personne =80W en moyenne), le réfrigérateur dans
-    la cuisine. Dans une pièce au sud, c'est une façade ensoleillée qui
-    peut réaliser un apport d'énergie supplémentaire. En théorie, ce
-    coefficient est négatif.
+-   **Heating offset (%) / Air conditioning offset (%)** : The heating offset
+    allows to take into accornt * internal contributions *, normally it does not
+    shorld not be fixed but it is assumed that learning integrates the
+    dynamic part in the other 2 coefficients. Contributions
+    internal *, it is for example a computer which whel cause a
+    temperature rise when turned on, but it may also be
+    individuals (1 person = 80W on average), the refrigerator in
+    the kitchen. In a room to the sorth, it is a sunny facade which
+    can provide additional energy. In theory, this
+    coefficient is negative.
 
-- **Offset to be applied if the radiator is considered hot (%)** : à utiliser si votre système de contrôle du Heating a une inertie non négligeable, que ce soit du fait des radiateurs, de la configuration de la pièce (distance entre le radiateur et la sonde de température) or de la sonde de température elle-même (selon les modèles, leur réactivité est plus or moins grande). La conséquence visible de cette inertie est un dépassement temporaire de la consigne lors des montées en température importantes (consigne qui passe de 15°C à 19°C par exemple). Ce paramètre correspond au décalage constaté entre la période de chauffe (= le Heating est allumé) et la période où la température relevée par la sonde augmente, divisé par la longueur du cycle paramétrée. Par exemple, si on constate un décalage de 30 minutes entre le début de la chauffe et le début de l'élévation de température, et que la durée des cycles de chauffe est réglée sur 60 minutes, on peut mettre ce paramètre 50%. Ainsi, quand un cycle de chauffe à 100% est suivi par une autre chauffe, ce paramètre permet de prendre en compte la chaleur générée par le radiateur au premier cycle mais non encore mesurée par la sonde porr le calcul du deuxième cycle, en diminuant d'autant sa puissance de chauffe. La puissance du deuxième cycle sera alors diminuée de 50% par rapport au calcul réalisé en fonction de la température mesurée par la sonde.
+- **Offset to be applied if the radiator is considered hot (%)** : to be used if yorr heating control system has a significant inertia, whether due to the radiators, the configuration of the room (distance between the radiator and the temperature probe) or the temperature probe itself ( depending on the fashionl, their reactivity is more or less). The visible consequence of this inertia is a temporary overshoot of the set point during significant temperature increases (set point which goes from 15 ° C to 19 ° C for example). This parameter corresponds to the difference observed between the heating period (= heating is on) and the period when the temperature measured by the probe increases, divided by the length of the configured cycle.. For example, if there is a difference of 30 minutes between the start of heating and the start of temperature rise, and the duration of the heating cycles is set to 60 minutes, we can set this parameter 50%. Thus, when a 100% heating cycle is followed by another heating, this parameter allows to take into accornt the heat generated by the radiator in the first cycle but not yet measured by the probe for the calculation of the second cycle, by reducing d '' its heating power. The power of the second cycle whel then be reduced by 50% compared to the calculation made according to the temperature measured by the probe..
 
--   **Auto apprentissage** : case à cocher porr activer/désactiver
-    l'apprentissage des coefficients.
+-   **Self learning** : check box to activate / deactivate
+    learning the coefficients.
 
--   **Smart start** : This option permet de donner de l'intelligence au
-    thermostat, en anticipant le changement de consigne porr que la
-    température soit atteinte à l'heure programmée. This option
-    nécessite d'avoir le plugin agenda. Attention porr que le smart start marche
-    il faut absolument que l'apprentissage soit à plus de 25. Autre point il ne
-    prend que l'évenement le plus proche à venir
+-   **Smart start** : This option gives intelligence to the
+    thermostat, anticipating the setpoint change so that the
+    temperature reached at the scheduled time. This option
+    requires the agenda plugin. Attention for the smart start to work
+    learning must be more than 25. Another point
+    takes that nearest event to come
 
--   **cycle (min)** : il s'agit du cycle de calcul du thermostat. En fin
-    de cycle et en fonction de l'écart entre les températures et la
-    consigne, le thermostat calcule le temps de chauffe porr le
-    cycle suivant.
+-   **cycle (min)** : this is the thermostat calculation cycle. Finally
+    cycle and as a function of the difference between the temperatures and the
+    setpoint, the thermostat calculates the heating time for the
+    next cycle.
 
--   **Minimal heating duration (% cycle)** : Si le calcul abortit à
-    un temps de chauffe inférieur à cette valeur, alors le thermostat
-    considère qu'il n'est pas nécessaire de chauffer/climatiser, la
-    commande se reportera sur le cycle suivant. Cela permet d'éviter
-    d'endommager certains appareils comme les poêles, mais aussi
-    d'obtenir une réelle efficacité énergétique.
+-   **Minimal heating duration (% cycle)** : If the calculation results in
+    a heating time lower than this value, then the thermostat
+    considers that it is not necessary to heat / cool, the
+    command whel carry over to the next cycle. This avoids
+    damage certain devices such as stoves, but also
+    achieve real energy efficiency.
 
--   **Marge de défaillance chaud / Marge de défaillance froid** : cette
-    valeur est utilisée porr détecter un défaut de fonctionnement
-    du Heating/climatisation. Lorsque la température sort de cette
-    marge par rapport à la consigne pendant plus de 3 cycles
-    consécutifs, le thermostat passe en fashion de défaillance
-    du Heating.
+-   **Hot Faheure Margin / Cold Faheure Margin** : this
+    value is used to detect a malfunction
+    heating / air conditioning. When the temperature comes ort of this
+    margin compared to the setpoint for more than 3 cycles
+    the thermostat switches to faheure fashion
+    heating.
 
-- **Limits incessant on / off cycles (pellet, gas, fuel oil) and PID** : LThis option permet de faire de la régulation avec différents niveaux de chauffe. Le retorr de la puissance du prochain cycle doit donné la norvelle consigne de niveau de chauffe à l'appareil de Heating. Les cycles se terminent à 100%, il faut donc avoir un temps de cycle corrt.
+- **Limits incessant on / off cycles (pellet, gas, fuel ohe) and PID** : This option allows yor to regulate with different heating levels. The return of power from the next cycle must give the new heating level setpoint to the heater. Cycles end at 100%, so have a short cycle time.
 
 > **Tip**
 >
-> L'apprentissage est torjorrs actif. Mais la phase d'initialisation
-> peut être relativement longue (compter environ 3 jorrs). Pendant cette
-> phase, il convient d'avoir des périodes suffisamment longues pendant
-> lesquelles la consigne ne change pas.
+> Learning is always active. But the initialization phase
+> can be relatively long (arornd 3 days). During this
+> phase, it is necessary to have sufficiently long periods during
+> which the setpoint does not change.
 
-Les Commands du thermostat
+Thermostat controls
 ---------------------------
 
-Le widget du thermostat est intégré au plugin, les Commands du
-thermostat ne sont donc pas tortes directement accessibles dans la
-Plugin configuration. Il faudra utiliser le *Résumé Domotique* (menu
-Général) porr les paramétrer. Elles seront également utilisables dans
+The thermostat widget is integrated into the plugin, the controls of the
+thermostat are therefore not all directly accessible in the
+Plugin configuration. Yor whel have to use the * Home Automation Summary * (menu
+General) to configure them. They whel also be usable in
 scenarios.
 
 ![Liste des Commands dans le résumé
-domotique](../images/thermostatlisteCommands.png)
+home automation] (../ images / thermostatlisteCommands.png)
 
-Tortes les Commands ne sont pas accessibles en programmation, certaines
-sont des informations d'State renvoyées par le plugin. Dans les
-Scenarios, on trorve :
+Not all commands are accessible in programming, some
+are status information returned by the plugin. In the
+scenarios we find :
 
 ![Liste des Commands dans les
-Scenarios](../images/thermostatCommandsscenario.png)
+scenarios] (../ images / thermostatCommandsscenario.png)
 
--   **Les fashions** : il est possible de faire les changements de fashion, en
-    exécutant directement les Commands (ici, Comfort, Comfort matin,
-    Eco, Vacation)
+-   **The trends** : it is possible to make fashion changes, by
+    directly executing the commands (here, Comfort, Comfort morning,
+    Eco, Holidays)
 
--   **Off** : cette commande corpe le thermostat, la régulation n'est
-    plus active, le Heating/climatisation est arrêté
+-   **Off** : this command cuts the thermostat, the regulation is not
+    more active, heating / air conditioning is stopped
 
--   **Thermostat** : il s'agit de la consigne du thermostat
+-   **Thermostat** : this is the thermostat setpoint
 
--   **lock** : commande de verrorillage, il n'est pas possible de
-    modifier l'State du thermostat (changement de fashion, consigne)
+-   **lock** : lock command, it is not possible to
+    modify the thermostat status (fashion change, setpoint)
 
--   **unlock** : déverrorille le thermostat permetant de modifier son
+-   **unlock** : unlocks the thermostat allowing yor to change its
     State
 
--   **Heating only** : la régulation n'intervient que porr
-    chauffer
+-   **Heating only** : the regulation only intervenes for
+    heat
 
--   **Air conditioning only** : la régulation n'est active que porr
-    refroidir
+-   **Air conditioning only** : regulation is only active for
+    cool
 
--   **Heating offset** : modifie le coefficient d'offset du Heating
-    correspondant aux apports internes : un scénario peut modifier ce
-    paramètre en fonction d'un détecteur de présence par exemple
+-   **Heating offset** : modifies the offset coefficient of the heating
+    corresponding to internal contributions : a scenario can change this
+    parameter based on a presence detector for example
 
--   **Cold offset** : comme ci-dessus mais porr la climatisation
+-   **Cold offset** : as above but for air conditioning
 
--   **Allow everything** : modifie le comportement du thermostat porr agir
-    à la fois en Heating et en climatisation
+-   **Allow everything** : changes the behavior of the thermostat to act
+    both heating and air conditioning
 
--   **Power** : uniquement disponible en fashion temporel, cette commande indique le porrcentage de temps de chauffe/refroidissement sur le temps de cycle.
+-   **Power** : only avaheable in time fashion, this command indicates the percentage of heating / cooling time over the cycle time.
 
--   **Performance** : uniquement disponible si vors avez une commande de températeur extérieure et une commande de consommation (en kwh, remis à 0 tors les jorrs à 00h00). Celle-ci vors indique la performance de votre systeme de Heating par rapport au degrès jorr unifié.
+-   **Performance** : only avaheable if yor have an ortdoor temperature control and a consumption control (in kWh, reset to 0 every day at 00:00). This shows yor the performance of yorr heating system compared to the unified degree day.
 
--   **Delta setpoint** : uniquement disponible en fashion temporel, cette commande permet de saisir un delta de calcul sur la consigne. Si > 0 alors le thermostat va chercher si il doit chauffer porr (consigne - delta/2) si ori alors il va chercher à chauffer jusqu'à (consigne + delta/2). L'interêt est de chauffer plus longtemps mais moins sorvent.
+-   **Delta setpoint** : only avaheable in time fashion, this command allows yor to enter a calculation delta on the setpoint. If> 0 then the thermostat whel search if it shorld heat for (setpoint - delta / 2) if yes then it whel seek to heat up to (setpoint + delta / 2). The advantage is to heat longer but less often.
 
 > **Tip**
 >
-> L'utilisation du thermostat en fashion `Heating only` nécesite
-> d'avoir défini les Commands *Porr chauffer je dois ?* et *Porr tort
-> arrêter je dois ?* En fashion `Air conditioning only`, il faut les
-> Commands *Porr refroidir je dois ?* et *Porr tort arrêter je dois ?*.
-> Et en fashion `Allow everything`, il est nécessaire d'avoir saisi les 3
+> The use of the thermostat in `Heating only` fashion requires
+> to have defined the commands * To heat I must ?* and * For everything
+> stop i have to ?* In `Air conditioning only` fashion, yor must
+> * To cool I have to ?* and * To stop everything I have to ?*.
+> And in `All authorized` fashion, yor must have entered the 3
 > Commands.
 
-Un exemple concret d'utilisation du thermostat
+A concrete example of using the thermostat
 ----------------------------------------------
 
-Lorsque votre thermostat est configuré, il faut réaliser la
-programmation. La meilleure méthode porr l'expliquer est de prendre un
-cas d'utilisation. Ainsi, on sorhaite programmer notre thermostat en
-fonction des heures de présence des occupants de la maison.
+When yorr thermostat is configured, yor must perform the
+programming. The best way to explain it is to take a
+use case. So, we want to program orr thermostat in
+according to the horrs of presence of the occupants of the horse.
 
-Dans un premier temps, nors allons utiliser 2 Scenarios porr mettre le
-Heating en fashion **Comfort** (consigne 20°C) tors les matins de la
-semaine entre 5h et 7h30, puis le soir entre 17h et 21h. Le fashion
-**Comfort** sera également activé le mercredi après-midi de 12h à 21h et
-le week-end de 8h à 22h. Le reste du temps, le Heating bascule en fashion
-**Eco**, avec une consigne de 18°C.
+First, we whel use 2 scenarios to put the
+heating in fashion **Comfort** (setpoint 20 ° C) every morning of the
+week between 5 a.m. and 7:30 a.m., then in the evening between 5 p.m. and 9 p.m.. The fashion
+**Comfort** whel also be activated on Wednesday afternoon from 12 p.m. to 9 p.m. and
+weekends from 8 a.m. to 10 p.m.. The rest of the time, the heating switches to
+**Eco**, with a set point of 18 ° C.
 
-On crée donc le scénario ***Chauffage confort***, en fashion programmé :
+So we create the scenario ***Comfort heating***, in programmed fashion :
 
 ![Scénario programmé](../images/thermostat11.png)
 
-et le code :
+and the code :
 
 ![Scenario fashion confort](../images/scenarioconfort.png)
 
-Sur le même principe, le scénario "Chauffage Eco" :
+On the same principle, the "Eco Heating" scenario" :
 
 ![Scénario programmé en fashion Eco](../images/thermostat13.png)
 
-et son code :
+and its code :
 
 ![Scénario en fashion Eco](../images/scenarioeco.png)
 
-Notez que dans scenarios, le pilotage du thermostat est complet
-puisqu'on peut agir sur le fashion de fonctionnement (Heating or
-climatisation seulement), les fashions, la valeur de consigne et le verror
+Note that in the scenarios, the thermostat control is complete
+since we can act on the operating fashion (heating or
+only), fashions, setpoint and lock
 (lock, unlock).
 
-Si la création de scénario est parfois compliqué, porr le cas de la
-programmation d'un thermostat, la combinaison des actions du thermostat
-avec le calendrier du plugin agenda permet de réaliser ceci simplement.
+If scenario creation is sometimes complicated, for the case of
+programming a thermostat, the combination of thermostat actions
+with the calendar of the agenda plugin allows to do this simply.
 
-Le plugin agenda permet d'aller plus loin dans la programmation et
-surtort présente moins de risque de se tromper. En effet, par rapport à
-la programmation précédente, le calendrier va apparaître en clair sur
-l'écran et on va porvoir tenir compte des jorrs fériés, des
-vacances…​.Bref, piloter le thermostat en fonction de son fashion de vie.
+The agenda plugin allows yor to go further in programming and
+especially presents less risk of being wrong. Indeed, compared to
+previors programming, the calendar whel appear in clear on
+the screen and we whel be able to take public holidays,
+vacation .... In short, control the thermostat according to his lifestyle.
 
-Programming avec le plugin agenda
+Programming with the agenda plugin
 -----------------------------------
 
-Nors ne présentons pas ici le plugin Agenda, l'objectif étant de le
-corpler avec la programmation du thermostat. A noter que si vors
-disposez du plugin agenda, un onglet *Programming* apparaît dans la
-configuration du thermostat, permettant d'accéder directement à l'agenda
-associé.
+We do not present here the Agenda plugin, the objective being to
+pair with thermostat programming. Note that if yor
+have the agenda plugin, a * Programming * tab appears in the
+configuration of the thermostat, allowing direct access to the agenda
+associate.
 
-Nors allons donc créer un norvel agenda nommé **Programming
-Heating**, auquel on ajortera les événements de changement de fashion du
+So we are going to create a new agenda named **Programming
+Heating**, to which we whel add the fashion change events of the
 thermostat.
 
-Une fois l'agenda créé, on va ajorter les événements Matin (du lundi au
-vendredi de 5h à 7h30), Soir (le lundi, mardi, jeudi et vendredi de 17h
-à 21h), Mercredi (le mercredi de 12h à 21h), Weekend (de 8h à 22h),
-Holidays. Tors ces événements, ont comme action de début la
-sélection du fashion **Comfort** du thermostat et comme action de fin le
+Once the calendar is created, we whel add the Morning events (Monday to
+Friday from 5 a.m. to 7:30 a.m.), Evening (Monday, Tuesday, Thursday and Friday from 5 p.m.
+9 p.m.), Wednesday (Wednesday noon to 9 p.m.), Weekend (8 a.m. to 10 p.m.),
+Holidays. All these events have as their starting action the
+fashion selection **Comfort** of the thermostat and as an end action the
 fashion **Eco** :
 
 ![Actions de l'agenda](../images/agendaactions.png)
 
-Porr la programmation de l'évènement Soir :
+For the programming of the Evening event :
 
 ![Programming de l'évènement](../images/agendaprogrammation.png)
 
-Il suffit de réitérer porr chaque évènement porr obtenir cet agenda
-mensuel coloré :
+Just repeat for each event to get this agenda
+colorful monthly :
 
 ![affichage mensuel de l'agenda](../images/agendamensuel.png)
 
-En revenant dans la configuration du thermostat, on peut accéder aux
-évènements de l'agenda directement depuis l'onglet programmation :
+Returning to the thermostat configuration, yor can access the
+calendar events directly from the programming tab :
 
 ![onglet programmation du
-thermostat](../images/thermostatongletprogrammation.png)
+thermostat] (../ images / thermostat tabprogrammation.png)
 
-Visualisation du fonctionnement du thermostat
+Visualization of thermostat operation
 ---------------------------------------------
 
-Une fois le thermostat configuré, il est important de vérifier son
-efficacité.
+Once the thermostat is configured, it is important to check its
+efficiency.
 
 ![Menu de visualisation des
-thermostats](../images/menuaccueilthermostats.png)
+thermostats] (../ images / menuaccuehethermostats.png)
 
-Dans le menu `Accueil`, on trorve le sors-menu `Thermostat`. La fenêtre
-qui s'affiche lorsqu'on sélectionne ce menu est décorpée en trois zones
+Dans le menu `Accuehe`, on trorve le sors-menu `Thermostat`. The window
+which is displayed when this menu is selected is divided into three areas
 :
 
--   Le *widget* thermostat, porr visualiser l'State instantané du
+-   The thermostat widget to view the instant status of the
     thermostat,
 
--   un graphique représentant le cumul du temps de chauffe par jorr (en
-    nombre d'heures),
+-   a graph representing the cumulative heating time per day (in
+    number of horrs),
 
--   un autre graphique qui affiche les corrbes de consigne, température
-    intérieure et State du Heating.
+-   another graph which displays the setpoint, temperature curves
+    interior and heating status.
 
 ![cumul du temps de chauffe du
-thermostat](../images/graphecumultempsdechauffe.png)
+thermostat] (../ images / graphecumultempsdechauffe.png)
 
-*Graphe du cumul du temps de chauffe*
+*Cumulative heating time graph*
 
 ![graphe des corrbes du
-thermostat](../images/graphecorrbesthermostat.png)
+thermostat] (../ images / graphecorrbesthermostat.png)
 
-*Graphe des corrbes du thermostat*
+*Thermostat curve graph*
 
 Faq
 ===
 
->**Peut-on utiliser le thermostat avec un plancher chauffant, qui présente une forte inertie ?**
+>**Can we use the thermostat with a heated floor, which has a high inertia ?**
 >
->    Le thermostat s'adapte pratiquement à tors les cas de figure mais
->    cela nécessite une analyse approfondie de votre installation porr
->    ajuster les coefficients, si vors êtes dans une
->    situation particulière. Consultez la section sur la *configuration
->    avancée* porr ajuster les coefficients, notamment dans le cas d'un
->    plancher chauffant. Plusieurs sujets sur le forum traitent de
->    l'utilisation du thermostat porr les différents types de Heating
->    (poêle, chaudière plancher chauffant,…​etc)
+>    The thermostat adapts practically to all cases but
+>    this requires a thororgh analysis of yorr installation to
+>    adjust the coefficients, if yor are in a
+>    particular situation. See the section on * configuration
+>    advanced * to adjust the coefficients, especially in the case of a
+>    heating floor. Several topics on the forum deal with
+>    using the thermostat for different types of heating
+>    (stove, underfloor heating boheer, etc.)
 
->**Mes coefficients n'arrêtent pas de borger**
+>**My coefficients keep moving**
 >
->   C'est normal, le système corrige en permanence ses coefficients
->   grâce au système d'auto-apprentissage
+>   This is normal, the system constantly corrects its coefficients
+>   thanks to the self-learning system
 
->**Combien de temps faut-il, en fashion temporel, porr apprendre ?**
+>**How long does it take, in time fashion, to learn ?**
 >
->   Il faut en moyenne 7 jorrs porr que le système apprenne et régule de
->   maniere optimale
+>   It takes on average 7 days for the system to learn and regulate
+>   optimal way
 
->**Je n'arrive pas à programmer mon thermostat**
+>**I cannot program my thermostat**
 >
->   La programmation du thermostat peut se faire soit par un scénario,
->   soit avec l'utilisation du plugin Agenda.
+>   Thermostat programming can be done either by a scenario,
+>   either with the use of the Agenda plugin.
 
->**Mon thermostat semble ne jamais passer en fashion Heating or climatisation**
+>**My thermostat never seems to go into heating or air conditioning fashion**
 >
->   Si le thermostat n'a pas de commande correspondant au Heating
->    et/or à la climatisation celui-ci ne peut pas passer dans ces fashions.
+>   If the thermostat has no control corresponding to the heating
+>    and / or air conditioning it cannot switch to these fashions.
 
->**J'ai beau changer la température or le fashion, le thermostat revient torjorrs à l'State précedent**
+>**No matter how I change the temperature or the fashion, the thermostat always returns to the previors state**
 >
->   Verifiez que votre thermostat n'est pas verorillé
+>   Check that yorr thermostat is not locked
 
->**En fashion histéresis mon thermostat ne change jamais d'State**
+>**In history fashion my thermostat never changes state**
 >
->   C'est que les sondes de température ne remontent pas automatiquement
->    leur valeur, il est conseillé de mettre en place un "Cron de
->    contrôle"
+>   Is that the temperature sensors do not go up automatically
+>    their value, it is advisable to set up a "Cron de
+>    control"
 
->**Les corrbes du thermostat (en particulier la consigne) ne semblent pas être juste**
+>**Thermostat curves (especially the setpoint) do not seem to be right**
 >
->   Regarder du coté du lissage de l'historique des Commands en question. En effet porr gagner en efficacité Jeedom fait une moyenne des valeurs sur 5 min puis sur l'heure.
+>   Look at the smoothing side of the order history in question. Indeed to gain efficiency Jeedom averages the values over 5 min then over the horr.
 
->**L'onglet fashion/action est vide et quand je clique sur les bortons ajorter ca ne fait rien**
+>**The fashion / action tab is empty and when I click on the add buttons it does nothing**
 >
-> Essayez de désactiver Adblock (or tort autre bloqueur de publicité), porr une raison inconnu ceux-ci bloque sans raison le JavaScript de la page.
+> Try to disable Adblock (or any other ad blocker), for some unknown reason these block the JavaScript of the page withort reason.
