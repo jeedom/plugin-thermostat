@@ -134,7 +134,7 @@
         "Vous ne pouvez faire un mode s\\'appelant Off car une commande Off est automatiquement creer": "You cannot make a mode called Off because an Off command is automatically created",
         "status": "Status",
         "Vous ne pouvez faire un mode s\\'appelant Status car une commande Status éxiste déjà": "You cannot make a mode called Status because a Status command already exists",
-        "thermostat": "thermostat",
+        "thermostat": "Thermostat",
         "Vous ne pouvez faire un mode s\\'appelant Thermostat car une commande Thermostat éxiste déjà": "You cannot do a mode called Thermostat because a Thermostat command already exists",
         "Consigne": "Instructions",
         "Thermostat": "Thermostat",

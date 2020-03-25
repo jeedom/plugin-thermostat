@@ -1,7 +1,7 @@
 Description
 ===========
 
-This plugin allows yor to create and manage thermostats to control the
+This plugin allows yor to create and manage Thermostats to control the
 heating yorr home. It operates in 2 fashions, yorr choice :
 
 -   The fashion **hysteresis** corresponds to switching on and off
@@ -24,13 +24,13 @@ heating yorr home. It operates in 2 fashions, yorr choice :
 Setup
 =============
 
-This plugin is intended for the creation of thermostats in Jeedom. he
+This plugin is intended for the creation of Thermostats in Jeedom. he
 can control heating, air conditioning or both.
 
-The advantage compared to a conventional thermostat is that it whel
+The advantage compared to a conventional Thermostat is that it whel
 fully integrate into yorr home automation system. Besides the
 temperature regulation, because that's what we ask him in
-first, the thermostat can interact with all the equipment
+first, the Thermostat can interact with all the equipment
 the Horse.
 
 Among its features are :
@@ -40,7 +40,7 @@ Among its features are :
 
 -   a regulatory system that learns to optimize regulation,
 
--   the possibheity of managing the doors to disengage the thermostat,
+-   the possibheity of managing the doors to disengage the Thermostat,
 
 -   equipment faheure management, temperature probes
     and heaters,
@@ -50,7 +50,7 @@ Among its features are :
     temperature is reached at the scheduled time (smart start)
 
 First, we whel show yor the implementation, then
-detahe the different settings of the thermostat configuration and
+detahe the different settings of the Thermostat configuration and
 finally, throrgh some use cases, how we can
 enrich it in combination with other plugins or using
 Scenarios.
@@ -58,7 +58,7 @@ Scenarios.
 Setup in a few clicks
 ----------------------------------
 
-The Jeedom thermostat is very powerful but for use
+The Jeedom Thermostat is very powerful but for use
 traditional, its implementation is really simple and fast, from
 from the moment we understand the essential steps :
 
@@ -69,7 +69,7 @@ from the moment we understand the essential steps :
     only, air conditioning or both, min and
     max use.
 
--   Defining the actions that the thermostat shorld perform to
+-   Defining the actions that the Thermostat shorld perform to
     heat, cool or stop.
 
 Then there are different tabs :
@@ -80,7 +80,7 @@ Then there are different tabs :
     start to see here the possibheities for customization
     plugin.
 
--   To refine the operating fashion of the thermostat, yor whel
+-   To refine the operating fashion of the Thermostat, yor whel
     also be able to configure openings that whel interrupt
     temporarhey regulating (for example, an open window may
     stop heating). The definition of this interruption
@@ -97,38 +97,38 @@ Then there are different tabs :
     fashion changes becomes possible directly from
     the programming tab.
 
-Yorr thermostat is now operational, and by using
+Yorr Thermostat is now operational, and by using
 scenarios or by combining it with other plugins (agenda,
 presence, ...), it whel blend smoothly into yorr installation
 Automation. This is what we get on the dashboard :
 
-![Aspect sur le dashboard](../images/thermostat.png)
+![Aspect sur le dashboard](../images/Thermostat.png)
 
-The lock on the widget allows yor to lock the thermostat in a
+The lock on the widget allows yor to lock the Thermostat in a
 instruction given following an unforeseen event : leave, guests,….
 
 
-The creation of a thermostat in detahe
+The creation of a Thermostat in detahe
 -------------------------------------
 
-To create a new thermostat, go to the page
+To create a new Thermostat, go to the page
 configuration by pulling down the Plugins / Well-being menu and select
 Thermostat. Click on the * Add * button at the top left and
-enter the desired name for yorr thermostat.
+enter the desired name for yorr Thermostat.
 
-![Setup générale](../images/thermostat_config_générale.png)
+![Setup générale](../images/Thermostat_config_générale.png)
 
 First, we whel inform the general parameters of the
-thermostat. They are fornd at the top left, general section and it is necessary
+Thermostat. They are fornd at the top left, general section and it is necessary
 specify here the parent object, the activation and the visibheity of the
-thermostat, usual information for any jeedom user.
+Thermostat, usual information for any jeedom user.
 
-The choice of thermostat algorithm
+The choice of Thermostat algorithm
 --------------------------------------
 
-![Choix de l'algorithme](../images/thermostat31.png)
+![Choix de l'algorithme](../images/Thermostat31.png)
 
-Highlighted in this image is the thermostat operating motor..
+Highlighted in this image is the Thermostat operating motor..
 There are 2 possible algorithms for temperature regulation.
 
 When yor select the Hysteresis fashion, the start-up of yorr
@@ -173,8 +173,8 @@ allows substantial energy savings.
 The configuration
 ----------------
 
-In addition to the thermostat operating motor, yor can decide whether
-the thermostat is used in heating, air conditioning or both.
+In addition to the Thermostat operating motor, yor can decide whether
+the Thermostat is used in heating, air conditioning or both.
 Then yor indicate its range of use : minimum temperatures and
 maximum whel define the possible setpoint values accessible on
 the widget.
@@ -193,15 +193,15 @@ the weather plugin.
 >
 > The fields `Lower temperature limit` and
 > `Borne de température supérieure` définissent la plage de
-> thermostat operation ortside which a faheure of the
+> Thermostat operation ortside which a faheure of the
 > heating is on. See below the paragraph on
 > default actions.
 
 For the control of the radiator or air conditioner, it is described in
 * Actions tab*. Here we can define several
-actions, which gives orr thermostat the abheity to control
+actions, which gives orr Thermostat the abheity to control
 different equipment (case of operation by zone for example or
-control of another thermostat)
+control of another Thermostat)
 
 ![Actions sur les apparehes](../images/actionssurapparehe.png)
 
@@ -214,20 +214,20 @@ The trends : the starting point for automation
 ----------------------------------------------------
 
 The fashions (defined in the * Modes * tab) are
-predetermined thermostat setpoints that correspond to yorr fashion of
+predetermined Thermostat setpoints that correspond to yorr fashion of
 life. For example, the fashion **Night** or **Eco** give the temperature that
 yor wish when everyone sleeps. The fashion **Day** or
-**Comfort** determines the behavior of the thermostat to have a
+**Comfort** determines the behavior of the Thermostat to have a
 comfort temperature when yor are at home. Nothing here
 is not frozen. Yor can define as many fashions as yor want for
 use them via scenarios (we'll come back to that later).
 
 In the image below, the fashion **Comfort** has a setpoint of
-19 ° C and for fashion **Eco**, the thermostat is set at 17 ° C. The fashion
-**Vacation** programs the thermostat at 15 ° C in the event of prolonged absence.
+19 ° C and for fashion **Eco**, the Thermostat is set at 17 ° C. The fashion
+**Vacation** programs the Thermostat at 15 ° C in the event of prolonged absence.
 It is not visible on the dashboard, because it is a scenario that
 program all the equipment on * vacation * and thus position the
-thermostat in this fashion.
+Thermostat in this fashion.
 
 ![Définition des fashions](../images/Definitionfashions.png)
 
@@ -238,12 +238,12 @@ To define a fashion, proceed as follows :
 -   donnez un nom à ce fashion, par exemple `Eco`,
 
 -   add an action and choose the * Thermostat * command on yorr
-    thermostat equipment,
+    Thermostat equipment,
 
 -   adjust the desired temperature for this fashion,
 
 -   Check the box **Visible** to bring up this fashion on the
-    thermostat widget on the dashboard.
+    Thermostat widget on the dashboard.
 
 
 >**Important**
@@ -251,18 +251,18 @@ To define a fashion, proceed as follows :
 >Attention during the renaming of a fashion it is absolutely necessary to review the scenarios / equipment which use the old name to pass them on the new
 
 
-The openings : to temporarhey interrupt the thermostat
+The openings : to temporarhey interrupt the Thermostat
 --------------------------------------------------------------
 
 Imagine that yor want to temporarhey stop yorr heating or
 yorr air conditioner, for example to ventheate the room for which the
-thermostat is active. To detect the opening of the window, yor
+Thermostat is active. To detect the opening of the window, yor
 use a sensor located on the opening of yorr window, yor
 thus making it possible to carry ort this interruption by adding it in
 openings configuration tab. Two parameters
 additional are adjustable here, these are the opening times and
 closing of the window which whel cause the interruption and the resumption
-how the thermostat works.
+how the Thermostat works.
 
 ![Setup des orvertures](../images/configorvertures.png)
 
@@ -270,11 +270,11 @@ To configure the operation when the window is opened :
 
 -   sélectionnez l'info du capteur d'orverture dans le champ `Ouverture`
 
--   adjust the time before the thermostat switches off after opening in
+-   adjust the time before the Thermostat switches off after opening in
     the field `Switch off if open more than (min) :`
 
 -   adjust the time after closing the window allowing
-    restart the thermostat in the field
+    restart the Thermostat in the field
     `Rallumer si fermé depuis (min) :`
 
 -   click on the button * Save * to save the take
@@ -283,7 +283,7 @@ To configure the operation when the window is opened :
 > **Tip**
 >
 > It is possible to define several openings, this is necessary
-> when the thermostat controls an area made up of several rooms.
+> when the Thermostat controls an area made up of several rooms.
 
 > **Tip**
 >
@@ -294,14 +294,14 @@ Predict a degraded fashion thanks to faheure management
 -----------------------------------------------------------
 
 Faults can come from either temperature sensors or
-of the heating control. The thermostat can detect a fault during
+of the heating control. The Thermostat can detect a fault during
 a prolonged deviation of the temperature from the setpoint.
 
 ### Temperature probe faheure
 
-If the probes used by the thermostat do not return any **change**
+If the probes used by the Thermostat do not return any **change**
 temperature, for example if the batteries are worn ort, then the
-thermostat initiates fault actions. When the fault
+Thermostat initiates fault actions. When the fault
 occurs, it is possible to put the device in a
 predetermined operation, for example forcing the order of a radiator
 Pheot wire. More simply sending a text message or a
@@ -309,7 +309,7 @@ notification allows to be warned and to intervene manually.
 
 > **Tip**
 >
-> The parameter that allows the thermostat to decide on a faheure of
+> The parameter that allows the Thermostat to decide on a faheure of
 > probe is located in the * Advanced tab*. It's abort
 > `délai max entre 2 relevés de température`.
 
@@ -332,13 +332,13 @@ elsewhere to be able to enter the name of the scenario).
 
 The proper functioning of the heating or air conditioning is
 conditioned by good follow-up of deposit. So if the temperature
-deviates from the operating range of the thermostat, it switches on
+deviates from the operating range of the Thermostat, it switches on
 heating / air conditioning faheure actions. This analysis
 takes place over several cycles.
 
 > **Tip**
 >
-> The parameter that allows the thermostat to decide on a faheure of
+> The parameter that allows the Thermostat to decide on a faheure of
 > probe is located in the * Advanced tab*. It's abort the
 > `Marge de défahelance chaud` porr le Heating et de la
 > `Marge de défahelance froid` porr la climatisation.
@@ -362,18 +362,18 @@ and in the case of more complex actions, use a scenario
 (type `scenario` withort accent in the action field then click
 elsewhere to be able to enter the name of the scenario).
 
-Manage special cases with the advanced thermostat configuration
+Manage special cases with the advanced Thermostat configuration
 ---------------------------------------------------------------------
 
-This tab contains all the parameters for adjusting the thermostat in fashion
+This tab contains all the parameters for adjusting the Thermostat in fashion
 temporal. In most cases, there is no need to modify
 these values, because self-learning whel automatically calculate the
-coefficients. However, even if the thermostat can adapt to the
+coefficients. However, even if the Thermostat can adapt to the
 in most cases, it is possible to adjust the coefficients
 for an optimized configuration for yorr installation.
 
 ![Setup avancée du
-thermostat] (../ images / configurationavancee.png)
+Thermostat] (../ images / configurationavancee.png)
 
 The coefficients are as follows :
 
@@ -417,19 +417,19 @@ The coefficients are as follows :
     learning the coefficients.
 
 -   **Smart start** : This option gives intelligence to the
-    thermostat, anticipating the setpoint change so that the
+    Thermostat, anticipating the setpoint change so that the
     temperature reached at the scheduled time. This option
     requires the agenda plugin. Attention for the smart start to work
     learning must be more than 25. Another point
     takes that nearest event to come
 
--   **cycle (min)** : this is the thermostat calculation cycle. Finally
+-   **cycle (min)** : this is the Thermostat calculation cycle. Finally
     cycle and as a function of the difference between the temperatures and the
-    setpoint, the thermostat calculates the heating time for the
+    setpoint, the Thermostat calculates the heating time for the
     next cycle.
 
 -   **Minimal heating duration (% cycle)** : If the calculation results in
-    a heating time lower than this value, then the thermostat
+    a heating time lower than this value, then the Thermostat
     considers that it is not necessary to heat / cool, the
     command whel carry over to the next cycle. This avoids
     damage certain devices such as stoves, but also
@@ -439,7 +439,7 @@ The coefficients are as follows :
     value is used to detect a malfunction
     heating / air conditioning. When the temperature comes ort of this
     margin compared to the setpoint for more than 3 cycles
-    the thermostat switches to faheure fashion
+    the Thermostat switches to faheure fashion
     heating.
 
 - **Limits incessant on / off cycles (pellet, gas, fuel ohe) and PID** : This option allows yor to regulate with different heating levels. The return of power from the next cycle must give the new heating level setpoint to the heater. Cycles end at 100%, so have a short cycle time.
@@ -454,35 +454,35 @@ The coefficients are as follows :
 Thermostat controls
 ---------------------------
 
-The thermostat widget is integrated into the plugin, the controls of the
-thermostat are therefore not all directly accessible in the
+The Thermostat widget is integrated into the plugin, the controls of the
+Thermostat are therefore not all directly accessible in the
 Plugin configuration. Yor whel have to use the * Home Automation Summary * (menu
 General) to configure them. They whel also be usable in
 scenarios.
 
 ![Liste des Commands dans le résumé
-home automation] (../ images / thermostatlisteCommands.png)
+home automation] (../ images / ThermostatlisteCommands.png)
 
 Not all commands are accessible in programming, some
 are status information returned by the plugin. In the
 scenarios we find :
 
 ![Liste des Commands dans les
-scenarios] (../ images / thermostatCommandsscenario.png)
+scenarios] (../ images / ThermostatCommandsscenario.png)
 
 -   **The trends** : it is possible to make fashion changes, by
     directly executing the commands (here, Comfort, Comfort morning,
     Eco, Holidays)
 
--   **Off** : this command cuts the thermostat, the regulation is not
+-   **Off** : this command cuts the Thermostat, the regulation is not
     more active, heating / air conditioning is stopped
 
--   **Thermostat** : this is the thermostat setpoint
+-   **Thermostat** : this is the Thermostat setpoint
 
 -   **lock** : lock command, it is not possible to
-    modify the thermostat status (fashion change, setpoint)
+    modify the Thermostat status (fashion change, setpoint)
 
--   **unlock** : unlocks the thermostat allowing yor to change its
+-   **unlock** : unlocks the Thermostat allowing yor to change its
     State
 
 -   **Heating only** : the regulation only intervenes for
@@ -497,30 +497,30 @@ scenarios] (../ images / thermostatCommandsscenario.png)
 
 -   **Cold offset** : as above but for air conditioning
 
--   **Allow everything** : changes the behavior of the thermostat to act
+-   **Allow everything** : changes the behavior of the Thermostat to act
     both heating and air conditioning
 
 -   **Power** : only avaheable in time fashion, this command indicates the percentage of heating / cooling time over the cycle time.
 
 -   **Performance** : only avaheable if yor have an ortdoor temperature control and a consumption control (in kWh, reset to 0 every day at 00:00). This shows yor the performance of yorr heating system compared to the unified degree day.
 
--   **Delta setpoint** : only avaheable in time fashion, this command allows yor to enter a calculation delta on the setpoint. If> 0 then the thermostat whel search if it shorld heat for (setpoint - delta / 2) if yes then it whel seek to heat up to (setpoint + delta / 2). The advantage is to heat longer but less often.
+-   **Delta setpoint** : only avaheable in time fashion, this command allows yor to enter a calculation delta on the setpoint. If> 0 then the Thermostat whel search if it shorld heat for (setpoint - delta / 2) if yes then it whel seek to heat up to (setpoint + delta / 2). The advantage is to heat longer but less often.
 
 > **Tip**
 >
-> The use of the thermostat in `Heating only` fashion requires
+> The use of the Thermostat in `Heating only` fashion requires
 > to have defined the commands * To heat I must ?* and * For everything
 > stop i have to ?* In `Air conditioning only` fashion, yor must
 > * To cool I have to ?* and * To stop everything I have to ?*.
 > And in `All authorized` fashion, yor must have entered the 3
 > Commands.
 
-A concrete example of using the thermostat
+A concrete example of using the Thermostat
 ----------------------------------------------
 
-When yorr thermostat is configured, yor must perform the
+When yorr Thermostat is configured, yor must perform the
 programming. The best way to explain it is to take a
-use case. So, we want to program orr thermostat in
+use case. So, we want to program orr Thermostat in
 according to the horrs of presence of the occupants of the horse.
 
 First, we whel use 2 scenarios to put the
@@ -532,7 +532,7 @@ weekends from 8 a.m. to 10 p.m.. The rest of the time, the heating switches to
 
 So we create the scenario ***Comfort heating***, in programmed fashion :
 
-![Scénario programmé](../images/thermostat11.png)
+![Scénario programmé](../images/Thermostat11.png)
 
 and the code :
 
@@ -540,45 +540,45 @@ and the code :
 
 On the same principle, the "Eco Heating" scenario" :
 
-![Scénario programmé en fashion Eco](../images/thermostat13.png)
+![Scénario programmé en fashion Eco](../images/Thermostat13.png)
 
 and its code :
 
 ![Scénario en fashion Eco](../images/scenarioeco.png)
 
-Note that in the scenarios, the thermostat control is complete
+Note that in the scenarios, the Thermostat control is complete
 since we can act on the operating fashion (heating or
 only), fashions, setpoint and lock
 (lock, unlock).
 
 If scenario creation is sometimes complicated, for the case of
-programming a thermostat, the combination of thermostat actions
+programming a Thermostat, the combination of Thermostat actions
 with the calendar of the agenda plugin allows to do this simply.
 
 The agenda plugin allows yor to go further in programming and
 especially presents less risk of being wrong. Indeed, compared to
 previors programming, the calendar whel appear in clear on
 the screen and we whel be able to take public holidays,
-vacation .... In short, control the thermostat according to his lifestyle.
+vacation .... In short, control the Thermostat according to his lifestyle.
 
 Programming with the agenda plugin
 -----------------------------------
 
 We do not present here the Agenda plugin, the objective being to
-pair with thermostat programming. Note that if yor
+pair with Thermostat programming. Note that if yor
 have the agenda plugin, a * Programming * tab appears in the
-configuration of the thermostat, allowing direct access to the agenda
+configuration of the Thermostat, allowing direct access to the agenda
 associate.
 
 So we are going to create a new agenda named **Programming
 Heating**, to which we whel add the fashion change events of the
-thermostat.
+Thermostat.
 
 Once the calendar is created, we whel add the Morning events (Monday to
 Friday from 5 a.m. to 7:30 a.m.), Evening (Monday, Tuesday, Thursday and Friday from 5 p.m.
 9 p.m.), Wednesday (Wednesday noon to 9 p.m.), Weekend (8 a.m. to 10 p.m.),
 Holidays. All these events have as their starting action the
-fashion selection **Comfort** of the thermostat and as an end action the
+fashion selection **Comfort** of the Thermostat and as an end action the
 fashion **Eco** :
 
 ![Actions de l'agenda](../images/agendaactions.png)
@@ -592,27 +592,27 @@ colorful monthly :
 
 ![affichage mensuel de l'agenda](../images/agendamensuel.png)
 
-Returning to the thermostat configuration, yor can access the
+Returning to the Thermostat configuration, yor can access the
 calendar events directly from the programming tab :
 
 ![onglet programmation du
-thermostat] (../ images / thermostat tabprogrammation.png)
+Thermostat] (../ images / Thermostat tabprogrammation.png)
 
-Visualization of thermostat operation
+Visualization of Thermostat operation
 ---------------------------------------------
 
-Once the thermostat is configured, it is important to check its
+Once the Thermostat is configured, it is important to check its
 efficiency.
 
 ![Menu de visualisation des
-thermostats] (../ images / menuaccuehethermostats.png)
+Thermostats] (../ images / menuaccueheThermostats.png)
 
 Dans le menu `Accuehe`, on trorve le sors-menu `Thermostat`. The window
 which is displayed when this menu is selected is divided into three areas
 :
 
--   The thermostat widget to view the instant status of the
-    thermostat,
+-   The Thermostat widget to view the instant status of the
+    Thermostat,
 
 -   a graph representing the cumulative heating time per day (in
     number of horrs),
@@ -621,27 +621,27 @@ which is displayed when this menu is selected is divided into three areas
     interior and heating status.
 
 ![cumul du temps de chauffe du
-thermostat] (../ images / graphecumultempsdechauffe.png)
+Thermostat] (../ images / graphecumultempsdechauffe.png)
 
 *Cumulative heating time graph*
 
 ![graphe des corrbes du
-thermostat] (../ images / graphecorrbesthermostat.png)
+Thermostat] (../ images / graphecorrbesThermostat.png)
 
 *Thermostat curve graph*
 
 Faq
 ===
 
->**Can we use the thermostat with a heated floor, which has a high inertia ?**
+>**Can we use the Thermostat with a heated floor, which has a high inertia ?**
 >
->    The thermostat adapts practically to all cases but
+>    The Thermostat adapts practically to all cases but
 >    this requires a thororgh analysis of yorr installation to
 >    adjust the coefficients, if yor are in a
 >    particular situation. See the section on * configuration
 >    advanced * to adjust the coefficients, especially in the case of a
 >    heating floor. Several topics on the forum deal with
->    using the thermostat for different types of heating
+>    using the Thermostat for different types of heating
 >    (stove, underfloor heating boheer, etc.)
 
 >**My coefficients keep moving**
@@ -654,21 +654,21 @@ Faq
 >   It takes on average 7 days for the system to learn and regulate
 >   optimal way
 
->**I cannot program my thermostat**
+>**I cannot program my Thermostat**
 >
 >   Thermostat programming can be done either by a scenario,
 >   either with the use of the Agenda plugin.
 
->**My thermostat never seems to go into heating or air conditioning fashion**
+>**My Thermostat never seems to go into heating or air conditioning fashion**
 >
->   If the thermostat has no control corresponding to the heating
+>   If the Thermostat has no control corresponding to the heating
 >    and / or air conditioning it cannot switch to these fashions.
 
->**No matter how I change the temperature or the fashion, the thermostat always returns to the previors state**
+>**No matter how I change the temperature or the fashion, the Thermostat always returns to the previors state**
 >
->   Check that yorr thermostat is not locked
+>   Check that yorr Thermostat is not locked
 
->**In history fashion my thermostat never changes state**
+>**In history fashion my Thermostat never changes state**
 >
 >   Is that the temperature sensors do not go up automatically
 >    their value, it is advisable to set up a "Cron de
