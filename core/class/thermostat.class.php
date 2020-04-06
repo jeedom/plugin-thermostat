@@ -1500,7 +1500,6 @@ class thermostat extends eqLogic {
 		if ($_repeat) {
 			return;
 		}
-		$this->refresh();
 		if (!$_suspend) {
 			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
 		}
