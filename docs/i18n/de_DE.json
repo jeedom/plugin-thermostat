@@ -1,5 +1,7 @@
 {
     "changelog.md": {
+        "07\/04\/2020": "",
+        "Correction de bugs": "Fehlerbehebungen",
         "21\/12\/2019": "21.12.2019",
         "Ajout d'option pour le seuil de cycle chaud afin de permetre la prise en compte de l'inertie": "Hinzufügung einer Option für die Heißzyklusschwelle, um die Berücksichtigung der Trägheit zu ermöglichen",
         "17\/12\/2019": "17.12.2019",
@@ -12,7 +14,6 @@
         "Correction d'un bug sur les commandes orpheline": "Korrektur eines Fehlers in den Orphan-Befehlen",
         "23\/10\/2019": "23.10.2019",
         "Correction d'un bug sur le off": "Korrektur eines Fehlers im Off",
-        "Correction de bugs": "Fehlerbehebungen",
         "06\/10\/2019": "10\/06\/2019",
         "Mise à jour de la FAQ sur les soucis de non affichage des actions\/modes": "Aktualisierung der FAQ zu den Bedenken, dass Aktionen \/ Modi nicht angezeigt werden",
         "01\/10\/2019": "10\/01\/2019",

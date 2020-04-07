@@ -1,3 +1,7 @@
+# 
+
+- Bugfix
+
 # 12/21/2019
 
 - Addition of option for the hot cycle threshold in order to allow the taking into account of the inertia

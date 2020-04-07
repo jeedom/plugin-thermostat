@@ -1,5 +1,7 @@
 {
     "changelog.md": {
+        "07\/04\/2020": "07\/04\/2020",
+        "Correction de bugs": "Correction de bugs",
         "21\/12\/2019": "21\/12\/2019",
         "Ajout d'option pour le seuil de cycle chaud afin de permetre la prise en compte de l'inertie": "Ajout d'option pour le seuil de cycle chaud afin de permetre la prise en compte de l'inertie",
         "17\/12\/2019": "17\/12\/2019",
@@ -12,7 +14,6 @@
         "Correction d'un bug sur les commandes orpheline": "Correction d'un bug sur les commandes orpheline",
         "23\/10\/2019": "23\/10\/2019",
         "Correction d'un bug sur le off": "Correction d'un bug sur le off",
-        "Correction de bugs": "Correction de bugs",
         "06\/10\/2019": "06\/10\/2019",
         "Mise à jour de la FAQ sur les soucis de non affichage des actions\/modes": "Mise à jour de la FAQ sur les soucis de non affichage des actions\/modes",
         "01\/10\/2019": "01\/10\/2019",
