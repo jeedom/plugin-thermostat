@@ -209,6 +209,7 @@ class thermostat extends eqLogic {
 				$thermostat->failure();
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention il n\'y a pas eu de mise à jour de la température depuis plus de : ', __FILE__) . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $cmd->getCollectDate() . ')');
 			}
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je ne fais rien car il n\'y a pas eu de mise a jour de la temperature depuis plus de '.$thermostat->getConfiguration('maxTimeUpdateTemp').'min');
 			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
@@ -217,6 +218,7 @@ class thermostat extends eqLogic {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : La température intérieure n\'est pas un numérique : ',__FILE__).$temp_in);
 			}
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Je ne fais rien car la température intérieure n\'est pas un numérique');
 			$thermostat->setCache('temp_threshold', 1);
 			return;
 		}
@@ -931,8 +933,6 @@ class thermostat extends eqLogic {
 			$thermostat = $this->getCmd(null, 'thermostat');
 			if (!is_object($thermostat)) {
 				$thermostat = new thermostatCmd();
-				$thermostat->setTemplate('dashboard', 'thermostat');
-				$thermostat->setTemplate('mobile', 'thermostat');
 				$thermostat->setUnite('°C');
 				$thermostat->setName(__('Thermostat', __FILE__));
 				$thermostat->setIsVisible(1);
@@ -1500,7 +1500,6 @@ class thermostat extends eqLogic {
 		if ($_repeat) {
 			return;
 		}
-		$this->refresh();
 		if (!$_suspend) {
 			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
 		}
@@ -1614,6 +1613,12 @@ class thermostat extends eqLogic {
 			}
 		}
 		$this->getCmd(null, 'mode')->event($_name);
+		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
+			thermostat::temporal(array('thermostat_id' => $this->getId()));
+		}
+		if ($this->getConfiguration('engine', 'temporal') == 'hysteresis') {
+			thermostat::hysteresis(array('thermostat_id' => $this->getId()));
+		}
 	}
 	
 	public function runtimeByDay($_startDate = null, $_endDate = null) {
