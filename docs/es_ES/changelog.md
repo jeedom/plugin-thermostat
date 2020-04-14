@@ -1,3 +1,7 @@
+# 
+
+- Correcciones de errores
+
 # 21/12/2019
 
 - Adición de opción para el umbral del ciclo caliente para permitir tener en cuenta la inercia

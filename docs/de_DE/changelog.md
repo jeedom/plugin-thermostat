@@ -1,3 +1,7 @@
+# 
+
+- Fehlerbehebungen
+
 # 21.12.2019
 
 - Hinzufügung einer Option für die Heißzyklusschwelle, um die Berücksichtigung der Trägheit zu ermöglichen

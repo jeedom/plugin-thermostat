@@ -12,7 +12,7 @@
         "Ok": "Okay"
     },
     "plugins\/thermostat\/desktop\/php\/thermostat.php": {
-        "Error 401 Unauthorized": "Error 401 Unauthorized",
+        "Error 401 Unauthorized": "",
         "Gestion": "Management",
         "Ajouter": "Add",
         "Mes thermostats": "My thermostats",
@@ -22,7 +22,7 @@
         "Supprimer": "Delete",
         "Equipement": "Device",
         "Actions": "Actions",
-        "Modes": "Modes",
+        "Modes": "",
         "Ouvertures": "Openings",
         "Défaillance sonde": "Probe failure",
         "Défaillance chauffage": "Heating failure",
