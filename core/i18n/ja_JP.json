@@ -98,6 +98,7 @@
     },
     "plugins\/thermostat\/desktop\/js\/thermostat.js": {
         "Nouveau nom ?": "新しい名前は？",
+        "Coefficient remis à zéro. Pensez bien à sauvegarder": "",
         "Nom du mode ?": "プロフィールの名前は？",
         "Etes-vous sûr de vouloir supprimer ce mode": "",
         "Configuration des modes": "",

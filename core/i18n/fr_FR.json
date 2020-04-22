@@ -98,6 +98,7 @@
     },
     "plugins\/thermostat\/desktop\/js\/thermostat.js": {
         "Nouveau nom ?": "Nouveau nom ?",
+        "Coefficient remis à zéro. Pensez bien à sauvegarder": "Coefficient remis à zéro. Pensez bien à sauvegarder",
         "Nom du mode ?": "Nom du mode ?",
         "Etes-vous sûr de vouloir supprimer ce mode": "Etes-vous sûr de vouloir supprimer ce mode",
         "Configuration des modes": "Configuration des modes",
