@@ -136,7 +136,7 @@ Cenas.
 
 .
 
-![Principe du  hystérésis](../images/PrincipeHysteresis.png)
+![Principe du modo hystérésis](../images/PrincipeHysteresis.png)
 
 
 
@@ -158,7 +158,7 @@ Cenas.
 
 .
 
-![Principe du  ](../images/PrincipeTemporel.png)
+![Principe du modo ](../images/PrincipeTemporel.png)
 
 .
 
@@ -229,13 +229,13 @@ Cenas.
 
 .
 
-![Définition des s](../images/Definitions.png)
+![Définition des modos](../images/Definitionmodos.png)
 
  :
 
 -   *,
 
--   donnez un nom à ce , par exemple ``,
+-   donnez un nom à ce modo, par exemple ``,
 
 -   
     ,
@@ -536,15 +536,15 @@ Configuração do plugin.
 
  :
 
-![Scenario  confort](../images/scenarioconfort.png)
+![Scenario modo confort](../images/scenarioconfort.png)
 
 " :
 
-![Scénario programmé en  ](../images/13.png)
+![Scénario programmé en modo ](../images/13.png)
 
  :
 
-![Scénario en  ](../images/scenarioeco.png)
+![Scénario en modo ](../images/scenarioeco.png)
 
 
 
@@ -579,7 +579,7 @@ Aquecimento**,
 ,
 . 
  **** 
- **** :
+modo **** :
 
 ![Actions de l'agenda](../images/agendaactions.png)
 
