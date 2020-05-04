@@ -1,4 +1,4 @@
-Beschreibung
+Description
 ===========
 
 Mit diesem Plugin können Sie Thermostate erstellen und verwalten, um das zu steuern
@@ -6,13 +6,13 @@ Heizen Sie Ihr Zuhause. Es arbeitet in 2 Modi Ihrer Wahl :
 
 -   der Modus **Hysterese** entspricht dem Ein- und Ausschalten
     Erwärmung in Abhängigkeit von der Innentemperatur relativ zu a
-    Schwelle entsprechend dem Sollwert. Hysterese herft zu verhindern
+    Schwelle entsprechend dem Sollwert. Hysterese hilft zu verhindern
     zu häufiges Umschalten bei Temperaturen
     die Kaution.
 
 <!-- -->
 
--   der Modus **zeitlich** berechnet einen Heizprozentsatz für a
+-   der Modus **temporel** berechnet einen Heizprozentsatz für a
     vordefinierter Zeitzyklus unter Berücksichtigung der Unterschiede zwischen dem
     Sollwert sowie Innen- und Außentemperaturen (Isolierung).
     Dieser Modus ist präziser, hat eine Lernerlaubnis
@@ -21,7 +21,7 @@ Heizen Sie Ihr Zuhause. Es arbeitet in 2 Modi Ihrer Wahl :
     Wichtig, damit der Zeitmodus funktioniert, benötigen Sie unbedingt eine
     Innen- UND Außentemperatursensor.
 
-Konfiguration
+Configuration
 =============
 
 Dieses Plugin ist für die Erstellung von Thermostaten in Jeedom vorgesehen. Er
@@ -50,7 +50,7 @@ Zu seinen Merkmalen gehören :
     Temperatur wird zum geplanten Zeitpunkt erreicht (Smart Start)
 
 Zuerst zeigen wir Ihnen dann die Implementierung
-detaerliert die verschiedenen Einstellungen der Thermostatkonfiguration und
+detailliert die verschiedenen Einstellungen der Thermostatkonfiguration und
 Schließlich, durch einige Anwendungsfälle, wie wir können
 bereichern Sie es in Kombination mit anderen Plugins oder mit
 Szenarien.
@@ -65,7 +65,7 @@ Von dem Moment an verstehen wir die wesentlichen Schritte :
 -   Definition des Thermostatmotors (Hysterese oder Zeit). Es ist
     die Wahl des Regelungsalgorithmus.
 
--   Konfiguration und Betriebsbereich : Heizung
+-   Konfiguration und Betriebsbereich : chauffage
     nur Klimaanlage oder beides, min und
     maximale Nutzung.
 
@@ -102,13 +102,13 @@ Szenarien oder durch Kombination mit anderen Plugins (Agenda,
 Präsenz, ...), es fügt sich nahtlos in Ihre Installation ein
 Hausautomation. Das bekommen wir auf dem Dashboard :
 
-![Aspect sur le dashboard](../images/Thermostat.png)
+![Aspect sur le dashboard](../images/thermostat.png)
 
 Mit der Sperre im Widget können Sie den Thermostat in einem sperren
 Anweisung nach einem unvorhergesehenen Ereignis : verlassen, Gäste, ....
 
 
-Die Erstellung eines Thermostats im Detaer
+Die Erstellung eines Thermostats im Detail
 -------------------------------------
 
 Um einen neuen Thermostat zu erstellen, gehen Sie zur Seite
@@ -116,7 +116,7 @@ Konfiguration durch Herunterziehen des Plugins / Well-Being-Menüs und Auswahl
 Thermostat. Klicken Sie oben links auf die Schaltfläche * Hinzufügen * und
 Geben Sie den gewünschten Namen für Ihren Thermostat ein.
 
-![Konfiguration générale](../images/Thermostat_config_générale.png)
+![Konfiguration générale](../images/thermostat_config_générale.png)
 
 Zunächst werden wir die allgemeinen Parameter der
 Thermostat. Sie befinden sich oben links im allgemeinen Abschnitt und sind erforderlich
@@ -126,9 +126,9 @@ Thermostat, übliche Informationen für jeden Jeedom-Benutzer.
 Die Wahl des Thermostat-Algorithmus
 --------------------------------------
 
-![Choix de l'algorithme](../images/Thermostat31.png)
+![Choix de l'algorithme](../images/thermostat31.png)
 
-In diesem Berd ist der Thermostatbetriebsmotor hervorgehoben..
+In diesem Bild ist der Thermostatbetriebsmotor hervorgehoben..
 Es gibt 2 mögliche Algorithmen zur Temperaturregelung.
 
 Wenn Sie den Hysteresemodus auswählen, wird der Start Ihres
@@ -147,7 +147,7 @@ ermöglicht das Abrufen der Temperaturmessung. Wir werden die Hysterese in einst
 abhängig von der Genauigkeit des Sensors, zum Beispiel für eine präzise Sonde
 bei 0.5 ° C, eine Hysterese von 0.2 ° C ist ein guter Kompromiss.
 
-> **Spitze**
+> **Tip**
 >
 > Der Hystereseparameter befindet sich auf der Registerkarte * Erweitert*.
 
@@ -189,10 +189,10 @@ das Wetter Plugin.
 
 ![Sélection des sondes](../images/selectionsondes.png)
 
-> **Spitze**
+> **Tip**
 >
 > Die Felder "Untere Temperaturgrenze" und
-> `Borne de température supérieure` définissent la plage de
+> ``Obere Temperaturgrenze`` definiert den Bereich von
 > Thermostatbetrieb, außerhalb dessen ein Ausfall des
 > Heizung ist an. Siehe unten den Absatz über
 > Standardaktionen.
@@ -203,7 +203,7 @@ Aktionen, die unserem Thermostat die Möglichkeit geben, zu steuern
 unterschiedliche Ausrüstung (z. B. Betriebsfall nach Zone oder
 Steuerung eines anderen Thermostats)
 
-![Actions sur les appareers](../images/actionssurappareer.png)
+![Actions sur les appareils](../images/actionssurappareil.png)
 
 Aktionen sind solche, die heizen, kühlen
 (Klimaanlage), stoppen Sie den Befehl. Eine ergänzende Aktion kann
@@ -215,38 +215,38 @@ Mode : der Ausgangspunkt für die Automatisierung
 
 Die Modi (definiert auf der Registerkarte * Modi *) sind
 vorgegebene Thermostat-Sollwerte, die Ihrem Modus von entsprechen
-Leben. Zum Beispiel der Modus **Nacht** oder **Eco** Geben Sie die Temperatur an, die
-Sie wünschen, wenn alle schlafen. Der Modus **Tag** oder
-**Komfort** bestimmt das Verhalten des Thermostats, um a
+Leben. Zum Beispiel der Modus **Nuit** oder **Eco** Geben Sie die Temperatur an, die
+Sie wünschen, wenn alle schlafen. Der Modus **Jour** ou
+**Confort** bestimmt das Verhalten des Thermostats, um a
 Komforttemperatur, wenn Sie zu Hause sind. Nichts hier
 ist nicht gefroren. Sie können beliebig viele Modi definieren
 Verwenden Sie sie über Szenarien (wir werden später darauf zurückkommen).
 
-Im Berd unten der Modus **Komfort** hat einen Sollwert von
+Im Bild unten der Modus **Confort** hat einen Sollwert von
 19 ° C und für Modus **Eco**, Der Thermostat ist auf 17 ° C eingestellt. Der Modus
-**Urlaub** programmiert den Thermostat bei längerer Abwesenheit auf 15 ° C..
+**Vacances** programmiert den Thermostat bei längerer Abwesenheit auf 15 ° C..
 Es ist im Dashboard nicht sichtbar, da es sich um ein Szenario handelt, das
 Programmieren Sie alle Geräte im * Urlaub * und positionieren Sie so die
 Thermostat in diesem Modus.
 
-![Définition des Moduss](../images/DefinitionModuss.png)
+![Définition des modes](../images/Definitionmodes.png)
 
 Gehen Sie wie folgt vor, um einen Modus zu definieren :
 
 -   Klicken Sie auf die Schaltfläche * Add Mode*,
 
--   donnez un nom à ce Modus, par exemple `Eco`,
+-   Geben Sie diesem Modus einen Namen, zum Beispiel "Eco",
 
 -   Fügen Sie eine Aktion hinzu und wählen Sie den Befehl * Thermostat * auf Ihrem
     Thermostatausrüstung,
 
 -   Stellen Sie die gewünschte Temperatur für diesen Modus ein,
 
--   Aktivieren Sie das Kontrollkästchen **Sichtbar** um diesen Modus auf dem
+-   Aktivieren Sie das Kontrollkästchen **Visible** um diesen Modus auf dem
     Thermostat-Widget auf dem Armaturenbrett.
 
 
->**Wichtig**
+>**IMPORTANT**
 >
 >Achtung beim Umbenennen eines Modus ist es unbedingt erforderlich, die Szenarien / Geräte zu überprüfen, die den alten Namen verwenden, um sie an den neuen weiterzugeben
 
@@ -264,28 +264,28 @@ zusätzlich sind hier einstellbar, dies sind die Öffnungszeiten und
 Schließen des Fensters, das die Unterbrechung und die Wiederaufnahme verursacht
 wie der Thermostat funktioniert.
 
-![Konfiguration des odervertures](../images/configodervertures.png)
+![Konfiguration des ouvertures](../images/configouvertures.png)
 
 So konfigurieren Sie den Vorgang beim Öffnen des Fensters :
 
--   sélectionnez l'info du capteur d'oderverture dans le champ `Ouverture`
+-   Wählen Sie die Informationen zum Öffnungssensor im Feld "Öffnung" aus
 
 -   Stellen Sie die Zeit ein, bevor sich der Thermostat nach dem Öffnen ausschaltet
-    das Feld `Ausschalten, wenn mehr als (min) geöffnet ist :`
+    das Feld ``Ausschalten, wenn mehr als (min) geöffnet ist :``
 
 -   Passen Sie die Zeit nach dem Schließen des Fensters an
     Starten Sie den Thermostat vor Ort neu
-    `Rallumer si fermé depuis (min) :`
+    ```` Wieder einschalten, wenn geschlossen für (min) :``
 
 -   Klicken Sie auf die Schaltfläche * Speichern *, um die Aufnahme zu speichern
     Konto der Eröffnungen
 
-> **Spitze**
+> **Tip**
 >
 > Es können mehrere Öffnungen definiert werden, dies ist notwendig
 > wenn der Thermostat einen Bereich steuert, der aus mehreren Räumen besteht.
 
-> **Spitze**
+> **Tip**
 >
 > Es ist möglich, einen Alarm einzustellen, wenn die Öffnung länger als xx Minuten dauert.
 
@@ -299,21 +299,21 @@ eine längere Abweichung der Temperatur vom Sollwert.
 
 ### Ausfall der Temperatursonde
 
-Wenn die vom Thermostat verwendeten Sonden keine zurückgeben **ändern**
+Wenn die vom Thermostat verwendeten Sonden keine zurückgeben **changement**
 Temperatur, zum Beispiel wenn die Batterien abgenutzt sind, dann die
 Thermostat löst Fehleraktionen aus. Wenn der Fehler
 auftritt, ist es möglich, das Gerät in eine zu setzen
 vorbestimmter Betrieb, zum Beispiel Erzwingen der Ordnung eines Kühlers
-Perotdraht. Einfacher eine SMS senden oder a
+Pilotdraht. Einfacher eine SMS senden oder a
 Benachrichtigung ermöglicht es, gewarnt zu werden und manuell einzugreifen.
 
-> **Spitze**
+> **Tip**
 >
 > Der Parameter, mit dem der Thermostat über einen Ausfall von entscheiden kann
 > Die Sonde befindet sich auf der Registerkarte * Erweitert*. Das ist der
-> `délai max entre 2 relevés de température`.
+> ``max Verzögerung zwischen 2 Temperaturmessungen``.
 
-![Défaerlance des sondes](../images/defaerlancesonde.png)
+![Défaillance des sondes](../images/defaillancesonde.png)
 
 So definieren Sie eine Fehleraktion :
 
@@ -336,18 +336,18 @@ weicht vom Betriebsbereich des Thermostats ab, er schaltet sich ein
 Ausfall von Heizung / Klimaanlage. Diese Analyse
 erfolgt über mehrere Zyklen.
 
-> **Spitze**
+> **Tip**
 >
 > Der Parameter, mit dem der Thermostat über einen Ausfall von entscheiden kann
 > Die Sonde befindet sich auf der Registerkarte * Erweitert*. Das ist der
-> `Marge de défaerlance chaud` poderr le Heizung et de la
-> `Marge de défaerlance froid` poderr la climatisation.
+> ``Hot Failure Margin`` zum Heizen und
+> ``Cold Failure Margin`` für Klimaanlagen.
 
-In diesem Berd sendet die Fehleraktion den Befehl zum Wechseln
-ECO-Modus des Kühlers durch das Perotkabel, sendet dann eine Nachricht von der
+In diesem Bild sendet die Fehleraktion den Befehl zum Wechseln
+ECO-Modus des Kühlers durch das Pilotkabel, sendet dann eine Nachricht von der
 Pushbullet Plugin.
 
-![Défaerlance Heizung](../images/defaerlanceHeizung.png)
+![Défaillance Heizung](../images/defaillancechauffage.png)
 
 So definieren Sie eine Fehleraktion :
 
@@ -373,11 +373,11 @@ In den meisten Fällen ist es möglich, die Koeffizienten anzupassen
 für eine optimierte Konfiguration für Ihre Installation.
 
 ![Konfiguration avancée du
-Thermostat] (../ images / configurationavancee.png)
+Thermostat](../ images / configurationavancee.png)
 
 Die Koeffizienten sind wie folgt :
 
--   **Heizkoeffizient / Kühlkoeffizient** : er
+-   **Heizkoeffizient / Kühlkoeffizient** : il
     ist der Gewinn des Regulierungssystems . Dieser Wert ist
     multipliziert mit der Differenz zwischen Sollwert und Temperatur
     Innenraum gemessen, um die Heiz- / Kühlzeit abzuziehen.
@@ -411,7 +411,7 @@ Die Koeffizienten sind wie folgt :
     kann zusätzliche Energie liefern. Theoretisch ist dies
     Koeffizient ist negativ.
 
-- **Ausset, der angewendet werden soll, wenn der Kühler als heiß eingestuft wird (%)** : zu verwenden, wenn Ihr Heizungssteuerungssystem eine erhebliche Trägheit aufweist, sei es aufgrund der Heizkörper, der Konfiguration des Raums (Abstand zwischen Heizkörper und Temperatursensor) oder des Temperatursensors selbst ( je nach Modell ist ihre Reaktivität mehr oder weniger). Die sichtbare Folge dieser Trägheit ist ein vorübergehendes Überschwingen des Sollwerts bei erheblichen Temperaturerhöhungen (Sollwert beispielsweise von 15 ° C auf 19 ° C).. Dieser Parameter entspricht der Differenz, die zwischen der Heizperiode (= Heizung ist eingeschaltet) und der Periode, in der die von der Sonde gemessene Temperatur ansteigt, geteert durch die Länge des konfigurierten Zyklus, beobachtet wird.. Wenn beispielsweise zwischen dem Beginn des Erhitzens und dem Beginn des Temperaturanstiegs ein Unterschied von 30 Minuten besteht und die Dauer der Heizzyklen auf 60 Minuten eingestellt ist, können wir diesen Parameter auf 50% einstellen. Wenn also auf einen 100% igen Heizzyklus eine weitere Erwärmung folgt, kann mit diesem Parameter die vom Kühler im ersten Zyklus erzeugte, aber noch nicht von der Sonde gemessene Wärme für die Berechnung des zweiten Zyklus berücksichtigt werden, indem d reduziert wird '' seine Heizleistung. Die Leistung des zweiten Zyklus wird dann gegenüber der Berechnung anhand der von der Sonde gemessenen Temperatur um 50% reduziert..
+- **Offset, der angewendet werden soll, wenn der Kühler als heiß eingestuft wird (%)** : zu verwenden, wenn Ihr Heizungssteuerungssystem eine erhebliche Trägheit aufweist, sei es aufgrund der Heizkörper, der Konfiguration des Raums (Abstand zwischen Heizkörper und Temperatursensor) oder des Temperatursensors selbst ( je nach Modell ist ihre Reaktivität mehr oder weniger). Die sichtbare Folge dieser Trägheit ist ein vorübergehendes Überschwingen des Sollwerts bei erheblichen Temperaturerhöhungen (Sollwert beispielsweise von 15 ° C auf 19 ° C).. Dieser Parameter entspricht der Differenz, die zwischen der Heizperiode (= Heizung ist eingeschaltet) und der Periode, in der die von der Sonde gemessene Temperatur ansteigt, geteilt durch die Länge des konfigurierten Zyklus, beobachtet wird.. Wenn beispielsweise zwischen dem Beginn des Erhitzens und dem Beginn des Temperaturanstiegs ein Unterschied von 30 Minuten besteht und die Dauer der Heizzyklen auf 60 Minuten eingestellt ist, können wir diesen Parameter auf 50% einstellen. Wenn also auf einen 100% igen Heizzyklus eine weitere Erwärmung folgt, kann mit diesem Parameter die vom Kühler im ersten Zyklus erzeugte, aber noch nicht von der Sonde gemessene Wärme für die Berechnung des zweiten Zyklus berücksichtigt werden, indem d reduziert wird '' seine Heizleistung. Die Leistung des zweiten Zyklus wird dann gegenüber der Berechnung anhand der von der Sonde gemessenen Temperatur um 50% reduziert..
 
 -   **Selbstlernen** : Kontrollkästchen zum Aktivieren / Deaktivieren
     Lernen der Koeffizienten.
@@ -435,7 +435,7 @@ Die Koeffizienten sind wie folgt :
     Beschädigen Sie bestimmte Geräte wie Öfen, aber auch
     echte Energieeffizienz erreichen.
 
--   **Hot Faerure Margin / Cold Faerure Margin** : das
+-   **Hot Failure Margin / Cold Failure Margin** : cette
     Wert wird verwendet, um eine Fehlfunktion zu erkennen
     Heizung / Klimaanlage. Wenn die Temperatur dabei herauskommt
     Marge im Vergleich zum Sollwert für mehr als 3 Zyklen
@@ -444,7 +444,7 @@ Die Koeffizienten sind wie folgt :
 
 - **Begrenzt unaufhörliche Ein- / Ausschaltzyklen (Pellet, Gas, Heizöl) und PID** : Mit dieser Option können Sie mit verschiedenen Heizstufen regeln. Die Stromrückführung aus dem nächsten Zyklus muss dem Heizgerät den neuen Heizpegelsollwert geben. Die Zyklen enden bei 100%, haben also eine kurze Zykluszeit.
 
-> **Spitze**
+> **Tip**
 >
 > Lernen ist immer aktiv. Aber die Initialisierungsphase
 > kann relativ lang sein (ca. 3 Tage). Währenddessen
@@ -461,35 +461,35 @@ Allgemein), um sie zu konfigurieren. Sie werden auch in verwendbar sein
 die Szenarien.
 
 ![Liste des Befehle dans le résumé
-Hausautomation] (../ images / ThermostatlisteBefehle.png)
+Hausautomation](../ images / thermostatlistecommandes.png)
 
 Einige sind in der Programmierung nicht auf alle Befehle zugänglich
 sind Statusinformationen, die vom Plugin zurückgegeben werden. In der
 Szenarien finden wir :
 
 ![Liste des Befehle dans les
-Szenarien] (../ images / ThermostatBefehlescenario.png)
+Szenarien](../ images / thermostatcommandesscenario.png)
 
 -   **Mode** : Es ist möglich, Modusänderungen vorzunehmen, indem
     direktes Ausführen der Befehle (hier Komfort, Komfortmorgen,
     Öko, Feiertage)
 
--   **Aus** : Dieser Befehl schaltet den Thermostat ab, die Regelung nicht
+-   **Off** : Dieser Befehl schaltet den Thermostat ab, die Regelung nicht
     aktiver, Heizung / Klimaanlage wird gestoppt
 
 -   **Thermostat** : Dies ist der Thermostat-Sollwert
 
--   **Schloss** : Sperrbefehl ist nicht möglich
+-   **lock** : Sperrbefehl ist nicht möglich
     Ändern Sie den Thermostatstatus (Modusänderung, Sollwert).
 
--   **entsperren** : Schaltet den Thermostat frei und Sie können ihn ändern
-    Zustand
+-   **unlock** : Schaltet den Thermostat frei und Sie können ihn ändern
+    état
 
 -   **Nur Heizung** : Die Verordnung greift nur ein für
-    Hitze
+    chauffer
 
 -   **Nur Klimaanlage** : Regulierung ist nur aktiv für
-    cool
+    refroidir
 
 -   **Heizungsoffset** : ändert den Versatzkoeffizienten der Heizung
     entsprechend internen Beiträgen : Ein Szenario kann dies ändern
@@ -500,13 +500,13 @@ Szenarien] (../ images / ThermostatBefehlescenario.png)
 -   **Jeder autorisierte** : ändert das Verhalten des Thermostats
     sowohl Heizung als auch Klimaanlage
 
--   **Macht** : Dieser Befehl ist nur im Zeitmodus verfügbar und gibt den Prozentsatz der Heiz- / Kühlzeit über die Zykluszeit an.
+-   **Puissance** : Dieser Befehl ist nur im Zeitmodus verfügbar und gibt den Prozentsatz der Heiz- / Kühlzeit über die Zykluszeit an.
 
--   **Leistung** : Nur verfügbar, wenn Sie über eine Außentemperaturregelung und eine Verbrauchsregelung verfügen (in kWh jeden Tag um 00:00 Uhr auf 0 zurückgesetzt).. Dies zeigt Ihnen die Leistung Ihres Heizungssystems im Vergleich zum Tag mit einheitlichem Grad.
+-   **Performance** : Nur verfügbar, wenn Sie über eine Außentemperaturregelung und eine Verbrauchsregelung verfügen (in kWh jeden Tag um 00:00 Uhr auf 0 zurückgesetzt).. Dies zeigt Ihnen die Leistung Ihres Heizungssystems im Vergleich zum Tag mit einheitlichem Grad.
 
 -   **Delta-Sollwert** : Mit diesem Befehl, der nur im Zeitmodus verfügbar ist, können Sie ein Berechnungsdelta für den Sollwert eingeben. Wenn> 0, sucht der Thermostat, ob er heizen soll (Sollwert - Delta / 2). Wenn ja, versucht er, sich auf (Sollwert + Delta / 2) zu erwärmen.. Der Vorteer ist, länger, aber seltener zu heizen.
 
-> **Spitze**
+> **Tip**
 >
 > Die Verwendung des Thermostats im Modus "Nur Heizen" erfordert
 > die Befehle definiert haben * Zum Heizen muss ich ?* und * für alles
@@ -524,15 +524,15 @@ Anwendungsfall. Also wollen wir unseren Thermostat einprogrammieren
 nach den Stunden der Anwesenheit der Bewohner des Hauses.
 
 Zuerst werden wir 2 Szenarien verwenden, um das zu setzen
-Heizung im Modus **Komfort** (Sollwert 20 ° C) jeden Morgen des
+Heizung im Modus **Confort** (Sollwert 20 ° C) jeden Morgen des
 Woche zwischen 17.00 und 19.30 Uhr, dann abends zwischen 17.00 und 21.00 Uhr. Der Modus
-**Komfort** wird auch am Mittwochnachmittag von 12 bis 21 Uhr aktiviert und
+**Confort** wird auch am Mittwochnachmittag von 12 bis 21 Uhr aktiviert und
 Wochenenden von 8 bis 22 Uhr. Den Rest der Zeit schaltet die Heizung auf
 **Eco**, mit einem Sollwert von 18 ° C..
 
 Also erstellen wir das Szenario ***Komfortheizung***, im programmierten Modus :
 
-![Scénario programmé](../images/Thermostat11.png)
+![Scénario programmé](../images/thermostat11.png)
 
 und der Code :
 
@@ -540,7 +540,7 @@ und der Code :
 
 Nach dem gleichen Prinzip das Szenario "Öko-Heizung"" :
 
-![Scénario programmé en Modus Eco](../images/Thermostat13.png)
+![Scénario programmé en Modus Eco](../images/thermostat13.png)
 
 und sein Code :
 
@@ -558,8 +558,8 @@ Mit dem Kalender des Agenda-Plugins können Sie dies einfach tun.
 Mit dem Agenda-Plugin können Sie weiter programmieren und
 Insbesondere besteht ein geringeres Risiko, falsch zu liegen. In der Tat im Vergleich zu
 Bei der vorherigen Programmierung wird der Kalender deutlich angezeigt
-den Berdschirm und wir werden in der Lage sein, Feiertage zu nehmen,
-Urlaub .... Kurz gesagt, steuern Sie den Thermostat entsprechend seinem Lebensster.
+den Bildschirm und wir werden in der Lage sein, Feiertage zu nehmen,
+Urlaub .... Kurz gesagt, steuern Sie den Thermostat entsprechend seinem Lebensstil.
 
 Programmieren mit dem Agenda Plugin
 -----------------------------------
@@ -568,17 +568,17 @@ Wir präsentieren hier nicht das Agenda Plugin, das Ziel ist es
 Paar mit Thermostatprogrammierung. Beachten Sie das, wenn Sie
 Haben Sie das Agenda-Plugin, erscheint eine Registerkarte * Programmierung * in der
 Konfiguration des Thermostats für direkten Zugriff auf die Tagesordnung
-assoziieren.
+associé.
 
-Also werden wir eine neue Agenda mit dem Namen erstellen **Programmierung
-Heizung**, zu dem wir die Moduswechselereignisse der hinzufügen
-Thermostat.
+Also werden wir eine neue Agenda mit dem Namen erstellen **Programmation
+chauffage**, zu dem wir die Moduswechselereignisse der hinzufügen
+thermostat.
 
 Sobald der Kalender erstellt ist, fügen wir die Morgenereignisse hinzu (Montag bis
 Freitag von 5 bis 7:30 Uhr), Abend (Montag, Dienstag, Donnerstag und Freitag ab 17 Uhr)
 21.00 Uhr), Mittwoch (Mittwoch 12.00 bis 21.00 Uhr), Wochenende (8.00 bis 22.00 Uhr),
 Feiertage. Alle diese Ereignisse haben die Startaktion
-Modusauswahl **Komfort** des Thermostats und als Endaktion die
+Modusauswahl **Confort** des Thermostats und als Endaktion die
 Modus **Eco** :
 
 ![Actions de l'agenda](../images/agendaactions.png)
@@ -596,23 +596,23 @@ Zurück zur Thermostatkonfiguration können Sie auf die zugreifen
 Kalenderereignisse direkt über die Registerkarte Programmierung :
 
 ![onglet programmation du
-Thermostat] (../ images / Thermostat tabprogrammation.png)
+Thermostat](../ images / Thermostat tabprogrammation.png)
 
 Visualisierung des Thermostatbetriebs
 ---------------------------------------------
 
 Sobald der Thermostat konfiguriert ist, ist es wichtig, ihn zu überprüfen
-Effizienz.
+efficacité.
 
 ![Menu de visualisation des
-Thermostate] (../ images / menuaccueerThermostats.png)
+Thermostate](../ images / menuaccueilthermostats.png)
 
-Dans le menu `Accueer`, on troderve le soders-menu `Thermostat`. Das Fenster
-Das bei Auswahl dieses Menüs angezeigte Menü ist in drei Bereiche unterteert
+Im Menü "Home" befindet sich das Untermenü "Thermostat". Das Fenster
+Das bei Auswahl dieses Menüs angezeigte Menü ist in drei Bereiche unterteilt
 :
 
 -   Das Thermostat-Widget, um den sofortigen Status des anzuzeigen
-    Thermostat,
+    thermostat,
 
 -   ein Diagramm, das die kumulierte Heizzeit pro Tag darstellt (in
     Anzahl der Stunden),
@@ -621,16 +621,16 @@ Das bei Auswahl dieses Menüs angezeigte Menü ist in drei Bereiche unterteert
     Innen- und Heizungsstatus.
 
 ![cumul du temps de chauffe du
-Thermostat] (../ images / graphecumultempsdechauffe.png)
+Thermostat](../ images / graphecumultempsdechauffe.png)
 
 *Diagramm der kumulativen Heizzeit*
 
-![graphe des coderrbes du
-Thermostat] (../ images / graphecoderrbesThermostat.png)
+![graphe des courbes du
+Thermostat](../ images / graphecourbesthermostat.png)
 
 *Thermostatkurvendiagramm*
 
-Faq
+FAQ
 ===
 
 >**Können wir den Thermostat mit einer Fußbodenheizung verwenden, die eine hohe Trägheit hat? ?**
@@ -680,4 +680,4 @@ Faq
 
 >**Die Registerkarte Modus / Aktion ist leer und wenn ich auf die Schaltfläche Hinzufügen klicke, geschieht nichts**
 >
-> Versuchen Sie, AdbSchloss (oder einen anderen WerbebSchlosser) zu deaktivieren. Aus unbekannten Gründen bSchlossieren diese das JavaScript der Seite ohne Grund.
+> Versuchen Sie, AdbSchloss (oder einen anderen Werbeblocker) zu deaktivieren. Aus unbekannten Gründen blockieren diese das JavaScript der Seite ohne Grund.

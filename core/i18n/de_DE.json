@@ -40,7 +40,7 @@
         "Température min (°C)": "Temperatur min (°C)",
         "Précisez l'écart de température que le thermostat est autorisé à piloter": "Präzisieren Sie den Temperaturunterschied, den der Thermostat gestattet wird zu regeln",
         "max (°C)": "Maximum (°C)",
-        "Sonde": "",
+        "Sonde": "Sonde",
         "Température intérieure": "Innentemperatur",
         "Borne de température inférieure": "Minimaltemperatur-Terminal",
         "Borne de température supérieure": "Maximaltemperatur-Terminal",
@@ -98,7 +98,7 @@
     },
     "plugins\/thermostat\/desktop\/js\/thermostat.js": {
         "Nouveau nom ?": "Neuer Name",
-        "Coefficient remis à zéro. Pensez bien à sauvegarder": "",
+        "Coefficient remis à zéro. Pensez bien à sauvegarder": "Koeffizient auf Null zurücksetzen. Denken Sie daran, zu speichern",
         "Nom du mode ?": "Modus Name",
         "Etes-vous sûr de vouloir supprimer ce mode": "Wollen sie diesen Modus wirklich löschen?",
         "Configuration des modes": "Modus Konfiguration",
