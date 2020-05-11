@@ -36,7 +36,7 @@
         "Visible": "Terlihat",
         "Moteur": "Mesin",
         "Autoriser": "Izin",
-        "Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.": "Silakan tentukan tindakan yang thermostat memiliki hak untuk membuat pemanasan dan pendinginan run.",
+        "Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.": "Silakan tentukan tindakan yang thermostat memiliki hak untuk membuat pemanasan dan pendinginan run",
         "Température min (°C)": "Suhu Min (° C)",
         "Précisez l'écart de température que le thermostat est autorisé à piloter": "Tentukan perbedaan suhu yang thermostat berwenang untuk mendorong",
         "max (°C)": "",
@@ -55,7 +55,7 @@
         "Pour tout arrêter je dois ?": "Untuk semua aku harus berhenti?",
         "A chaque changement de consigne je dois aussi faire ?": "Setiap setpoint mengubah yang harus saya lakukan?",
         "Les modes, permettent d'ajouter à votre thermostat des consignes prédéfinies. Exemple : un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C": "",
-        "La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.": "Bukaan deklarasi prihatin dengan thermostat Anda (pintu, jendela ...) akan memungkinkan termostat untuk mengatur suhu yang sesuai.",
+        "La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.": "Bukaan deklarasi prihatin dengan thermostat Anda (pintu, jendela ...) akan memungkinkan termostat untuk mengatur suhu yang sesuai",
         "Ajouter ouverture": "Menambahkan pembukaan",
         "Alerte si l'ouverture dure plus de (min)": "",
         "Ajouter action de défaillance": "Menambahkan tindakan gagal",
@@ -113,7 +113,7 @@
         "401 - Accès non autorisé": "401 - Akses tidak sah",
         "Aucun objet racine trouvé": "",
         "Thermostat non trouvé : ": "",
-        "Aucune methode correspondante à : ": "Aucune methode correspondante à : "
+        "Aucune methode correspondante à : ": "Aucune methode correspondante à :"
     },
     "plugins\/thermostat\/core\/class\/thermostat.class.php": {
         "Suspendu": "",

@@ -1,6 +1,6 @@
->**IMPORTANT**
+>**Importante**
 >
->Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto.
+>Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto
 
 # 07/04/2020
 
@@ -22,7 +22,7 @@
 
 # 03/11/2019
 
-- Corrección de un error en los comandos huérfanos.
+- Corrección de un error en los comandos huérfanos
 
 # 23/10/2019
 
@@ -69,7 +69,7 @@
 
 # 28/12/2018
 
-- Corrección de errores en el panel móvil.
+- Corrección de errores en el panel móvil
 
 # 27/11/2018
 
@@ -91,7 +91,7 @@
 
 # 23/02/2018
 
-- Corrección de una advertencia en el código.
+- Corrección de una advertencia en el código
 
 # 29/01/2018
 

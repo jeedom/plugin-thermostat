@@ -36,7 +36,7 @@
         "Visible": "Visivél",
         "Moteur": "Motor",
         "Autoriser": "Autorização",
-        "Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.": "Por favor, especifique as ações que o termostato tem o direito de fazer o aquecimento e arrefecimento prazo.",
+        "Veuillez préciser les actions que le thermostat a le droit de faire en terme de chauffage et refroidissement.": "Por favor, especifique as ações que o termostato tem o direito de fazer o aquecimento e arrefecimento prazo",
         "Température min (°C)": "Min Temperatura (° C)",
         "Précisez l'écart de température que le thermostat est autorisé à piloter": "Especificar a diferença de temperatura que o termostato está autorizado a conduzir",
         "max (°C)": "max (° C)",
@@ -55,7 +55,7 @@
         "Pour tout arrêter je dois ?": "Por tudo que eu tenho que parar?",
         "A chaque changement de consigne je dois aussi faire ?": "Cada ponto de ajuste mudar eu tenho que fazer?",
         "Les modes, permettent d'ajouter à votre thermostat des consignes prédéfinies. Exemple : un mode confort qui déclenche une action sur votre thermostat avec une température de consigne de 20°C": "Os modos permitem adicionar pontos de ajuste predefinidos ao seu termostato. Exemplo: um modo de conforto que aciona uma ação em seu termostato com uma temperatura definida de 20 ° C",
-        "La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.": "As aberturas de declaração em questão por seu termostato (porta, janela ...) permitirá que o termostato para regular a temperatura em conformidade.",
+        "La déclaration des ouvertures concernées par votre thermostat (porte, fenêtre...) permettra au thermostat de réguler la température en conséquence.": "As aberturas de declaração em questão por seu termostato (porta, janela ...) permitirá que o termostato para regular a temperatura em conformidade",
         "Ajouter ouverture": "Adicionar abertura",
         "Alerte si l'ouverture dure plus de (min)": "Alerta se a abertura durar mais de (min)",
         "Ajouter action de défaillance": "Adicionar ação falhar",
@@ -113,7 +113,7 @@
         "401 - Accès non autorisé": "401 - Acesso não autorizado",
         "Aucun objet racine trouvé": "Nenhum objeto raiz encontrado",
         "Thermostat non trouvé : ": "Termostato não encontrado:",
-        "Aucune methode correspondante à : ": "Aucune methode correspondante à : "
+        "Aucune methode correspondante à : ": "Aucune methode correspondante à :"
     },
     "plugins\/thermostat\/core\/class\/thermostat.class.php": {
         "Suspendu": "Suspenso",
@@ -132,7 +132,7 @@
         "Le temps de chauffe minimum doit etre compris entre 0% et 90%": "O tempo mínimo de aquecimento deve estar entre 0% e 90%",
         "Le temps de cycle doit etre supérieur à 15min": "O tempo do ciclo deve ser superior a 15 minutos",
         "off": "fora",
-        "Vous ne pouvez faire un mode s\\'appelant Off car une commande Off est automatiquement creer": "Você não pode criar um modo chamado Desligado porque um comando Desligado é criado automaticamente.",
+        "Vous ne pouvez faire un mode s\\'appelant Off car une commande Off est automatiquement creer": "Você não pode criar um modo chamado Desligado porque um comando Desligado é criado automaticamente",
         "status": "Estado",
         "Vous ne pouvez faire un mode s\\'appelant Status car une commande Status éxiste déjà": "Você não pode criar um modo chamado Status porque um comando Status já existe",
         "thermostat": "Termostato",
@@ -155,7 +155,7 @@
         "Performance": "Desempenho",
         "Puissance": "Poder",
         " : Erreur lors de l\\'éxecution de ": ": Erro ao executar",
-        ". Détails : ": ". Detalhes:",
+        ". Détails : ": "Detalhes:",
         "Défaillance sonde": "Falha na sonda",
         "Défaillance chauffage": "Falha no aquecimento",
         "Aucun": "Nemhum"
