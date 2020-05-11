@@ -1,3 +1,7 @@
+>**IMPORTANT**
+>
+>As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text.
+
 # 04/07/2020
 
 - Bugfix
@@ -53,7 +57,7 @@
 
 - Addition of an option "Limits incessant on / off cycles (pellet, gas, fuel oil) and PID". Thank you @Pierrick
 
-# 11/03/2019
+# 03/11/2019
 
 - Possibility to add an alert message if the thermostat has been suspended for more than XX minutes
 - Adding a set point delta in time mode
