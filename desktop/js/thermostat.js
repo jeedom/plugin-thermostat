@@ -69,6 +69,7 @@ $('#bt_razLearning').off('click').on('click',function(){
   $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_indoor_cool]').value(10);
   $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_heat]').value(2);
   $('.eqLogicAttr[data-l1key=configuration][data-l2key=coeff_outdoor_cool]').value(2);
+  $('#div_alert').showAlert({message: "{{Coefficient remis à zéro. Pensez bien à sauvegarder}}", level: 'success'});
 });
 
 $('.addAction').off('click').on('click', function () {

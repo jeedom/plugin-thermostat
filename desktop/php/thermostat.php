@@ -320,7 +320,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</label>
 							<div class="col-sm-2">
 								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control jeeHelper" data-helper="cron" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
 									<span class="input-group-btn">
 										<a class="btn btn-default btn-sm cursor jeeHelper" data-helper="cron"><i class="fas fa-question-circle"></i></a>
 									</span>
