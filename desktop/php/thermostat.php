@@ -445,6 +445,16 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="coeff_outdoor_cool_autolearn" />
 							</div>
 						</div>
+						<div class="form-group engine temporal">
+							<label class="col-sm-2 control-label">{{Delta consigne - temperature exterieure pour la direction chaud}}</label>
+							<div class="col-sm-2">
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="direction::delta::heat" />
+							</div>
+							<label class="col-sm-2 control-label">{{Delta consigne - temperature exterieure pour la direction froid}}</label>
+							<div class="col-sm-2">
+								<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="direction::delta::cool" />
+							</div>
+						</div>
 						<div class="form-group engine hysteresis" style="display: none;">
 							<label class="col-sm-2 control-label">{{Hystéresis (°C)}}</label>
 							<div class="col-sm-2">
