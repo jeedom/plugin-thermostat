@@ -89,6 +89,8 @@
         "Isolation clim": "AC絶縁",
         "Apprentissage isolation chaud": "ホット断熱学習",
         "Apprentissage isolation froid": "保冷学習",
+        "Delta consigne - temperature exterieure pour la direction chaud": "",
+        "Delta consigne - temperature exterieure pour la direction froid": "",
         "Hystéresis (°C)": "ヒステリシス（°C）",
         "Cron de contrôle": "Cronの制御",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "あなたのサーモスタットが起動しない、または正しくこの検証を設定し停止しない場合はcronの検証は、プローブ温度計値"

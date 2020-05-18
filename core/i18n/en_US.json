@@ -89,6 +89,8 @@
         "Isolation clim": "Cooling insulation",
         "Apprentissage isolation chaud": "Heating insulation learning",
         "Apprentissage isolation froid": "Cooling insulation learning",
+        "Delta consigne - temperature exterieure pour la direction chaud": "Delta setpoint - outside temperature for heating direction",
+        "Delta consigne - temperature exterieure pour la direction froid": "Delta setpoint - outside temperature for cold direction",
         "Hystéresis (°C)": "Hysteresis (°C)",
         "Cron de contrôle": "Control cron",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Value temperature sensors check, if your thermostat doesn't start or stop correctly, use this ckeck"

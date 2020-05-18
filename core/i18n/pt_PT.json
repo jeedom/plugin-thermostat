@@ -89,6 +89,8 @@
         "Isolation clim": "Isolamento AC",
         "Apprentissage isolation chaud": "Aprendizagem isolamento quente",
         "Apprentissage isolation froid": "Aprendizagem de isolamento frio",
+        "Delta consigne - temperature exterieure pour la direction chaud": "Ponto de ajuste Delta - temperatura externa para a direção do aquecimento",
+        "Delta consigne - temperature exterieure pour la direction froid": "Ponto de ajuste Delta - temperatura externa para direção a frio",
         "Hystéresis (°C)": "Histerese (° C)",
         "Cron de contrôle": "Controle cron",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Verificação Cron valoriza medidor de sondas de temperatura, se o termostato não for iniciado ou não pára corretamente configurado esta verificação"

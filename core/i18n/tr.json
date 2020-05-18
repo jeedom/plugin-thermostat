@@ -89,6 +89,8 @@
         "Isolation clim": "Klimatizasyon izolasyonu",
         "Apprentissage isolation chaud": "Sıcak izolasyonu öğrenimi",
         "Apprentissage isolation froid": "Soğuk izolasyon öğrenimi",
+        "Delta consigne - temperature exterieure pour la direction chaud": "",
+        "Delta consigne - temperature exterieure pour la direction froid": "",
         "Hystéresis (°C)": "Histeresis (°C)",
         "Cron de contrôle": "Kontrol Cronu",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Sıcaklık sensörlerinin değerlerini kontrol etmek için Cron, termostatınız düzgün şekilde başlamıyorsa veya durdurmuyorsa bu kontrolü yapın"
