@@ -89,6 +89,8 @@
         "Isolation clim": "Isolasi AC",
         "Apprentissage isolation chaud": "Belajar isolasi panas",
         "Apprentissage isolation froid": "Dingin Belajar isolasi",
+        "Delta consigne - temperature exterieure pour la direction chaud": "",
+        "Delta consigne - temperature exterieure pour la direction froid": "",
         "Hystéresis (°C)": "Hysteresis (°C)",
         "Cron de contrôle": "Kontrol cron",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Verifikasi Cron nilai probe Suhu meter, jika termostat Anda tidak memulai atau tidak berhenti benar mengatur verifikasi ini"

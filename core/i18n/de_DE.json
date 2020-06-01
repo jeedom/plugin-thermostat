@@ -89,6 +89,8 @@
         "Isolation clim": "Clim Isolation",
         "Apprentissage isolation chaud": "Warme Isolierung Lernen",
         "Apprentissage isolation froid": "Kalte Isolierung Lernen",
+        "Delta consigne - temperature exterieure pour la direction chaud": "Delta-Sollwert - Außentemperatur für Heizrichtung",
+        "Delta consigne - temperature exterieure pour la direction froid": "Delta-Sollwert - Außentemperatur für kalte Richtung",
         "Hystéresis (°C)": "Hysterese (° C)",
         "Cron de contrôle": "Cron Kontrolle",
         "Cron de vérification des valeurs des sondes de témpérature, si votre thermostat ne démarre ou ne s'arrête pas correctement mettez en place cette vérification": "Cron Prüfwerte Sonden Temperaturmessgerät, wenn Ihr Thermostat nicht startet oder stoppt nicht ordnungsgemäß diese Überprüfung einrichten"
