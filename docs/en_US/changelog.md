@@ -4,6 +4,8 @@
 >
 >As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text
 
+# 06/01/2020
+
 - Addition of parameter of delta setpoint - outside temperature for the calculation of lma direction hot / cold
 
 # 04/07/2020
@@ -83,7 +85,7 @@
 
 - Adding a performance calculation (kWh / DJU) if a consumption command is given to the plugin
 - Correction of a bug on the management of temperature sensor failure alerts
-- Addition of a field for a humidity control (only useful for the Google Smarthome plugin)
+- Addition of a field for a humidity control (useful only for the Google Smarthome plugin)
 
 # 07/01/2018
 

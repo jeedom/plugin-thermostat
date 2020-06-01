@@ -4,6 +4,8 @@
 >
 >Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto
 
+# 01/06/2020
+
 - Adición del parámetro del punto de consigna delta - temperatura exterior para el cálculo de la dirección lma frío / calor
 
 # 07/04/2020
@@ -22,7 +24,7 @@
 # 16/12/2019
 
 - Corrección de errores en modo apagado del termostato
-- Adición de una opción para limitar la duración de un segundo ciclo al 100% del tiempo (permite tener en cuenta el hecho de que los radiadores ya están calientes)
+- La adición de una opción para limitar la duración de un segundo ciclo al 100% del tiempo (permite tener en cuenta el hecho de que los radiadores ya están calientes)
 
 # 03/11/2019
 
@@ -83,7 +85,7 @@
 
 - Agregar un cálculo de rendimiento (kWh / DJU) si se da un comando de consumo al complemento
 - Corrección de un error en la gestión de alertas de falla del sensor de temperatura
-- Adición de un campo para un control de humedad (solo útil para el complemento Google Smarthome)
+- Adición de un campo para un control de humedad (útil solo para el complemento Google Smarthome)
 
 # 01/07/2018
 
