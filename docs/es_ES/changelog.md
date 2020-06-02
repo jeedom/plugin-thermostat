@@ -6,7 +6,7 @@
 
 # 01/06/2020
 
-- Adición del parámetro del punto de consigna delta - temperatura exterior para el cálculo de la dirección lma frío / calor
+- Adición del parámetro de consigna delta: temperatura exterior para calcular la dirección frío / calor
 
 # 07/04/2020
 
@@ -18,7 +18,7 @@
 
 # 17/12/2019
 
-- Problemas de visualización solucionados
+- Problema de visualización solucionado
 - Adición de una opción "Umbral de ciclo o calefacción se considera caliente"
 
 # 16/12/2019

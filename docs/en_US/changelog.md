@@ -6,7 +6,7 @@
 
 # 06/01/2020
 
-- Addition of parameter of delta setpoint - outside temperature for the calculation of lma direction hot / cold
+- Addition of delta setpoint parameter - outside temperature for calculating the hot / cold direction
 
 # 04/07/2020
 
@@ -18,7 +18,7 @@
 
 # 12/17/2019
 
-- Fixed display issues
+- Fixed display issue
 - Addition of an option "Cycle threshold or heating is considered hot"
 
 # 12/16/2019

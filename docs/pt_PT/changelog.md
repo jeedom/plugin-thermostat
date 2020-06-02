@@ -6,7 +6,7 @@
 
 # 01/06/2020
 
-- Adição de parâmetro do ponto de ajuste delta - temperatura externa para o cálculo da direção lma quente / fria
+- Adição do parâmetro do ponto de ajuste delta - temperatura externa para o cálculo da direção quente / frio
 
 # 04/07/2020
 
@@ -18,7 +18,7 @@
 
 # 17/12/2019
 
-- Corrigido problemas de exibição
+- Corrigido problema de exibição
 - Adição de uma opção "Limiar do ciclo ou aquecimento é considerado quente"
 
 # 16/12/2019

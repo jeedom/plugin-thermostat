@@ -6,7 +6,7 @@
 
 # 06/01/2020
 
-- Addition des Parameters Delta-Sollwert - Außentemperatur zur Berechnung der LMA-Richtung heiß / kalt
+- Hinzufügung des Delta-Sollwertparameters - Außentemperatur zur Berechnung der Heiß- / Kaltrichtung
 
 # 04/07/2020
 
@@ -18,7 +18,7 @@
 
 # 17.12.2019
 
-- Anzeigeprobleme behoben
+- Anzeigeproblem behoben
 - Hinzufügen einer Option "Zyklusschwelle oder Erwärmung wird als heiß angesehen"
 
 # 16.12.2019
