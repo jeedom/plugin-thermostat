@@ -936,6 +936,8 @@ class thermostat extends eqLogic {
 				$thermostat->setUnite('°C');
 				$thermostat->setName(__('Thermostat', __FILE__));
 				$thermostat->setIsVisible(1);
+				$thermostat->setTemplate('dashboard','button');
+				$thermostat->setTemplate('mobile','button');
 			}
 			$thermostat->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
 			$thermostat->setEqLogic_id($this->getId());
