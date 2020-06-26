@@ -175,7 +175,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">{{Humidité}}</label>
+							<label class="col-sm-3 control-label">{{Humidité intérieure}}</label>
 							<div class="col-sm-9">
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="humidity_indoor" data-concat="1"/>
