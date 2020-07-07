@@ -137,7 +137,7 @@ class thermostat extends eqLogic {
 		$thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
 		$hysteresis_low = $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
 		$hysteresis_hight = $consigne + $thermostat->getConfiguration('hysteresis_threshold', 1);
-		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Calcul => consigne : ' . $consigne . ' hysteresis_low : ' . $hysteresis_low . ' hysteresis_hight : ' . $hysteresis_hight . ' temp : ' . $temp . ' etat precedent : ' . $thermostat->getConfiguration('lastState'));
+		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Calcul => consigne : ' . $consigne . ' hysteresis_low : ' . $hysteresis_low . ' hysteresis_hight : ' . $hysteresis_hight . ' temp : ' . $temp . ' etat precedent : ' . $thermostat->getCache('lastState'));
 		$action = 'none';
 		if ($temp < $hysteresis_low) {
 			$action = 'heat';
@@ -145,10 +145,10 @@ class thermostat extends eqLogic {
 		if ($temp > $hysteresis_hight) {
 			$action = 'cool';
 		}
-		if ($action == 'heat' && $thermostat->getConfiguration('lastState') == 'cool' && ($consigne - 2 * $thermostat->getConfiguration('hysteresis_threshold', 1)) < $temp) {
+		if ($action == 'heat' && $thermostat->getCache('lastState') == 'cool' && ($consigne - 2 * $thermostat->getConfiguration('hysteresis_threshold', 1)) < $temp) {
 			$action = 'none';
 		}
-		if ($action == 'cool' && $thermostat->getConfiguration('lastState') == 'heat' && ($consigne + 2 * $thermostat->getConfiguration('hysteresis_threshold', 1)) > $temp) {
+		if ($action == 'cool' && $thermostat->getCache('lastState') == 'heat' && ($consigne + 2 * $thermostat->getConfiguration('hysteresis_threshold', 1)) > $temp) {
 			$action = 'none';
 		}
 		if ($status == __('Chauffage', __FILE__) && $temp > $hysteresis_hight) {
@@ -223,8 +223,8 @@ class thermostat extends eqLogic {
 			return;
 		}
 		$thermostat->setCache('temp_threshold', 0);
-		if (($temp_in < ($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
-		($temp_in > ($thermostat->getConfiguration('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
+		if (($temp_in < ($thermostat->getCache('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
+		($temp_in > ($thermostat->getCache('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
 			$thermostat->setCache('nbConsecutiveFaillure', $thermostat->getCache('nbConsecutiveFaillure') + 1);
 			if ($thermostat->getCache('nbConsecutiveFaillure', 0) == 2) {
 				log::add('thermostat', 'error', $thermostat->getHumanName() . ' : Attention une défaillance du chauffage est détectée');
@@ -233,16 +233,16 @@ class thermostat extends eqLogic {
 		} else {
 			$thermostat->setCache('nbConsecutiveFaillure', 0);
 		}
-		if ($thermostat->getCache('nbConsecutiveFaillure', 0) < 3 && $thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getConfiguration('endDate')) < strtotime('now')) {
+		if ($thermostat->getCache('nbConsecutiveFaillure', 0) < 3 && $thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getCache('endDate')) < strtotime('now')) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Begin auto learning');
-			if ($thermostat->getConfiguration('last_power') < 100 && $thermostat->getConfiguration('last_power') > 0) {
-				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : ' . $thermostat->getConfiguration('lastState'));
+			if ($thermostat->getCache('last_power') < 100 && $thermostat->getCache('last_power') > 0) {
+				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : ' . $thermostat->getCache('lastState'));
 				$learn_outdoor = false;
-				if ($thermostat->getConfiguration('lastState') == 'heat') {
+				if ($thermostat->getCache('lastState') == 'heat') {
 					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is heat');
-					if ($temp_in > $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') > $thermostat->getConfiguration('lastTempIn')) {
+					if ($temp_in > $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastOrder') > $thermostat->getCache('lastTempIn')) {
 						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in < at current temp in');
-						$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getConfiguration('lastOrder') - $thermostat->getConfiguration('lastTempIn')) / ($temp_in - $thermostat->getConfiguration('lastTempIn')));
+						$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getCache('lastOrder') - $thermostat->getCache('lastTempIn')) / ($temp_in - $thermostat->getCache('lastTempIn')));
 						$coeff_indoor_heat = ($thermostat->getConfiguration('coeff_indoor_heat') * $thermostat->getConfiguration('coeff_indoor_heat_autolearn') + $coeff_indoor_heat) / ($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_indoor_heat_autolearn', min($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1, 50));
 						if ($coeff_indoor_heat < 0 || is_nan($coeff_indoor_heat)) {
@@ -250,10 +250,10 @@ class thermostat extends eqLogic {
 						}
 						$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
 						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff heat indoor : ' . $coeff_indoor_heat);
-					} else if ($temp_out < $thermostat->getConfiguration('lastOrder')) {
+					} else if ($temp_out < $thermostat->getCache('lastOrder')) {
 						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor heat');
 						$coeff_in = $thermostat->getConfiguration('coeff_indoor_heat');
-						$coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
+						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder') - $temp_in) / ($thermostat->getCache('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
 						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_heat') * $thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_outdoor_heat_autolearn', min($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1, 50));
 						if ($coeff_outdoor < 0 || is_nan($coeff_outdoor)) {
@@ -264,11 +264,11 @@ class thermostat extends eqLogic {
 					}
 				}
 				
-				if ($thermostat->getConfiguration('lastState') == 'cool') {
+				if ($thermostat->getCache('lastState') == 'cool') {
 					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last state is cool');
-					if ($temp_in < $thermostat->getConfiguration('lastTempIn') && $thermostat->getConfiguration('lastOrder') < $thermostat->getConfiguration('lastTempIn')) {
+					if ($temp_in < $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastOrder') < $thermostat->getCache('lastTempIn')) {
 						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last temps in > at current temp in');
-						$coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getConfiguration('lastTempIn') - $thermostat->getConfiguration('lastOrder')) / ($thermostat->getConfiguration('lastTempIn') - $temp_in));
+						$coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getCache('lastTempIn') - $thermostat->getCache('lastOrder')) / ($thermostat->getCache('lastTempIn') - $temp_in));
 						$coeff_indoor_cool = ($thermostat->getConfiguration('coeff_indoor_cool') * $thermostat->getConfiguration('coeff_indoor_cool_autolearn') + $coeff_indoor_cool) / ($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_indoor_cool_autolearn', min($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1, 50));
 						if ($coeff_indoor_cool < 0 || is_nan($coeff_indoor_cool)) {
@@ -276,10 +276,10 @@ class thermostat extends eqLogic {
 						}
 						$thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
 						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : New coeff cool indoor : ' . $coeff_indoor_cool);
-					} else if ($temp_out > $thermostat->getConfiguration('lastOrder')) {
+					} else if ($temp_out > $thermostat->getCache('lastOrder')) {
 						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Learn outdoor cool');
 						$coeff_in = $thermostat->getConfiguration('coeff_indoor_cool');
-						$coeff_outdoor = $coeff_in * (($thermostat->getConfiguration('lastOrder') - $temp_in) / ($thermostat->getConfiguration('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
+						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder') - $temp_in) / ($thermostat->getCache('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
 						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_cool') * $thermostat->getConfiguration('coeff_outdoor_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_outdoor_cool_autolearn', min($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1, 50));
 						if ($coeff_outdoor < 0 || is_nan($coeff_outdoor)) {
@@ -302,17 +302,17 @@ class thermostat extends eqLogic {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Power > 0 et delta consigne > 0, je relance le calcul avec consigne + delta/2');
 			$temporal_data = $thermostat->calculTemporalData($consigne + $delta);
 		}
-		$thermostat->setConfiguration('last_power', $temporal_data['power']);
+		$thermostat->setCache('last_power', $temporal_data['power']);
 		$cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
 		$duration = ($temporal_data['power'] * $cycle) / 100;
-		$thermostat->setConfiguration('lastOrder', $consigne);
-		$thermostat->setConfiguration('lastTempIn', $temp_in);
-		$thermostat->setConfiguration('lastTempOut', $temp_out);
-		$thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
+		$thermostat->setCache('lastOrder', $consigne);
+		$thermostat->setCache('lastTempIn', $temp_in);
+		$thermostat->setCache('lastTempOut', $temp_out);
+		$thermostat->setCache('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
-		if (($thermostat->getConfiguration('stove_boiler') == 0 && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) || (($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['power'] < 1) || ($thermostat->getConfiguration('lastState') != 'heat' && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)))) {
+		if (($thermostat->getConfiguration('stove_boiler') == 0 && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) || (($thermostat->getCache('lastState') == 'heat' && $temporal_data['power'] < 1) || ($thermostat->getCache('lastState') != 'heat' && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)))) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Durée du cycle trop courte, aucun lancement');
-			$thermostat->setConfiguration('lastState', 'stop');
+			$thermostat->setCache('lastState', 'stop');
 			$thermostat->stopThermostat();
 			$thermostat->save();
 			return;
@@ -329,12 +329,12 @@ class thermostat extends eqLogic {
 			$thermostat->reschedule(null, true);
 		}
 		
-		if ($thermostat->getConfiguration('lastState') == 'heat' && $temporal_data['direction'] < 0) {
-			$thermostat->setConfiguration('lastState', 'stop');
+		if ($thermostat->getCache('lastState') == 'heat' && $temporal_data['direction'] < 0) {
+			$thermostat->setCache('lastState', 'stop');
 			$thermostat->stopThermostat();
 		}
-		if ($thermostat->getConfiguration('lastState') == 'cool' && $temporal_data['direction'] > 0) {
-			$thermostat->setConfiguration('lastState', 'stop');
+		if ($thermostat->getCache('lastState') == 'cool' && $temporal_data['direction'] > 0) {
+			$thermostat->setCache('lastState', 'stop');
 			$thermostat->stopThermostat();
 		}
 		$thermostat->save();
@@ -630,10 +630,10 @@ class thermostat extends eqLogic {
 		$diff_in = $_consigne - $temp_in;
 		$diff_out = $_consigne - $temp_out;
 		$direction = ($_consigne > $temp_in) ? +1 : -1;
-		if ($direction < 0 && (($temp_in < ($_consigne + 0.5) && $this->getConfiguration('lastState') == 'heat') || ($_consigne - $temp_out) > $this->getConfiguration('direction::delta::heat',0))) {
+		if ($direction < 0 && (($temp_in < ($_consigne + 0.5) && $this->getCache('lastState') == 'heat') || ($_consigne - $temp_out) > $this->getConfiguration('direction::delta::heat',0))) {
 			$direction = +1;
 		}
-		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getConfiguration('lastState') == 'cool') || ($_consigne - $temp_out) < $this->getConfiguration('direction::delta::cool',0))) {
+		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getCache('lastState') == 'cool') || ($_consigne - $temp_out) < $this->getConfiguration('direction::delta::cool',0))) {
 			$direction = -1;
 		}
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Direction : ' . $direction);
@@ -658,13 +658,13 @@ class thermostat extends eqLogic {
 		$power = ($direction * $diff_in * $coeff_in) + ($direction * $diff_out * $coeff_out) + $offset;
 		log::add('thermostat', 'debug', $this->getHumanName() . ' : Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset .' = '.$power);
 		
-		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getConfiguration('last_power',0) >= $this->getConfiguration('threshold_heathot',100)) {
-			if($this->getConfiguration('last_power',0) >= 100){
+		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getCache('last_power',0) >= $this->getConfiguration('threshold_heathot',100)) {
+			if($this->getCache('last_power',0) >= 100){
 				log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at 100%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'%');
 				$power -= $this->getConfiguration('offset_nextFullCyle');
 			}else{
-				log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at '.$this->getConfiguration('last_power',0).'%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'% + '.(100 - $this->getConfiguration('last_power',0)));
-				$power -= $this->getConfiguration('offset_nextFullCyle') - (100 - $this->getConfiguration('last_power',0));
+				log::add('thermostat', 'debug', $this->getHumanName() . ' : Previous cycle at '.$this->getCache('last_power',0).'%, apply offset : -'.$this->getConfiguration('offset_nextFullCyle').'% + '.(100 - $this->getCache('last_power',0)));
+				$power -= $this->getConfiguration('offset_nextFullCyle') - (100 - $this->getCache('last_power',0));
 			}
 		}
 		if ($power > 100 && !$_allowOverfull) {
@@ -1424,8 +1424,7 @@ class thermostat extends eqLogic {
 		if (!$_repeat) {
 			$this->refresh();
 			$this->getCmd(null, 'status')->event(__('Chauffage', __FILE__));
-			$this->setConfiguration('lastState', 'heat');
-			$this->save();
+			$this->setCache('lastState', 'heat');
 			$this->getCmd(null, 'actif')->event(1);
 		}
 		return true;
@@ -1468,8 +1467,7 @@ class thermostat extends eqLogic {
 		if (!$_repeat) {
 			$this->refresh();
 			$this->getCmd(null, 'status')->event(__('Climatisation', __FILE__));
-			$this->setConfiguration('lastState', 'cool');
-			$this->save();
+			$this->setCache('lastState', 'cool');
 			$this->getCmd(null, 'actif')->event(1);
 		}
 		return true;
