@@ -4,6 +4,8 @@
 >
 >Como lembrete, se não houver informações sobre a atualização, isso significa que se trata apenas da atualização da documentação, tradução ou texto
 
+- Otimização geral
+
 # 01/06/2020
 
 - Adição do parâmetro do ponto de ajuste delta - temperatura externa para o cálculo da direção quente / frio

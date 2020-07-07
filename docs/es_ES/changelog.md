@@ -4,6 +4,8 @@
 >
 >Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto
 
+- Optimización general
+
 # 01/06/2020
 
 - Adición del parámetro de consigna delta: temperatura exterior para calcular la dirección frío / calor

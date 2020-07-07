@@ -4,6 +4,8 @@
 >
 >As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text
 
+- General optimization
+
 # 06/01/2020
 
 - Addition of delta setpoint parameter - outside temperature for calculating the hot / cold direction

@@ -2,6 +2,7 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Como lembrete, se não houver informações sobre a atualização, isso significa que se trata apenas da atualização da documentação, tradução ou texto",
+        "Optimisation général": "Otimização geral",
         "01\/06\/2020": "01\/06\/2020",
         "Ajout de paramètre de delta consigne - température exterieure pour le calcul de la direction chaud\/froid": "Adição do parâmetro do ponto de ajuste delta - temperatura externa para o cálculo da direção quente \/ frio",
         "07\/04\/2020": "04\/07\/2020",
