@@ -233,7 +233,7 @@ class thermostat extends eqLogic {
 		} else {
 			$thermostat->setCache('nbConsecutiveFaillure', 0);
 		}
-		if ($thermostat->getCache('nbConsecutiveFaillure', 0) < 3 && $thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getCache('endDate')) < strtotime('now')) {
+		if ($thermostat->getCache('nbConsecutiveFaillure', 0) < 3 && $thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getConfiguration('endDate')) < strtotime('now')) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Begin auto learning');
 			if ($thermostat->getCache('last_power') < 100 && $thermostat->getCache('last_power') > 0) {
 				log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Last power ok, check what I have to learn, last state : ' . $thermostat->getCache('lastState'));
@@ -308,7 +308,7 @@ class thermostat extends eqLogic {
 		$thermostat->setCache('lastOrder', $consigne);
 		$thermostat->setCache('lastTempIn', $temp_in);
 		$thermostat->setCache('lastTempOut', $temp_out);
-		$thermostat->setCache('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
+		$thermostat->setConfiguration('endDate', date('Y-m-d H:i:s', strtotime('+' . ceil($cycle * 0.9) . ' min ' . date('Y-m-d H:i:s'))));
 		log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Cycle duration : ' . $duration);
 		if (($thermostat->getConfiguration('stove_boiler') == 0 && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) || (($thermostat->getCache('lastState') == 'heat' && $temporal_data['power'] < 1) || ($thermostat->getCache('lastState') != 'heat' && $temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)))) {
 			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' : Durée du cycle trop courte, aucun lancement');
