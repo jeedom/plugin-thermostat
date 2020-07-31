@@ -161,5 +161,8 @@
         "Défaillance sonde": "",
         "Défaillance chauffage": "",
         "Aucun": "Нет"
+    },
+    "info.json": {
+        "Ce plugin très puissant et très complet vous permettra de gérer finement la température de votre logement que ce soit pour réchauffer ou refroidir celui-ci. Le plugin apprend de lui même avec le temps le meilleur moyen d'économiser de l'énergie tout en maintenant un confort optimal dans votre logement.": ""
     }
 }

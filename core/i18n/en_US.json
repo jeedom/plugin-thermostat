@@ -161,5 +161,8 @@
         "Défaillance sonde": "Probe failure",
         "Défaillance chauffage": "Heating failure",
         "Aucun": "None"
+    },
+    "info.json": {
+        "Ce plugin très puissant et très complet vous permettra de gérer finement la température de votre logement que ce soit pour réchauffer ou refroidir celui-ci. Le plugin apprend de lui même avec le temps le meilleur moyen d'économiser de l'énergie tout en maintenant un confort optimal dans votre logement.": "This very powerful and very complete plugin will allow you to finely manage the temperature of your home whether it is to heat or cool it. The plugin learns by itself over time the best way to save energy while maintaining optimal comfort in your home"
     }
 }

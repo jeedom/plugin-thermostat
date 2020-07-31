@@ -161,5 +161,8 @@
         "Défaillance sonde": "Falha na sonda",
         "Défaillance chauffage": "Falha no aquecimento",
         "Aucun": "Nemhum"
+    },
+    "info.json": {
+        "Ce plugin très puissant et très complet vous permettra de gérer finement la température de votre logement que ce soit pour réchauffer ou refroidir celui-ci. Le plugin apprend de lui même avec le temps le meilleur moyen d'économiser de l'énergie tout en maintenant un confort optimal dans votre logement.": "Este plugin muito poderoso e muito completo permitirá que você gerencie com precisão a temperatura da sua casa, seja para aquecer ou esfriar. Com o tempo, o plug-in aprende a melhor maneira de economizar energia, mantendo o conforto ideal em sua casa"
     }
 }

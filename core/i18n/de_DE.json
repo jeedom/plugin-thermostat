@@ -161,5 +161,8 @@
         "Défaillance sonde": "Sondenfehler",
         "Défaillance chauffage": "Heizungsfehler",
         "Aucun": "Ohne"
+    },
+    "info.json": {
+        "Ce plugin très puissant et très complet vous permettra de gérer finement la température de votre logement que ce soit pour réchauffer ou refroidir celui-ci. Le plugin apprend de lui même avec le temps le meilleur moyen d'économiser de l'énergie tout en maintenant un confort optimal dans votre logement.": "Mit diesem sehr leistungsstarken und sehr vollständigen Plugin können Sie die Temperatur Ihres Hauses genau regeln, unabhängig davon, ob Sie es heizen oder kühlen möchten. Das Plugin lernt im Laufe der Zeit von selbst, wie Sie am besten Energie sparen und gleichzeitig den optimalen Komfort in Ihrem Zuhause gewährleisten können"
     }
 }
