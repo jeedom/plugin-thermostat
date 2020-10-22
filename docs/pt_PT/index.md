@@ -91,6 +91,8 @@ Em seguida, especifique os comandos que medem a temperatura e controlam o aqueci
 >
 > Os campos "Limite inferior de temperatura" e "Limite superior de temperatura" definem a faixa de operação do termostato fora do qual uma falha de aquecimento é acionada. Veja o parágrafo sobre ações padrão abaixo.
 
+Você também tem um campo para indicar o consumo por dia em kWh do seu aquecimento (se você tiver caso contrário não importa). Isto permite que o plugin do termostato lhe dê uma indicação do desempenho do seu aquecimento (ele apenas faz o cálculo de acordo com o consumo / grau de dia unificado)
+
 Para o controle do radiador ou do ar condicionado, é descrito na guia *Estoque*. Aqui podemos definir várias ações, o que dá ao nosso termostato a capacidade de controlar diferentes equipamentos (caso de operação de zona, por exemplo, ou controle de outro termostato)
 
 ![Estoque sur les appareils](./images/actionssurappareil.png)

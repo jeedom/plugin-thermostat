@@ -91,6 +91,8 @@ Luego, especifique los comandos que miden la temperatura y controlan la calefacc
 >
 > Los campos 'Límite inferior de temperatura' y 'Límite superior de temperatura' definen el rango de operación del termostato fuera del cual se dispara una falla de calefacción. Vea el párrafo sobre acciones predeterminadas a continuación.
 
+También tienes un campo para indicar el consumo por día en kWh de tu calefacción (si lo tienes de lo contrario no importa). Esto permite que el complemento del termostato le dé una indicación del rendimiento de su calefacción (solo hace el cálculo de acuerdo con el consumo / grado de día unificado)
+
 Para el control del radiador o aire acondicionado, se describe en la pestaña *Acciones*. Aquí podemos definir varias acciones, lo que le da a nuestro termostato la capacidad de controlar diferentes equipos (caso de operación de zona, por ejemplo, o control de otro termostato))
 
 ![Acciones sur les appareils](./images/actionssurappareil.png)
