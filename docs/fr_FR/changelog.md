@@ -4,7 +4,13 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte
 
-- Optimisation général
+
+# 11/11/2020
+
+- Optimisations générales.
+- Ajout du tag "Compatibilité V4".
+- Suppression de la commande "Humidité extérieure".
+- Liaison des commandes "Action Mode" à la commande "Info Mode".
 
 # 01/06/2020
 
