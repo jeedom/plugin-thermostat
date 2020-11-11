@@ -7,10 +7,10 @@
 
 # 11/11/2020
 
-- Optimisations générales.
-- Ajout du tag "Compatibilité V4".
-- Suppression de la commande "Humidité extérieure".
-- Liaison des commandes "Action Mode" à la commande "Info Mode".
+- Optimisations générales
+- Suppression de la commande "Humidité"
+- Nouvelle présentation de la liste des objets
+- Ajout du tag "Compatibilité V4"
 
 # 01/06/2020
 
