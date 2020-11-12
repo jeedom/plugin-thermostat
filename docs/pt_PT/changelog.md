@@ -4,7 +4,13 @@
 >
 >Como lembrete, se não houver informações sobre a atualização, isso significa que se trata apenas da atualização da documentação, tradução ou texto
 
-- Otimização geral
+
+# 11/11/2020
+
+- Otimizações gerais
+- Remoção da "Umidade"
+- Nova apresentação da lista de objetos
+- Adição da tag "compatibilidade V4"
 
 # 01/06/2020
 

@@ -2,7 +2,11 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text",
-        "Optimisation général": "General optimization",
+        "11\/11\/2020": "11\/11\/2020",
+        "Optimisations générales": "General optimizations",
+        "Suppression de la commande \"Humidité": "Removal of the \"Humidity",
+        "Nouvelle présentation de la liste des objets": "New presentation of the list of objects",
+        "Ajout du tag \"Compatibilité V4": "Addition of the tag \"V4 compatibility",
         "01\/06\/2020": "06\/01\/2020",
         "Ajout de paramètre de delta consigne - température exterieure pour le calcul de la direction chaud\/froid": "Addition of delta setpoint parameter - outside temperature for calculating the hot \/ cold direction",
         "07\/04\/2020": "04\/07\/2020",

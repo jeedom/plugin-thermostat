@@ -4,7 +4,13 @@
 >
 >As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text
 
-- General optimization
+
+# 11/11/2020
+
+- General optimizations
+- Removal of the "Humidity"
+- New presentation of the list of objects
+- Addition of the tag "V4 compatibility"
 
 # 06/01/2020
 

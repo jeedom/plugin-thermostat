@@ -2,7 +2,11 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Zur Erinnerung: Wenn keine Informationen zum Update vorhanden sind, bedeutet dies, dass es sich nur um die Aktualisierung von Dokumentation, Übersetzung oder Text handelt",
-        "Optimisation général": "Allgemeine Optimierung",
+        "11\/11\/2020": "11\/11\/2020",
+        "Optimisations générales": "Allgemeine Optimierungen",
+        "Suppression de la commande \"Humidité": "Entfernung der \"Luftfeuchtigkeit",
+        "Nouvelle présentation de la liste des objets": "Neue Darstellung der Objektliste",
+        "Ajout du tag \"Compatibilité V4": "Hinzufügung des Tags \"V4-Kompatibilität",
         "01\/06\/2020": "06\/01\/2020",
         "Ajout de paramètre de delta consigne - température exterieure pour le calcul de la direction chaud\/froid": "Hinzufügung des Delta-Sollwertparameters - Außentemperatur zur Berechnung der Heiß- \/ Kaltrichtung",
         "07\/04\/2020": "04\/07\/2020",
