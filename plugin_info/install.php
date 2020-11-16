@@ -19,9 +19,12 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function thermostat_update() {
-    foreach (thermostat::byType('thermostat') as $thermostat) {
-        $thermostat->save();
+  foreach (thermostat::byType('thermostat') as $thermostat) {
+    if (is_object($thermostat->getCmd(null, 'humidity'))) {
+      $thermostat->getCmd(null, 'humidity')->remove();
     }
+    $thermostat->save();
+  }
 }
 
 ?>
