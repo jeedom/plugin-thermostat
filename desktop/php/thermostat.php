@@ -81,9 +81,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
 											<option value="">{{Aucun}}</option>
 											<?php
-											foreach (jeeObject::all() as $object) {
-												echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+											$options = '';
+											foreach ((jeeObject::buildTree(null, false)) as $object) {
+												$options .= '<option value="' . $object->getId() . '">' . str_repeat('&nbsp;&nbsp;', $object->getConfiguration('parentNumber')) . $object->getName() . '</option>';
 											}
+											echo $options;
 											?>
 										</select>
 									</div>
@@ -168,17 +170,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<div class="col-sm-9">
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="temperature_outdoor" data-concat="1"/>
-									<span class="input-group-btn">
-										<a class="btn btn-default listCmdInfo roundedRight"><i class="fas fa-list-alt"></i></a>
-									</span>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">{{Humidité}}</label>
-							<div class="col-sm-9">
-								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control tooltips roundedLeft" data-l1key="configuration" data-l2key="humidity_indoor" data-concat="1"/>
 									<span class="input-group-btn">
 										<a class="btn btn-default listCmdInfo roundedRight"><i class="fas fa-list-alt"></i></a>
 									</span>
