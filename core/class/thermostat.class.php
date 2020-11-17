@@ -1247,7 +1247,7 @@ class thermostat extends eqLogic {
 					if (isset($knowModes[$cmd->getName()]['isVisible'])) {
 						$cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
 					}
-          $cmd->setValue($this->getCmd(null, 'mode')->getId());
+					$cmd->setValue($this->getCmd(null, 'mode')->getId());
 					$cmd->save();
 					unset($knowModes[$cmd->getName()]);
 				} else {
@@ -1265,8 +1265,8 @@ class thermostat extends eqLogic {
 			if (isset($knowMode['isVisible'])) {
 				$mode->setIsVisible($knowMode['isVisible']);
 			}
-			$mode->setGeneric_type( 'THERMOSTAT_SET_MODE');
-      $mode->setValue($this->getCmd(null, 'mode')->getId());
+			$mode->setGeneric_type('THERMOSTAT_SET_MODE');
+			$mode->setValue($this->getCmd(null, 'mode')->getId());
 			$mode->save();
 		}
 
@@ -1577,6 +1577,9 @@ class thermostat extends eqLogic {
 							}
 						}
 						if (cmd::byString($action['cmd'])->getEqLogic_id() == $this->getId() && cmd::byString($action['cmd'])->getLogicalId() == 'thermostat') {
+							if (preg_match('/variable\((.*?)\)/', $options['slider'])) {
+								$options['slider'] = scenarioExpression::createAndExec('condition', $options['slider']);
+							}
 							$this->getCmd(null, 'order')->event($options['slider']);
 						}
 						else {
