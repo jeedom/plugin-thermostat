@@ -1577,10 +1577,7 @@ class thermostat extends eqLogic {
 							}
 						}
 						if (cmd::byString($action['cmd'])->getEqLogic_id() == $this->getId() && cmd::byString($action['cmd'])->getLogicalId() == 'thermostat') {
-							if (preg_match('/variable\((.*?)\)/', $options['slider'])) {
-								$options['slider'] = scenarioExpression::createAndExec('condition', $options['slider']);
-							}
-							$this->getCmd(null, 'order')->event($options['slider']);
+							$this->getCmd(null, 'order')->event(scenarioExpression::createAndExec('condition', $options['slider']));
 						}
 						else {
 							scenarioExpression::createAndExec('action', $action['cmd'], $options);
