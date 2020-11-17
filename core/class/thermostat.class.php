@@ -1182,7 +1182,7 @@ class thermostat extends eqLogic {
 			$off->setType('action');
 			$off->setSubType('other');
 			$off->setLogicalId('off');
-      $off->setValue($mode->getId());
+      $off->setValue($this->getCmd(null, 'mode')->getId());
 			$off->save();
 
 			if($this->getConfiguration('engine', 'temporal') == 'temporal'){
@@ -1247,7 +1247,7 @@ class thermostat extends eqLogic {
 					if (isset($knowModes[$cmd->getName()]['isVisible'])) {
 						$cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
 					}
-          $cmd->setValue($mode->getId());
+					$cmd->setValue($this->getCmd(null, 'mode')->getId());
 					$cmd->save();
 					unset($knowModes[$cmd->getName()]);
 				} else {
@@ -1266,7 +1266,7 @@ class thermostat extends eqLogic {
 				$mode->setIsVisible($knowMode['isVisible']);
 			}
 			$mode->setGeneric_type('THERMOSTAT_SET_MODE');
-      $mode->setValue($mode->getId());
+			$mode->setValue($this->getCmd(null, 'mode')->getId());
 			$mode->save();
 		}
 
