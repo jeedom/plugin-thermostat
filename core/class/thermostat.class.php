@@ -1579,6 +1579,7 @@ class thermostat extends eqLogic {
 						$cmd = (is_numeric(str_replace('#','', $action['cmd']))) ? cmd::byString($action['cmd']) : '';
 						if (is_object($cmd) && $cmd->getEqLogic_id() == $this->getId() && $cmd->getLogicalId() == 'thermostat') {
 							$this->getCmd(null, 'order')->event(scenarioExpression::createAndExec('condition', $options['slider']));
+							$this->orderChange();
 						}
 						else {
 							scenarioExpression::createAndExec('action', $action['cmd'], $options);
