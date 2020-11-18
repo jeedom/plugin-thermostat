@@ -1564,6 +1564,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function executeMode($_name) {
+		$thermostatCmd = false;
 		$consigne = $this->getCmd(null, 'order')->execCmd();
 		foreach ($this->getConfiguration('existingMode') as $existingMode) {
 			if ($_name == $existingMode['name']) {
@@ -1576,7 +1577,9 @@ class thermostat extends eqLogic {
 								$options[$key] = str_replace('#slider#', $consigne, $value);
 							}
 						}
-						if (cmd::byString($action['cmd'])->getEqLogic_id() == $this->getId() && cmd::byString($action['cmd'])->getLogicalId() == 'thermostat') {
+						$cmd = (is_numeric(str_replace('#','', $action['cmd']))) ? cmd::byString($action['cmd']) : '';
+						if (is_object($cmd) && $cmd->getEqLogic_id() == $this->getId() && $cmd->getLogicalId() == 'thermostat') {
+							$thermostatCmd = true;
 							$this->getCmd(null, 'order')->event(scenarioExpression::createAndExec('condition', $options['slider']));
 						}
 						else {
@@ -1589,6 +1592,9 @@ class thermostat extends eqLogic {
 			}
 		}
 		$this->getCmd(null, 'mode')->event($_name);
+		if ($thermostatCmd == true) {
+			$this->orderChange();
+		}
 		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
 			thermostat::temporal(array('thermostat_id' => $this->getId()));
 		}
