@@ -379,7 +379,7 @@ class thermostat extends eqLogic {
 			&& (strtotime('now') - $thermostat->getCache('window::state::open',-1)) > ($thermostat->getConfiguration('window_alertIfOpenMoreThan') * 60)
 			&& $thermostat->getCmd(null, 'status')->execCmd() == __('Suspendu',__FILE__)){
 				if($thermostat->getCache('alertSendForWindow',0) != 1){
-					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention le thermostat est suspendu à cause d\'une fenetre ouverte depuis : ', __FILE__) .  ((strtotime('now') - $thermostat->getCache('window::state::open',-1)) / 60). __(' min',__FILE__));
+					log::add('thermostat', 'error', $thermostat->getHumanName() . __(' : Attention le thermostat est suspendu à cause d\'une fenêtre ouverte depuis : ', __FILE__) .  ((strtotime('now') - $thermostat->getCache('window::state::open',-1)) / 60). __(' minutes',__FILE__));
 					$thermostat->setCache('alertSendForWindow',1);
 				}
 			}else{
@@ -469,7 +469,7 @@ class thermostat extends eqLogic {
 	}
 
 	public static function window($_option) {
-		log::add('thermostat', 'debug', 'Detection d\'un changement d\'une fenetre');
+		log::add('thermostat', 'debug', $this->getHumanName() . ' Détection d\'un changement sur une fenêtre');
 		$thermostat = thermostat::byId($_option['thermostat_id']);
 		if (is_object($thermostat) && $thermostat->getIsEnable() == 1) {
 			$windows = $thermostat->getConfiguration('window');
@@ -478,12 +478,12 @@ class thermostat extends eqLogic {
 					if (isset($window['invert']) && $window['invert'] == 1) {
 						$_option['value'] = ($_option['value'] == 0) ? 1 : 0;
 					}
-					log::add('thermostat', 'debug', 'Fenetre trouvée : ' . $window['cmd'] . ' valeur : ' . $_option['value']);
+					log::add('thermostat', 'debug', $this->getHumanName() . ' Fenêtre trouvée : ' . cmd::byString($window['cmd'])->getHumanName() . ' - valeur : ' . $_option['value']);
 					if ($_option['value'] == 0) {
-						log::add('thermostat', 'debug', 'Fenetre fermée');
+						log::add('thermostat', 'debug', $this->getHumanName() . ' Fenêtre fermée');
 						$thermostat->windowClose($window);
 					} else {
-						log::add('thermostat', 'debug', 'Fenetre ouverte');
+						log::add('thermostat', 'debug', $this->getHumanName() . ' Fenêtre ouverte');
 						$thermostat->windowOpen($window);
 					}
 				}
@@ -511,7 +511,7 @@ class thermostat extends eqLogic {
 
 	public function windowClose($_window) {
 		if ($this->getCache('window::state::' . str_replace('#', '', $_window['cmd']), 0) != 1) {
-			log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Je n\'ai jamais vu cette fenete ouverte, je ne fais rien');
+			log::add('thermostat', 'debug', $this->getHumanName() . '[windowClose] Je n\'ai jamais vu cette fenêtre ouverte, je ne fais rien');
 			return;
 		}
 		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 0);
