@@ -469,21 +469,21 @@ class thermostat extends eqLogic {
 	}
 
 	public static function window($_option) {
-		log::add('thermostat', 'debug', $this->getHumanName() . ' Détection d\'un changement sur une fenêtre');
 		$thermostat = thermostat::byId($_option['thermostat_id']);
 		if (is_object($thermostat) && $thermostat->getIsEnable() == 1) {
+			log::add('thermostat', 'debug', $thermostat->getHumanName() . ' Détection d\'un changement sur une fenêtre');
 			$windows = $thermostat->getConfiguration('window');
 			foreach ($windows as $window) {
 				if ('#' . $_option['event_id'] . '#' == $window['cmd']) {
 					if (isset($window['invert']) && $window['invert'] == 1) {
 						$_option['value'] = ($_option['value'] == 0) ? 1 : 0;
 					}
-					log::add('thermostat', 'debug', $this->getHumanName() . ' Fenêtre trouvée : ' . cmd::byString($window['cmd'])->getHumanName() . ' - valeur : ' . $_option['value']);
+					log::add('thermostat', 'debug', $thermostat->getHumanName() . ' Fenêtre trouvée : ' . cmd::byString($window['cmd'])->getHumanName() . ' - valeur : ' . $_option['value']);
 					if ($_option['value'] == 0) {
-						log::add('thermostat', 'debug', $this->getHumanName() . ' Fenêtre fermée');
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' Fenêtre fermée');
 						$thermostat->windowClose($window);
 					} else {
-						log::add('thermostat', 'debug', $this->getHumanName() . ' Fenêtre ouverte');
+						log::add('thermostat', 'debug', $thermostat->getHumanName() . ' Fenêtre ouverte');
 						$thermostat->windowOpen($window);
 					}
 				}
