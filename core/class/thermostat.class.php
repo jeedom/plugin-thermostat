@@ -911,329 +911,328 @@ class thermostat extends eqLogic {
 	}
 
 	public function postSave() {
-		if ($this->getIsEnable() == 1) {
-			$order = $this->getCmd(null, 'order');
-			if (!is_object($order)) {
-				$order = new thermostatCmd();
-				$order->setIsVisible(0);
-				$order->setUnite('°C');
-				$order->setName(__('Consigne', __FILE__));
-				$order->setConfiguration('historizeMode', 'none');
-				$order->setIsHistorized(1);
-			}
-			$order->setGeneric_type( 'THERMOSTAT_SETPOINT');
-			$order->setEqLogic_id($this->getId());
-			$order->setType('info');
-			$order->setSubType('numeric');
-			$order->setLogicalId('order');
-			$order->setConfiguration('maxValue', $this->getConfiguration('order_max'));
-			$order->setConfiguration('minValue', $this->getConfiguration('order_min'));
-			$order->save();
+		$order = $this->getCmd(null, 'order');
+		if (!is_object($order)) {
+			$order = new thermostatCmd();
+			$order->setIsVisible(0);
+			$order->setUnite('°C');
+			$order->setName(__('Consigne', __FILE__));
+			$order->setConfiguration('historizeMode', 'none');
+			$order->setIsHistorized(1);
+		}
+		$order->setGeneric_type( 'THERMOSTAT_SETPOINT');
+		$order->setEqLogic_id($this->getId());
+		$order->setType('info');
+		$order->setSubType('numeric');
+		$order->setLogicalId('order');
+		$order->setConfiguration('maxValue', $this->getConfiguration('order_max'));
+		$order->setConfiguration('minValue', $this->getConfiguration('order_min'));
+		$order->save();
 
-			$thermostat = $this->getCmd(null, 'thermostat');
-			if (!is_object($thermostat)) {
-				$thermostat = new thermostatCmd();
-				$thermostat->setUnite('°C');
-				$thermostat->setName(__('Thermostat', __FILE__));
-				$thermostat->setIsVisible(1);
-				$thermostat->setTemplate('dashboard','button');
-				$thermostat->setTemplate('mobile','button');
-			}
-			$thermostat->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
-			$thermostat->setEqLogic_id($this->getId());
-			$thermostat->setConfiguration('maxValue', $this->getConfiguration('order_max'));
-			$thermostat->setConfiguration('minValue', $this->getConfiguration('order_min'));
-			$thermostat->setType('action');
-			$thermostat->setSubType('slider');
-			$thermostat->setLogicalId('thermostat');
-			$thermostat->setValue($order->getId());
-			$thermostat->save();
+		$thermostat = $this->getCmd(null, 'thermostat');
+		if (!is_object($thermostat)) {
+			$thermostat = new thermostatCmd();
+			$thermostat->setUnite('°C');
+			$thermostat->setName(__('Thermostat', __FILE__));
+			$thermostat->setIsVisible(1);
+			$thermostat->setTemplate('dashboard','button');
+			$thermostat->setTemplate('mobile','button');
+		}
+		$thermostat->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
+		$thermostat->setEqLogic_id($this->getId());
+		$thermostat->setConfiguration('maxValue', $this->getConfiguration('order_max'));
+		$thermostat->setConfiguration('minValue', $this->getConfiguration('order_min'));
+		$thermostat->setType('action');
+		$thermostat->setSubType('slider');
+		$thermostat->setLogicalId('thermostat');
+		$thermostat->setValue($order->getId());
+		$thermostat->save();
 
-			$status = $this->getCmd(null, 'status');
-			if (!is_object($status)) {
-				$status = new thermostatCmd();
-				$status->setIsVisible(1);
-				$status->setName(__('Statut', __FILE__));
-			}
-			$status->setGeneric_type( 'THERMOSTAT_STATE_NAME');
-			$status->setEqLogic_id($this->getId());
-			$status->setType('info');
-			$status->setSubType('string');
-			$status->setLogicalId('status');
-			$status->save();
+		$status = $this->getCmd(null, 'status');
+		if (!is_object($status)) {
+			$status = new thermostatCmd();
+			$status->setIsVisible(1);
+			$status->setName(__('Statut', __FILE__));
+		}
+		$status->setGeneric_type( 'THERMOSTAT_STATE_NAME');
+		$status->setEqLogic_id($this->getId());
+		$status->setType('info');
+		$status->setSubType('string');
+		$status->setLogicalId('status');
+		$status->save();
 
-			$actif = $this->getCmd(null, 'actif');
-			if (!is_object($actif)) {
-				$actif = new thermostatCmd();
-				$actif->setName(__('Actif', __FILE__));
-				$actif->setIsVisible(0);
-				$actif->setIsHistorized(1);
-			}
-			$actif->setGeneric_type( 'THERMOSTAT_STATE');
-			$actif->setEqLogic_id($this->getId());
-			$actif->setType('info');
-			$actif->setSubType('binary');
-			$actif->setLogicalId('actif');
-			$actif->save();
+		$actif = $this->getCmd(null, 'actif');
+		if (!is_object($actif)) {
+			$actif = new thermostatCmd();
+			$actif->setName(__('Actif', __FILE__));
+			$actif->setIsVisible(0);
+			$actif->setIsHistorized(1);
+		}
+		$actif->setGeneric_type( 'THERMOSTAT_STATE');
+		$actif->setEqLogic_id($this->getId());
+		$actif->setType('info');
+		$actif->setSubType('binary');
+		$actif->setLogicalId('actif');
+		$actif->save();
 
-			$lockState = $this->getCmd(null, 'lock_state');
-			if (!is_object($lockState)) {
-				$lockState = new thermostatCmd();
-				$lockState->setTemplate('dashboard', 'lock');
-				$lockState->setTemplate('mobile', 'lock');
-				$lockState->setName(__('Verrouillage', __FILE__));
-				$lockState->setIsVisible(0);
-			}
-			$lockState->setGeneric_type( 'THERMOSTAT_LOCK');
-			$lockState->setEqLogic_id($this->getId());
-			$lockState->setType('info');
-			$lockState->setSubType('binary');
-			$lockState->setLogicalId('lock_state');
-			$lockState->save();
+		$lockState = $this->getCmd(null, 'lock_state');
+		if (!is_object($lockState)) {
+			$lockState = new thermostatCmd();
+			$lockState->setTemplate('dashboard', 'lock');
+			$lockState->setTemplate('mobile', 'lock');
+			$lockState->setName(__('Verrouillage', __FILE__));
+			$lockState->setIsVisible(0);
+		}
+		$lockState->setGeneric_type( 'THERMOSTAT_LOCK');
+		$lockState->setEqLogic_id($this->getId());
+		$lockState->setType('info');
+		$lockState->setSubType('binary');
+		$lockState->setLogicalId('lock_state');
+		$lockState->save();
 
-			$lock = $this->getCmd(null, 'lock');
-			if (!is_object($lock)) {
-				$lock = new thermostatCmd();
-				$lock->setTemplate('dashboard', 'lock');
-				$lock->setTemplate('mobile', 'lock');
-				$lock->setName('lock');
-				$lock->setOrder(1);
-			}
-			$lock->setGeneric_type( 'THERMOSTAT_SET_LOCK');
-			$lock->setEqLogic_id($this->getId());
-			$lock->setType('action');
-			$lock->setSubType('other');
-			$lock->setLogicalId('lock');
-			if ($this->getConfiguration('hideLockCmd') == 1) {
-				$lock->setIsVisible(0);
-			} else {
-				$lock->setIsVisible(1);
-			}
-			$lock->setValue($lockState->getId());
-			$lock->save();
+		$lock = $this->getCmd(null, 'lock');
+		if (!is_object($lock)) {
+			$lock = new thermostatCmd();
+			$lock->setTemplate('dashboard', 'lock');
+			$lock->setTemplate('mobile', 'lock');
+			$lock->setName('lock');
+			$lock->setOrder(1);
+		}
+		$lock->setGeneric_type( 'THERMOSTAT_SET_LOCK');
+		$lock->setEqLogic_id($this->getId());
+		$lock->setType('action');
+		$lock->setSubType('other');
+		$lock->setLogicalId('lock');
+		if ($this->getConfiguration('hideLockCmd') == 1) {
+			$lock->setIsVisible(0);
+		} else {
+			$lock->setIsVisible(1);
+		}
+		$lock->setValue($lockState->getId());
+		$lock->save();
 
-			$unlock = $this->getCmd(null, 'unlock');
-			if (!is_object($unlock)) {
-				$unlock = new thermostatCmd();
-				$unlock->setTemplate('dashboard', 'lock');
-				$unlock->setTemplate('mobile', 'lock');
-				$unlock->setName('unlock');
-				$unlock->setOrder(1);
-			}
-			$unlock->setGeneric_type( 'THERMOSTAT_SET_UNLOCK');
-			$unlock->setEqLogic_id($this->getId());
-			$unlock->setType('action');
-			$unlock->setSubType('other');
-			$unlock->setLogicalId('unlock');
-			if ($this->getConfiguration('hideLockCmd') == 1) {
-				$unlock->setIsVisible(0);
-			} else {
-				$unlock->setIsVisible(1);
-			}
-			$unlock->setValue($lockState->getId());
-			$unlock->save();
+		$unlock = $this->getCmd(null, 'unlock');
+		if (!is_object($unlock)) {
+			$unlock = new thermostatCmd();
+			$unlock->setTemplate('dashboard', 'lock');
+			$unlock->setTemplate('mobile', 'lock');
+			$unlock->setName('unlock');
+			$unlock->setOrder(1);
+		}
+		$unlock->setGeneric_type( 'THERMOSTAT_SET_UNLOCK');
+		$unlock->setEqLogic_id($this->getId());
+		$unlock->setType('action');
+		$unlock->setSubType('other');
+		$unlock->setLogicalId('unlock');
+		if ($this->getConfiguration('hideLockCmd') == 1) {
+			$unlock->setIsVisible(0);
+		} else {
+			$unlock->setIsVisible(1);
+		}
+		$unlock->setValue($lockState->getId());
+		$unlock->save();
 
-			$temperature = $this->getCmd(null, 'temperature');
-			if (!is_object($temperature)) {
-				$temperature = new thermostatCmd();
-				$temperature->setTemplate('dashboard', 'line');
-				$temperature->setTemplate('mobile', 'line');
-				$temperature->setName(__('Température', __FILE__));
-				$temperature->setIsVisible(1);
-				$temperature->setIsHistorized(1);
-			}
-			$temperature->setEqLogic_id($this->getId());
-			$temperature->setType('info');
-			$temperature->setSubType('numeric');
-			$temperature->setLogicalId('temperature');
-			$temperature->setUnite('°C');
-			$value = '';
-			preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_indoor'), $matches);
-			foreach ($matches[1] as $cmd_id) {
-				if (is_numeric($cmd_id)) {
-					$cmd = cmd::byId($cmd_id);
-					if (is_object($cmd) && $cmd->getType() == 'info') {
-						$value .= '#' . $cmd_id . '#';
-						break;
-					}
+		$temperature = $this->getCmd(null, 'temperature');
+		if (!is_object($temperature)) {
+			$temperature = new thermostatCmd();
+			$temperature->setTemplate('dashboard', 'line');
+			$temperature->setTemplate('mobile', 'line');
+			$temperature->setName(__('Température', __FILE__));
+			$temperature->setIsVisible(1);
+			$temperature->setIsHistorized(1);
+		}
+		$temperature->setEqLogic_id($this->getId());
+		$temperature->setType('info');
+		$temperature->setSubType('numeric');
+		$temperature->setLogicalId('temperature');
+		$temperature->setUnite('°C');
+		$value = '';
+		preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_indoor'), $matches);
+		foreach ($matches[1] as $cmd_id) {
+			if (is_numeric($cmd_id)) {
+				$cmd = cmd::byId($cmd_id);
+				if (is_object($cmd) && $cmd->getType() == 'info') {
+					$value .= '#' . $cmd_id . '#';
+					break;
 				}
-			}
-			$temperature->setValue($value);
-			$temperature->setGeneric_type( 'THERMOSTAT_TEMPERATURE');
-			$temperature->save();
-			if (is_nan($temperature->execCmd()) || $temperature->execCmd() == '') {
-				$temperature->event($temperature->execute());
-			}
-
-			$temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
-			if (!is_object($temperature_outdoor)) {
-				$temperature_outdoor = new thermostatCmd();
-				$temperature_outdoor->setTemplate('dashboard', 'line');
-				$temperature_outdoor->setTemplate('mobile', 'line');
-				$temperature_outdoor->setIsVisible(1);
-				$temperature_outdoor->setIsHistorized(1);
-				$temperature_outdoor->setName(__('Température extérieure', __FILE__));
-			}
-			$temperature_outdoor->setEqLogic_id($this->getId());
-			$temperature_outdoor->setType('info');
-			$temperature_outdoor->setSubType('numeric');
-			$temperature_outdoor->setLogicalId('temperature_outdoor');
-			$temperature_outdoor->setUnite('°C');
-
-			$value = '';
-			preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_outdoor'), $matches);
-			foreach ($matches[1] as $cmd_id) {
-				if (is_numeric($cmd_id)) {
-					$cmd = cmd::byId($cmd_id);
-					if (is_object($cmd) && $cmd->getType() == 'info') {
-						$value .= '#' . $cmd_id . '#';
-						break;
-					}
-				}
-			}
-			$temperature_outdoor->setValue($value);
-			$temperature_outdoor->setGeneric_type( 'THERMOSTAT_TEMPERATURE_OUTDOOR');
-			$temperature_outdoor->save();
-			if (is_nan($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
-				$temperature_outdoor->event($temperature_outdoor->execute());
-			}
-
-			$offsetheat = $this->getCmd(null, 'offset_heat');
-			if (!is_object($offsetheat)) {
-				$offsetheat = new thermostatCmd();
-				$offsetheat->setName(__('Offset chauffage', __FILE__));
-				$offsetheat->setIsVisible(0);
-			}
-			$offsetheat->setEqLogic_id($this->getId());
-			$offsetheat->setType('action');
-			$offsetheat->setSubType('slider');
-			$offsetheat->setLogicalId('offset_heat');
-			$offsetheat->save();
-
-			$offsetcool = $this->getCmd(null, 'offset_cool');
-			if (!is_object($offsetcool)) {
-				$offsetcool = new thermostatCmd();
-				$offsetcool->setName(__('Offset froid', __FILE__));
-				$offsetcool->setIsVisible(0);
-			}
-			$offsetcool->setEqLogic_id($this->getId());
-			$offsetcool->setType('action');
-			$offsetcool->setSubType('slider');
-			$offsetcool->setLogicalId('offset_cool');
-			$offsetcool->save();
-
-			$heatOnly = $this->getCmd(null, 'heat_only');
-			if (!is_object($heatOnly)) {
-				$heatOnly = new thermostatCmd();
-				$heatOnly->setName(__('Chauffage seulement', __FILE__));
-				$heatOnly->setIsVisible(0);
-			}
-			$heatOnly->setEqLogic_id($this->getId());
-			$heatOnly->setType('action');
-			$heatOnly->setSubType('other');
-			$heatOnly->setLogicalId('heat_only');
-			$heatOnly->save();
-
-			$coolOnly = $this->getCmd(null, 'cool_only');
-			if (!is_object($coolOnly)) {
-				$coolOnly = new thermostatCmd();
-				$coolOnly->setIsVisible(0);
-				$coolOnly->setName(__('Climatisation seulement', __FILE__));
-			}
-			$coolOnly->setEqLogic_id($this->getId());
-			$coolOnly->setType('action');
-			$coolOnly->setSubType('other');
-			$coolOnly->setLogicalId('cool_only');
-			$coolOnly->save();
-
-			$allAllow = $this->getCmd(null, 'all_allow');
-			if (!is_object($allAllow)) {
-				$allAllow = new thermostatCmd();
-			}
-			$allAllow->setEqLogic_id($this->getId());
-			$allAllow->setName(__('Tout autorisé', __FILE__));
-			$allAllow->setType('action');
-			$allAllow->setSubType('other');
-			$allAllow->setLogicalId('all_allow');
-			$allAllow->setIsVisible(0);
-			$allAllow->save();
-
-			$mode = $this->getCmd(null, 'mode');
-			if (!is_object($mode)) {
-				$mode = new thermostatCmd();
-				$mode->setName(__('Mode', __FILE__));
-				$mode->setIsVisible(1);
-			}
-			$mode->setGeneric_type('THERMOSTAT_MODE');
-			$mode->setEqLogic_id($this->getId());
-			$mode->setType('info');
-			$mode->setSubType('string');
-			$mode->setLogicalId('mode');
-			$mode->save();
-
-			$off = $this->getCmd(null, 'off');
-			if (!is_object($off)) {
-				$off = new thermostatCmd();
-				$off->setIsVisible(1);
-				$off->setName(__('Off', __FILE__));
-			}
-			$off->setGeneric_type( 'THERMOSTAT_SET_MODE');
-			$off->setEqLogic_id($this->getId());
-			$off->setType('action');
-			$off->setSubType('other');
-			$off->setLogicalId('off');
-      $off->setValue($this->getCmd(null, 'mode')->getId());
-			$off->save();
-
-			if($this->getConfiguration('engine', 'temporal') == 'temporal'){
-				$deltaOrder = $this->getCmd(null, 'deltaOrder');
-				if (!is_object($deltaOrder)) {
-					$deltaOrder = new thermostatCmd();
-					$deltaOrder->setUnite('°C');
-					$deltaOrder->setName(__('Delta consigne', __FILE__));
-					$deltaOrder->setIsVisible(0);
-				}
-				$deltaOrder->setEqLogic_id($this->getId());
-				$deltaOrder->setConfiguration('maxValue', 5);
-				$deltaOrder->setConfiguration('minValue', 0);
-				$deltaOrder->setType('action');
-				$deltaOrder->setSubType('slider');
-				$deltaOrder->setLogicalId('deltaOrder');
-				$deltaOrder->save();
-			}
-
-			if ($this->getConfiguration('consumption') != '') {
-				$performance = $this->getCmd(null, 'performance');
-				if (!is_object($performance)) {
-					$performance = new thermostatCmd();
-					$performance->setIsVisible(0);
-					$performance->setName(__('Performance', __FILE__));
-				}
-				$performance->setEqLogic_id($this->getId());
-				$performance->setType('info');
-				$performance->setSubType('numeric');
-				$performance->setLogicalId('performance');
-				$performance->setIsHistorized(1);
-				$performance->setDisplay('groupingType', 'high::day');
-				$performance->setConfiguration('historizeMode', 'max');
-				$performance->setUnite('kWh/DJU');
-				$performance->save();
-				$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('thermostat_id' => intval($this->getId())));
-				if (!is_object($listener)) {
-					$listener = new listener();
-				}
-				$listener->setClass('thermostat');
-				$listener->setFunction('updatePerformance');
-				$listener->setOption(array('thermostat_id' => intval($this->getId())));
-				$listener->emptyEvent();
-				preg_match_all("/#([0-9]*)#/", $this->getConfiguration('consumption'), $matches);
-				foreach ($matches[1] as $cmd_id) {
-					$listener->addEvent($cmd_id);
-				}
-				$listener->addEvent($this->getCmd(null, 'temperature_outdoor')->getId());
-				$listener->save();
 			}
 		}
+		$temperature->setValue($value);
+		$temperature->setGeneric_type( 'THERMOSTAT_TEMPERATURE');
+		$temperature->save();
+		if (is_nan($temperature->execCmd()) || $temperature->execCmd() == '') {
+			$temperature->event($temperature->execute());
+		}
+
+		$temperature_outdoor = $this->getCmd(null, 'temperature_outdoor');
+		if (!is_object($temperature_outdoor)) {
+			$temperature_outdoor = new thermostatCmd();
+			$temperature_outdoor->setTemplate('dashboard', 'line');
+			$temperature_outdoor->setTemplate('mobile', 'line');
+			$temperature_outdoor->setIsVisible(1);
+			$temperature_outdoor->setIsHistorized(1);
+			$temperature_outdoor->setName(__('Température extérieure', __FILE__));
+		}
+		$temperature_outdoor->setEqLogic_id($this->getId());
+		$temperature_outdoor->setType('info');
+		$temperature_outdoor->setSubType('numeric');
+		$temperature_outdoor->setLogicalId('temperature_outdoor');
+		$temperature_outdoor->setUnite('°C');
+
+		$value = '';
+		preg_match_all("/#([0-9]*)#/", $this->getConfiguration('temperature_outdoor'), $matches);
+		foreach ($matches[1] as $cmd_id) {
+			if (is_numeric($cmd_id)) {
+				$cmd = cmd::byId($cmd_id);
+				if (is_object($cmd) && $cmd->getType() == 'info') {
+					$value .= '#' . $cmd_id . '#';
+					break;
+				}
+			}
+		}
+		$temperature_outdoor->setValue($value);
+		$temperature_outdoor->setGeneric_type( 'THERMOSTAT_TEMPERATURE_OUTDOOR');
+		$temperature_outdoor->save();
+		if (is_nan($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
+			$temperature_outdoor->event($temperature_outdoor->execute());
+		}
+
+		$offsetheat = $this->getCmd(null, 'offset_heat');
+		if (!is_object($offsetheat)) {
+			$offsetheat = new thermostatCmd();
+			$offsetheat->setName(__('Offset chauffage', __FILE__));
+			$offsetheat->setIsVisible(0);
+		}
+		$offsetheat->setEqLogic_id($this->getId());
+		$offsetheat->setType('action');
+		$offsetheat->setSubType('slider');
+		$offsetheat->setLogicalId('offset_heat');
+		$offsetheat->save();
+
+		$offsetcool = $this->getCmd(null, 'offset_cool');
+		if (!is_object($offsetcool)) {
+			$offsetcool = new thermostatCmd();
+			$offsetcool->setName(__('Offset froid', __FILE__));
+			$offsetcool->setIsVisible(0);
+		}
+		$offsetcool->setEqLogic_id($this->getId());
+		$offsetcool->setType('action');
+		$offsetcool->setSubType('slider');
+		$offsetcool->setLogicalId('offset_cool');
+		$offsetcool->save();
+
+		$heatOnly = $this->getCmd(null, 'heat_only');
+		if (!is_object($heatOnly)) {
+			$heatOnly = new thermostatCmd();
+			$heatOnly->setName(__('Chauffage seulement', __FILE__));
+			$heatOnly->setIsVisible(0);
+		}
+		$heatOnly->setEqLogic_id($this->getId());
+		$heatOnly->setType('action');
+		$heatOnly->setSubType('other');
+		$heatOnly->setLogicalId('heat_only');
+		$heatOnly->save();
+
+		$coolOnly = $this->getCmd(null, 'cool_only');
+		if (!is_object($coolOnly)) {
+			$coolOnly = new thermostatCmd();
+			$coolOnly->setIsVisible(0);
+			$coolOnly->setName(__('Climatisation seulement', __FILE__));
+		}
+		$coolOnly->setEqLogic_id($this->getId());
+		$coolOnly->setType('action');
+		$coolOnly->setSubType('other');
+		$coolOnly->setLogicalId('cool_only');
+		$coolOnly->save();
+
+		$allAllow = $this->getCmd(null, 'all_allow');
+		if (!is_object($allAllow)) {
+			$allAllow = new thermostatCmd();
+		}
+		$allAllow->setEqLogic_id($this->getId());
+		$allAllow->setName(__('Tout autorisé', __FILE__));
+		$allAllow->setType('action');
+		$allAllow->setSubType('other');
+		$allAllow->setLogicalId('all_allow');
+		$allAllow->setIsVisible(0);
+		$allAllow->save();
+
+		$mode = $this->getCmd(null, 'mode');
+		if (!is_object($mode)) {
+			$mode = new thermostatCmd();
+			$mode->setName(__('Mode', __FILE__));
+			$mode->setIsVisible(1);
+		}
+		$mode->setGeneric_type('THERMOSTAT_MODE');
+		$mode->setEqLogic_id($this->getId());
+		$mode->setType('info');
+		$mode->setSubType('string');
+		$mode->setLogicalId('mode');
+		$mode->save();
+
+		$off = $this->getCmd(null, 'off');
+		if (!is_object($off)) {
+			$off = new thermostatCmd();
+			$off->setIsVisible(1);
+			$off->setName(__('Off', __FILE__));
+		}
+		$off->setGeneric_type( 'THERMOSTAT_SET_MODE');
+		$off->setEqLogic_id($this->getId());
+		$off->setType('action');
+		$off->setSubType('other');
+		$off->setLogicalId('off');
+    $off->setValue($mode->getId());
+		$off->save();
+
+		if($this->getConfiguration('engine', 'temporal') == 'temporal'){
+			$deltaOrder = $this->getCmd(null, 'deltaOrder');
+			if (!is_object($deltaOrder)) {
+				$deltaOrder = new thermostatCmd();
+				$deltaOrder->setUnite('°C');
+				$deltaOrder->setName(__('Delta consigne', __FILE__));
+				$deltaOrder->setIsVisible(0);
+			}
+			$deltaOrder->setEqLogic_id($this->getId());
+			$deltaOrder->setConfiguration('maxValue', 5);
+			$deltaOrder->setConfiguration('minValue', 0);
+			$deltaOrder->setType('action');
+			$deltaOrder->setSubType('slider');
+			$deltaOrder->setLogicalId('deltaOrder');
+			$deltaOrder->save();
+		}
+
+		if ($this->getConfiguration('consumption') != '') {
+			$performance = $this->getCmd(null, 'performance');
+			if (!is_object($performance)) {
+				$performance = new thermostatCmd();
+				$performance->setIsVisible(0);
+				$performance->setName(__('Performance', __FILE__));
+			}
+			$performance->setEqLogic_id($this->getId());
+			$performance->setType('info');
+			$performance->setSubType('numeric');
+			$performance->setLogicalId('performance');
+			$performance->setIsHistorized(1);
+			$performance->setDisplay('groupingType', 'high::day');
+			$performance->setConfiguration('historizeMode', 'max');
+			$performance->setUnite('kWh/DJU');
+			$performance->save();
+			$listener = listener::byClassAndFunction('thermostat', 'updatePerformance', array('thermostat_id' => intval($this->getId())));
+			if (!is_object($listener)) {
+				$listener = new listener();
+			}
+			$listener->setClass('thermostat');
+			$listener->setFunction('updatePerformance');
+			$listener->setOption(array('thermostat_id' => intval($this->getId())));
+			$listener->emptyEvent();
+			preg_match_all("/#([0-9]*)#/", $this->getConfiguration('consumption'), $matches);
+				foreach ($matches[1] as $cmd_id) {
+				$listener->addEvent($cmd_id);
+			}
+			$listener->addEvent($this->getCmd(null, 'temperature_outdoor')->getId());
+			$listener->save();
+		}
+
 		$knowModes = array();
 		if (is_array($this->getConfiguration('existingMode'))) {
 			foreach ($this->getConfiguration('existingMode') as $existingMode) {
@@ -1247,7 +1246,7 @@ class thermostat extends eqLogic {
 					if (isset($knowModes[$cmd->getName()]['isVisible'])) {
 						$cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
 					}
-					$cmd->setValue($this->getCmd(null, 'mode')->getId());
+					$cmd->setValue($mode->getId());
 					$cmd->save();
 					unset($knowModes[$cmd->getName()]);
 				} else {
@@ -1256,18 +1255,18 @@ class thermostat extends eqLogic {
 			}
 		}
 		foreach ($knowModes as $knowMode) {
-			$mode = new thermostatCmd();
-			$mode->setEqLogic_id($this->getId());
-			$mode->setName($knowMode['name']);
-			$mode->setType('action');
-			$mode->setSubType('other');
-			$mode->setLogicalId('modeAction');
+			$modeAction = new thermostatCmd();
+			$modeAction->setEqLogic_id($this->getId());
+			$modeAction->setName($knowMode['name']);
+			$modeAction->setType('action');
+			$modeAction->setSubType('other');
+			$modeAction->setLogicalId('modeAction');
 			if (isset($knowMode['isVisible'])) {
-				$mode->setIsVisible($knowMode['isVisible']);
+				$modeAction->setIsVisible($knowMode['isVisible']);
 			}
-			$mode->setGeneric_type('THERMOSTAT_SET_MODE');
-			$mode->setValue($this->getCmd(null, 'mode')->getId());
-			$mode->save();
+			$modeAction->setGeneric_type('THERMOSTAT_SET_MODE');
+			$modeAction->setValue($mode->getId());
+			$modeAction->save();
 		}
 
 		if ($this->getIsEnable() == 1) {
