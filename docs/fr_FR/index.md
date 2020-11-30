@@ -89,7 +89,7 @@ Ensuite, il faut préciser les commandes qui permettent de mesurer la températu
 
 > **Tip**
 >
-> Les champs `Borne de température inférieure` et `Borne de température supérieure` définissent la plage de fonctionnement du thermostat en dehors de laquelle une défaillance du chauffage est enclenchée. Voir ci-dessous le paragraphe sur les actions de défaillance.
+> Les champs `Borne de température inférieure` et `Borne de température supérieure` définissent la plage de fonctionnement du thermostat en dehors de laquelle une défaillance de sonde est enclenchée. Voir ci-dessous le paragraphe sur les actions de défaillance.
 
 Vous avez aussi un champs pour indiquer la consommation par jour en kWh de votre chauffage (si vous l'avez sinon ce n'est pas grave). Cela permet au plugin thermostat de vous donner une indication de performance de votre chauffage (il fait juste le calcul suivant consommation / degrès jour unifé)
 
