@@ -89,7 +89,7 @@ Em seguida, especifique os comandos que medem a temperatura e controlam o aqueci
 
 > **Dica**
 >
-> Os campos "Limite inferior de temperatura" e "Limite superior de temperatura" definem a faixa de operação do termostato fora do qual uma falha de aquecimento é acionada. Veja o parágrafo sobre ações padrão abaixo.
+> Os campos `Limite inferior de temperatura` e` Limite superior de temperatura` definem a faixa operacional do termostato fora da qual uma falha de sensor é acionada. Veja o parágrafo sobre ações padrão abaixo.
 
 Você também tem um campo para indicar o consumo por dia em kWh do seu aquecimento (se você tiver caso contrário não importa). Isto permite que o plugin do termostato lhe dê uma indicação do desempenho do seu aquecimento (ele apenas faz o cálculo de acordo com o consumo / grau de dia unificado)
 

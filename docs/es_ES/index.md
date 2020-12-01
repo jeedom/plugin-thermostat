@@ -89,7 +89,7 @@ Luego, especifique los comandos que miden la temperatura y controlan la calefacc
 
 > **Punta**
 >
-> Los campos 'Límite inferior de temperatura' y 'Límite superior de temperatura' definen el rango de operación del termostato fuera del cual se dispara una falla de calefacción. Vea el párrafo sobre acciones predeterminadas a continuación.
+> Los campos "Límite de temperatura inferior" y "Límite de temperatura superior" definen el rango de funcionamiento del termostato fuera del cual se activa una falla del sensor. Vea el párrafo sobre acciones predeterminadas a continuación.
 
 También tienes un campo para indicar el consumo por día en kWh de tu calefacción (si lo tienes de lo contrario no importa). Esto permite que el complemento del termostato le dé una indicación del rendimiento de su calefacción (solo hace el cálculo de acuerdo con el consumo / grado de día unificado)
 

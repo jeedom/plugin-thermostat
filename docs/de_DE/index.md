@@ -89,7 +89,7 @@ Geben Sie als Nächstes die Befehle an, mit denen die Temperatur gemessen und di
 
 > **Spitze**
 >
-> Die Felder "Untere Temperaturgrenze" und "Obere Temperaturgrenze" definieren den Betriebsbereich des Thermostats, außerhalb dessen ein Heizungsfehler ausgelöst wird. Siehe den folgenden Abschnitt zu Standardaktionen.
+> Die Felder "Untere Temperaturgrenze" und "Obere Temperaturgrenze" definieren den Betriebsbereich des Thermostats, außerhalb dessen ein Sensorausfall ausgelöst wird. Siehe den folgenden Abschnitt zu Standardaktionen.
 
 Sie haben auch ein Feld, um den Verbrauch pro Tag in kWh Ihrer Heizung anzuzeigen (wenn Sie es haben, spielt es keine Rolle). Auf diese Weise kann das Thermostat-Plugin Ihnen einen Hinweis auf die Leistung Ihrer Heizung geben (es wird lediglich die Berechnung nach Verbrauch / einheitlichem Tagesgrad durchgeführt)
 

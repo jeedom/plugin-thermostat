@@ -89,7 +89,7 @@ Next, specify the commands that measure the temperature and control the heating 
 
 > **Tip**
 >
-> The fields `Lower temperature limit` and` Upper temperature limit` define the operating range of the thermostat outside which a heating failure is triggered. See the paragraph on default actions below.
+> The fields `Lower temperature limit` and` Upper temperature limit` define the operating range of the thermostat outside which a sensor failure is triggered. See the paragraph on default actions below.
 
 You also have a field to indicate the consumption per day in kWh of your heating (if you have it otherwise it does not matter). This allows the thermostat plugin to give you an indication of the performance of your heating (it just does the calculation according to consumption / unified day degree)
 
