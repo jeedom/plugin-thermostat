@@ -214,7 +214,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{{Commande personnelle}}
-										<sup><i class="fas fa-question-circle tooltips" title="{{Sélectionner une commande de votre choix à afficher sur le thermostat}}"></i></sup>
+										<sup><i class="fas fa-question-circle tooltips" title="{{Sélectionner une commande de votre choix à afficher sur le thermostat (facultatif)}}"></i></sup>
 									</label>
 									<div class="col-sm-7">
 										<div class="input-group">
