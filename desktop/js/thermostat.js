@@ -34,7 +34,7 @@ $(".eqLogic").off('click','.listCmdInfo').on('click','.listCmdInfo', function ()
 
 $('body').off('click','.rename').on('click','.rename', function () {
   var el = $(this);
-  bootbox.prompt("{{Nouveau nom ?}}", function (result) {
+  bootbox.prompt("{{Nouveau nom du mode ?}}", function (result) {
     if (result !== null) {
       el.text(result);
       el.closest('.mode').find('.modeAttr[data-l1key=name]').value(result);
@@ -50,7 +50,7 @@ $("body").off('click','.listCmdAction').on('click','.listCmdAction', function ()
     jeedom.cmd.displayActionOption(el.value(), '', function (html) {
       el.closest('.' + type).find('.actionOptions').html(html);
     });
-    
+
   });
 });
 
@@ -114,7 +114,7 @@ $("body").off('click','.addModeAction').on('click','.addModeAction',function () 
 
 $("body").off('click','.removeMode').on('click','.removeMode',function () {
   var el = $(this);
-  bootbox.confirm('{{Etes-vous sûr de vouloir supprimer ce mode}} ?', function (result) {
+  bootbox.confirm('{{Êtes-vous sûr de vouloir supprimer ce mode}} ?', function (result) {
     if (result !== null) {
       el.closest('.mode').remove();
     }
@@ -128,19 +128,13 @@ $('body').off('focusout','.cmdAction.expressionAttr[data-l1key=cmd]').on('focuso
   jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function (html) {
     el.closest('.' + type).find('.actionOptions').html(html);
   });
-  
+
 });
 
 $("body").off('click','.bt_removeAction').on('click','.bt_removeAction',function () {
   var type = $(this).attr('data-type');
   $(this).closest('.' + type).remove();
 });
-
-$('#bt_configureMode').off('click').on('click', function () {
-  $('#md_modal').dialog({title: "{{Configuration des modes}}"});
-  $('#md_modal').load('index.php?v=d&plugin=thermostat&modal=configure.mode').dialog('open');
-});
-
 
 function saveEqLogic(_eqLogic) {
   if (!isset(_eqLogic.configuration)) {
@@ -162,8 +156,6 @@ function saveEqLogic(_eqLogic) {
   });
   return _eqLogic;
 }
-
-
 
 function printEqLogic(_eqLogic) {
   $('#div_heat').empty();
@@ -196,7 +188,7 @@ function printEqLogic(_eqLogic) {
         addAction(_eqLogic.configuration.orderChange[i], 'orderChange');
       }
     }
-    
+
     if (isset(_eqLogic.configuration.window)) {
       for (var i in _eqLogic.configuration.window) {
         addWindow(_eqLogic.configuration.window[i]);
@@ -239,29 +231,30 @@ function printScheduling(_eqLogic){
       }
       $('#div_schedule').empty();
       if(data.result.length == 0){
-        $('#div_schedule').append("<center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez encore aucune programmation. Veuillez cliquer <a href='index.php?v=d&m=calendar&p=calendar'>ici</a> pour programmer votre thermostat à l'aide du plugin agenda}}</span></center>");
+        $('#div_schedule').append('<div class="col-xs-10 col-xs-offset-1 alert alert-warning">{{Vous n\'avez encore aucune programmation. Veuillez cliquer sur le bouton ci-après pour programmer votre thermostat à l\'aide du}} <a class="btn btn-sm" href="index.php?v=d&m=calendar&p=calendar">{{plugin Agenda}}</a></div>');
       }else{
-        var html = '<legend>{{Liste des programmations du plugin Agenda liées au Thermostat}}</legend>';
+        var html = '<legend><i class="fas fa-external-link-alt"></i> {{Programmations du plugin Agenda liées au thermostat :}}</legend><hr>';
         for (var i in data.result) {
           var color = init(data.result[i].cmd_param.color, '#2980b9');
           if(data.result[i].cmd_param.transparent == 1){
             color = 'transparent';
           }
-          html += '<span class="label label-info cursor" style="font-size:1.2em;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
+          html += '<span class="label cursor" style="font-size:1.2em!important;margin-left:20px;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">';
           html += '<a href="index.php?v=d&m=calendar&p=calendar&id='+data.result[i].eqLogic_id+'&event_id='+data.result[i].id+'" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
-          
+
           if (data.result[i].cmd_param.eventName != '') {
             html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.eventName;
           } else {
             html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.name;
           }
-          html += '</a></span><br\><br\>';
+          html += '</a></span><hr>';
+
         }
         $('#div_schedule').empty().append(html);
       }
     }
   });
-  
+
 }
 
 function addMode(_mode) {
@@ -272,15 +265,17 @@ function addMode(_mode) {
   div += '<fieldset>';
   div += '<legend>';
   div += '<span class="rename cursor">' + _mode.name + '</span>';
-  div += ' <span style="font-size:0.8em;margin-left:20px;">{{Visible}}</span> <input type="checkbox"  class="modeAttr" data-l1key="isVisible" checked /> ';
-  div += ' <a class="btn btn-danger btn-xs removeMode pull-right"><i class="fas fa-minus-circle"></i> Supprimer mode</a> ';
-  div += ' <a class="btn btn-default btn-xs addModeAction pull-right"><i class="fas fa-plus-circle"></i> Ajouter action</a> ';
+
+  div += '<label class="checkbox-inline" style="font-size:0.8em;margin-left:15px;"><input type="checkbox" class="modeAttr" data-l1key="isVisible" checked/>{{Visible}}</label>';
+  div += ' <a class="btn btn-danger btn-xs removeMode pull-right"><i class="fas fa-minus-circle"></i> {{Supprimer mode}}</a> ';
+  div += ' <a class="btn btn-default btn-xs addModeAction pull-right"><i class="fas fa-plus-circle"></i> {{Ajouter action}}</a> ';
   div += ' </legend>';
   div += '<input class="modeAttr" data-l1key="name"  style="display : none;" value="' + _mode.name + '"/>';
   div += ' <div class="div_modeAction">';
   div += ' </div>';
   div += '</fieldset> ';
   div += '</form>';
+  div += '<hr>';
   $('#div_modes').append(div);
   $('#div_modes .mode').last().setValues(_mode, '.modeAttr');
   if (isset(_mode.actions)) {
@@ -297,7 +292,7 @@ function addModeAction(_modeAction, _el) {
   var div = '<div class="modeAction">';
   div += '<div class="form-group ">';
   div += '<label class="col-sm-1 control-label">Action</label>';
-  div += '<div class="col-sm-3">';
+  div += '<div class="col-sm-5">';
   div += '<div class="input-group">';
   div += '<span class="input-group-btn">';
   div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="modeAction"><i class="fas fa-minus-circle"></i></a>';
@@ -308,7 +303,7 @@ function addModeAction(_modeAction, _el) {
   div += '</span>';
   div += '</div>';
   div += '</div>';
-  div += '<div class="col-sm-7 actionOptions">';
+  div += '<div class="col-sm-5 actionOptions">';
   div += jeedom.cmd.displayActionOption(init(_modeAction.cmd, ''), _modeAction.options);
   div += '</div>';
   div += '</div>';
@@ -321,7 +316,7 @@ function addAction(_action, _type) {
   var div = '<div class="' + _type + '">';
   div += '<div class="form-group ">';
   div += '<label class="col-sm-1 control-label">Action</label>';
-  div += '<div class="col-sm-4">';
+  div += '<div class="col-sm-5">';
   div += '<div class="input-group">';
   div += '<span class="input-group-btn">';
   div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="' + _type + '"><i class="fas fa-minus-circle"></i></a>';
@@ -332,7 +327,7 @@ function addAction(_action, _type) {
   div += '</span>';
   div += '</div>';
   div += '</div>';
-  div += '<div class="col-sm-7 actionOptions">';
+  div += '<div class="col-sm-5 actionOptions">';
   div += jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options);
   div += '</div>';
   div += '</div>';
@@ -344,7 +339,7 @@ function addAction(_action, _type) {
 function addWindow(_info) {
   var div = '<div class="window">';
   div += '<div class="form-group ">';
-  div += '<label class="col-sm-1 control-label">Ouverture</label>';
+  div += '<label class="col-sm-1 control-label">{{Ouvrant}}</label>';
   div += '<div class="col-sm-4">';
   div += '<div class="input-group">';
   div += '<span class="input-group-btn">';
@@ -356,11 +351,11 @@ function addWindow(_info) {
   div += '</span>';
   div += '</div>';
   div += '</div>';
-  div += '<label class="col-sm-2 control-label">{{Eteindre si ouvert plus de (min)}}</label>';
+  div += '<label class="col-sm-2 control-label">{{Éteindre si ouvert plus de}} <sub>(min.)</sub></label>';
   div += '<div class="col-sm-1">';
   div += '<input class="expressionAttr form-control cmdInfo" data-l1key="stopTime" />';
   div += '</div>';
-  div += '<label class="col-sm-2 control-label">{{Rallumer si fermé depuis (min)}}</label>';
+  div += '<label class="col-sm-2 control-label">{{Rallumer si fermé depuis}} <sub>(min.)</sub></label>';
   div += '<div class="col-sm-1">';
   div += '<input class="expressionAttr form-control cmdInfo" data-l1key="restartTime"/>';
   div += '</div>';
@@ -368,15 +363,16 @@ function addWindow(_info) {
   div += '<label class="checkbox-inline"><input type="checkbox" class="expressionAttr cmdInfo" data-l1key="invert"/>{{Inverser}}</label></span>';
   div += '</div>';
   div += '</div>';
+  div += '<hr>';
   $('#div_window').append(div);
   $('#div_window .window').last().setValues(_info, '.expressionAttr');
 }
 
 function addFailure(_info) {
-  var div = '<div class="failure">';
+  var div = '<div class="col-xs-12 failure">';
   div += '<div class="form-group ">';
   div += '<label class="col-sm-1 control-label">Action</label>';
-  div += '<div class="col-sm-4">';
+  div += '<div class="col-sm-5">';
   div += '<div class="input-group">';
   div += '<span class="input-group-btn">';
   div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="failure"><i class="fas fa-minus-circle"></i></a>';
@@ -387,7 +383,7 @@ function addFailure(_info) {
   div += '</span>';
   div += '</div>';
   div += '</div>';
-  div += '<div class="col-sm-7 actionOptions">';
+  div += '<div class="col-sm-5 actionOptions">';
   div += jeedom.cmd.displayActionOption(init(_info.cmd, ''), _info.options);
   div += '</div>';
   div += '</div>';
@@ -396,10 +392,10 @@ function addFailure(_info) {
 }
 
 function addFailureActuator(_info) {
-  var div = '<div class="failureActuator">';
+  var div = '<div class="col-xs-12 failureActuator">';
   div += '<div class="form-group ">';
   div += '<label class="col-sm-1 control-label">Action</label>';
-  div += '<div class="col-sm-4">';
+  div += '<div class="col-sm-5">';
   div += '<div class="input-group">';
   div += '<span class="input-group-btn">';
   div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="failureActuator"><i class="fas fa-minus-circle"></i></a>';
@@ -410,7 +406,7 @@ function addFailureActuator(_info) {
   div += '</span>';
   div += '</div>';
   div += '</div>';
-  div += '<div class="col-sm-7 actionOptions">';
+  div += '<div class="col-sm-5 actionOptions">';
   div += jeedom.cmd.displayActionOption(init(_info.cmd, ''), _info.options);
   div += '</div>';
   div += '</div>';

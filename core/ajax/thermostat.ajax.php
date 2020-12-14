@@ -100,7 +100,7 @@ try {
 		ajax::success(utils::o2a($return));
 	}
 
-	throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
+	throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
 } catch (Exception $e) {
 	ajax::error(displayExeption($e), $e->getCode());
 }
