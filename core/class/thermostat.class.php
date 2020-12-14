@@ -793,12 +793,12 @@ class thermostat extends eqLogic {
 				log::add('thermostat', 'debug', $this->getHumanName() . __(' Smartstart non pris en compte car power < 0 ' . $temporal_data['power'], __FILE__));
 				return;
 			}
-			$duration = ($temporal_data['power'] * $cycle) / 100;
+			$duration = round(($temporal_data['power'] * $cycle) / 100);
 			if ($duration < 5) {
 				log::add('thermostat', 'debug', $this->getHumanName() . __(' Smartstart non pris en compte car la durée ', __FILE__) . $duration);
 				return '';
 			}
-			$next['schedule'] = date('Y-m-d H:i:s', strtotime('-' . round($duration) . ' min ' . $next['date']));
+			$next['schedule'] = date('Y-m-d H:i:s', strtotime('-' . $duration . ' min ' . $next['date']));
 			log::add('thermostat', 'debug', $this->getHumanName() . __(' Durée Smartstart : ' . $duration . ' à ' . $next['date'] . ' programmation : ' . $next['schedule'], __FILE__));
 			if (strtotime($next['schedule']) > (strtotime('now') + 120)) {
 				log::add('thermostat', 'debug', $this->getHumanName() . __(' Prochain Smartstart : ' . $next['schedule'], __FILE__));
