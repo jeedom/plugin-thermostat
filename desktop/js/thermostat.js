@@ -20,6 +20,7 @@ $("#div_cool").sortable({axis: "y", cursor: "move", items: ".cool", placeholder:
 $("#div_stop").sortable({axis: "y", cursor: "move", items: ".stop", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#div_orderChange").sortable({axis: "y", cursor: "move", items: ".orderChange", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#div_failureActuator").sortable({axis: "y", cursor: "move", items: ".failureActuator", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#div_failure").sortable({axis: "y", cursor: "move", items: ".failure", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 $(".eqLogic").off('click','.listCmdInfo').on('click','.listCmdInfo', function () {
   var el = $(this).closest('.form-group').find('.eqLogicAttr');

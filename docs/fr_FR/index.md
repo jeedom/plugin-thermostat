@@ -334,14 +334,14 @@ Dans le menu `Accueil`, on trouve le sous-menu `Thermostat`. La fenêtre qui s�
 >
 >Verifiez que votre thermostat n’est pas verouillé
 
->**En mode histéresis mon thermostat ne change jamais d’état**
+>**En mode hystéresis mon thermostat ne change jamais d’état**
 >
 >C’est que les sondes de température ne remontent pas automatiquement leur valeur, il est conseillé de mettre en place un "Cron de contrôle"
 
->**Les courbes du thermostat (en particulier la consigne) ne semblent pas être juste**
+>**Les courbes du thermostat (en particulier la consigne) ne semblent pas être justes**
 >
->Regarder du coté du lissage de l'historique des commandes en question. En effet pour gagner en efficacité Jeedom fait une moyenne des valeurs sur 5 min puis sur l'heure.
+>Regarder du coté du lissage de l'historique des commandes en question. En effet pour gagner en efficacité Jeedom fait une moyenne des valeurs sur 5 minutes puis sur l'heure.
 
 >**L'onglet mode/action est vide et quand je clique sur les boutons ajouter ca ne fait rien**
 >
->Essayez de désactiver Adblock (ou tout autre bloqueur de publicité), pour une raison inconnu ceux-ci bloque sans raison le JavaScript de la page.
+>Essayez de désactiver Adblock (ou tout autre bloqueur de publicité), pour une raison inconnue ceux-ci bloquent sans raison le javaScript de la page.

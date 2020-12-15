@@ -336,7 +336,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 					<fieldset>
 						<div class="alert alert-info col-xs-10 col-xs-offset-1">
 							{{Décider des actions à entreprendre en cas de défaillance de la sonde de température.}}
-							<br>{{Une sonde est considérée défaillante selon le délai entre 2 réceptions de températures défini dans l'onglet}} <strong>{{Avancé (Délai maximal entre 2 changements de température)}}</strong>.
+							<br>{{Une sonde est considérée défaillante selon le délai entre 2 réceptions de température défini dans l'onglet}} <strong>{{Avancé (Délai maximal entre 2 changements de température)}}</strong>.
 						</div>
 						<a class="btn btn-success addFailure col-xs-6 col-xs-offset-3" data-type="failure"><i class="fas fa-plus-circle"></i> {{Ajouter une action de défaillance}}</a>
 						<div id="div_failure"></div>
