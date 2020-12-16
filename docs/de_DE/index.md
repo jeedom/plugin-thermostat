@@ -334,11 +334,11 @@ Im Menü "Home" befindet sich das Untermenü "Thermostat". Das Fenster, das bei 
 >
 >Stellen Sie sicher, dass Ihr Thermostat nicht verriegelt ist
 
->**Im Verlaufsmodus ändert mein Thermostat nie den Zustand**
+>**Im Hysteresemodus ändert mein Thermostat nie den Zustand**
 >
 >Da die Temperatursonden ihren Wert nicht automatisch erhöhen, ist es ratsam, ein "Cron of Control" einzurichten"
 
->**Thermostatkurven (insbesondere der Sollwert) scheinen nicht richtig zu sein**
+>**Die Kurven des Thermostats (insbesondere der Sollwert) scheinen nicht korrekt zu sein**
 >
 >Schauen Sie sich die Glättungsseite des betreffenden Bestellverlaufs an. Um die Effizienz zu steigern, mittelt Jeedom die Werte über 5 Minuten und dann über die Stunde.
 

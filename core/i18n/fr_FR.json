@@ -93,7 +93,7 @@
         "minutes": "minutes",
         "Envoyer une alerte si un ouvrant défini ici reste ouvert durant plus de XX minutes": "Envoyer une alerte si un ouvrant défini ici reste ouvert durant plus de XX minutes",
         "Décider des actions à entreprendre en cas de défaillance de la sonde de température.": "Décider des actions à entreprendre en cas de défaillance de la sonde de température.",
-        "Une sonde est considérée défaillante selon le délai entre 2 réceptions de températures défini dans l'onglet": "Une sonde est considérée défaillante selon le délai entre 2 réceptions de températures défini dans l'onglet",
+        "Une sonde est considérée défaillante selon le délai entre 2 réceptions de température défini dans l'onglet": "Une sonde est considérée défaillante selon le délai entre 2 réceptions de température défini dans l'onglet",
         "Avancé (Délai maximal entre 2 changements de température)": "Avancé (Délai maximal entre 2 changements de température)",
         "Ajouter une action de défaillance": "Ajouter une action de défaillance",
         "Décider des actions à entreprendre en cas de défaillance du chauffage\/climatisation.": "Décider des actions à entreprendre en cas de défaillance du chauffage\/climatisation.",

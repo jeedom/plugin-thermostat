@@ -334,14 +334,14 @@ No menu `Home`, existe o submenu` Thermostat`. A janela que aparece quando você
 >
 >Verifique se o seu termostato não está bloqueado
 
->**No modo histórico, meu termostato nunca muda de estado**
+>**No modo de histerese, meu termostato nunca muda de estado**
 >
 >Como as sondas de temperatura não aumentam automaticamente seu valor, é aconselhável configurar um "Cron de controle"
 
->**As curvas do termostato (especialmente o ponto de ajuste) não parecem corretas**
+>**As curvas do termostato (em particular o setpoint) não parecem estar corretas**
 >
->Veja o lado de suavização do histórico de pedidos em questão. De fato, para obter eficiência, Jeedom calcula a média dos valores acima de 5 minutos e depois de uma hora.
+>Veja o lado de suavização do histórico de pedidos em questão. De fato, para ganhar em eficiência, a Jeedom calcula a média dos valores ao longo de 5 minutos e depois ao longo da hora.
 
 >**A guia modo / ação está vazia e, quando clico nos botões de adição, não faz nada**
 >
->Tente desativar o Adblock (ou qualquer outro bloqueador de anúncios), por algum motivo desconhecido, eles bloqueiam o JavaScript da página sem motivo.
+>Tente desabilitar o Adblock (ou qualquer outro bloqueador de anúncios), por alguma razão desconhecida eles bloqueiam o javaScript da página sem motivo.

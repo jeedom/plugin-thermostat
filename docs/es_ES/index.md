@@ -334,14 +334,14 @@ En el menú `Inicio`, está el submenú` Termostato`. La ventana que aparece cua
 >
 >Verifique que su termostato no esté bloqueado
 
->**En modo historial, mi termostato nunca cambia de estado**
+>**En el modo de histéresis, mi termostato nunca cambia de estado**
 >
 >Es que las sondas de temperatura no aumentan automáticamente su valor, es recomendable configurar un "Cron de control"
 
->**Las curvas del termostato (especialmente el punto de ajuste) no parecen ser correctas**
+>**Las curvas del termostato (en particular el punto de ajuste) no parecen ser correctas**
 >
->Mire el lado suavizado del historial de pedidos en cuestión. De hecho, para ganar eficiencia, Jeedom promedia los valores durante 5 minutos y luego durante la hora.
+>Mire el lado suavizado del historial de pedidos en cuestión. De hecho, para ganar en eficiencia, Jeedom promedia los valores durante 5 minutos y luego durante una hora.
 
 >**La pestaña de modo / acción está vacía y cuando hago clic en los botones Agregar no hace nada**
 >
->Intente deshabilitar Adblock (o cualquier otro bloqueador de anuncios), por alguna razón desconocida estos bloquean el JavaScript de la página sin motivo.
+>Intente deshabilitar Adblock (o cualquier otro bloqueador de anuncios), por alguna razón desconocida, estos bloquean el javaScript de la página sin ningún motivo.

@@ -93,7 +93,7 @@
         "minutes": "Minuten",
         "Envoyer une alerte si un ouvrant défini ici reste ouvert durant plus de XX minutes": "Senden Sie eine Warnung, wenn eine hier definierte Öffnung länger als XX Minuten geöffnet bleibt",
         "Décider des actions à entreprendre en cas de défaillance de la sonde de température.": "Entscheiden Sie, was zu tun ist, wenn der Temperaturfühler ausfällt",
-        "Une sonde est considérée défaillante selon le délai entre 2 réceptions de températures défini dans l'onglet": "Eine Sonde wird entsprechend der Zeit zwischen 2 in der Registerkarte definierten Temperaturempfängen als fehlerhaft angesehen",
+        "Une sonde est considérée défaillante selon le délai entre 2 réceptions de température défini dans l'onglet": "Eine Sonde wird entsprechend der Zeit zwischen 2 in der Registerkarte definierten Temperaturempfängen als fehlerhaft angesehen",
         "Avancé (Délai maximal entre 2 changements de température)": "Erweitert (Maximale Verzögerung zwischen 2 Temperaturänderungen)",
         "Ajouter une action de défaillance": "Fügen Sie eine Fehleraktion hinzu",
         "Décider des actions à entreprendre en cas de défaillance du chauffage\/climatisation.": "Entscheiden Sie, welche Maßnahmen bei einem Ausfall der Heizung \/ Klimaanlage zu ergreifen sind",

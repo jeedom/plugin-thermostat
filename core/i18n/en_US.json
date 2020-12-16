@@ -93,7 +93,7 @@
         "minutes": "Minutes",
         "Envoyer une alerte si un ouvrant défini ici reste ouvert durant plus de XX minutes": "Send an alert if an opening defined here remains open for more than XX minutes",
         "Décider des actions à entreprendre en cas de défaillance de la sonde de température.": "Decide what to do if the temperature probe fails",
-        "Une sonde est considérée défaillante selon le délai entre 2 réceptions de températures défini dans l'onglet": "A probe is considered faulty according to the time between 2 temperature receptions defined in the tab",
+        "Une sonde est considérée défaillante selon le délai entre 2 réceptions de température défini dans l'onglet": "A probe is considered faulty according to the time between 2 temperature receptions defined in the tab",
         "Avancé (Délai maximal entre 2 changements de température)": "Advanced (Maximum delay between 2 temperature changes)",
         "Ajouter une action de défaillance": "Add a failure action",
         "Décider des actions à entreprendre en cas de défaillance du chauffage\/climatisation.": "Decide what actions to take in the event of a heating \/ air conditioning failure",

@@ -334,14 +334,14 @@ In the `Home` menu, there is the` Thermostat` submenu. The window that appears w
 >
 >Check that your thermostat is not locked
 
->**In history mode my thermostat never changes state**
+>**In hysteresis mode my thermostat never changes state**
 >
 >It is that the temperature probes do not automatically raise their value, it is advisable to set up a "Cron of control"
 
->**Thermostat curves (especially the setpoint) do not seem to be right**
+>**The curves of the thermostat (in particular the setpoint) do not seem to be correct**
 >
->Look at the smoothing side of the order history in question. Indeed to gain efficiency Jeedom averages the values over 5 min then over the hour.
+>Look at the smoothing side of the order history in question. Indeed to gain in efficiency Jeedom averages the values over 5 minutes then over the hour.
 
 >**The mode / action tab is empty and when I click on the add buttons it does nothing**
 >
->Try to disable Adblock (or any other ad blocker), for some unknown reason these block the JavaScript of the page without reason.
+>Try to disable Adblock (or any other ad blocker), for some unknown reason these block the javaScript of the page for no reason.
