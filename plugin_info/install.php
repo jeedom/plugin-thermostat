@@ -23,6 +23,7 @@ function thermostat_update() {
     if (is_object($thermostat->getCmd(null, 'humidity'))) {
       $thermostat->getCmd(null, 'humidity')->remove();
     }
+    $thermostat->setConfiguration('humidity_indoor', null);
     $thermostat->save();
   }
 }
