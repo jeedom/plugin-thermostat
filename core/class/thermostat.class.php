@@ -326,7 +326,7 @@ class thermostat extends eqLogic {
 			}
 		}
 		if ($duration >= $cycle) {
-			$thermostat->reschedule(null, false);
+			$thermostat->reschedule(null, true);
 		}
 
 		if ($thermostat->getCache('lastState') == 'heat' && $temporal_data['direction'] < 0) {
