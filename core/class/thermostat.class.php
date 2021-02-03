@@ -1794,7 +1794,7 @@ class thermostatCmd extends cmd {
 		if ($this->getLogicalId() == 'modeAction') {
 			$eqLogic->executeMode($this->getName());
 		} else if ($this->getLogicalId() == 'off') {
-			$eqLogic->stopThermostat(true);
+			$eqLogic->stopThermostat(false);
 			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
 			$eqLogic->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
 		} else if ($this->getLogicalId() == 'thermostat') {
