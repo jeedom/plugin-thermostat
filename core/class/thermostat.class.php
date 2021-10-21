@@ -135,8 +135,8 @@ class thermostat extends eqLogic {
 		$thermostat->setCache('temp_threshold', 0);
 		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
 		$thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
-		$hysteresis_low = ($thermostat->getConfiguration('positiveHysteresis', 0) == 1) ? $consigne : $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
-		$hysteresis_hight = $consigne + $thermostat->getConfiguration('hysteresis_threshold', 1);
+		$hysteresis_low = ($thermostat->getConfiguration('allow_mode', 'all') == 'heat' && $thermostat->getConfiguration('positiveHysteresis', 0) == 1) ? $consigne : $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
+		$hysteresis_hight = ($thermostat->getConfiguration('allow_mode', 'all') == 'cool' && $thermostat->getConfiguration('positiveHysteresis', 0) == 1) ? $consigne : $consigne + $thermostat->getConfiguration('hysteresis_threshold', 1);
 		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Calcul',__FILE__) . ' => ' . __('consigne',__FILE__). ' : ' . $consigne . ' hysteresis_low : ' . $hysteresis_low . ' hysteresis_hight : ' . $hysteresis_hight . ' temp : ' . $temp . ' ' . __('état précédent',__FILE__) . ' : ' . $thermostat->getCache('lastState'));
 		$action = 'none';
 		if ($temp < $hysteresis_low) {
