@@ -65,16 +65,15 @@ When you select the mode **Hysteresis**, your heating starts up as soon as the t
 
 For example, if the hysteresis is set at 1 ° C and the setpoint is 19 ° C, then the heating is activated when the temperature drops below 18 ° C and stops as soon as it reaches 20 ° C.
 
-It is possible to take into account only the positive hysteresis by checking the box **Positive hysteresis** :
+The parameters to be supplied are the hysteresis value in ° C and the command which allows the temperature measurement to be recovered. The hysteresis will be adjusted according to the precision of the sensor, for example for a precise probe at 0.5 ° C, a hysteresis of 0.2 ° C is a good compromise.
+
+It is possible to take into account only the positive hysteresis by checking the box **Positive hysteresis**. In "Heating" mode, the thermostat will then come on as soon as the interior temperature is lower than the setpoint or, in "Air conditioning" mode, as soon as the interior temperature is higher than the setpoint.
 
 ![Hysteresis](./images/thermostat1.png)
 
-The parameters to be supplied are the hysteresis in ° C and the command which allows to retrieve the temperature measurement. The hysteresis will be adjusted according to the precision of the sensor, for example for a precise probe at 0.5 ° C, a hysteresis of 0.2 ° C is a good compromise.
-
-
-> **TRICK**
+> **INFORMATION**
 >
-> The hysteresis parameter is found in the tab **Advanced**.
+> The parameters related to the hysteresis can be found in the tab **Advanced**.
 
 In the case of the mode **Temporal**, the heating or air conditioning command is defined on a predefined cycle and the command execution time depends on the difference between the setpoint and the temperature measured by the sensor. The algorithm will also calculate the heating (or cooling) time over a cycle according to the inertia and the insulation of the room.
 

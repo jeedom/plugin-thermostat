@@ -65,16 +65,15 @@ Cuando seleccionas el modo **Histéresis**, su calefacción se pone en marcha ta
 
 Por ejemplo, si la histéresis se establece en 1 ° C y el valor establecido es 19 ° C, el calentamiento se activa cuando la temperatura cae por debajo de 18 ° C y se detiene tan pronto como llega a 20 ° C.
 
-Es posible tener en cuenta solo la histéresis positiva marcando la casilla **Histéresis positiva** :
+Los parámetros a suministrar son el valor de histéresis en ° C y el comando que permite recuperar la medida de temperatura. La histéresis se ajustará de acuerdo con la precisión del sensor, por ejemplo, para una sonda precisa a 0.5 ° C, una histéresis de 0.2 ° C es un buen compromiso.
+
+Es posible tener en cuenta solo la histéresis positiva marcando la casilla **Histéresis positiva**. En el modo "Calefacción", el termostato se encenderá tan pronto como la temperatura interior sea inferior al punto de ajuste o, en el modo "Aire acondicionado", cuando la temperatura interior sea superior al punto de ajuste.
 
 ![Histéresis](./images/thermostat1.png)
 
-Los parámetros a suministrar son la histéresis en ° C y el comando que permite recuperar la medición de temperatura. La histéresis se ajustará de acuerdo con la precisión del sensor, por ejemplo, para una sonda precisa a 0.5 ° C, una histéresis de 0.2 ° C es un buen compromiso.
-
-
-> **CONSEJO**
+> **INFORMACIÓN**
 >
-> El parámetro de histéresis se encuentra en la pestaña **Por adelantado**.
+> Los parámetros relacionados con la histéresis se pueden encontrar en la pestaña **Por adelantado**.
 
 En el caso del modo **Temporal**, el comando de calefacción o aire acondicionado se define en un ciclo predefinido y el tiempo de ejecución del comando depende de la diferencia entre el punto de ajuste y la temperatura medida por el sensor. El algoritmo también calculará el tiempo de calentamiento (o enfriamiento) durante un ciclo de acuerdo con la inercia y el aislamiento de la habitación.
 

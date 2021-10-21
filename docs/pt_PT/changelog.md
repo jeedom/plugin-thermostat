@@ -4,6 +4,11 @@
 >
 >Como lembrete, se não houver informações sobre a atualização, isso significa que se trata apenas da atualização da documentação, tradução ou texto
 
+# 21/10/2021
+
+- Acréscimo da apresentação dos equipamentos termostatos em modo mesa
+- Histerese positiva agora também é possível no modo de resfriamento
+
 # 14/12/2020
 
 - Modernização da interface

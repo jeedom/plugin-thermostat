@@ -65,16 +65,15 @@ Wenn Sie den Modus auswählen **Hysterese**, Ihre Heizung startet, sobald die Te
 
 Wenn beispielsweise die Hysterese auf 1 ° C und der Sollwert auf 19 ° C eingestellt ist, wird die Heizung aktiviert, wenn die Temperatur unter 18 ° C fällt, und stoppt, sobald sie 20 erreicht ° C.
 
-Durch Aktivieren des Kontrollkästchens kann nur die positive Hysterese berücksichtigt werden **Positive Hysterese** :
+Die zu liefernden Parameter sind der Hysteresewert in °C und der Befehl, der die Wiederherstellung der Temperaturmessung ermöglicht. Die Hysterese wird entsprechend der Genauigkeit des Sensors eingestellt, beispielsweise für eine präzise Sonde bei 0.5 ° C, eine Hysterese von 0.2 ° C ist ein guter Kompromiss.
+
+Durch Aktivieren des Kontrollkästchens kann nur die positive Hysterese berücksichtigt werden **Positive Hysterese**. Im Modus „Heizen“ schaltet sich der Thermostat dann ein, sobald die Innentemperatur niedriger als der Sollwert ist oder im Modus „Klima“ sobald die Innentemperatur über dem Sollwert liegt.
 
 ![Hysterese](./images/thermostat1.png)
 
-Die anzugebenden Parameter sind die Hysterese in ° C und der Befehl, mit dem die Temperaturmessung abgerufen werden kann. Die Hysterese wird entsprechend der Genauigkeit des Sensors eingestellt, beispielsweise für eine präzise Sonde bei 0.5 ° C, eine Hysterese von 0.2 ° C ist ein guter Kompromiss.
-
-
-> **TIPP**
+> **INFORMATION**
 >
-> Der Hystereseparameter befindet sich auf der Registerkarte **Voraus**.
+> Die Parameter bezüglich der Hysterese finden Sie in der Registerkarte **Voraus**.
 
 Im Falle des Modus **Zeitlich**, Der Heizungs- oder Klimaanlagenbefehl wird in einem vordefinierten Zyklus definiert und die Befehlsausführungszeit hängt von der Differenz zwischen dem Sollwert und der vom Sensor gemessenen Temperatur ab. Der Algorithmus berechnet auch die Heiz- (oder Kühl-) Zeit über einen Zyklus entsprechend der Trägheit und der Isolierung des Raums.
 

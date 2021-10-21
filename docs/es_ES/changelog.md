@@ -4,6 +4,11 @@
 >
 >Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto
 
+# 21/10/2021
+
+- Adición de la presentación de equipos termostatos en modo mesa
+- La histéresis positiva ahora también es posible en el modo de refrigeración
+
 # 14/12/2020
 
 - Modernización de la interfaz

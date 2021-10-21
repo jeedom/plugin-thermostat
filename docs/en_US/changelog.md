@@ -4,6 +4,11 @@
 >
 >As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text
 
+# 10/21/2021
+
+- Addition of the presentation of thermostats equipment in table mode
+- Positive hysteresis is now also possible in cooling mode
+
 # 12/14/2020
 
 - Modernization of the interface

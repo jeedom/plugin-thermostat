@@ -4,6 +4,11 @@
 >
 >Zur Erinnerung: Wenn keine Informationen zum Update vorhanden sind, bedeutet dies, dass es sich nur um die Aktualisierung von Dokumentation, Übersetzung oder Text handelt
 
+# 21.10.2021
+
+- Ergänzung der Präsentation der Thermostatausrüstung im Tabellenmodus
+- Positive Hysterese jetzt auch im Kühlbetrieb möglich
+
 # 14.12.2020
 
 - Modernisierung der Schnittstelle

@@ -65,16 +65,15 @@ Quando você seleciona o modo **Histerese**, o seu aquecimento arranca assim que
 
 Por exemplo, se a histerese for definida em 1 ° C e o valor definido for 19 ° C, o aquecimento será ativado quando a temperatura cair abaixo de 18 ° C e parar assim que atingir 20 ° C.
 
-É possível levar em consideração apenas a histerese positiva marcando a caixa **Histerese positiva** :
+Os parâmetros a serem fornecidos são o valor da histerese em ° C e o comando que permite a recuperação da medição da temperatura. A histerese será ajustada de acordo com a precisão do sensor, por exemplo, para uma sonda precisa em 0.5 ° C, uma histerese de 0.2 ° C é um bom compromisso.
+
+É possível levar em consideração apenas a histerese positiva marcando a caixa **Histerese positiva**. No modo "Aquecimento", o termostato liga-se assim que a temperatura interior for inferior ao setpoint ou, no modo "Ar condicionado", assim que a temperatura interior for superior ao setpoint.
 
 ![Histerese](./images/thermostat1.png)
 
-Os parâmetros a serem fornecidos são a histerese em ° C e o comando que permite recuperar a medição de temperatura. A histerese será ajustada de acordo com a precisão do sensor, por exemplo, para uma sonda precisa em 0.5 ° C, uma histerese de 0.2 ° C é um bom compromisso.
-
-
-> **DICA**
+> **EM FORMAÇÃO**
 >
-> O parâmetro de histerese é encontrado na guia **Adiantamento**.
+> Os parâmetros relacionados à histerese podem ser encontrados na aba **Adiantamento**.
 
 No caso do modo **Temporal**, o comando de aquecimento ou ar condicionado é definido em um ciclo pré-definido e o tempo de execução do comando depende da diferença entre o setpoint e a temperatura medida pelo sensor. O algoritmo também calculará o tempo de aquecimento (ou resfriamento) ao longo de um ciclo, de acordo com a inércia e o isolamento da sala.
 
