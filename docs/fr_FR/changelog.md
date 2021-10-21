@@ -4,6 +4,11 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte
 
+# 21/10/2021
+
+- Ajout de la présentation des équipements thermostats en mode tableau
+- L'hystérésis positive est désormais également possible en mode climatisation
+
 # 14/12/2020
 
 - Modernisation de l'interface

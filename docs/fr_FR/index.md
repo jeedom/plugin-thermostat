@@ -65,16 +65,15 @@ Lorsque vous sélectionnez le mode **Hystérésis**, la mise en route de votre c
 
 Par exemple, si on règle l’hystérésis à 1°C et que la valeur de consigne vaut 19°C, alors le chauffage s’active lorsque la température passe en dessous de 18°C et s’arrête dès qu’il atteint 20°C.
 
-Il est possible de ne prendre en compte que l'hystérésis positive en cochant la case **Hystérésis positive** :
+Les paramètres à fournir sont la valeur d’hystérésis en °C et la commande qui permet de récupérer la mesure de température. On règlera l’hystérésis en fonction de la précision du capteur, par exemple pour une sonde précise à 0.5°C, une hystérésis de 0.2°C est un bon compromis.
+
+Il est possible de ne prendre en compte que l'hystérésis positive en cochant la case **Hystérésis positive**. En mode "Chauffage", le thermostat s'allumera alors dès que la température intérieure sera inférieure à la consigne ou, en mode "Climatisation", dès que la température intérieure sera supérieure à la consigne.
 
 ![Hystérésis](./images/thermostat1.png)
 
-Les paramètres à fournir sont l’hystérésis en °C et la commande qui permet de récupérer la mesure de température. On règlera l’hystérésis en fonction de la précision du capteur, par exemple pour une sonde précise à 0.5°C, une hystérésis de 0.2°C est un bon compromis.
-
-
-> **ASTUCE**
+> **INFORMATION**
 >
-> Le paramètre hystérésis se trouve dans l’onglet **Avancé**.
+> Le paramètres liés à l'hystérésis se trouvent dans l’onglet **Avancé**.
 
 Dans le cas du mode **Temporel**, la commande de chauffage ou de climatisation est définie sur un cycle prédéfini et la durée d’exécution de la commande est fonction de l’écart entre la consigne et la température mesurée par le capteur. L’algorithme va également calculer le temps de chauffe (ou de climatisation) sur un cycle en fonction de l’inertie et de l’isolation de la pièce.
 
