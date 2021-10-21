@@ -92,6 +92,18 @@ $('.addFailureActuator').off('click').on('click', function () {
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').off('change').on('change', function () {
   $('.engine').hide();
   $('.' + $(this).value()).show();
+  if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=allow_mode]').value() != 'all' && $(this).value() == 'hysteresis') {
+    $('.positiveHysteresis').show()
+  }
+});
+
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=allow_mode]').off('change').on('change', function () {
+  if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=engine]').value() == 'hysteresis' && $(this).value() != 'all') {
+    $('.positiveHysteresis').show()
+  }
+  else {
+    $('.positiveHysteresis').hide()
+  }
 });
 
 $("body").off('click', '.listCmdInfoWindow').on('click', '.listCmdInfoWindow',function () {
@@ -232,9 +244,9 @@ function printScheduling(_eqLogic){
       }
       $('#div_schedule').empty();
       if(data.result.length == 0){
-        $('#div_schedule').append('<div class="col-xs-10 col-xs-offset-1 alert alert-warning">{{Vous n\'avez encore aucune programmation. Veuillez cliquer sur le bouton ci-après pour programmer votre thermostat à l\'aide du}} <a class="btn btn-sm" href="index.php?v=d&m=calendar&p=calendar">{{plugin Agenda}}</a></div>');
+        $('#div_schedule').append('<div class="col-xs-10 col-xs-offset-1 alert alert-warning">{{Aucune programmation trouvée. Cliquer sur le bouton ci-après pour programmer le thermostat à l\'aide du}} <a class="btn btn-sm" href="index.php?v=d&m=calendar&p=calendar">{{plugin Agenda}}</a></div>');
       }else{
-        var html = '<legend><i class="fas fa-external-link-alt"></i> {{Programmations du plugin Agenda liées au thermostat :}}</legend><hr>';
+        var html = '<legend><i class="fas fa-external-link-alt"></i> {{Programmations du plugin Agenda liées au thermostat}} :</legend><hr>';
         for (var i in data.result) {
           var color = init(data.result[i].cmd_param.color, '#2980b9');
           if(data.result[i].cmd_param.transparent == 1){
@@ -364,7 +376,6 @@ function addWindow(_info) {
   div += '<label class="checkbox-inline"><input type="checkbox" class="expressionAttr cmdInfo" data-l1key="invert"/>{{Inverser}}</label></span>';
   div += '</div>';
   div += '</div>';
-  div += '<hr>';
   $('#div_window').append(div);
   $('#div_window .window').last().setValues(_info, '.expressionAttr');
 }
