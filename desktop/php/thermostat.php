@@ -414,7 +414,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 							</div>
 							<div class="form-group engine temporal">
-								<label class="col-sm-4 control-label">{{Offset chauffage <sub>(%)</sub>}}
+								<label class="col-sm-4 control-label">{{Offset chauffage}} <sub>(%)</sub>
 									<sup><i class="fas fa-question-circle tooltips" title="{{Permet d'adapter la chauffe en fonction des apports internes}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
@@ -422,7 +422,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 							</div>
 							<div class="form-group engine temporal">
-								<label class="col-sm-4 control-label">{{Offset refroidissement <sub>(%)</sub>}}
+								<label class="col-sm-4 control-label">{{Offset refroidissement}} <sub>(%)</sub>
 									<sup><i class="fas fa-question-circle tooltips" title="{{Permet d'adapter le refroidissement en fonction des apports internes}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
@@ -459,7 +459,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<div class="col-lg-6 engine temporal">
 							<legend><i class="fas fa-sync-alt"></i> {{Cycles}}</legend>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Durée du cycle <sub>(min.)</sub>}}
+								<label class="col-sm-4 control-label">{{Durée du cycle}} <sub>(min.)</sub>
 									<sup><i class="fas fa-question-circle tooltips" title="{{Durée des cycles de chauffe/climatisation (ne peut pas être inférieure à 15 minutes)}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
@@ -467,23 +467,23 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Temps de chauffe minimal <sub>(% du cycle)</sub>}}
-									<sup><i class="fas fa-question-circle tooltips" title="{{% minimal de chauffe durant la durée du cycle}}"></i></sup>
+								<label class="col-sm-4 control-label">{{Temps de chauffe minimal}} <sub>(% {{cycle}})</sub>
+									<sup><i class="fas fa-question-circle tooltips" title="{{Pourcentage minimal de chauffe durant la durée du cycle}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="minCycleDuration" value="5" placeholder="5"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Seuil de cycle où le chauffage est chaud <sub>(%)</sub>}}
-									<sup><i class="fas fa-question-circle tooltips" title="{{% du cycle après lequel le radiateur est considéré chaud}}"></i></sup>
+								<label class="col-sm-4 control-label">{{Le radiateur est considéré chaud}} <sub>(% {{cycle}})</sub>
+									<sup><i class="fas fa-question-circle tooltips" title="{{Pourcentage du cycle après lequel le radiateur est considéré comme étant chaud}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
 									<input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="threshold_heathot" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Offset si le radiateur est chaud <sub>(%)</sub>}}
+								<label class="col-sm-4 control-label">{{Offset si le radiateur est chaud}} <sub>(%)</sub>
 									<sup><i class="fas fa-question-circle tooltips" title="{{Offset à appliquer sur les cycles suivants lorsque le radiateur est considéré chaud}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
@@ -504,7 +504,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<div class="col-lg-6 engine hysteresis">
 							<legend><i class="fas fa-poll-h"></i> {{Régulation}}</legend>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Valeur d'hystérésis <sub>(°C)</sub>}}
+								<label class="col-sm-3 control-label">{{Valeur d'hystérésis}} <sub>(°C)</sub>
 									<sup><i class="fas fa-question-circle tooltips" title="{{Correspond à l'écart entre la température intérieure et la consigne pour démarrer/arrêter le thermostat}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
