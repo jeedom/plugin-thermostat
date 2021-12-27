@@ -385,9 +385,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</label>
 								<div class="col-sm-7">
 									<div class="input-group">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
+										<input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="repeat_commande_cron"/>
 										<span class="input-group-btn">
-											<a class="btn btn-default btn-sm cursor jeeHelper" data-helper="cron"><i class="fas fa-question-circle"></i></a>
+											<a class="btn btn-default roundedRight jeeHelper" data-helper="cron" title="{{Assistant cron}}"><i class="fas fa-question-circle"></i></a>
 										</span>
 									</div>
 								</div>
@@ -398,9 +398,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</label>
 								<div class="col-sm-7">
 									<div class="input-group">
-										<input type="text" class="eqLogicAttr form-control tooltips jeeHelper" data-helper="cron" data-l1key="configuration" data-l2key="hysteresis_cron"/>
+										<input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="hysteresis_cron"/>
 										<span class="input-group-btn">
-											<a class="btn btn-default btn-sm cursor jeeHelper" data-helper="cron"><i class="fas fa-question-circle"></i></a>
+											<a class="btn btn-default roundedRight jeeHelper" data-helper="cron" title="{{Assistant cron}}"><i class="fas fa-question-circle"></i></a>
 										</span>
 									</div>
 								</div>
