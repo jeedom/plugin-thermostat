@@ -102,6 +102,7 @@
         "Sécurités": "Sécurités",
         "Cron de répétition": "Cron de répétition",
         "Cron de répétition d'envoi des commandes (arrêt, chauffe, refroidissement). Vérification à mettre en place si votre thermostat ne démarre\/s'arrête pas correctement": "Cron de répétition d'envoi des commandes (arrêt, chauffe, refroidissement). Vérification à mettre en place si votre thermostat ne démarre\/s'arrête pas correctement",
+        "Assistant cron": "Assistant cron",
         "Cron de contrôle": "Управление Cron",
         "Cron de vérification des valeurs des sondes de température à mettre en place si votre thermostat ne démarre\/s'arrête pas correctement": "Cron de vérification des valeurs des sondes de température à mettre en place si votre thermostat ne démarre\/s'arrête pas correctement",
         "Délai entre 2 changements de T°": "Délai entre 2 changements de T°",

@@ -102,6 +102,7 @@
         "Sécurités": "Security",
         "Cron de répétition": "Repeat cron",
         "Cron de répétition d'envoi des commandes (arrêt, chauffe, refroidissement). Vérification à mettre en place si votre thermostat ne démarre\/s'arrête pas correctement": "Cron for repeating the sending of commands (stop, heat, cool). Check to put in place if your thermostat does not start \/ stop correctly",
+        "Assistant cron": "Cron assistant",
         "Cron de contrôle": "Control cron",
         "Cron de vérification des valeurs des sondes de température à mettre en place si votre thermostat ne démarre\/s'arrête pas correctement": "Cron for checking the values of the temperature probes to set up if your thermostat does not start \/ stop correctly",
         "Délai entre 2 changements de T°": "Time between 2 changes of T °",
