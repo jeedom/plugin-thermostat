@@ -2,6 +2,8 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text",
+        "29\/07\/2022": "07\/29\/2022",
+        "Correction sur le remplissage de certains champs de configuration des équipements via la liste de sélection des commandes": "Correction on the filling of certain equipment configuration fields via the order selection list",
         "21\/10\/2021": "10\/21\/2021",
         "Ajout de la présentation des équipements thermostats en mode tableau": "Addition of the presentation of thermostats equipment in table mode",
         "L'hystérésis positive est désormais également possible en mode climatisation": "Positive hysteresis is now also possible in cooling mode",
