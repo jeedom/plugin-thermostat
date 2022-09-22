@@ -65,7 +65,7 @@ class thermostat extends eqLogic {
 			if ($thermostat->getConfiguration('smart_start') == 1) {
 				log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Next info', __FILE__) . ' : ' . print_r($_options['next'], true));
 				$lockState = $thermostat->getCmd(null, 'lock_state');
-				if (!is_object($lockState) || $lockState->execCmd() == 1) {
+				if (is_object($lockState) && $lockState->execCmd() == 1) {
 					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Thermostat verrouillé je ne fais rien', __FILE__));
 				}else if ($_options['next']['type'] == 'thermostat') {
 					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Type thermostat envoi de la consigne', __FILE__) . ' : ' . $_options['next']['consigne']);
