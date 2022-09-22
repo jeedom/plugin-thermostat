@@ -192,6 +192,7 @@
         "Suspendu": "Suspenso",
         "Thermostat::pull => mode smart": "Termostato :: pull => modo inteligente",
         "Next info": "Próxima informação",
+        "Thermostat verrouillé je ne fais rien": "Termostato bloqueado não faço nada",
         "Type thermostat envoi de la consigne": "Envio do tipo de termostato do ponto de ajuste",
         "Type mode envoi de la commande": "Tipo de modo de envio de pedido",
         "Lancement du calcul d\\'hystérésis": "Lançamento do cálculo de histerese",

@@ -192,6 +192,7 @@
         "Suspendu": "Приостановлено",
         "Thermostat::pull => mode smart": "Thermostat::pull => mode smart",
         "Next info": "Next info",
+        "Thermostat verrouillé je ne fais rien": "Thermostat verrouillé je ne fais rien",
         "Type thermostat envoi de la consigne": "Type thermostat envoi de la consigne",
         "Type mode envoi de la commande": "Type mode envoi de la commande",
         "Lancement du calcul d\\'hystérésis": "Lancement du calcul d\\'hystérésis",

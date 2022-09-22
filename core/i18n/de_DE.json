@@ -192,6 +192,7 @@
         "Suspendu": "Ausgesetzt",
         "Thermostat::pull => mode smart": "Thermostat :: ziehen => Smart Mode",
         "Next info": "Nächste Info",
+        "Thermostat verrouillé je ne fais rien": "Thermostat gesperrt Ich mache nichts",
         "Type thermostat envoi de la consigne": "Thermostattyp Senden des Sollwerts",
         "Type mode envoi de la commande": "Art des Auftragssendemodus",
         "Lancement du calcul d\\'hystérésis": "Start der Hystereseberechnung",
