@@ -1204,6 +1204,54 @@ class thermostat extends eqLogic {
 			$deltaOrder->setSubType('slider');
 			$deltaOrder->setLogicalId('deltaOrder');
 			$deltaOrder->save();
+			
+			$cmd = $this->getCmd(null, 'heat_coeff');
+			if (!is_object($cmd)) {
+				$cmd = new thermostatCmd();
+				$cmd->setName(__('Coefficient chaud', __FILE__));
+				$cmd->setIsVisible(0);
+				$cmd->setIsHistorized(1);
+			}
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setType('info');
+			$cmd->setSubType('numeric');
+			$cmd->setLogicalId('heat_coeff');
+			
+			$cmd = $this->getCmd(null, 'heat_isol');
+			if (!is_object($cmd)) {
+				$cmd = new thermostatCmd();
+				$cmd->setName(__('Isolation chaud', __FILE__));
+				$cmd->setIsVisible(0);
+				$cmd->setIsHistorized(1);
+			}
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setType('info');
+			$cmd->setSubType('numeric');
+			$cmd->setLogicalId('heat_isol');
+			
+			$cmd = $this->getCmd(null, 'cool_coeff');
+			if (!is_object($cmd)) {
+				$cmd = new thermostatCmd();
+				$cmd->setName(__('Coefficient froid', __FILE__));
+				$cmd->setIsVisible(0);
+				$cmd->setIsHistorized(1);
+			}
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setType('info');
+			$cmd->setSubType('numeric');
+			$cmd->setLogicalId('cool_coeff');
+			
+			$cmd = $this->getCmd(null, 'cool_isol');
+			if (!is_object($cmd)) {
+				$cmd = new thermostatCmd();
+				$cmd->setName(__('Isolation froid', __FILE__));
+				$cmd->setIsVisible(0);
+				$cmd->setIsHistorized(1);
+			}
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setType('info');
+			$cmd->setSubType('numeric');
+			$cmd->setLogicalId('cool_isol');
 		}
 
 		if ($this->getConfiguration('consumption') != '') {
