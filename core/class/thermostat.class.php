@@ -254,6 +254,7 @@ class thermostat extends eqLogic {
 							$coeff_indoor_heat = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
+						$thermostat->checkAndUpdateCmd('coeff_indoor_heat',round($coeff_indoor_heat, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff heat indoor : ' . $coeff_indoor_heat);
 					} else if ($temp_out < $thermostat->getCache('lastOrder')) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Learn outdoor heat');
@@ -265,6 +266,7 @@ class thermostat extends eqLogic {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
+						$thermostat->checkAndUpdateCmd('coeff_outdoor_heat',round($coeff_outdoor, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff outdoor heat: ' . $coeff_outdoor);
 					}
 				}
@@ -280,6 +282,7 @@ class thermostat extends eqLogic {
 							$coeff_indoor_cool = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
+						$thermostat->checkAndUpdateCmd('coeff_indoor_cool',round($coeff_indoor_cool, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff cool indoor : ' . $coeff_indoor_cool);
 					} else if ($temp_out > $thermostat->getCache('lastOrder')) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Learn outdoor cool');
@@ -291,6 +294,7 @@ class thermostat extends eqLogic {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_cool', round($coeff_outdoor, 2));
+						$thermostat->checkAndUpdateCmd('coeff_outdoor_cool',round($coeff_outdoor, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff outdoor cool : ' . $coeff_outdoor);
 					}
 				}
@@ -1205,7 +1209,7 @@ class thermostat extends eqLogic {
 			$deltaOrder->setLogicalId('deltaOrder');
 			$deltaOrder->save();
 			
-			$cmd = $this->getCmd(null, 'heat_coeff');
+			$cmd = $this->getCmd(null, 'coeff_indoor_heat');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
 				$cmd->setName(__('Coefficient chaud', __FILE__));
@@ -1215,9 +1219,9 @@ class thermostat extends eqLogic {
 			$cmd->setEqLogic_id($this->getId());
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
-			$cmd->setLogicalId('heat_coeff');
+			$cmd->setLogicalId('coeff_indoor_heat');
 			
-			$cmd = $this->getCmd(null, 'heat_isol');
+			$cmd = $this->getCmd(null, 'coeff_outdoor_heat');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
 				$cmd->setName(__('Isolation chaud', __FILE__));
@@ -1227,9 +1231,9 @@ class thermostat extends eqLogic {
 			$cmd->setEqLogic_id($this->getId());
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
-			$cmd->setLogicalId('heat_isol');
+			$cmd->setLogicalId('coeff_outdoor_heat');
 			
-			$cmd = $this->getCmd(null, 'cool_coeff');
+			$cmd = $this->getCmd(null, 'coeff_indoor_cool');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
 				$cmd->setName(__('Coefficient froid', __FILE__));
@@ -1239,9 +1243,9 @@ class thermostat extends eqLogic {
 			$cmd->setEqLogic_id($this->getId());
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
-			$cmd->setLogicalId('cool_coeff');
+			$cmd->setLogicalId('coeff_indoor_cool');
 			
-			$cmd = $this->getCmd(null, 'cool_isol');
+			$cmd = $this->getCmd(null, 'coeff_outdoor_cool');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
 				$cmd->setName(__('Isolation froid', __FILE__));
@@ -1251,7 +1255,28 @@ class thermostat extends eqLogic {
 			$cmd->setEqLogic_id($this->getId());
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
-			$cmd->setLogicalId('cool_isol');
+			$cmd->setLogicalId('coeff_outdoor_cool');
+		}else{
+			$cmd = $this->getCmd(null, 'deltaOrder');
+			if (is_object($cmd)) {
+				$cmd->remove();
+			}
+			$cmd = $this->getCmd(null, 'coeff_indoor_heat');
+			if (is_object($cmd)) {
+				$cmd->remove();
+			}
+			$cmd = $this->getCmd(null, 'coeff_outdoor_heat');
+			if (is_object($cmd)) {
+				$cmd->remove();
+			}
+			$cmd = $this->getCmd(null, 'coeff_indoor_cool');
+			if (is_object($cmd)) {
+				$cmd->remove();
+			}
+			$cmd = $this->getCmd(null, 'coeff_outdoor_cool');
+			if (is_object($cmd)) {
+				$cmd->remove();
+			}
 		}
 
 		if ($this->getConfiguration('consumption') != '') {
