@@ -1220,6 +1220,7 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_indoor_heat');
+            $cmd->save();
 			
 			$cmd = $this->getCmd(null, 'coeff_outdoor_heat');
 			if (!is_object($cmd)) {
@@ -1232,6 +1233,7 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_outdoor_heat');
+            $cmd->save();
 			
 			$cmd = $this->getCmd(null, 'coeff_indoor_cool');
 			if (!is_object($cmd)) {
@@ -1244,6 +1246,7 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_indoor_cool');
+            $cmd->save();
 			
 			$cmd = $this->getCmd(null, 'coeff_outdoor_cool');
 			if (!is_object($cmd)) {
@@ -1256,6 +1259,7 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_outdoor_cool');
+            $cmd->save();
 		}else{
 			$cmd = $this->getCmd(null, 'deltaOrder');
 			if (is_object($cmd)) {
@@ -1346,8 +1350,7 @@ class thermostat extends eqLogic {
 			if ($customCmd->execCmd() == '') {
 				$customCmd->event($customCmd->execute());
 			}
-		}
-		else if (is_object($customCmd = $this->getCmd(null, 'customCmd'))) {
+		}else if (is_object($customCmd = $this->getCmd(null, 'customCmd'))) {
 			$customCmd->remove();
 		}
 
