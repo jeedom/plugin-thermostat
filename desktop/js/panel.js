@@ -74,7 +74,7 @@ function displayThermostat(object_id,_dateStart,_dateEnd) {
         graphThermostat(data.result.eqLogics[i].eqLogic.id);
       }
       drawSimpleGraph('div_chartRuntime', series, 'column');
-      positionEqLogic();
+      jeedomUtils.positionEqLogic()
       $('#div_displayEquipement').packery({
         itemSelector: ".eqLogic-widget",
         gutter : 0,
