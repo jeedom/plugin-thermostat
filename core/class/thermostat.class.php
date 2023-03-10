@@ -133,6 +133,7 @@ class thermostat extends eqLogic {
 				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention il n\'y a pas eu de mise à jour de la température depuis plus de', __FILE__) . ' : ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $cmd->getCollectDate() . ')');
 			}
 			$thermostat->setCache('temp_threshold', 1);
+			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 			return;
 		}
 		$thermostat->setCache('temp_threshold', 0);
@@ -216,6 +217,7 @@ class thermostat extends eqLogic {
 			}
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je ne fais rien car il n\'y a pas eu de mise a jour de la température depuis plus de', __FILE__) . ' ' . $thermostat->getConfiguration('maxTimeUpdateTemp'). ' '.__('minutes',__FILE__));
 			$thermostat->setCache('temp_threshold', 1);
+			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 			return;
 		}
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
@@ -225,6 +227,7 @@ class thermostat extends eqLogic {
 			}
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je ne fais rien car la température intérieure n\'est pas un numérique', __FILE__));
 			$thermostat->setCache('temp_threshold', 1);
+			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 			return;
 		}
 		$thermostat->setCache('temp_threshold', 0);
@@ -1479,6 +1482,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function heat($_repeat = false) {
+	        $this->getCmd(null, 'status')->event(__('Chauffage', __FILE__));
 		if (!$_repeat) {
 			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 				return false;
@@ -1514,7 +1518,6 @@ class thermostat extends eqLogic {
 		}
 		if (!$_repeat) {
 			$this->refresh();
-			$this->getCmd(null, 'status')->event(__('Chauffage', __FILE__));
 			$this->setCache('lastState', 'heat');
 			$this->getCmd(null, 'actif')->event(1);
 		}
@@ -1522,6 +1525,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function cool($_repeat = false) {
+	        $this->getCmd(null, 'status')->event(__('Climatisation', __FILE__));
 		if (!$_repeat) {
 			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 				return false;
@@ -1557,7 +1561,6 @@ class thermostat extends eqLogic {
 		}
 		if (!$_repeat) {
 			$this->refresh();
-			$this->getCmd(null, 'status')->event(__('Climatisation', __FILE__));
 			$this->setCache('lastState', 'cool');
 			$this->getCmd(null, 'actif')->event(1);
 		}
