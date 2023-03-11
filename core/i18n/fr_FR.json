@@ -201,6 +201,7 @@
         "Thermostat arrêté je ne fais rien": "Thermostat arrêté je ne fais rien",
         "Arrêté": "Arrêté",
         "Attention il n\\'y a pas eu de mise à jour de la température depuis plus de": "Attention il n\\'y a pas eu de mise à jour de la température depuis plus de",
+        "Défaillance sonde": "Défaillance sonde",
         "Calcul": "Calcul",
         "consigne": "consigne",
         "état précédent": "état précédent",
@@ -298,7 +299,6 @@
         "Action froid": "Action froid",
         "Action stop": "Action stop",
         "Action défaillance sonde": "Action défaillance sonde",
-        "Défaillance sonde": "Défaillance sonde",
         "Action défaillance chauffage": "Action défaillance chauffage",
         "Défaillance chauffage": "Défaillance chauffage",
         "Aucun": "Aucun"

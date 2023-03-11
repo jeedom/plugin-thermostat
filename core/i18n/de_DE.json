@@ -201,6 +201,7 @@
         "Thermostat arrêté je ne fais rien": "Thermostat aus ich tue nichts",
         "Arrêté": "Verhaftet",
         "Attention il n\\'y a pas eu de mise à jour de la température depuis plus de": "Bitte beachten Sie, dass die Temperatur seit mehr als nicht aktualisiert wurde",
+        "Défaillance sonde": "Sondenfehler",
         "Calcul": "Berechnung",
         "consigne": "Anleitung",
         "état précédent": "vorheriger Status",
@@ -298,7 +299,6 @@
         "Action froid": "Kalte Aktion",
         "Action stop": "Aktion stoppen",
         "Action défaillance sonde": "Aktion bei Sondenausfall",
-        "Défaillance sonde": "Sondenfehler",
         "Action défaillance chauffage": "Aktion bei Heizungsausfall",
         "Défaillance chauffage": "Heizungsfehler",
         "Aucun": "Ohne"

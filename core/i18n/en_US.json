@@ -201,6 +201,7 @@
         "Thermostat arrêté je ne fais rien": "Thermostat off I do nothing",
         "Arrêté": "Stopped",
         "Attention il n\\'y a pas eu de mise à jour de la température depuis plus de": "Please note that the temperature has not been updated for more than",
+        "Défaillance sonde": "Probe failure",
         "Calcul": "Calculation",
         "consigne": "Setpoint",
         "état précédent": "previous state",
@@ -298,7 +299,6 @@
         "Action froid": "Cooling action",
         "Action stop": "Stop action",
         "Action défaillance sonde": "Probe failure action",
-        "Défaillance sonde": "Probe failure",
         "Action défaillance chauffage": "Heating failure action",
         "Défaillance chauffage": "Heating failure",
         "Aucun": "None"
