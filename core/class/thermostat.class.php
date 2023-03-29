@@ -575,19 +575,26 @@ class thermostat extends eqLogic {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Thermostat arreté ou suspendu je ne fais rien', __FILE__));
 			return;
 		}
-		$stopTime = (isset($_window['stopTime']) && $_window['stopTime'] != '') ? $_window['stopTime'] : 0;
-		if (is_numeric($stopTime) && $stopTime > 0) {
-			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Pause de', __FILE__) . ' ' . $stopTime . ' ' . __('minutes',__FILE__));
-			sleep($stopTime * 60);
-		}
 		$cmd = cmd::byId(str_replace('#', '', $_window['cmd']));
 		if (!is_object($cmd)) {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Commande introuvable je ne fais rien', __FILE__));
 			return;
 		}
-		$value = $cmd->execCmd();
-		if (isset($_window['invert']) && $_window['invert'] == 1) {
-			$value = ($value == 0) ? 1 : 0;
+		$stopTime = (isset($_window['stopTime']) && $_window['stopTime'] != '') ? $_window['stopTime'] : 0;
+		if (is_numeric($stopTime) && $stopTime > 0) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Pause de', __FILE__) . ' ' . $stopTime . ' ' . __('minutes',__FILE__));
+			for($i=0;$i++;$i<($stopTime*60)){
+				sleep(1);
+				$value = $cmd->execCmd();
+				if (isset($_window['invert']) && $_window['invert'] == 1) {
+					$value = ($value == 0) ? 1 : 0;
+				}
+				if ($value == 1) {
+					log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Porte/fenetre refermé j\'annule tout', __FILE__));
+					return;
+				}
+			}
+			sleep($stopTime * 60);
 		}
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Valeur commande', __FILE__) . ' : '. $value);
 		if ($value == 1) {
