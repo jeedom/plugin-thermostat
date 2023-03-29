@@ -244,6 +244,7 @@
         "Toutes les fenêtres sont fermées, je relance le chauffage": "All windows are closed, I turn on heating",
         "Thermostat arreté ou suspendu je ne fais rien": "Thermostat stopped or suspended I do nothing",
         "Commande introuvable je ne fais rien": "Command not found I do nothing",
+        "Porte\/fenetre refermé j\\'annule tout": "Door\/window closed I cancel everything",
         "Valeur commande": "Value command",
         "Arrêt du thermostat": "Switching off the thermostat",
         "Attention température extérieure erronée": "Warning incorrect outside temperature",
