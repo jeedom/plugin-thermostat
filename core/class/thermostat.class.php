@@ -596,6 +596,10 @@ class thermostat extends eqLogic {
 			}
 			sleep($stopTime * 60);
 		}
+		$value = $cmd->execCmd();
+		if (isset($_window['invert']) && $_window['invert'] == 1) {
+			$value = ($value == 0) ? 1 : 0;
+		}	
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Valeur commande', __FILE__) . ' : '. $value);
 		if ($value == 1) {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Arrêt du thermostat', __FILE__));
