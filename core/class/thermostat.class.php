@@ -590,7 +590,7 @@ class thermostat extends eqLogic {
 		if (isset($_window['invert']) && $_window['invert'] == 1) {
 			$value = ($value == 0) ? 1 : 0;
 		}	
-		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Valeur commande', __FILE__) . ' : '. $value);
+		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Valeur commande', __FILE__) . ' : '. $value.__(' en date du : ',__FILE__).$cmd->getValueDate());
 		if ($value != 1) {
 		        log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('L\'ouvrant n\'est plus ouvert, je ne fais rien', __FILE__));
 			return true;
