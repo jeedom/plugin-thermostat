@@ -527,7 +527,7 @@ class thermostat extends eqLogic {
 			return;
 		}
 		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 0);
-		log::add(__CLASS__, 'debug', '[windowClose] => ' . json_encode($_window));
+		log::add(__CLASS__, 'debug',$this->getHumanName() . '[windowClose] => ' . json_encode($_window));
 		if ($this->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowClose] ' . __('Thermostat non suspendu je ne fais rien', __FILE__));
 			return;
@@ -569,7 +569,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function windowOpen($_window) {
-		log::add(__CLASS__, 'debug', '[windowOpen] => ' . json_encode($_window));
+		log::add(__CLASS__, 'debug', $this->getHumanName() . '[windowOpen] => ' . json_encode($_window));
 		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 1);
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Thermostat arreté ou suspendu je ne fais rien', __FILE__));
