@@ -127,7 +127,7 @@ $("body").off('click', '.addModeAction').on('click', '.addModeAction', function(
 $("body").off('click', '.removeMode').on('click', '.removeMode', function() {
   var el = $(this)
   bootbox.confirm('{{Êtes-vous sûr de vouloir supprimer ce mode}} ?', function(result) {
-    if (result !== null) {
+    if (result) {
       el.closest('.mode').remove()
     }
   })
