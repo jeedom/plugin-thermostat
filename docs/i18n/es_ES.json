@@ -2,6 +2,7 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto",
+        "20\/04\/2023": "20\/04\/2023",
         "Amélioration de la gestion des ouvrants": "Mejora en la gestión de aperturas",
         "03\/10\/2022": "10\/03\/2022",
         "Le smartstart ne peux plus outrepasser le lock du thermostat": "El smartstart ya no puede anular el bloqueo del termostato",
