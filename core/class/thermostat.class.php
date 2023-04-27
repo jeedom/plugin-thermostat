@@ -1792,58 +1792,6 @@ class thermostat extends eqLogic {
 
 class thermostatCmd extends cmd {
 
-	public function imperihomeGenerate($ISSStructure) {
-		$eqLogic = $this->getEqLogic();
-		$object = $eqLogic->getObject();
-		$type = 'DevThermostat';
-		$info_device = array(
-			'id' => $this->getId(),
-			'name' => $eqLogic->getName(),
-			'room' => (is_object($object)) ? $object->getId() : 99999,
-			'type' => $type,
-			'params' => array(),
-		);
-		$info_device['params'] = $ISSStructure[$info_device['type']]['params'];
-		$info_device['params'][0]['value'] = '#' . $eqLogic->getCmd('info', 'mode')->getId() . '#';
-		$info_device['params'][1]['value'] = '#' . $eqLogic->getCmd('info', 'temperature')->getId() . '#';
-		$info_device['params'][2]['value'] = '#' . $eqLogic->getCmd('info', 'order')->getId() . '#';
-		$info_device['params'][3]['value'] = 0.5;
-		$info_device['params'][4]['value'] = 'Off';
-		foreach ($eqLogic->getConfiguration('existingMode') as $existingMode) {
-			$info_device['params'][4]['value'] .= ',' . $existingMode['name'];
-		}
-		return $info_device;
-	}
-
-	public function imperihomeAction($_action, $_value) {
-		$eqLogic = $this->getEqLogic();
-		if ($_action == 'setSetPoint') {
-			$cmd = $eqLogic->getCmd('action', 'thermostat');
-			$cmd->execCmd(array('slider' => $_value));
-		}
-		if ($_action == 'setMode') {
-			if ($_value == 'Off') {
-				$action = $eqLogic->getCmd('action', 'off');
-				$action->execCmd();
-				return;
-			}
-			foreach ($eqLogic->getCmd('action', 'modeAction', null, true) as $action) {
-				if (is_object($action) && $action->getName() == $_value) {
-					$action->execCmd();
-					break;
-				}
-			}
-
-		}
-	}
-
-	public function imperihomeCmd() {
-		if ($this->getLogicalId() == 'order') {
-			return true;
-		}
-		return false;
-	}
-
 	public function dontRemoveCmd() {
 		return true;
 	}
@@ -1873,12 +1821,27 @@ class thermostatCmd extends cmd {
 		} else if ($this->getLogicalId() == 'cool_only') {
 			$eqLogic->setConfiguration('allow_mode', 'cool');
 			$eqLogic->save();
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+			}else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+			}
 		} else if ($this->getLogicalId() == 'heat_only') {
 			$eqLogic->setConfiguration('allow_mode', 'heat');
 			$eqLogic->save();
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+			}else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+			}
 		} else if ($this->getLogicalId() == 'all_allow') {
 			$eqLogic->setConfiguration('allow_mode', 'all');
 			$eqLogic->save();
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+			}else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+			}
 		}
 		if (!is_object($lockState) || $lockState->execCmd() == 1) {
 			$eqLogic->refreshWidget();
@@ -1906,8 +1869,7 @@ class thermostatCmd extends cmd {
 			if($changed){
 				if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
 					thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
-				}
-				if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				}else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
 					thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
 				}
 			}
