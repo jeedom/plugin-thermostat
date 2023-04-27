@@ -2,6 +2,8 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text",
+        "Amélioration lors des changement de mode (climatisation, chauffage ou les deux": "Improvement when changing modes (air conditioning, heating or both)",
+        "Suppression du code obselete d'imperihome": "Remove obsolete code from imperihome",
         "20\/04\/2023": "04\/20\/2023",
         "Amélioration de la gestion des ouvrants": "Improved management of openings",
         "03\/10\/2022": "03\/10\/2022",
