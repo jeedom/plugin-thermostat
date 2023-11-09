@@ -1598,6 +1598,10 @@ class thermostat extends eqLogic {
 				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
+		$power = $this->getCmd(null, 'power');
+		if (is_object($power)) {
+			$power->event(0);
+		}
 		if ($_repeat) {
 			return;
 		}
@@ -1606,10 +1610,6 @@ class thermostat extends eqLogic {
 		}
 		$this->save();
 		$this->getCmd(null, 'actif')->event(0);
-		$power = $this->getCmd(null, 'power');
-		if (is_object($power)) {
-			$power->event(0);
-		}
 	}
 
 	public function orderChange() {
