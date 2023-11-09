@@ -1602,14 +1602,15 @@ class thermostat extends eqLogic {
 		if (is_object($power)) {
 			$power->event(0);
 		}
-		if ($_repeat) {
-			return;
-		}
+		$this->getCmd(null, 'actif')->event(0);
+		
 		if (!$_suspend) {
 			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
 		}
+		if ($_repeat) {
+			return;
+		}
 		$this->save();
-		$this->getCmd(null, 'actif')->event(0);
 	}
 
 	public function orderChange() {
