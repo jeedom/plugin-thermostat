@@ -16,6 +16,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 				<br/>
 				<span>{{Ajouter}}</span>
 			</div>
+			<div class="cursor eqLogicAction logoPrimary" data-action="gotoPluginConf">
+				<i class="fas fa-wrench"></i>
+				<br/>
+				<span>{{Configuration}}</span>
+			</div>
 		</div>
 		<legend><i class="fas fa-thermometer-three-quarters"></i> {{Mes thermostats}}</legend>
 		<?php
