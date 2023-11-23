@@ -161,7 +161,7 @@ class thermostat extends eqLogic {
 		if ($status == __('Climatisation', __FILE__) && $temp < ($consigne - $thermostat->getConfiguration('hysteresis_threshold', 1))) {
 			$action = 'stop';
 		}
-		if(($action == 'cool' || $action == 'heat') && ($thermostat->getConfiguration('allow_mode', 'all') != 'all' || $thermostat->getConfiguration('allow_mode', 'all') != $action)){
+		if(($action == 'cool' || $action == 'heat') && $thermostat->getConfiguration('allow_mode', 'all') != 'all' && $thermostat->getConfiguration('allow_mode', 'all') != $action){
 			$action = 'none';
 		}
 
