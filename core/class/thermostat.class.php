@@ -31,7 +31,7 @@ class thermostat extends eqLogic {
 			if (is_object($cron)) {
 				$cron->remove();
 			}
-			throw new Exception(__('Thermostat ID non trouvé',__FILE__) . ' : ' . $_options['thermostat_id'] . '. ' . __('Tâche supprimée',__FILE__));
+			throw new Exception(__('Thermostat ID non trouvé', __FILE__) . ' : ' . $_options['thermostat_id'] . '. ' . __('Tâche supprimée', __FILE__));
 		}
 		if ($thermostat->getConfiguration('engine', 'temporal') != 'temporal') {
 			$cron = cron::byClassAndFunction(__CLASS__, 'pull', $_options);
@@ -67,7 +67,7 @@ class thermostat extends eqLogic {
 				$lockState = $thermostat->getCmd(null, 'lock_state');
 				if (is_object($lockState) && $lockState->execCmd() == 1) {
 					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Thermostat verrouillé je ne fais rien', __FILE__));
-				}else if ($_options['next']['type'] == 'thermostat') {
+				} else if ($_options['next']['type'] == 'thermostat') {
 					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Type thermostat envoi de la consigne', __FILE__) . ' : ' . $_options['next']['consigne']);
 					$cmd = $thermostat->getCmd(null, 'thermostat');
 					$cmd->execCmd(array('slider' => $_options['next']['consigne']));
@@ -112,7 +112,7 @@ class thermostat extends eqLogic {
 		if (!is_object($thermostat)) {
 			return;
 		}
-		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Lancement du calcul d\'hystérésis', __FILE__));
+		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Lancement du calcul d'hystérésis", __FILE__));
 		$status = $thermostat->getCmd(null, 'status')->execCmd();
 		if ($status == __('Suspendu', __FILE__)) {
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Thermostat suspendu je ne fais rien', __FILE__));
@@ -130,7 +130,7 @@ class thermostat extends eqLogic {
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				$thermostat->failure();
-				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention il n\'y a pas eu de mise à jour de la température depuis plus de', __FILE__) . ' : ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $cmd->getCollectDate() . ')');
+				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("Attention il n'y a pas eu de mise à jour de la température depuis plus de", __FILE__) . ' : ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $cmd->getCollectDate() . ')');
 			}
 			$thermostat->setCache('temp_threshold', 1);
 			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
@@ -141,7 +141,7 @@ class thermostat extends eqLogic {
 		$thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
 		$hysteresis_low = ($thermostat->getConfiguration('allow_mode', 'all') == 'heat' && $thermostat->getConfiguration('positiveHysteresis', 0) == 1) ? $consigne : $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
 		$hysteresis_hight = ($thermostat->getConfiguration('allow_mode', 'all') == 'cool' && $thermostat->getConfiguration('positiveHysteresis', 0) == 1) ? $consigne : $consigne + $thermostat->getConfiguration('hysteresis_threshold', 1);
-		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Calcul',__FILE__) . ' => ' . __('consigne',__FILE__). ' : ' . $consigne . ' hysteresis_low : ' . $hysteresis_low . ' hysteresis_hight : ' . $hysteresis_hight . ' temp : ' . $temp . ' ' . __('état précédent',__FILE__) . ' : ' . $thermostat->getCache('lastState'));
+		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Calcul', __FILE__) . ' => ' . __('consigne', __FILE__) . ' : ' . $consigne . ' hysteresis_low : ' . $hysteresis_low . ' hysteresis_hight : ' . $hysteresis_hight . ' temp : ' . $temp . ' ' . __('état précédent', __FILE__) . ' : ' . $thermostat->getCache('lastState'));
 		$action = 'none';
 		if ($temp < $hysteresis_low) {
 			$action = 'heat';
@@ -161,22 +161,23 @@ class thermostat extends eqLogic {
 		if ($status == __('Climatisation', __FILE__) && $temp < ($consigne - $thermostat->getConfiguration('hysteresis_threshold', 1))) {
 			$action = 'stop';
 		}
+		if (($action == 'cool' || $action == 'heat') && $thermostat->getConfiguration('allow_mode', 'all') != 'all' && $thermostat->getConfiguration('allow_mode', 'all') != $action) {
+			$action = 'none';
+		}
 
 		if ($action == 'heat') {
 			if ($status != __('Chauffage', __FILE__)) {
 				log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je dois chauffer', __FILE__));
 				$thermostat->heat();
 			}
-		}
-		else if ($action == 'cool') {
+		} else if ($action == 'cool') {
 			if ($status != __('Climatisation', __FILE__)) {
 				log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je dois refroidir', __FILE__));
 				$thermostat->cool();
 			}
-		}
-		else if ($action == 'stop') {
+		} else if ($action == 'stop') {
 			if ($status != __('Arrêté', __FILE__)) {
-				log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je m\'arrête', __FILE__));
+				log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Je m'arrête", __FILE__));
 				$thermostat->stopThermostat();
 			}
 		}
@@ -189,7 +190,7 @@ class thermostat extends eqLogic {
 		}
 		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Début calcul temporel', __FILE__));
 		$thermostat->reschedule(date('Y-m-d H:i:00', strtotime('+' . $thermostat->getConfiguration('cycle') . ' min ' . date('Y-m-d H:i:00'))));
-		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Reprogrammation automatique : ', __FILE__) . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' ' . __('minutes',__FILE__) . ' ' . date('Y-m-d H:i:00'))));
+		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Reprogrammation automatique : ', __FILE__) . date('Y-m-d H:i:s', strtotime('+' . $thermostat->getConfiguration('cycle') . ' ' . __('minutes', __FILE__) . ' ' . date('Y-m-d H:i:00'))));
 		$status = $thermostat->getCmd(null, 'status')->execCmd();
 		if ($status == __('Suspendu', __FILE__)) {
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Thermostat suspendu', __FILE__));
@@ -213,9 +214,9 @@ class thermostat extends eqLogic {
 		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
 				$thermostat->failure();
-				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention il n\'y a pas eu de mise à jour de la température depuis plus de', __FILE__) . ' ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes',__FILE__) . ' (' . $cmd->getCollectDate() . ')');
+				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("Attention il n'y a pas eu de mise à jour de la température depuis plus de", __FILE__) . ' ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes', __FILE__) . ' (' . $cmd->getCollectDate() . ')');
 			}
-			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je ne fais rien car il n\'y a pas eu de mise a jour de la température depuis plus de', __FILE__) . ' ' . $thermostat->getConfiguration('maxTimeUpdateTemp'). ' '.__('minutes',__FILE__));
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Je ne fais rien car il n'y a pas eu de mise a jour de la température depuis plus de", __FILE__) . ' ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes', __FILE__));
 			$thermostat->setCache('temp_threshold', 1);
 			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 			return;
@@ -223,16 +224,17 @@ class thermostat extends eqLogic {
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
 		if (!is_numeric($temp_in)) {
 			if ($thermostat->getCache('temp_threshold', 0) == 0) {
-				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('La température intérieure n\'est pas un numérique',__FILE__) . ' : '.$temp_in);
+				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("La température intérieure n'est pas un numérique", __FILE__) . ' : ' . $temp_in);
 			}
-			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je ne fais rien car la température intérieure n\'est pas un numérique', __FILE__));
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Je ne fais rien car la température intérieure n'est pas un numérique", __FILE__));
 			$thermostat->setCache('temp_threshold', 1);
 			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 			return;
 		}
 		$thermostat->setCache('temp_threshold', 0);
 		if (($temp_in < ($thermostat->getCache('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
-		($temp_in > ($thermostat->getCache('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)) {
+			($temp_in > ($thermostat->getCache('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)
+		) {
 			$thermostat->setCache('nbConsecutiveFaillure', $thermostat->getCache('nbConsecutiveFaillure') + 1);
 			if ($thermostat->getCache('nbConsecutiveFaillure', 0) == 2) {
 				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention une défaillance du chauffage est détectée', __FILE__));
@@ -257,7 +259,7 @@ class thermostat extends eqLogic {
 							$coeff_indoor_heat = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
-						$thermostat->checkAndUpdateCmd('coeff_indoor_heat',round($coeff_indoor_heat, 2));
+						$thermostat->checkAndUpdateCmd('coeff_indoor_heat', round($coeff_indoor_heat, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff heat indoor : ' . $coeff_indoor_heat);
 					} else if ($temp_out < $thermostat->getCache('lastOrder')) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Learn outdoor heat');
@@ -269,7 +271,7 @@ class thermostat extends eqLogic {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
-						$thermostat->checkAndUpdateCmd('coeff_outdoor_heat',round($coeff_outdoor, 2));
+						$thermostat->checkAndUpdateCmd('coeff_outdoor_heat', round($coeff_outdoor, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff outdoor heat: ' . $coeff_outdoor);
 					}
 				}
@@ -285,7 +287,7 @@ class thermostat extends eqLogic {
 							$coeff_indoor_cool = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
-						$thermostat->checkAndUpdateCmd('coeff_indoor_cool',round($coeff_indoor_cool, 2));
+						$thermostat->checkAndUpdateCmd('coeff_indoor_cool', round($coeff_indoor_cool, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff cool indoor : ' . $coeff_indoor_cool);
 					} else if ($temp_out > $thermostat->getCache('lastOrder')) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Learn outdoor cool');
@@ -297,21 +299,21 @@ class thermostat extends eqLogic {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_cool', round($coeff_outdoor, 2));
-						$thermostat->checkAndUpdateCmd('coeff_outdoor_cool',round($coeff_outdoor, 2));
+						$thermostat->checkAndUpdateCmd('coeff_outdoor_cool', round($coeff_outdoor, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff outdoor cool : ' . $coeff_outdoor);
 					}
 				}
 			}
 		}
 		$delta = $thermostat->getCache('deltaOrder', 0);
-		if($delta > 0){
-			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Delta consigne > 0', __FILE__) . ' (' . $delta . '), ' . __('je lance le calcul avec consigne - delta/2',__FILE__));
+		if ($delta > 0) {
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Delta consigne > 0', __FILE__) . ' (' . $delta . '), ' . __('je lance le calcul avec consigne - delta/2', __FILE__));
 			$delta = $delta / 2;
 		}
 		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
 		$temporal_data = $thermostat->calculTemporalData($consigne - $delta);
-		if($temporal_data['power'] > 0 && $delta > 0){
-			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Power > 0 et delta consigne > 0', __FILE__) . ' (' . $delta . '), ' . __('je relance le calcul avec consigne + delta/2',__FILE__));
+		if ($temporal_data['power'] > 0 && $delta > 0) {
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Power > 0 et delta consigne > 0', __FILE__) . ' (' . $delta . '), ' . __('je relance le calcul avec consigne + delta/2', __FILE__));
 			$temporal_data = $thermostat->calculTemporalData($consigne + $delta);
 		}
 		$thermostat->setCache('last_power', $temporal_data['power']);
@@ -331,9 +333,9 @@ class thermostat extends eqLogic {
 		}
 
 		if ($duration > 0 && $duration < $cycle) {
-			if($thermostat->getConfiguration('stove_boiler') == 0){
+			if ($thermostat->getConfiguration('stove_boiler') == 0) {
 				$thermostat->reschedule(date('Y-m-d H:i:s', strtotime('+' . $duration . ' min ' . date('Y-m-d H:i:s'))), true);
-			}else{
+			} else {
 				$thermostat->reschedule(null, true);
 			}
 		}
@@ -371,32 +373,34 @@ class thermostat extends eqLogic {
 					if ($c->isDue()) {
 						switch ($thermostat->getCmd(null, 'status')->execCmd()) {
 							case __('Chauffage', __FILE__):
-							$thermostat->heat(true);
-							break;
+								$thermostat->heat(true);
+								break;
 							case __('Arrêté', __FILE__):
-							$thermostat->stopThermostat(true);
-							break;
+								$thermostat->stopThermostat(true);
+								break;
 							case __('Climatisation', __FILE__):
-							$thermostat->cool(true);
-							break;
+								$thermostat->cool(true);
+								break;
 						}
 					}
 				} catch (Exception $e) {
 					log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
 				}
 			}
-			if($thermostat->getConfiguration('window_alertIfOpenMoreThan') != ''
-			&& $thermostat->getConfiguration('window_alertIfOpenMoreThan') > 0
-			&& $thermostat->getCache('window::state::open',-1) != -1
-			&& (strtotime('now') - $thermostat->getCache('window::state::open',-1)) > ($thermostat->getConfiguration('window_alertIfOpenMoreThan') * 60)
-			&& $thermostat->getCmd(null, 'status')->execCmd() == __('Suspendu',__FILE__)){
-				if($thermostat->getCache('alertSendForWindow',0) != 1){
-					log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention le thermostat est suspendu à cause d\'une fenêtre ouverte depuis', __FILE__) . ' : ' .  ((strtotime('now') - $thermostat->getCache('window::state::open',-1)) / 60). __('minutes',__FILE__));
-					$thermostat->setCache('alertSendForWindow',1);
+			if (
+				$thermostat->getConfiguration('window_alertIfOpenMoreThan') != ''
+				&& $thermostat->getConfiguration('window_alertIfOpenMoreThan') > 0
+				&& $thermostat->getCache('window::state::open', -1) != -1
+				&& (strtotime('now') - $thermostat->getCache('window::state::open', -1)) > ($thermostat->getConfiguration('window_alertIfOpenMoreThan') * 60)
+				&& $thermostat->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)
+			) {
+				if ($thermostat->getCache('alertSendForWindow', 0) != 1) {
+					log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("Attention le thermostat est suspendu à cause d'une fenêtre ouverte depuis", __FILE__) . ' : ' .  ((strtotime('now') - $thermostat->getCache('window::state::open', -1)) / 60) . __('minutes', __FILE__));
+					$thermostat->setCache('alertSendForWindow', 1);
 				}
-			}else{
-				if($thermostat->getCache('alertSendForWindow',0) != 0){
-					$thermostat->setCache('alertSendForWindow',0);
+			} else {
+				if ($thermostat->getCache('alertSendForWindow', 0) != 0) {
+					$thermostat->setCache('alertSendForWindow', 0);
 				}
 			}
 			if ($thermostat->getConfiguration('engine', 'temporal') == 'temporal' && date('i') % 10 == 0) {
@@ -438,7 +442,7 @@ class thermostat extends eqLogic {
 				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
 					if ($thermostat->getCache('temp_threshold', 0) == 0) {
 						$thermostat->failure();
-						log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention il n\'y a pas eu de mise à jour de la température depuis plus de', __FILE__) . ' : ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes',__FILE__) .' (' . $temperature->getCollectDate() . ')');
+						log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("Attention il n'y a pas eu de mise à jour de la température depuis plus de", __FILE__) . ' : ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes', __FILE__) . ' (' . $temperature->getCollectDate() . ')');
 					}
 					$failure = true;
 				}
@@ -463,7 +467,6 @@ class thermostat extends eqLogic {
 				$thermostat->setCache('temp_threshold', 1);
 			}
 		}
-
 	}
 
 	public static function start() {
@@ -483,14 +486,14 @@ class thermostat extends eqLogic {
 	public static function window($_option) {
 		$thermostat = thermostat::byId($_option['thermostat_id']);
 		if (is_object($thermostat) && $thermostat->getIsEnable() == 1) {
-			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Détection d\'un changement sur une fenêtre', __FILE__));
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Détection d'un changement sur une fenêtre", __FILE__));
 			$windows = $thermostat->getConfiguration('window');
 			foreach ($windows as $window) {
 				if ('#' . $_option['event_id'] . '#' == $window['cmd']) {
 					if (isset($window['invert']) && $window['invert'] == 1) {
 						$_option['value'] = ($_option['value'] == 0) ? 1 : 0;
 					}
-					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Fenêtre trouvée', __FILE__) . ' : ' . cmd::byString($window['cmd'])->getHumanName() . ' - ' . __('valeur', __FILE__) .' : ' . $_option['value']);
+					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Fenêtre trouvée', __FILE__) . ' : ' . cmd::byString($window['cmd'])->getHumanName() . ' - ' . __('valeur', __FILE__) . ' : ' . $_option['value']);
 					if ($_option['value'] == 0) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Fenêtre fermée', __FILE__));
 						$thermostat->windowClose($window);
@@ -523,11 +526,11 @@ class thermostat extends eqLogic {
 
 	public function windowClose($_window) {
 		if ($this->getCache('window::state::' . str_replace('#', '', $_window['cmd']), 0) != 1) {
-			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowClose] ' . __('Je n\'ai jamais vu cette fenêtre ouverte, je ne fais rien', __FILE__));
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowClose] ' . __("Je n'ai jamais vu cette fenêtre ouverte, je ne fais rien", __FILE__));
 			return;
 		}
 		$this->setCache('window::state::' . str_replace('#', '', $_window['cmd']), 0);
-		log::add(__CLASS__, 'debug',$this->getHumanName() . '[windowClose] => ' . json_encode($_window));
+		log::add(__CLASS__, 'debug', $this->getHumanName() . '[windowClose] => ' . json_encode($_window));
 		if ($this->getCmd(null, 'status')->execCmd() != __('Suspendu', __FILE__)) {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowClose] ' . __('Thermostat non suspendu je ne fais rien', __FILE__));
 			return;
@@ -583,20 +586,20 @@ class thermostat extends eqLogic {
 		}
 		$stopTime = (isset($_window['stopTime']) && $_window['stopTime'] != '') ? $_window['stopTime'] : 0;
 		if (is_numeric($stopTime) && $stopTime > 0) {
-			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Pause de', __FILE__) . ' ' . $stopTime . ' ' . __('minutes',__FILE__));
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Pause de', __FILE__) . ' ' . $stopTime . ' ' . __('minutes', __FILE__));
 			sleep($stopTime * 60);
 		}
 		$value = $cmd->execCmd();
 		if (isset($_window['invert']) && $_window['invert'] == 1) {
 			$value = ($value == 0) ? 1 : 0;
-		}	
-		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Valeur commande', __FILE__) . ' : '. $value.__(' en date du : ',__FILE__).$cmd->getValueDate());
+		}
+		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Valeur commande', __FILE__) . ' : ' . $value . __(' en date du : ', __FILE__) . $cmd->getValueDate());
 		if ($value != 1) {
-		        log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('L\'ouvrant n\'est plus ouvert, je ne fais rien', __FILE__));
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __("L'ouvrant n'est plus ouvert, je ne fais rien", __FILE__));
 			return true;
 		}
-		if(strtotime($cmd->getValueDate()) > ($startime+5)){
-		        log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('L\'ouvrant à été refermé pendant la pause, je ne fais rien, refermé à ', __FILE__).$cmd->getValueDate());
+		if (strtotime($cmd->getValueDate()) > ($startime + 5)) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __("L'ouvrant à été refermé pendant la pause, je ne fais rien, refermé à", __FILE__) . ' ' . $cmd->getValueDate());
 			return true;
 		}
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [windowOpen] ' . __('Arrêt du thermostat', __FILE__));
@@ -640,7 +643,7 @@ class thermostat extends eqLogic {
 		$temp_out = $this->getCmd(null, 'temperature_outdoor')->execCmd();
 		$temp_in = $this->getCmd(null, 'temperature')->execCmd();
 		if (!is_numeric($temp_out)) {
-			log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Attention température extérieure erronée', __FILE__) . ' : '. $temp_out);
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Attention température extérieure erronée', __FILE__) . ' : ' . $temp_out);
 			$temp_out = $_consigne;
 		}
 
@@ -648,10 +651,10 @@ class thermostat extends eqLogic {
 		$diff_in = $_consigne - $temp_in;
 		$diff_out = $_consigne - $temp_out;
 		$direction = ($_consigne > $temp_in) ? +1 : -1;
-		if ($direction < 0 && (($temp_in < ($_consigne + 0.5) && $this->getCache('lastState') == 'heat') || ($_consigne - $temp_out) > $this->getConfiguration('direction::delta::heat',0))) {
+		if ($direction < 0 && (($temp_in < ($_consigne + 0.5) && $this->getCache('lastState') == 'heat') || ($_consigne - $temp_out) > $this->getConfiguration('direction::delta::heat', 0))) {
 			$direction = +1;
 		}
-		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getCache('lastState') == 'cool') || ($_consigne - $temp_out) < $this->getConfiguration('direction::delta::cool',0))) {
+		if ($direction > 0 && (($temp_in > ($_consigne - 0.5) && $this->getCache('lastState') == 'cool') || ($_consigne - $temp_out) < $this->getConfiguration('direction::delta::cool', 0))) {
 			$direction = -1;
 		}
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Direction', __FILE__) . ' : ' . $direction);
@@ -674,16 +677,16 @@ class thermostat extends eqLogic {
 		$coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
 		$offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
 		$power = ($direction * $diff_in * $coeff_in) + ($direction * $diff_out * $coeff_out) + $offset;
-		log::add(__CLASS__, 'debug', $this->getHumanName() . ' Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset .' = '.$power);
+		log::add(__CLASS__, 'debug', $this->getHumanName() . ' Power calcul : (' . $diff_in . ' * ' . $coeff_in . ') + (' . $diff_out . ' * ' . $coeff_out . ') + ' . $offset . ' = ' . $power);
 
-		if(!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getCache('last_power',0) >= $this->getConfiguration('threshold_heathot',100)) {
-			if($this->getCache('last_power',0) >= 100){
-				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Cycle précédent à 100%, applique offset', __FILE__) . ' : '.$this->getConfiguration('offset_nextFullCyle').'%');
+		if (!$_allowOverfull && $this->getConfiguration('offset_nextFullCyle') != '' && $this->getConfiguration('offset_nextFullCyle') > 0 && $this->getCache('last_power', 0) >= $this->getConfiguration('threshold_heathot', 100)) {
+			if ($this->getCache('last_power', 0) >= 100) {
+				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Cycle précédent à 100%, applique offset', __FILE__) . ' : ' . $this->getConfiguration('offset_nextFullCyle') . '%');
 				$power -= $this->getConfiguration('offset_nextFullCyle');
-			}else{
-				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Cycle précédent à', __FILE__) . ' ' .$this->getCache('last_power',0).'%, '.__('applique offset', __FILE__).' : '.$this->getConfiguration('offset_nextFullCyle').'%');
-				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Puissance de chauffe du cycle', __FILE__) . ' : '.$power.'% - '.$this->getConfiguration('offset_nextFullCyle').'% + '.(100 - $this->getCache('last_power',0)).'%');
-				$power -= $this->getConfiguration('offset_nextFullCyle') - (100 - $this->getCache('last_power',0));
+			} else {
+				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Cycle précédent à', __FILE__) . ' ' . $this->getCache('last_power', 0) . '%, ' . __('applique offset', __FILE__) . ' : ' . $this->getConfiguration('offset_nextFullCyle') . '%');
+				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Puissance de chauffe du cycle', __FILE__) . ' : ' . $power . '% - ' . $this->getConfiguration('offset_nextFullCyle') . '% + ' . (100 - $this->getCache('last_power', 0)) . '%');
+				$power -= $this->getConfiguration('offset_nextFullCyle') - (100 - $this->getCache('last_power', 0));
 			}
 		}
 		if ($power > 100 && !$_allowOverfull) {
@@ -818,9 +821,9 @@ class thermostat extends eqLogic {
 				return '';
 			}
 			$next['schedule'] = date('Y-m-d H:i:s', strtotime('-' . $duration . ' min ' . $next['date']));
-			log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Durée Smartstart', __FILE__) . ' : ' . $duration . ' ' . __('à',__FILE__) . ' ' . $next['date'] . ' ' . __('programmation',__FILE__) . ' : ' . $next['schedule']);
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Durée Smartstart', __FILE__) . ' : ' . $duration . ' ' . __('à', __FILE__) . ' ' . $next['date'] . ' ' . __('programmation', __FILE__) . ' : ' . $next['schedule']);
 			if (strtotime($next['schedule']) > (strtotime('now') + 120)) {
-				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Prochain Smartstart', __FILE__) . ' : '. $next['schedule']);
+				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Prochain Smartstart', __FILE__) . ' : ' . $next['schedule']);
 				$this->reschedule($next['schedule'], false, $next);
 			}
 		}
@@ -911,18 +914,18 @@ class thermostat extends eqLogic {
 			$this->setConfiguration('coeff_outdoor_cool_autolearn', 0);
 		}
 		if ($this->getConfiguration('engine') == 'hysteresis') {
-			$this->setConfiguration('hysteresis_threshold', str_replace(',','.',$this->getConfiguration('hysteresis_threshold', 1)));
+			$this->setConfiguration('hysteresis_threshold', str_replace(',', '.', $this->getConfiguration('hysteresis_threshold', 1)));
 		}
 		if (is_array($this->getConfiguration('existingMode'))) {
 			foreach ($this->getConfiguration('existingMode') as $existingMode) {
 				if (strtolower($existingMode['name']) == __('off', __FILE__)) {
-					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Off car une commande Off existe déjà', __FILE__));
+					throw new Exception(__("Vous ne pouvez faire un mode s'appelant Off car une commande Off existe déjà", __FILE__));
 				}
 				if (strtolower($existingMode['name']) == __('status', __FILE__)) {
-					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Status car une commande Status existe déjà', __FILE__));
+					throw new Exception(__("Vous ne pouvez faire un mode s'appelant Status car une commande Status existe déjà", __FILE__));
 				}
 				if (strtolower($existingMode['name']) == __('thermostat', __FILE__)) {
-					throw new Exception(__('Vous ne pouvez faire un mode s\'appelant Thermostat car une commande Thermostat existe déjà', __FILE__));
+					throw new Exception(__("Vous ne pouvez faire un mode s'appelant Thermostat car une commande Thermostat existe déjà", __FILE__));
 				}
 			}
 		}
@@ -939,7 +942,7 @@ class thermostat extends eqLogic {
 			$order->setConfiguration('historizeMode', 'none');
 			$order->setIsHistorized(1);
 		}
-		$order->setGeneric_type( 'THERMOSTAT_SETPOINT');
+		$order->setGeneric_type('THERMOSTAT_SETPOINT');
 		$order->setEqLogic_id($this->getId());
 		$order->setType('info');
 		$order->setSubType('numeric');
@@ -954,10 +957,10 @@ class thermostat extends eqLogic {
 			$thermostat->setUnite('°C');
 			$thermostat->setName(__('Thermostat', __FILE__));
 			$thermostat->setIsVisible(1);
-			$thermostat->setTemplate('dashboard','button');
-			$thermostat->setTemplate('mobile','button');
+			$thermostat->setTemplate('dashboard', 'button');
+			$thermostat->setTemplate('mobile', 'button');
 		}
-		$thermostat->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
+		$thermostat->setGeneric_type('THERMOSTAT_SET_SETPOINT');
 		$thermostat->setEqLogic_id($this->getId());
 		$thermostat->setConfiguration('maxValue', $this->getConfiguration('order_max'));
 		$thermostat->setConfiguration('minValue', $this->getConfiguration('order_min'));
@@ -973,7 +976,7 @@ class thermostat extends eqLogic {
 			$status->setIsVisible(1);
 			$status->setName(__('Statut', __FILE__));
 		}
-		$status->setGeneric_type( 'THERMOSTAT_STATE_NAME');
+		$status->setGeneric_type('THERMOSTAT_STATE_NAME');
 		$status->setEqLogic_id($this->getId());
 		$status->setType('info');
 		$status->setSubType('string');
@@ -987,7 +990,7 @@ class thermostat extends eqLogic {
 			$actif->setIsVisible(0);
 			$actif->setIsHistorized(1);
 		}
-		$actif->setGeneric_type( 'THERMOSTAT_STATE');
+		$actif->setGeneric_type('THERMOSTAT_STATE');
 		$actif->setEqLogic_id($this->getId());
 		$actif->setType('info');
 		$actif->setSubType('binary');
@@ -1002,7 +1005,7 @@ class thermostat extends eqLogic {
 			$lockState->setName(__('Verrouillage', __FILE__));
 			$lockState->setIsVisible(0);
 		}
-		$lockState->setGeneric_type( 'THERMOSTAT_LOCK');
+		$lockState->setGeneric_type('THERMOSTAT_LOCK');
 		$lockState->setEqLogic_id($this->getId());
 		$lockState->setType('info');
 		$lockState->setSubType('binary');
@@ -1017,7 +1020,7 @@ class thermostat extends eqLogic {
 			$lock->setName('lock');
 			$lock->setOrder(1);
 		}
-		$lock->setGeneric_type( 'THERMOSTAT_SET_LOCK');
+		$lock->setGeneric_type('THERMOSTAT_SET_LOCK');
 		$lock->setEqLogic_id($this->getId());
 		$lock->setType('action');
 		$lock->setSubType('other');
@@ -1038,7 +1041,7 @@ class thermostat extends eqLogic {
 			$unlock->setName('unlock');
 			$unlock->setOrder(1);
 		}
-		$unlock->setGeneric_type( 'THERMOSTAT_SET_UNLOCK');
+		$unlock->setGeneric_type('THERMOSTAT_SET_UNLOCK');
 		$unlock->setEqLogic_id($this->getId());
 		$unlock->setType('action');
 		$unlock->setSubType('other');
@@ -1077,7 +1080,7 @@ class thermostat extends eqLogic {
 			}
 		}
 		$temperature->setValue($value);
-		$temperature->setGeneric_type( 'THERMOSTAT_TEMPERATURE');
+		$temperature->setGeneric_type('THERMOSTAT_TEMPERATURE');
 		$temperature->save();
 		if (is_nan($temperature->execCmd()) || $temperature->execCmd() == '') {
 			$temperature->event($temperature->execute());
@@ -1110,7 +1113,7 @@ class thermostat extends eqLogic {
 			}
 		}
 		$temperature_outdoor->setValue($value);
-		$temperature_outdoor->setGeneric_type( 'THERMOSTAT_TEMPERATURE_OUTDOOR');
+		$temperature_outdoor->setGeneric_type('THERMOSTAT_TEMPERATURE_OUTDOOR');
 		$temperature_outdoor->save();
 		if (is_nan($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
 			$temperature_outdoor->event($temperature_outdoor->execute());
@@ -1126,6 +1129,7 @@ class thermostat extends eqLogic {
 		$offsetheat->setType('action');
 		$offsetheat->setSubType('slider');
 		$offsetheat->setLogicalId('offset_heat');
+		$offsetheat->setConfiguration('minValue', -100);
 		$offsetheat->save();
 
 		$offsetcool = $this->getCmd(null, 'offset_cool');
@@ -1138,6 +1142,7 @@ class thermostat extends eqLogic {
 		$offsetcool->setType('action');
 		$offsetcool->setSubType('slider');
 		$offsetcool->setLogicalId('offset_cool');
+		$offsetcool->setConfiguration('minValue', -100);
 		$offsetcool->save();
 
 		$heatOnly = $this->getCmd(null, 'heat_only');
@@ -1195,7 +1200,7 @@ class thermostat extends eqLogic {
 			$off->setIsVisible(1);
 			$off->setName(__('Off', __FILE__));
 		}
-		$off->setGeneric_type( 'THERMOSTAT_SET_MODE');
+		$off->setGeneric_type('THERMOSTAT_SET_MODE');
 		$off->setEqLogic_id($this->getId());
 		$off->setType('action');
 		$off->setSubType('other');
@@ -1203,7 +1208,7 @@ class thermostat extends eqLogic {
 		$off->setValue($mode->getId());
 		$off->save();
 
-		if($this->getConfiguration('engine', 'temporal') == 'temporal'){
+		if ($this->getConfiguration('engine', 'temporal') == 'temporal') {
 			$deltaOrder = $this->getCmd(null, 'deltaOrder');
 			if (!is_object($deltaOrder)) {
 				$deltaOrder = new thermostatCmd();
@@ -1218,7 +1223,7 @@ class thermostat extends eqLogic {
 			$deltaOrder->setSubType('slider');
 			$deltaOrder->setLogicalId('deltaOrder');
 			$deltaOrder->save();
-			
+
 			$cmd = $this->getCmd(null, 'coeff_indoor_heat');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
@@ -1230,8 +1235,8 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_indoor_heat');
-            $cmd->save();
-			
+			$cmd->save();
+
 			$cmd = $this->getCmd(null, 'coeff_outdoor_heat');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
@@ -1243,8 +1248,8 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_outdoor_heat');
-            $cmd->save();
-			
+			$cmd->save();
+
 			$cmd = $this->getCmd(null, 'coeff_indoor_cool');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
@@ -1256,8 +1261,8 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_indoor_cool');
-            $cmd->save();
-			
+			$cmd->save();
+
 			$cmd = $this->getCmd(null, 'coeff_outdoor_cool');
 			if (!is_object($cmd)) {
 				$cmd = new thermostatCmd();
@@ -1269,8 +1274,8 @@ class thermostat extends eqLogic {
 			$cmd->setType('info');
 			$cmd->setSubType('numeric');
 			$cmd->setLogicalId('coeff_outdoor_cool');
-            $cmd->save();
-		}else{
+			$cmd->save();
+		} else {
 			$cmd = $this->getCmd(null, 'deltaOrder');
 			if (is_object($cmd)) {
 				$cmd->remove();
@@ -1347,20 +1352,20 @@ class thermostat extends eqLogic {
 						$customCmdUnite = $cmd->getUnite();
 						$customCmdGeneric = $cmd->getGeneric_type();
 						$value .= '#' . $cmd_id . '#';
+						$customCmd->setValue($value);
+						$customCmd->setSubType($customCmdSubType);
+						$customCmd->setName($customCmdName);
+						$customCmd->setUnite($customCmdUnite);
+						$customCmd->setGeneric_type($customCmdGeneric);
+						$customCmd->save();
 						break;
 					}
 				}
 			}
-			$customCmd->setValue($value);
-			$customCmd->setSubType($customCmdSubType);
-			$customCmd->setName($customCmdName);
-			$customCmd->setUnite($customCmdUnite);
-			$customCmd->setGeneric_type($customCmdGeneric);
-			$customCmd->save();
 			if ($customCmd->execCmd() == '') {
 				$customCmd->event($customCmd->execute());
 			}
-		}else if (is_object($customCmd = $this->getCmd(null, 'customCmd'))) {
+		} else if (is_object($customCmd = $this->getCmd(null, 'customCmd'))) {
 			$customCmd->remove();
 		}
 
@@ -1373,7 +1378,7 @@ class thermostat extends eqLogic {
 		foreach ($this->getCmd() as $cmd) {
 			if ($cmd->getLogicalId() == 'modeAction') {
 				if (isset($knowModes[$cmd->getName()])) {
-					$cmd->setGeneric_type( 'THERMOSTAT_SET_MODE');
+					$cmd->setGeneric_type('THERMOSTAT_SET_MODE');
 					if (isset($knowModes[$cmd->getName()]['isVisible'])) {
 						$cmd->setIsVisible($knowModes[$cmd->getName()]['isVisible']);
 					}
@@ -1489,7 +1494,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function heat($_repeat = false) {
-	        $this->getCmd(null, 'status')->event(__('Chauffage', __FILE__));
+		$this->getCmd(null, 'status')->event(__('Chauffage', __FILE__));
 		if (!$_repeat) {
 			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 				return false;
@@ -1520,7 +1525,7 @@ class thermostat extends eqLogic {
 				}
 				scenarioExpression::createAndExec('action', $action['cmd'], $options);
 			} catch (Exception $e) {
-				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
+				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
 		if (!$_repeat) {
@@ -1532,7 +1537,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function cool($_repeat = false) {
-	        $this->getCmd(null, 'status')->event(__('Climatisation', __FILE__));
+		$this->getCmd(null, 'status')->event(__('Climatisation', __FILE__));
 		if (!$_repeat) {
 			if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 				return false;
@@ -1563,7 +1568,7 @@ class thermostat extends eqLogic {
 				}
 				scenarioExpression::createAndExec('action', $action['cmd'], $options);
 			} catch (Exception $e) {
-				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
+				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
 		if (!$_repeat) {
@@ -1595,21 +1600,22 @@ class thermostat extends eqLogic {
 				}
 				scenarioExpression::createAndExec('action', $action['cmd'], $options);
 			} catch (Exception $e) {
-				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
+				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
-		if ($_repeat) {
-			return;
-		}
-		if (!$_suspend) {
-			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
-		}
-		$this->save();
-		$this->getCmd(null, 'actif')->event(0);
 		$power = $this->getCmd(null, 'power');
 		if (is_object($power)) {
 			$power->event(0);
 		}
+		$this->getCmd(null, 'actif')->event(0);
+
+		if (!$_suspend) {
+			$this->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
+		}
+		if ($_repeat) {
+			return;
+		}
+		$this->save();
 	}
 
 	public function orderChange() {
@@ -1636,7 +1642,7 @@ class thermostat extends eqLogic {
 				$options['modeChange'] = true;
 				scenarioExpression::createAndExec('action', $action['cmd'], $options);
 			} catch (Exception $e) {
-				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
+				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
 	}
@@ -1661,7 +1667,7 @@ class thermostat extends eqLogic {
 				}
 				scenarioExpression::createAndExec('action', $action['cmd'], $options);
 			} catch (Exception $e) {
-				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
+				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
 		$this->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
@@ -1687,7 +1693,7 @@ class thermostat extends eqLogic {
 				}
 				scenarioExpression::createAndExec('action', $action['cmd'], $options);
 			} catch (Exception $e) {
-				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
+				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
 		$this->getCmd(null, 'status')->event(__('Défaillance chauffage', __FILE__));
@@ -1707,16 +1713,15 @@ class thermostat extends eqLogic {
 								$options[$key] = str_replace('#slider#', $consigne, $value);
 							}
 						}
-						$cmd = (is_numeric(str_replace('#','', $action['cmd']))) ? cmd::byString($action['cmd']) : '';
+						$cmd = (is_numeric(str_replace('#', '', $action['cmd']))) ? cmd::byString($action['cmd']) : '';
 						if (is_object($cmd) && $cmd->getEqLogic_id() == $this->getId() && $cmd->getLogicalId() == 'thermostat') {
 							$thermostatCmd = true;
 							$this->getCmd(null, 'order')->event(scenarioExpression::createAndExec('condition', $options['slider']));
-						}
-						else {
+						} else {
 							scenarioExpression::createAndExec('action', $action['cmd'], $options);
 						}
 					} catch (Exception $e) {
-						log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __('Erreur lors de l\'exécution de', __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
+						log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 					}
 				}
 			}
@@ -1787,62 +1792,9 @@ class thermostat extends eqLogic {
 		}
 		return 18 - (($stats['min'] + $stats['max']) / 2);
 	}
-
 }
 
 class thermostatCmd extends cmd {
-
-	public function imperihomeGenerate($ISSStructure) {
-		$eqLogic = $this->getEqLogic();
-		$object = $eqLogic->getObject();
-		$type = 'DevThermostat';
-		$info_device = array(
-			'id' => $this->getId(),
-			'name' => $eqLogic->getName(),
-			'room' => (is_object($object)) ? $object->getId() : 99999,
-			'type' => $type,
-			'params' => array(),
-		);
-		$info_device['params'] = $ISSStructure[$info_device['type']]['params'];
-		$info_device['params'][0]['value'] = '#' . $eqLogic->getCmd('info', 'mode')->getId() . '#';
-		$info_device['params'][1]['value'] = '#' . $eqLogic->getCmd('info', 'temperature')->getId() . '#';
-		$info_device['params'][2]['value'] = '#' . $eqLogic->getCmd('info', 'order')->getId() . '#';
-		$info_device['params'][3]['value'] = 0.5;
-		$info_device['params'][4]['value'] = 'Off';
-		foreach ($eqLogic->getConfiguration('existingMode') as $existingMode) {
-			$info_device['params'][4]['value'] .= ',' . $existingMode['name'];
-		}
-		return $info_device;
-	}
-
-	public function imperihomeAction($_action, $_value) {
-		$eqLogic = $this->getEqLogic();
-		if ($_action == 'setSetPoint') {
-			$cmd = $eqLogic->getCmd('action', 'thermostat');
-			$cmd->execCmd(array('slider' => $_value));
-		}
-		if ($_action == 'setMode') {
-			if ($_value == 'Off') {
-				$action = $eqLogic->getCmd('action', 'off');
-				$action->execCmd();
-				return;
-			}
-			foreach ($eqLogic->getCmd('action', 'modeAction', null, true) as $action) {
-				if (is_object($action) && $action->getName() == $_value) {
-					$action->execCmd();
-					break;
-				}
-			}
-
-		}
-	}
-
-	public function imperihomeCmd() {
-		if ($this->getLogicalId() == 'order') {
-			return true;
-		}
-		return false;
-	}
 
 	public function dontRemoveCmd() {
 		return true;
@@ -1853,7 +1805,7 @@ class thermostatCmd extends cmd {
 		$lockState = $eqLogic->getCmd(null, 'lock_state');
 
 		if ($this->getLogicalId() == 'deltaOrder') {
-			$eqLogic->setCache('deltaOrder',$_options['slider']);
+			$eqLogic->setCache('deltaOrder', $_options['slider']);
 			return;
 		} else if ($this->getLogicalId() == 'lock') {
 			$lockState->event(1);
@@ -1873,12 +1825,27 @@ class thermostatCmd extends cmd {
 		} else if ($this->getLogicalId() == 'cool_only') {
 			$eqLogic->setConfiguration('allow_mode', 'cool');
 			$eqLogic->save();
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+			} else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+			}
 		} else if ($this->getLogicalId() == 'heat_only') {
 			$eqLogic->setConfiguration('allow_mode', 'heat');
 			$eqLogic->save();
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+			} else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+			}
 		} else if ($this->getLogicalId() == 'all_allow') {
 			$eqLogic->setConfiguration('allow_mode', 'all');
 			$eqLogic->save();
+			if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
+				thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
+			} else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
+			}
 		}
 		if (!is_object($lockState) || $lockState->execCmd() == 1) {
 			$eqLogic->refreshWidget();
@@ -1903,15 +1870,13 @@ class thermostatCmd extends cmd {
 				return;
 			}
 			$eqLogic->orderChange();
-			if($changed){
+			if ($changed) {
 				if ($eqLogic->getConfiguration('engine', 'temporal') == 'temporal') {
 					thermostat::temporal(array('thermostat_id' => $eqLogic->getId()));
-				}
-				if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
+				} else if ($eqLogic->getConfiguration('engine', 'temporal') == 'hysteresis') {
 					thermostat::hysteresis(array('thermostat_id' => $eqLogic->getId()));
 				}
 			}
 		}
 	}
-
 }

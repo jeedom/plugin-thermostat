@@ -2,6 +2,13 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Como lembrete, se não houver informações sobre a atualização, isso significa que se trata apenas da atualização da documentação, tradução ou texto",
+        "19\/12\/2023": "19\/12\/2023",
+        "Possibilité de saisir des valeurs négatives pour les commandes Offsets relatives aux apports internes": "Possibilidade de inserir valores negativos para comandos de Compensações relativos a contribuições internas",
+        "27\/04\/2023": "27\/04\/2023",
+        "climatisation, chauffage ou les deux": "ar condicionado, aquecimento ou ambos",
+        "Amélioration lors des changements de mode": "Melhoria ao mudar de modo",
+        "Suppression du code obsolète pour Imperihome": "Removendo código obsoleto do Imperihome",
+        "20\/04\/2023": "20\/04\/2023",
         "Amélioration de la gestion des ouvrants": "Melhor gerenciamento de aberturas",
         "03\/10\/2022": "10\/03\/2022",
         "Le smartstart ne peux plus outrepasser le lock du thermostat": "O smartstart não pode mais substituir o bloqueio do termostato",
