@@ -2,6 +2,8 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto",
+        "03\/01\/2024": "01\/03\/2024",
+        "Préparation pour jeedom 4.4": "Preparándose para el apuro 4.4",
         "19\/12\/2023": "19\/12\/2023",
         "Possibilité de saisir des valeurs négatives pour les commandes Offsets relatives aux apports internes": "Posibilidad de ingresar valores negativos para los comandos de Compensaciones relacionados con contribuciones internas",
         "27\/04\/2023": "27\/04\/2023",
