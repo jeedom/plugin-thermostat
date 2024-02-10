@@ -347,11 +347,12 @@ class thermostat extends eqLogic {
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je dois refroidir mais avant je chauffais, je stop tout avant', __FILE__));
 			$thermostat->setCache('lastState', 'stop');
 			$thermostat->stopThermostat();
-		}
-		if ($thermostat->getCache('lastState','none') == 'cool' && $temporal_data['direction'] > 0) {
+			sleep(5);
+		}else if ($thermostat->getCache('lastState','none') == 'cool' && $temporal_data['direction'] > 0) {
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je dois chauffer mais avant je refroidissait, je stop tout avant', __FILE__));
 			$thermostat->setCache('lastState', 'stop');
 			$thermostat->stopThermostat();
+			sleep(5);
 		}
 		$thermostat->save();
 		if ($duration > 0) {
