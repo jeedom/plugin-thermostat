@@ -613,7 +613,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function reschedule($_next = null, $_stop = false, $_smartThermostat = false) {
-		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Reschedule, next : '.$_next.', stop : '.$_stop.', smartThermostat : '.$_smartThermostat);
+		log::add(__CLASS__, 'debug', $this->getHumanName() . ' Reschedule, next : '.$_next.', stop : '.$_stop.', smartThermostat : '.$_smartThermostat);
 		$options = array('thermostat_id' => intval($this->getId()));
 		if ($_stop) {
 			$options['stop'] = intval(1);
