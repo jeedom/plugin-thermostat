@@ -229,6 +229,8 @@
         "je relance le calcul avec consigne + delta\/2": "Reinicio el cálculo con setpoint + delta \/ 2",
         "Durée du cycle": "Tiempo del ciclo",
         "Durée du cycle trop courte, aucun lancement": "El tiempo de ciclo es demasiado corto, no se inicia",
+        "Je dois refroidir mais avant je chauffais, je stop tout avant": "Me tengo que enfriar pero antes me calentaba, paro todo antes",
+        "Je dois chauffer mais avant je refroidissait, je stop tout avant": "Tengo que calentar pero antes de enfriar, paro todo antes",
         "Attention le thermostat est suspendu à cause d'une fenêtre ouverte depuis": "Tenga en cuenta que el termostato está suspendido debido a una ventana que ha estado abierta durante",
         "Attention la température intérieure est en dessous du seuil autorisé": "Tenga en cuenta que la temperatura interior está por debajo del umbral autorizado",
         "Attention la température intérieure est au dessus du seuil autorisé": "Tenga en cuenta que la temperatura interior está por encima del umbral autorizado",
