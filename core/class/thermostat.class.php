@@ -628,6 +628,9 @@ class thermostat extends eqLogic {
 			$options['smartThermostat'] = intval(1);
 			$options['next'] = $_smartThermostat;
 		}
+		if($_next == null){
+			return;
+		}
 		$cron = cron::byClassAndFunction(__CLASS__, 'pull', $options);
 		if (is_object($cron)) {
 			$cron->remove(false);
