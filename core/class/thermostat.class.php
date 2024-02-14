@@ -1588,7 +1588,12 @@ class thermostat extends eqLogic {
 
 	public function stopThermostat($_repeat = false, $_suspend = false) {
 		if (!$_repeat && $this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
-			return;
+			$power = $this->getCmd(null, 'power');
+			if (is_object($power) && $power->execCmd() > 0) {
+				$_repeat = true;
+			}else{
+			   return;
+			}
 		}
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Action stop', __FILE__));
 		$consigne = $this->getCmd(null, 'order')->execCmd();
