@@ -640,7 +640,7 @@ class thermostat extends eqLogic {
 		$cron->setFunction('pull');
 		$cron->setOption($options);
 		$_next = strtotime($_next);
-		$cron->setTimeout($this->getConfiguration('cycle', 60) + 10);
+		$cron->setTimeout($this->getConfiguration('cycle') + 10);
 		$cron->setSchedule(cron::convertDateToCron($_next));
 		$cron->setOnce(1);
 		$cron->save();
@@ -894,7 +894,7 @@ class thermostat extends eqLogic {
 			throw new Exception(__('Le temps de chauffe minimal doit être compris entre 0% et 90%', __FILE__));
 		}
 		if ($this->getConfiguration('cycle') === '') {
-			$this->setConfiguration('cycle', 60);
+			$this->setConfiguration('cycle', 59);
 		}
 		if ($this->getConfiguration('smart_start') === '') {
 			$this->setConfiguration('smart_start', 1);
