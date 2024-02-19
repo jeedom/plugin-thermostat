@@ -343,13 +343,16 @@ class thermostat extends eqLogic {
 			$thermostat->reschedule(null, true);
 		}
 
-		if ($thermostat->getCache('lastState') == 'heat' && $temporal_data['direction'] < 0) {
+		if ($thermostat->getCache('lastState','none') == 'heat' && $temporal_data['direction'] < 0) {
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je dois refroidir mais avant je chauffais, je stop tout avant', __FILE__));
 			$thermostat->setCache('lastState', 'stop');
 			$thermostat->stopThermostat();
-		}
-		if ($thermostat->getCache('lastState') == 'cool' && $temporal_data['direction'] > 0) {
+			sleep(5);
+		}else if ($thermostat->getCache('lastState','none') == 'cool' && $temporal_data['direction'] > 0) {
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Je dois chauffer mais avant je refroidissait, je stop tout avant', __FILE__));
 			$thermostat->setCache('lastState', 'stop');
 			$thermostat->stopThermostat();
+			sleep(5);
 		}
 		$thermostat->save();
 		if ($duration > 0) {
@@ -610,6 +613,7 @@ class thermostat extends eqLogic {
 	}
 
 	public function reschedule($_next = null, $_stop = false, $_smartThermostat = false) {
+		log::add(__CLASS__, 'debug', $this->getHumanName() . ' Reschedule, next : '.$_next.', stop : '.$_stop.', smartThermostat : '.$_smartThermostat);
 		$options = array('thermostat_id' => intval($this->getId()));
 		if ($_stop) {
 			$options['stop'] = intval(1);
@@ -624,6 +628,9 @@ class thermostat extends eqLogic {
 			$options['smartThermostat'] = intval(1);
 			$options['next'] = $_smartThermostat;
 		}
+		if($_next == null){
+			return;
+		}
 		$cron = cron::byClassAndFunction(__CLASS__, 'pull', $options);
 		if (is_object($cron)) {
 			$cron->remove(false);
@@ -633,7 +640,7 @@ class thermostat extends eqLogic {
 		$cron->setFunction('pull');
 		$cron->setOption($options);
 		$_next = strtotime($_next);
-		$cron->setTimeout($this->getConfiguration('cycle', 60) + 10);
+		$cron->setTimeout($this->getConfiguration('cycle') + 10);
 		$cron->setSchedule(cron::convertDateToCron($_next));
 		$cron->setOnce(1);
 		$cron->save();
@@ -887,7 +894,7 @@ class thermostat extends eqLogic {
 			throw new Exception(__('Le temps de chauffe minimal doit être compris entre 0% et 90%', __FILE__));
 		}
 		if ($this->getConfiguration('cycle') === '') {
-			$this->setConfiguration('cycle', 60);
+			$this->setConfiguration('cycle', 59);
 		}
 		if ($this->getConfiguration('smart_start') === '') {
 			$this->setConfiguration('smart_start', 1);
@@ -1581,7 +1588,12 @@ class thermostat extends eqLogic {
 
 	public function stopThermostat($_repeat = false, $_suspend = false) {
 		if (!$_repeat && $this->getCmd(null, 'status')->execCmd() == __('Arrêté', __FILE__)) {
-			return;
+			$power = $this->getCmd(null, 'power');
+			if (is_object($power) && $power->execCmd() > 0) {
+				$_repeat = true;
+			}else{
+			   return;
+			}
 		}
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Action stop', __FILE__));
 		$consigne = $this->getCmd(null, 'order')->execCmd();

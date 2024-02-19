@@ -229,6 +229,8 @@
         "je relance le calcul avec consigne + delta\/2": "Ich starte die Berechnung neu mit Sollwert + Delta \/ 2",
         "Durée du cycle": "Zykluszeit",
         "Durée du cycle trop courte, aucun lancement": "Zykluszeit zu kurz, kein Start",
+        "Je dois refroidir mais avant je chauffais, je stop tout avant": "Ich muss abkühlen, aber bevor ich aufheize, höre ich vorher alles auf",
+        "Je dois chauffer mais avant je refroidissait, je stop tout avant": "Ich muss aufheizen, aber bevor ich abgekühlt bin, höre ich vorher alles auf",
         "Attention le thermostat est suspendu à cause d'une fenêtre ouverte depuis": "Bitte beachten Sie, dass der Thermostat aufgrund eines geöffneten Fensters ausgeschaltet ist",
         "Attention la température intérieure est en dessous du seuil autorisé": "Bitte beachten Sie, dass die Innentemperatur unter dem zulässigen Schwellenwert liegt",
         "Attention la température intérieure est au dessus du seuil autorisé": "Bitte beachten Sie, dass die Innentemperatur über dem zulässigen Schwellenwert liegt",

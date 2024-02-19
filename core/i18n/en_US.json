@@ -229,6 +229,8 @@
         "je relance le calcul avec consigne + delta\/2": "I restart the calculation with setpoint + delta \/ 2",
         "Durée du cycle": "Cycle time",
         "Durée du cycle trop courte, aucun lancement": "Cycle time too short, no launch",
+        "Je dois refroidir mais avant je chauffais, je stop tout avant": "I have to cool down but before I was heating up, I stop everything before",
+        "Je dois chauffer mais avant je refroidissait, je stop tout avant": "I have to heat up but before I cooled down, I stop everything before",
         "Attention le thermostat est suspendu à cause d'une fenêtre ouverte depuis": "Please note that the thermostat is suspended due to a window that has been open for",
         "Attention la température intérieure est en dessous du seuil autorisé": "Please note the interior temperature is below the authorized threshold",
         "Attention la température intérieure est au dessus du seuil autorisé": "Please note the interior temperature is above the authorized threshold",

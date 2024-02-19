@@ -229,6 +229,8 @@
         "je relance le calcul avec consigne + delta\/2": "je relance le calcul avec consigne + delta\/2",
         "Durée du cycle": "Durée du cycle",
         "Durée du cycle trop courte, aucun lancement": "Durée du cycle trop courte, aucun lancement",
+        "Je dois refroidir mais avant je chauffais, je stop tout avant": "Je dois refroidir mais avant je chauffais, je stop tout avant",
+        "Je dois chauffer mais avant je refroidissait, je stop tout avant": "Je dois chauffer mais avant je refroidissait, je stop tout avant",
         "Attention le thermostat est suspendu à cause d'une fenêtre ouverte depuis": "Attention le thermostat est suspendu à cause d'une fenêtre ouverte depuis",
         "Attention la température intérieure est en dessous du seuil autorisé": "Attention la température intérieure est en dessous du seuil autorisé",
         "Attention la température intérieure est au dessus du seuil autorisé": "Attention la température intérieure est au dessus du seuil autorisé",
