@@ -24,7 +24,7 @@ class thermostat extends eqLogic {
 
 	/*     * ***********************Methode static*************************** */
 
-	public static function pull($_options) {
+	public static function pull($_options = null) {
 		$thermostat = thermostat::byId($_options['thermostat_id']);
 		if (!is_object($thermostat)) {
 			$cron = cron::byClassAndFunction(__CLASS__, 'pull', $_options);
