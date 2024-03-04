@@ -727,6 +727,9 @@ class thermostat extends eqLogic {
 		$next = null;
 		$position = null;
 		foreach ($this->getCmd(null, 'modeAction', null, true) as $mode) {
+			if(!is_object($mode)){
+				continue;
+			}
 			$events = calendar_event::searchByCmd($mode->getId());
 			if (is_array($events) && count($events) > 0) {
 				foreach ($events as $event) {
