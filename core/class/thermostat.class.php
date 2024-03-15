@@ -255,7 +255,7 @@ class thermostat extends eqLogic {
 						$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getCache('lastOrder') - $thermostat->getCache('lastTempIn')) / ($temp_in - $thermostat->getCache('lastTempIn')));
 						$coeff_indoor_heat = ($thermostat->getConfiguration('coeff_indoor_heat') * $thermostat->getConfiguration('coeff_indoor_heat_autolearn') + $coeff_indoor_heat) / ($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_indoor_heat_autolearn', min($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1, 50));
-						if ($coeff_indoor_heat < 0 || is_nan($coeff_indoor_heat)) {
+						if ($coeff_indoor_heat < 0 || !is_numeric($coeff_indoor_heat)) {
 							$coeff_indoor_heat = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
@@ -267,7 +267,7 @@ class thermostat extends eqLogic {
 						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder') - $temp_in) / ($thermostat->getCache('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
 						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_heat') * $thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_outdoor_heat_autolearn', min($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1, 50));
-						if ($coeff_outdoor < 0 || is_nan($coeff_outdoor)) {
+						if ($coeff_outdoor < 0 || !is_numeric($coeff_outdoor)) {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
@@ -283,7 +283,7 @@ class thermostat extends eqLogic {
 						$coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getCache('lastTempIn') - $thermostat->getCache('lastOrder')) / ($thermostat->getCache('lastTempIn') - $temp_in));
 						$coeff_indoor_cool = ($thermostat->getConfiguration('coeff_indoor_cool') * $thermostat->getConfiguration('coeff_indoor_cool_autolearn') + $coeff_indoor_cool) / ($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_indoor_cool_autolearn', min($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1, 50));
-						if ($coeff_indoor_cool < 0 || is_nan($coeff_indoor_cool)) {
+						if ($coeff_indoor_cool < 0 || !is_numeric($coeff_indoor_cool)) {
 							$coeff_indoor_cool = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
@@ -295,7 +295,7 @@ class thermostat extends eqLogic {
 						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder') - $temp_in) / ($thermostat->getCache('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
 						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_cool') * $thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_outdoor_cool_autolearn', min($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1, 50));
-						if ($coeff_outdoor < 0 || is_nan($coeff_outdoor)) {
+						if ($coeff_outdoor < 0 || !is_numeric($coeff_outdoor)) {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_cool', round($coeff_outdoor, 2));
@@ -1092,7 +1092,7 @@ class thermostat extends eqLogic {
 		$temperature->setValue($value);
 		$temperature->setGeneric_type('THERMOSTAT_TEMPERATURE');
 		$temperature->save();
-		if (is_nan($temperature->execCmd()) || $temperature->execCmd() == '') {
+		if (!is_numeric($temperature->execCmd()) || $temperature->execCmd() == '') {
 			$temperature->event($temperature->execute());
 		}
 
@@ -1125,7 +1125,7 @@ class thermostat extends eqLogic {
 		$temperature_outdoor->setValue($value);
 		$temperature_outdoor->setGeneric_type('THERMOSTAT_TEMPERATURE_OUTDOOR');
 		$temperature_outdoor->save();
-		if (is_nan($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
+		if (!is_numeric($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
 			$temperature_outdoor->event($temperature_outdoor->execute());
 		}
 
