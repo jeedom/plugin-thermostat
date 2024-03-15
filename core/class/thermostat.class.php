@@ -1832,9 +1832,9 @@ class thermostatCmd extends cmd {
 				$eqLogic->save();
 			}
 		} else if ($this->getLogicalId() == 'temperature') {
-			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor')), 1);
+			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor',0)), 1);
 		} else if ($this->getLogicalId() == 'temperature_outdoor') {
-			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor')), 1);
+			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor',0)), 1);
 		} else if ($this->getLogicalId() == 'customCmd') {
 			return jeedom::evaluateExpression($eqLogic->getConfiguration('customCmd'));
 		} else if ($this->getLogicalId() == 'cool_only') {
