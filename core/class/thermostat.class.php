@@ -787,13 +787,13 @@ class thermostat extends eqLogic {
 					continue;
 				}
 				foreach ($event->getCmd_param('start') as $action) {
-					if ($action['cmd'] == '#' . $mode->getId() . '#') {
+					if ($action['cmd'] == '#' . $thermostat->getId() . '#') {
 						$position = 'start';
 						$options = $action['options'];
 					}
 				}
 				foreach ($event->getCmd_param('end') as $action) {
-					if ($action['cmd'] == '#' . $mode->getId() . '#') {
+					if ($action['cmd'] == '#' . $thermostat->getId() . '#') {
 						if ($position == 'start') {
 							$position = null;
 						} else {
@@ -805,7 +805,7 @@ class thermostat extends eqLogic {
 				$nextOccurence = $event->nextOccurrence($position, true);
 				if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
 					$next = array(
-						'date' => $nextOccurence,
+						'date' => $nextOccurence['date'],
 						'event' => $event,
 						'calendar_id' => $calendar->getId(),
 						'consigne' => $options['slider'],
