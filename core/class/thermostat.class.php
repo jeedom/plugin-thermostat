@@ -109,7 +109,7 @@ class thermostat extends eqLogic {
 
 	public static function hysteresis($_options) {
 		$thermostat = thermostat::byId($_options['thermostat_id']);
-		if (!is_object($thermostat)) {
+		if (!is_object($thermostat) || $thermostat->getIsEnable() == 0) {
 			return;
 		}
 		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Lancement du calcul d'hystérésis", __FILE__));
@@ -185,7 +185,7 @@ class thermostat extends eqLogic {
 
 	public static function temporal($_options) {
 		$thermostat = thermostat::byId($_options['thermostat_id']);
-		if (!is_object($thermostat)) {
+		if (!is_object($thermostat) || $thermostat->getIsEnable() == 0) {
 			return;
 		}
 		log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Début calcul temporel', __FILE__));
