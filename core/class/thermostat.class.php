@@ -24,7 +24,7 @@ class thermostat extends eqLogic {
 
 	/*     * ***********************Methode static*************************** */
 
-	public static function pull($_options) {
+	public static function pull($_options = null) {
 		$thermostat = thermostat::byId($_options['thermostat_id']);
 		if (!is_object($thermostat)) {
 			$cron = cron::byClassAndFunction(__CLASS__, 'pull', $_options);
@@ -232,10 +232,10 @@ class thermostat extends eqLogic {
 			return;
 		}
 		$thermostat->setCache('temp_threshold', 0);
-		if (($temp_in < ($thermostat->getCache('lastOrder') - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
-			($temp_in > ($thermostat->getCache('lastOrder') + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)
+		if (($temp_in < ($thermostat->getCache('lastOrder', 0) - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getCache('lastTempIn', 0) && $thermostat->getCache('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
+			($temp_in > ($thermostat->getCache('lastOrder', 0) + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getCache('lastTempIn', 0) && $thermostat->getCache('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)
 		) {
-			$thermostat->setCache('nbConsecutiveFaillure', $thermostat->getCache('nbConsecutiveFaillure') + 1);
+			$thermostat->setCache('nbConsecutiveFaillure', $thermostat->getCache('nbConsecutiveFaillure', 0) + 1);
 			if ($thermostat->getCache('nbConsecutiveFaillure', 0) == 2) {
 				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention une défaillance du chauffage est détectée', __FILE__));
 				$thermostat->failureActuator();
@@ -245,29 +245,29 @@ class thermostat extends eqLogic {
 		}
 		if ($thermostat->getCache('nbConsecutiveFaillure', 0) < 3 && $thermostat->getConfiguration('autolearn') == 1 && strtotime($thermostat->getConfiguration('endDate')) < strtotime('now')) {
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Démarre auto-apprentissage', __FILE__));
-			if ($thermostat->getCache('last_power') < 100 && $thermostat->getCache('last_power') > 0) {
+			if ($thermostat->getCache('last_power', 0) < 100 && $thermostat->getCache('last_power', 0) > 0) {
 				log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Last power ok, check what I have to learn, last state : ' . $thermostat->getCache('lastState'));
 				$learn_outdoor = false;
 				if ($thermostat->getCache('lastState') == 'heat') {
 					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Last state is heat');
-					if ($temp_in > $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastOrder') > $thermostat->getCache('lastTempIn')) {
+					if ($temp_in > $thermostat->getCache('lastTempIn', 0) && $thermostat->getCache('lastOrder', 0) > $thermostat->getCache('lastTempIn', 0)) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Last temps in < at current temp in');
-						$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getCache('lastOrder') - $thermostat->getCache('lastTempIn')) / ($temp_in - $thermostat->getCache('lastTempIn')));
+						$coeff_indoor_heat = $thermostat->getConfiguration('coeff_indoor_heat') * (($thermostat->getCache('lastOrder', 0) - $thermostat->getCache('lastTempIn', 0)) / ($temp_in - $thermostat->getCache('lastTempIn', 0)));
 						$coeff_indoor_heat = ($thermostat->getConfiguration('coeff_indoor_heat') * $thermostat->getConfiguration('coeff_indoor_heat_autolearn') + $coeff_indoor_heat) / ($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_indoor_heat_autolearn', min($thermostat->getConfiguration('coeff_indoor_heat_autolearn') + 1, 50));
-						if ($coeff_indoor_heat < 0 || is_nan($coeff_indoor_heat)) {
+						if ($coeff_indoor_heat < 0 || !is_numeric($coeff_indoor_heat)) {
 							$coeff_indoor_heat = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_heat', round($coeff_indoor_heat, 2));
 						$thermostat->checkAndUpdateCmd('coeff_indoor_heat', round($coeff_indoor_heat, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff heat indoor : ' . $coeff_indoor_heat);
-					} else if ($temp_out < $thermostat->getCache('lastOrder')) {
+					} else if ($temp_out < $thermostat->getCache('lastOrder', 0)) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Learn outdoor heat');
 						$coeff_in = $thermostat->getConfiguration('coeff_indoor_heat');
-						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder') - $temp_in) / ($thermostat->getCache('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
+						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder', 0) - $temp_in) / ($thermostat->getCache('lastOrder', 0) - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_heat');
 						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_heat') * $thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_outdoor_heat_autolearn', min($thermostat->getConfiguration('coeff_outdoor_heat_autolearn') + 1, 50));
-						if ($coeff_outdoor < 0 || is_nan($coeff_outdoor)) {
+						if ($coeff_outdoor < 0 || !is_numeric($coeff_outdoor)) {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_heat', round($coeff_outdoor, 2));
@@ -278,24 +278,24 @@ class thermostat extends eqLogic {
 
 				if ($thermostat->getCache('lastState') == 'cool') {
 					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Last state is cool');
-					if ($temp_in < $thermostat->getCache('lastTempIn') && $thermostat->getCache('lastOrder') < $thermostat->getCache('lastTempIn')) {
+					if ($temp_in < $thermostat->getCache('lastTempIn', 0) && $thermostat->getCache('lastOrder', 0) < $thermostat->getCache('lastTempIn', 0)) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Last temps in > at current temp in');
-						$coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getCache('lastTempIn') - $thermostat->getCache('lastOrder')) / ($thermostat->getCache('lastTempIn') - $temp_in));
+						$coeff_indoor_cool = $thermostat->getConfiguration('coeff_indoor_cool') * (($thermostat->getCache('lastTempIn', 0) - $thermostat->getCache('lastOrder', 0)) / ($thermostat->getCache('lastTempIn', 0) - $temp_in));
 						$coeff_indoor_cool = ($thermostat->getConfiguration('coeff_indoor_cool') * $thermostat->getConfiguration('coeff_indoor_cool_autolearn') + $coeff_indoor_cool) / ($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_indoor_cool_autolearn', min($thermostat->getConfiguration('coeff_indoor_cool_autolearn') + 1, 50));
-						if ($coeff_indoor_cool < 0 || is_nan($coeff_indoor_cool)) {
+						if ($coeff_indoor_cool < 0 || !is_numeric($coeff_indoor_cool)) {
 							$coeff_indoor_cool = 0;
 						}
 						$thermostat->setConfiguration('coeff_indoor_cool', round($coeff_indoor_cool, 2));
 						$thermostat->checkAndUpdateCmd('coeff_indoor_cool', round($coeff_indoor_cool, 2));
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' New coeff cool indoor : ' . $coeff_indoor_cool);
-					} else if ($temp_out > $thermostat->getCache('lastOrder')) {
+					} else if ($temp_out > $thermostat->getCache('lastOrder', 0)) {
 						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' Learn outdoor cool');
 						$coeff_in = $thermostat->getConfiguration('coeff_indoor_cool');
-						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder') - $temp_in) / ($thermostat->getCache('lastOrder') - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
+						$coeff_outdoor = $coeff_in * (($thermostat->getCache('lastOrder', 0) - $temp_in) / ($thermostat->getCache('lastOrder', 0) - $temp_out)) + $thermostat->getConfiguration('coeff_outdoor_cool');
 						$coeff_outdoor = ($thermostat->getConfiguration('coeff_outdoor_cool') * $thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + $coeff_outdoor) / ($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1);
 						$thermostat->setConfiguration('coeff_outdoor_cool_autolearn', min($thermostat->getConfiguration('coeff_outdoor_cool_autolearn') + 1, 50));
-						if ($coeff_outdoor < 0 || is_nan($coeff_outdoor)) {
+						if ($coeff_outdoor < 0 || !is_numeric($coeff_outdoor)) {
 							$coeff_outdoor = 0;
 						}
 						$thermostat->setConfiguration('coeff_outdoor_cool', round($coeff_outdoor, 2));
@@ -727,6 +727,9 @@ class thermostat extends eqLogic {
 		$next = null;
 		$position = null;
 		foreach ($this->getCmd(null, 'modeAction', null, true) as $mode) {
+			if(!is_object($mode)){
+				continue;
+			}
 			$events = calendar_event::searchByCmd($mode->getId());
 			if (is_array($events) && count($events) > 0) {
 				foreach ($events as $event) {
@@ -784,13 +787,13 @@ class thermostat extends eqLogic {
 					continue;
 				}
 				foreach ($event->getCmd_param('start') as $action) {
-					if ($action['cmd'] == '#' . $mode->getId() . '#') {
+					if ($action['cmd'] == '#' . $thermostat->getId() . '#') {
 						$position = 'start';
 						$options = $action['options'];
 					}
 				}
 				foreach ($event->getCmd_param('end') as $action) {
-					if ($action['cmd'] == '#' . $mode->getId() . '#') {
+					if ($action['cmd'] == '#' . $thermostat->getId() . '#') {
 						if ($position == 'start') {
 							$position = null;
 						} else {
@@ -802,7 +805,7 @@ class thermostat extends eqLogic {
 				$nextOccurence = $event->nextOccurrence($position, true);
 				if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
 					$next = array(
-						'date' => $nextOccurence,
+						'date' => $nextOccurence['date'],
 						'event' => $event,
 						'calendar_id' => $calendar->getId(),
 						'consigne' => $options['slider'],
@@ -1089,7 +1092,7 @@ class thermostat extends eqLogic {
 		$temperature->setValue($value);
 		$temperature->setGeneric_type('THERMOSTAT_TEMPERATURE');
 		$temperature->save();
-		if (is_nan($temperature->execCmd()) || $temperature->execCmd() == '') {
+		if (!is_numeric($temperature->execCmd()) || $temperature->execCmd() == '') {
 			$temperature->event($temperature->execute());
 		}
 
@@ -1122,7 +1125,7 @@ class thermostat extends eqLogic {
 		$temperature_outdoor->setValue($value);
 		$temperature_outdoor->setGeneric_type('THERMOSTAT_TEMPERATURE_OUTDOOR');
 		$temperature_outdoor->save();
-		if (is_nan($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
+		if (!is_numeric($temperature_outdoor->execCmd()) || $temperature_outdoor->execCmd() == '') {
 			$temperature_outdoor->event($temperature_outdoor->execute());
 		}
 
@@ -1829,9 +1832,9 @@ class thermostatCmd extends cmd {
 				$eqLogic->save();
 			}
 		} else if ($this->getLogicalId() == 'temperature') {
-			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor')), 1);
+			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor',0)), 1);
 		} else if ($this->getLogicalId() == 'temperature_outdoor') {
-			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor')), 1);
+			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor',0)), 1);
 		} else if ($this->getLogicalId() == 'customCmd') {
 			return jeedom::evaluateExpression($eqLogic->getConfiguration('customCmd'));
 		} else if ($this->getLogicalId() == 'cool_only') {
