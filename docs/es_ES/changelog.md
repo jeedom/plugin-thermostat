@@ -4,6 +4,10 @@
 >
 >Como recordatorio si no hay información sobre la actualización, significa que solo se refiere a la actualización de documentación, traducción o texto
 
+# 22/07/2024
+
+- Se corrigió un error en Debian 12
+
 # 13/06/2024
 
 - Mejor gestión de los termostatos inhabilitados

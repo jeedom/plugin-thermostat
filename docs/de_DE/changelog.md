@@ -4,6 +4,10 @@
 >
 >Zur Erinnerung: Wenn keine Informationen zum Update vorhanden sind, bedeutet dies, dass es sich nur um die Aktualisierung von Dokumentation, Übersetzung oder Text handelt
 
+# 22.07.2024
+
+- Ein Fehler in Debian 12 wurde behoben
+
 # 13.06.2024
 
 - Bessere Verwaltung deaktivierter Thermostate
