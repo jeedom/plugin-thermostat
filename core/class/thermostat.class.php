@@ -311,7 +311,7 @@ class thermostat extends eqLogic {
 			$delta = $delta / 2;
 		}
 		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
-		$temporal_data = $thermostat->calculTemporalData($consigne - $delta);
+		$temporal_data = $thermostat->calculTemporalData(intval($consigne) - $delta);
 		if ($temporal_data['power'] > 0 && $delta > 0) {
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Power > 0 et delta consigne > 0', __FILE__) . ' (' . $delta . '), ' . __('je relance le calcul avec consigne + delta/2', __FILE__));
 			$temporal_data = $thermostat->calculTemporalData($consigne + $delta);
