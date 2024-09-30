@@ -3,6 +3,7 @@
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "Zur Erinnerung: Wenn keine Informationen zum Update vorhanden sind, bedeutet dies, dass es sich nur um die Aktualisierung von Dokumentation, Übersetzung oder Text handelt",
         "Support des images d'équipement personnalisées (Jeedom 4.5": "Unterstützung für benutzerdefinierte Gerätebilder (Jeedom 4.5",
+        "Correction d'un bug sur le support des consignes decimal": "Ein Fehler bei der Unterstützung von Dezimalanweisungen wurde behoben",
         "22\/07\/2024": "22.07.2024",
         "Correction d'un bug en debian 12": "Ein Fehler in Debian 12 wurde behoben",
         "13\/06\/2024": "13.06.2024",
