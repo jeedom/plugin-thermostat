@@ -2,6 +2,7 @@
     "changelog.md": {
         "Changelog Thermostat": "Changelog Thermostat",
         "Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte": "As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text",
+        "Le smartstart respect maintenant le pourcentage de chauffe minimal": "Smartstart now respects the minimum heating percentage",
         "30\/09\/2024": "09\/30\/2024",
         "Support des images d'équipement personnalisées (Jeedom 4.5": "Support for custom equipment images (Jeedom 4.5",
         "Correction d'un bug sur le support des consignes decimal": "Fixed bug on decimal instructions support",
@@ -93,7 +94,14 @@
         " IMPORTANT]": " Important]",
         "[IMPORTANT]": "[Important]",
         "*IMPORTANT*": "*Important*",
-        " IMPORTANT*": " Important*"
+        " IMPORTANT*": " Important*",
+        " LIEN.": " LINK.",
+        " LIEN?": " LINK?",
+        "LIEN ": "LINK ",
+        " LIEN]": " LINK]",
+        "[LIEN]": "[LINK]",
+        "*LIEN*": "*LINK*",
+        " LIEN*": " LINK*"
     },
     "index.md": {
         "Plugin Thermostat": "Thermostat plugin",

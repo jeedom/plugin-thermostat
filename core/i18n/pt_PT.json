@@ -267,6 +267,7 @@
         "Plugin agenda détecté": "Plugin da agenda detectado",
         "Smartstart : aucun événement trouvé": "Smartstart: nenhum evento encontrado",
         "Smartstart non pris en compte car power < 0 ": "Smartstart não levado em consideração porque potência <0",
+        "Smartstart non pris en compte car power < ": "Smartstart não levado em consideração porque o poder",
         "Smartstart non pris en compte car la durée": "Smartstart não levado em consideração porque a duração",
         "Durée Smartstart": "Duração do Smartstart",
         "à": "Para",

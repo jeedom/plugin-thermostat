@@ -267,6 +267,7 @@
         "Plugin agenda détecté": "Plugin agenda détecté",
         "Smartstart : aucun événement trouvé": "Smartstart : aucun événement trouvé",
         "Smartstart non pris en compte car power < 0 ": "Smartstart non pris en compte car power < 0 ",
+        "Smartstart non pris en compte car power < ": "Smartstart non pris en compte car power < ",
         "Smartstart non pris en compte car la durée": "Smartstart non pris en compte car la durée",
         "Durée Smartstart": "Durée Smartstart",
         "à": "à",
