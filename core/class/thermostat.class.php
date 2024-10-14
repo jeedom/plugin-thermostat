@@ -825,6 +825,10 @@ class thermostat extends eqLogic {
 				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Smartstart non pris en compte car power < 0 ', __FILE__) . ' ' . $temporal_data['power']);
 				return;
 			}
+			if ($temporal_data['power'] < $this->getConfiguration('minCycleDuration', 5)) {
+				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Smartstart non pris en compte car power < ', __FILE__) . $temporal_data['power'].' < ' . $this->getConfiguration('minCycleDuration', 5));
+				return;
+			}
 			$duration = round(($temporal_data['power'] * $cycle) / 100);
 			if ($duration < 5) {
 				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Smartstart non pris en compte car la durée', __FILE__) . ' ' . $duration);
