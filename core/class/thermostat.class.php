@@ -650,7 +650,7 @@ class thermostat extends eqLogic {
 		$presenceTime = (isset($_presence['presenceTime']) && $_presence['presenceTime'] != '') ? $_presence['presenceTime'] : 0;
 		if (is_numeric($presenceTime) && $presenceTime > 0) {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __('Pause de', __FILE__) . ' ' . $presenceTime . ' ' . __('minutes', __FILE__));
-			sleep($presenceTime * 6); // METTRE *60
+			sleep($presenceTime * 60);
  		}
 		$value = $cmd->execCmd();
 		if (isset($_presence['invert']) && $_presence['invert'] == 1) {
@@ -688,7 +688,7 @@ class thermostat extends eqLogic {
 		$absenceTime = (isset($_presence['absenceTime']) && $_presence['absenceTime'] != '') ? $_presence['absenceTime'] : 0;
 		if (is_numeric($absenceTime) && $absenceTime > 0) {
 			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __('Pause de', __FILE__) . ' ' . $absenceTime . ' ' . __('minutes', __FILE__));
-			sleep($absenceTime * 6); // METTRE *60
+			sleep($absenceTime * 60);
  		}
 		$value = $cmd->execCmd();
 		if (isset($_presence['invert']) && $_presence['invert'] == 1) {
