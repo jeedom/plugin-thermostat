@@ -6,7 +6,7 @@
 
 # 22/11/2025
 
-- Correction sur la saisie des dates depuis le panel *(Jeedom v4.4 mini)*
+- Correction sur la saisie des dates et la consultation des historiques depuis le panel *(Jeedom v4.4 mini)*
 
 # 14/10/2024
 
