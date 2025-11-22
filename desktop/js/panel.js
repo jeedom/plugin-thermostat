@@ -15,23 +15,22 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 
-$('#div_pageContainer').on( 'click','.eqLogic-widget .history', function () {
-  $('#md_modal2').dialog({title: "Historique"});
-  $("#md_modal2").load('index.php?v=d&modal=cmd.history&id=' + $(this).data('cmd_id')).dialog('open');
-});
+$('#div_pageContainer').on('click', '.eqLogic-widget .history', function() {
+  $('#md_modal2').dialog({ title: "Historique" })
+  $("#md_modal2").load('index.php?v=d&modal=cmd.history&id=' + $(this).data('cmd_id')).dialog('open')
+})
 
+jeedomUtils.datePickerInit()
 
-$(".in_datepicker").datepicker();
+$('#bt_validChangeDate').on('click', function() {
+  jeedom.history.chart = []
+  $('#div_displayEquipement').packery('destroy')
+  displayThermostat(object_id, $('#in_startDate').value(), $('#in_endDate').value())
+})
 
-$('#bt_validChangeDate').on('click', function () {
-  jeedom.history.chart = [];
-  $('#div_displayEquipement').packery('destroy');
-  displayThermostat(object_id, $('#in_startDate').value(), $('#in_endDate').value());
-});
+displayThermostat(object_id, '', '')
 
-displayThermostat(object_id,'','');
-
-function displayThermostat(object_id,_dateStart,_dateEnd) {
+function displayThermostat(object_id, _dateStart, _dateEnd) {
   $.ajax({
     type: 'POST',
     url: 'plugins/thermostat/core/ajax/thermostat.ajax.php',
@@ -39,30 +38,30 @@ function displayThermostat(object_id,_dateStart,_dateEnd) {
       action: 'getThermostat',
       object_id: object_id,
       version: 'dashboard',
-      dateStart : _dateStart,
-      dateEnd : _dateEnd,
+      dateStart: _dateStart,
+      dateEnd: _dateEnd,
     },
     dataType: 'json',
-    error: function (request, status, error) {
-      handleAjaxError(request, status, error);
+    error: function(request, status, error) {
+      handleAjaxError(request, status, error)
     },
-    success: function (data) {
+    success: function(data) {
       if (data.state != 'ok') {
-        $('#div_alert').showAlert({message: data.result, level: 'danger'});
-        return;
+        $('#div_alert').showAlert({ message: data.result, level: 'danger' })
+        return
       }
-      var icon = '';
+      var icon = ''
       if (isset(data.result.object.display) && isset(data.result.object.display.icon)) {
-        icon = data.result.object.display.icon;
+        icon = data.result.object.display.icon
       }
-      $('.objectName').empty().append(icon + ' ' + data.result.object.name);
-      $('#div_displayEquipement').empty();
-      $('#div_charts').empty();
-      $('#div_chartRuntime').empty();
+      $('.objectName').empty().append(icon + ' ' + data.result.object.name)
+      $('#div_displayEquipement').empty()
+      $('#div_charts').empty()
+      $('#div_chartRuntime').empty()
       var series = []
       for (var i in data.result.eqLogics) {
-        $('#div_displayEquipement').append(data.result.eqLogics[i].html);
-        $('#div_charts').append( '<div class="chartContainer" id="div_graph' + data.result.eqLogics[i].eqLogic.id + '"></div>');
+        $('#div_displayEquipement').append(data.result.eqLogics[i].html)
+        $('#div_charts').append('<div class="chartContainer" id="div_graph' + data.result.eqLogics[i].eqLogic.id + '"></div>')
         series.push({
           name: data.result.eqLogics[i].eqLogic.name,
           data: data.result.eqLogics[i].runtimeByDay,
@@ -70,29 +69,29 @@ function displayThermostat(object_id,_dateStart,_dateEnd) {
           tooltip: {
             valueDecimals: 1
           },
-        });
-        graphThermostat(data.result.eqLogics[i].eqLogic.id);
+        })
+        graphThermostat(data.result.eqLogics[i].eqLogic.id)
       }
-      drawSimpleGraph('div_chartRuntime', series, 'column');
+      drawSimpleGraph('div_chartRuntime', series, 'column')
       jeedomUtils.positionEqLogic()
       $('#div_displayEquipement').packery({
         itemSelector: ".eqLogic-widget",
-        gutter : 0,
-      });
+        gutter: 0,
+      })
     }
-  });
+  })
 }
 
 function graphThermostat(_eqLogic_id) {
   jeedom.eqLogic.getCmd({
     id: _eqLogic_id,
-    error: function (error) {
-      $('#div_alert').showAlert({message: error.message, level: 'danger'});
+    error: function(error) {
+      $('#div_alert').showAlert({ message: error.message, level: 'danger' })
     },
-    success: function (cmds) {
-      jeedom.history.chart['div_graph' + _eqLogic_id] = null;
-      var foundPower = false;
-      for (var i  in cmds) {
+    success: function(cmds) {
+      jeedom.history.chart['div_graph' + _eqLogic_id] = null
+      var foundPower = false
+      for (var i in cmds) {
         if (cmds[i].logicalId == 'power') {
           jeedom.history.drawChart({
             cmd_id: cmds[i].id,
@@ -101,18 +100,18 @@ function graphThermostat(_eqLogic_id) {
             dateEnd: $('#in_endDate').value(),
             option: {
               graphColor: '#BDBDBD',
-              derive : 0,
+              derive: 0,
               graphStep: 1,
-              graphScale : 1,
-              graphType : 'area',
-              graphZindex :1,
-              lastPointToEnd : 1
+              graphScale: 1,
+              graphType: 'area',
+              graphZindex: 1,
+              lastPointToEnd: 1
             }
-          });
-          foundPower = true;
+          })
+          foundPower = true
         }
       }
-      for (var i  in cmds) {
+      for (var i in cmds) {
         if (cmds[i].logicalId == 'order') {
           jeedom.history.drawChart({
             cmd_id: cmds[i].id,
@@ -122,11 +121,11 @@ function graphThermostat(_eqLogic_id) {
             option: {
               graphStep: 1,
               graphColor: '#27ae60',
-              derive : 0,
-              graphZindex : 2,
-              lastPointToEnd : 1
+              derive: 0,
+              graphZindex: 2,
+              lastPointToEnd: 1
             }
-          });
+          })
         }
         if (!foundPower && cmds[i].logicalId == 'actif') {
           jeedom.history.drawChart({
@@ -137,13 +136,13 @@ function graphThermostat(_eqLogic_id) {
             option: {
               graphStep: 1,
               graphColor: '#2c3e50',
-              graphScale : 1,
-              graphType : 'area',
-              derive : 0,
-              graphZindex : 1,
-              lastPointToEnd : 1
+              graphScale: 1,
+              graphType: 'area',
+              derive: 0,
+              graphZindex: 1,
+              lastPointToEnd: 1
             }
-          });
+          })
         }
         if (cmds[i].logicalId == 'temperature') {
           jeedom.history.drawChart({
@@ -153,10 +152,10 @@ function graphThermostat(_eqLogic_id) {
             dateEnd: $('#in_endDate').value(),
             option: {
               graphColor: '#f39c12',
-              derive : 0,
-              graphZindex : 4
+              derive: 0,
+              graphZindex: 4
             }
-          });
+          })
         }
         if (cmds[i].logicalId == 'temperature_outdoor') {
           jeedom.history.drawChart({
@@ -166,17 +165,17 @@ function graphThermostat(_eqLogic_id) {
             dateEnd: $('#in_endDate').value(),
             option: {
               graphColor: '#2E9AFE',
-              derive : 0,
-              graphZindex : 3
+              derive: 0,
+              graphZindex: 3
             }
-          });
+          })
         }
       }
-      setTimeout(function(){
-        jeedom.history.chart['div_graph' + _eqLogic_id].chart.xAxis[0].setExtremes(jeedom.history.chart['div_graph' + _eqLogic_id].chart.navigator.xAxis.min,jeedom.history.chart['div_graph' + _eqLogic_id].chart.navigator.xAxis.max)
-      }, 1000);
+      setTimeout(function() {
+        jeedom.history.chart['div_graph' + _eqLogic_id].chart.xAxis[0].setExtremes(jeedom.history.chart['div_graph' + _eqLogic_id].chart.navigator.xAxis.min, jeedom.history.chart['div_graph' + _eqLogic_id].chart.navigator.xAxis.max)
+      }, 1000)
     }
-  });
+  })
 }
 
 function drawSimpleGraph(_el, _serie) {
@@ -259,5 +258,5 @@ function drawSimpleGraph(_el, _serie) {
       trackBorderColor: '#CCC'
     },
     series: _serie
-  });
+  })
 }
