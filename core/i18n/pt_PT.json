@@ -163,6 +163,7 @@
         "Réinitialise le processus d'apprentissage. N'oubliez pas de sauvegarder après la remise à 0.": "Reinicia o processo de aprendizagem. Não se esqueça de salvar após redefinir para 0"
     },
     "plugins\/thermostat\/desktop\/js\/panel.js": {
+        "Historique": "Historique",
         "minute(s)": "minuto (s)"
     },
     "plugins\/thermostat\/desktop\/js\/thermostat.js": {
