@@ -283,6 +283,7 @@
         "Vous ne pouvez faire un mode s'appelant Status car une commande Status existe déjà": "No puede crear un modo llamado Estado porque ya existe un comando de Estado",
         "thermostat": "Termostato",
         "Vous ne pouvez faire un mode s'appelant Thermostat car une commande Thermostat existe déjà": "No puede crear un modo llamado Termostato porque ya existe un comando de Termostato",
+        "Dernier Reschedule": "Dernier Reschedule",
         "Thermostat": "Termostato",
         "Statut": "Estado",
         "Actif": "Activo",
