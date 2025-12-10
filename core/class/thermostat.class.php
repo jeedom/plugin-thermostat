@@ -759,7 +759,7 @@ class thermostat extends eqLogic {
 						}
 					}
 					$nextOccurence = $event->nextOccurrence($position, true);
-					if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
+					if (isset($nextOccurence['date']) && $nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
 						$consigne = null;
 						foreach ($this->getConfiguration('existingMode') as $existingMode) {
 							if ($mode->getName() == $existingMode['name']) {
@@ -809,7 +809,7 @@ class thermostat extends eqLogic {
 					}
 				}
 				$nextOccurence = $event->nextOccurrence($position, true);
-				if ($nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
+				if (isset($nextOccurence['date']) && $nextOccurence['date'] != '' && ($next == null || (strtotime($next['date']) > strtotime($nextOccurence['date']) && strtotime($nextOccurence['date']) > (strtotime('now') + 120)))) {
 					$next = array(
 						'date' => $nextOccurence['date'],
 						'event' => $event,
