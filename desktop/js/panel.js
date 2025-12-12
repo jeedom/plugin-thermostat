@@ -177,6 +177,21 @@ function graphThermostat(_eqLogic_id) {
             }
           })
         }
+        if (cmds[i].logicalId == 'humidity') {
+  		    jeedom.history.drawChart({
+        		cmd_id: cmds[i].id,
+    	    	el: 'div_graph' + _eqLogic_id,
+    	    	dateStart: $('#in_startDate').value(),
+        		dateEnd: $('#in_endDate').value(),
+        		option: {
+        		  graphColor: '#9b59b6',
+        		  derive: 0,
+        		  graphZindex: 5,
+        		  graphStep: 1,
+        		  lastPointToEnd: 1
+        		}
+    		  })
+	    	}        
       }
       setTimeout(function() {
         jeedom.history.chart['div_graph' + _eqLogic_id].chart.xAxis[0].setExtremes(jeedom.history.chart['div_graph' + _eqLogic_id].chart.navigator.xAxis.min, jeedom.history.chart['div_graph' + _eqLogic_id].chart.navigator.xAxis.max)
