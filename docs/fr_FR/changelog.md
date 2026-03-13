@@ -4,6 +4,10 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte
 
+# 13/03/2026
+
+- Possibilité de dupliquer un thermostat en vidant l'apprentissage
+
 # 22/11/2025
 
 - Correction sur la saisie des dates et la consultation des historiques depuis le panel *(Jeedom v4.4 mini)*
