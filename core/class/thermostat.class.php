@@ -138,6 +138,11 @@ class thermostat extends eqLogic {
 		}
 		$thermostat->setCache('temp_threshold', 0);
 		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
+		if (!is_numeric($consigne)) {
+			log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("La consigne n'est pas un numérique, calcul annulé", __FILE__) . ' : ' . json_encode($consigne));
+			return;
+		}
+		$consigne = floatval($consigne);
 		$thermostat->getCmd(null, 'order')->addHistoryValue($consigne);
 		$hysteresis_low = ($thermostat->getConfiguration('allow_mode', 'all') == 'heat' && $thermostat->getConfiguration('positiveHysteresis', 0) == 1) ? $consigne : $consigne - $thermostat->getConfiguration('hysteresis_threshold', 1);
 		$hysteresis_hight = ($thermostat->getConfiguration('allow_mode', 'all') == 'cool' && $thermostat->getConfiguration('positiveHysteresis', 0) == 1) ? $consigne : $consigne + $thermostat->getConfiguration('hysteresis_threshold', 1);
@@ -314,7 +319,7 @@ class thermostat extends eqLogic {
 		$temporal_data = $thermostat->calculTemporalData(floatval($consigne) - $delta);
 		if ($temporal_data['power'] > 0 && $delta > 0) {
 			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Power > 0 et delta consigne > 0', __FILE__) . ' (' . $delta . '), ' . __('je relance le calcul avec consigne + delta/2', __FILE__));
-			$temporal_data = $thermostat->calculTemporalData($consigne + $delta);
+			$temporal_data = $thermostat->calculTemporalData(floatval($consigne) + $delta);
 		}
 		$thermostat->setCache('last_power', $temporal_data['power']);
 		$cycle = jeedom::evaluateExpression($thermostat->getConfiguration('cycle'));
@@ -386,7 +391,7 @@ class thermostat extends eqLogic {
 								break;
 						}
 					}
-				} catch (Exception $e) {
+				} catch (\Throwable $e) {
 					log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
 				}
 			}
@@ -430,7 +435,7 @@ class thermostat extends eqLogic {
 						$thermostat->getCmd(null, 'temperature')->event(jeedom::evaluateExpression($thermostat->getConfiguration('temperature_indoor')));
 						thermostat::hysteresis(array('thermostat_id' => $thermostat->getId()));
 					}
-				} catch (Exception $e) {
+				} catch (\Throwable $e) {
 					log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' : ' . $e->getMessage());
 				}
 			}
@@ -826,7 +831,7 @@ class thermostat extends eqLogic {
 		}
 		$cycle = jeedom::evaluateExpression($this->getConfiguration('cycle'));
 		if ($next['date'] != '' && strtotime($next['date']) > strtotime(date('Y-m-d H:i:s'))) {
-			$temporal_data = $this->calculTemporalData(jeedom::evaluateExpression($next['consigne']), true);
+			$temporal_data = $this->calculTemporalData(floatval(jeedom::evaluateExpression($next['consigne'])), true);
 			if ($temporal_data['power'] < 0) {
 				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Smartstart non pris en compte car power < 0 ', __FILE__) . ' ' . $temporal_data['power']);
 				return;
@@ -1896,7 +1901,7 @@ class thermostatCmd extends cmd {
 			$eqLogic->getCmd(null, 'mode')->event(__('Off', __FILE__));
 			$eqLogic->getCmd(null, 'status')->event(__('Arrêté', __FILE__));
 		} else if ($this->getLogicalId() == 'thermostat') {
-			if (!isset($_options['slider']) || $_options['slider'] == '' || !is_numeric(intval($_options['slider']))) {
+			if (!isset($_options['slider']) || $_options['slider'] === '' || !is_numeric($_options['slider'])) {
 				return;
 			}
 			$changed = ($eqLogic->getCmd(null, 'order')->execCmd() != $_options['slider']);
