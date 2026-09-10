@@ -509,6 +509,29 @@ class thermostat extends eqLogic {
 		}
 	}
 
+	public static function presence($_option) {
+		$thermostat = thermostat::byId($_option['thermostat_id']);
+		if (is_object($thermostat) && $thermostat->getIsEnable() == 1) {
+			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Détection d'un changement sur une présence", __FILE__));
+			$presences = $thermostat->getConfiguration('presence');
+			foreach ($presences as $presence) {
+				if ('#' . $_option['event_id'] . '#' == $presence['cmd']) {
+					if (isset($presence['invert']) && $presence['invert'] == 1) {
+						$_option['value'] = ($_option['value'] == 0) ? 1 : 0;
+					}
+					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Présence trouvée', __FILE__) . ' : ' . cmd::byString($presence['cmd'])->getHumanName() . ' - ' . __('valeur', __FILE__) . ' : ' . $_option['value']);
+					if ($_option['value'] == 0) {
+						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Absence détectée', __FILE__));
+						$thermostat->absenceDetected($presence);
+					} else {
+						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Présence détectée', __FILE__));
+						$thermostat->presenceDetected($presence);
+					}
+				}
+			}
+		}
+	}
+
 	public static function deadCmd() {
 		$return = array();
 		foreach (eqLogic::byType('thermostat') as $thermostat) {
@@ -609,6 +632,82 @@ class thermostat extends eqLogic {
 		$this->getCmd(null, 'status')->event(__('Suspendu', __FILE__));
 		$this->stopThermostat(false, true);
 		$this->setCache('window::state::open', strtotime('now'));
+		return true;
+	}
+
+	public function presenceDetected($_presence) {
+		log::add(__CLASS__, 'debug', $this->getHumanName() . '[presenceDetected] => ' . json_encode($_presence));
+		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __('Thermostat arreté ou suspendu je ne fais rien', __FILE__));
+			return;
+		}
+		$startime = strtotime('now');
+		$cmd = cmd::byId(str_replace('#', '', $_presence['cmd']));
+		if (!is_object($cmd)) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __('Commande introuvable je ne fais rien', __FILE__));
+			return;
+		}
+		$presenceTime = (isset($_presence['presenceTime']) && $_presence['presenceTime'] != '') ? $_presence['presenceTime'] : 0;
+		if (is_numeric($presenceTime) && $presenceTime > 0) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __('Pause de', __FILE__) . ' ' . $presenceTime . ' ' . __('minutes', __FILE__));
+			sleep($presenceTime * 60);
+ 		}
+		$value = $cmd->execCmd();
+		if (isset($_presence['invert']) && $_presence['invert'] == 1) {
+			$value = ($value == 0) ? 1 : 0;
+		}
+		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __('Valeur commande', __FILE__) . ' : ' . $value . __(' en date du : ', __FILE__) . $cmd->getValueDate());
+		if ($value != 1) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __("La présence n'est plus détectée, je ne fais rien", __FILE__));
+			return true;
+		}
+		if (strtotime($cmd->getValueDate()) > ($startime + 5)) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __("L'absence a été détectée pendant la pause, je ne fais rien, absence détectée à", __FILE__) . ' ' . $cmd->getValueDate());
+			return true;
+		}
+		$presences = $this->getConfiguration('presence');
+		foreach ($presences as $presence) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [presenceDetected] ' . __('Changement du mode du thermostat en', __FILE__) . ' : ' . $presence['presenceMode']);
+			$this->executeMode($presence['presenceMode']);
+		}
+		return true;
+	}
+
+	public function absenceDetected($_presence) {
+		log::add(__CLASS__, 'debug', $this->getHumanName() . '[absenceDetected] => ' . json_encode($_presence));
+		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __('Thermostat arreté ou suspendu je ne fais rien', __FILE__));
+			return;
+		}
+		$startime = strtotime('now');
+		$cmd = cmd::byId(str_replace('#', '', $_presence['cmd']));
+		if (!is_object($cmd)) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __('Commande introuvable je ne fais rien', __FILE__));
+			return;
+		}
+		$absenceTime = (isset($_presence['absenceTime']) && $_presence['absenceTime'] != '') ? $_presence['absenceTime'] : 0;
+		if (is_numeric($absenceTime) && $absenceTime > 0) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __('Pause de', __FILE__) . ' ' . $absenceTime . ' ' . __('minutes', __FILE__));
+			sleep($absenceTime * 60);
+ 		}
+		$value = $cmd->execCmd();
+		if (isset($_presence['invert']) && $_presence['invert'] == 1) {
+			$value = ($value == 0) ? 1 : 0;
+		}
+		log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __('Valeur commande', __FILE__) . ' : ' . $value . __(' en date du : ', __FILE__) . $cmd->getValueDate());
+		if ($value != 0) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __("La présence est de nouveau détectée, je ne fais rien", __FILE__));
+			return true;
+		}
+		if (strtotime($cmd->getValueDate()) > ($startime + 5)) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __("La présence a été détectée pendant la pause, je ne fais rien, présence détectée à", __FILE__) . ' ' . $cmd->getValueDate());
+			return true;
+		}
+		$presences = $this->getConfiguration('presence');
+		foreach ($presences as $presence) {
+			log::add(__CLASS__, 'debug', $this->getHumanName() . ' [absenceDetected] ' . __('Changement du mode du thermostat en', __FILE__) . ' : ' . $presence['absentMode']);
+			$this->executeMode($presence['absentMode']);
+		}
 		return true;
 	}
 
@@ -862,6 +961,10 @@ class thermostat extends eqLogic {
 		if (is_object($listener)) {
 			$listener->remove();
 		}
+		$listener = listener::byClassAndFunction(__CLASS__, 'presence', array('thermostat_id' => intval($this->getId())));
+		if (is_object($listener)) {
+			$listener->remove();
+		}		
 		$listener = listener::byClassAndFunction(__CLASS__, 'hysteresis', array('thermostat_id' => intval($this->getId())));
 		if (is_object($listener)) {
 			$listener->remove();
@@ -1454,6 +1557,36 @@ class thermostat extends eqLogic {
 				}
 				$listener->save();
 			}
+			else {
+				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Aucune commande de fenêtre configurée, la détection de fenêtre ouverte ne sera pas prise en compte', __FILE__));
+				$listener = listener::byClassAndFunction(__CLASS__, 'window', array('thermostat_id' => intval($this->getId())));
+				if (is_object($listener)) {
+					$listener->remove();
+				}
+			}
+
+			$presences = $this->getConfiguration('presence');
+			if (is_array($presences) && count($presences) > 0) {
+				$listener = listener::byClassAndFunction(__CLASS__, 'presence', array('thermostat_id' => intval($this->getId())));
+				if (!is_object($listener)) {
+					$listener = new listener();
+				}
+				$listener->setClass('thermostat');
+				$listener->setFunction('presence');
+				$listener->setOption(array('thermostat_id' => intval($this->getId())));
+				$listener->emptyEvent();
+				foreach ($presences as $presence) {
+					$listener->addEvent($presence['cmd']);
+				}
+				$listener->save();
+			}
+			else {
+				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Aucune commande de présence configurée, le mode présence ne sera pas pris en compte', __FILE__));
+				$listener = listener::byClassAndFunction(__CLASS__, 'presence', array('thermostat_id' => intval($this->getId())));
+				if (is_object($listener)) {
+					$listener->remove();
+				}
+			}
 
 			if ($this->getConfiguration('engine', 'temporal') == 'hysteresis') {
 				$listener = listener::byClassAndFunction(__CLASS__, 'hysteresis', array('thermostat_id' => intval($this->getId())));
@@ -1512,6 +1645,10 @@ class thermostat extends eqLogic {
 				$cron->remove();
 			}
 			$listener = listener::byClassAndFunction(__CLASS__, 'window', array('thermostat_id' => intval($this->getId())));
+			if (is_object($listener)) {
+				$listener->remove();
+			}
+			$listener = listener::byClassAndFunction(__CLASS__, 'presence', array('thermostat_id' => intval($this->getId())));
 			if (is_object($listener)) {
 				$listener->remove();
 			}

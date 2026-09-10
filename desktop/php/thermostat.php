@@ -63,6 +63,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 			<li role="presentation"><a href="#configureAction" data-toggle="tab"><i class="far fa-hand-paper"></i><span class="hidden-xs"> {{Actions}}</span></a></li>
 			<li role="presentation"><a href="#configureMode" data-toggle="tab"><i class="fas fa-th-list"></i><span class="hidden-xs"> {{Modes}}</span></a></li>
 			<li role="presentation"><a href="#configureWindows" data-toggle="tab"><i class="icon jeedom-fenetre-ouverte"></i><span class="hidden-xs"> {{Ouvertures}}</span></a></li>
+			<li role="presentation"><a href="#configurePresence" data-toggle="tab"><i class="icon fas fa-running"></i><span class="hidden-xs"> {{Présence}}</span></a></li>
 			<li role="presentation"><a href="#configureFailure" data-toggle="tab"><i class="fas fa-exclamation-triangle"></i><span class="hidden-xs"> {{Défaillances}}</span></a></li>
 			<?php
 			try {
@@ -324,6 +325,21 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<br>
 						</legend>
 						<div id="div_window" class="col-xs-12">
+
+						</div>
+					</fieldset>
+				</form>
+			</div>
+
+			<div class="tab-pane" id="configurePresence">
+				<br>
+				<form class="form-horizontal">
+					<fieldset>
+						<div class="alert alert-info col-xs-10 col-xs-offset-1">
+							{{Déclarer les détecteurs de présence concernés par ce thermostat permettra de réguler la température en fonction de l'occupation de la pièce.}}
+						</div>
+						<a class="btn btn-success addPresence col-xs-6 col-xs-offset-3" data-type="presence"><i class="fas fa-plus-circle"></i> {{Ajouter un détecteur de présence}}</a>
+						<div id="div_presence" class="col-xs-12">
 
 						</div>
 					</fieldset>

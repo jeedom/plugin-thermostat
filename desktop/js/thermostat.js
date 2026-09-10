@@ -80,6 +80,10 @@ $('.addWindow').off('click').on('click', function() {
   addWindow({})
 })
 
+$('.addPresence').off('click').on('click', function() {
+  addPresence({})
+})
+
 $('.addFailure').off('click').on('click', function() {
   addFailure({})
 })
@@ -156,6 +160,7 @@ function saveEqLogic(_eqLogic) {
   _eqLogic.configuration.cooling = $('#div_cool .cool').getValues('.expressionAttr')
   _eqLogic.configuration.stoping = $('#div_stop .stop').getValues('.expressionAttr')
   _eqLogic.configuration.window = $('#div_window .window').getValues('.expressionAttr')
+  _eqLogic.configuration.presence = $('#div_presence .presence').getValues('.expressionAttr')
   _eqLogic.configuration.failure = $('#div_failure .failure').getValues('.expressionAttr')
   _eqLogic.configuration.failureActuator = $('#div_failureActuator .failureActuator').getValues('.expressionAttr')
   _eqLogic.configuration.orderChange = $('#div_orderChange .orderChange').getValues('.expressionAttr')
@@ -204,6 +209,11 @@ function printEqLogic(_eqLogic) {
     if (isset(_eqLogic.configuration.window)) {
       for (var i in _eqLogic.configuration.window) {
         addWindow(_eqLogic.configuration.window[i])
+      }
+    }
+    if (isset(_eqLogic.configuration.presence)) {
+      for (var i in _eqLogic.configuration.presence) {
+        addPresence(_eqLogic.configuration.presence[i], _eqLogic)
       }
     }
     if (isset(_eqLogic.configuration.existingMode)) {
@@ -377,6 +387,63 @@ function addWindow(_info) {
   div += '</div>'
   $('#div_window').append(div)
   $('#div_window .window').last().setValues(_info, '.expressionAttr')
+}
+
+function addPresence(_info, _eqLogic) {
+  // Construction des <option> depuis la liste des modes existants
+  let modeOptions = '<option value="" disabled selected>{{Sélectionnez}}</option>';
+  modeOptions += '<option value="off">{{Off}}</option>'; // <- ajout du mode OFF
+  if (isset(_eqLogic) && isset(_eqLogic.configuration) && isset(_eqLogic.configuration.existingMode)) {
+    for (var i in _eqLogic.configuration.existingMode) {
+      var mode = _eqLogic.configuration.existingMode[i];
+      var selected = (_info.stopMode == mode.name) ? 'selected' : '';
+      modeOptions += '<option value="' + mode.name + '" ' + selected + '>' + mode.name + '</option>';
+    }
+  }
+
+  var div = '<div class="presence">'
+  div += '<div class="form-group">'
+  div += '<label class="col-sm-1 control-label">{{Détecteur}}</label>'
+  div += '<div class="col-sm-3 input-group">'
+  div += '<span class="input-group-btn">'
+  div += '<a class="btn btn-default bt_removeAction roundedLeft" data-type="presence"><i class="fas fa-minus-circle"></i></a>'
+  div += '</span>'
+  div += '<input class="expressionAttr form-control cmdInfo" data-l1key="cmd" />'
+  div += '<span class="input-group-btn">'
+  div += '<a class="btn btn-default listCmdInfoWindow roundedRight"><i class="fas fa-list-alt"></i></a>'
+  div += '</span>'
+  div += '</div>'
+
+  // Mode sur la même ligne
+  div += '<div class="col-sm-4 input-group">'
+  div += '<div class="col-sm-5">'
+  div += '<select class="expressionAttr form-control" data-l1key="presenceMode">' + modeOptions + '</select>'
+  div += '</div>'
+  div += '<label class="col-sm-5 control-label">{{Si présence plus de}} <sub>(min.)</sub></label>'
+  div += '<div class="col-sm-2">'
+  div += '<input class="expressionAttr form-control cmdInfo" data-l1key="presenceTime" />'
+  div += '</div>'
+  div += '</div>'
+
+
+  div += '<div class="col-sm-4 input-group">'
+  div += '<div class="col-sm-5">'
+  div += '<select class="expressionAttr form-control" data-l1key="absentMode">' + modeOptions + '</select>'
+  div += '</div>'
+  div += '<label class="col-sm-5 control-label">{{Si absence plus de}} <sub>(min.)</sub></label>'
+  div += '<div class="col-sm-2 input-group">'
+  div += '<input class="expressionAttr form-control cmdInfo" data-l1key="absentTime" />'
+  div += '</div>'
+
+  div += '<div class="col-sm-1 input-group">'
+  div += '<label class="checkbox-inline"><input type="checkbox" class="expressionAttr cmdInfo" data-l1key="invertPresence"/>{{Inverser}}</label>'
+  div += '</div>'
+
+  div += '</div>'
+  div += '</div>'
+
+  $('#div_presence').append(div)
+  $('#div_presence .presence').last().setValues(_info, '.expressionAttr')
 }
 
 function addFailure(_info) {
