@@ -952,6 +952,14 @@ class thermostat extends eqLogic {
 		$this->setCategory('heating', 1);
 	}
 
+	public function postInsert() {
+		$this->setConfiguration('coeff_indoor_cool_autolearn', null);
+		$this->setConfiguration('coeff_indoor_heat_autolearn', null);
+		$this->setConfiguration('coeff_outdoor_heat_autolearn', null);
+		$this->setConfiguration('coeff_outdoor_cool_autolearn', null);
+		$this->save();
+	}
+
 	public function postSave() {
 		$lastReschedule = $this->getCmd(null, 'lastReschedule');
    		if (!is_object($lastReschedule)) {
