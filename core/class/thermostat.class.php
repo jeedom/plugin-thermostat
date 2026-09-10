@@ -685,6 +685,16 @@ class thermostat extends eqLogic {
 			$this->setCache('temp_threshold', 1);
 			return array('power' => 0, 'direction' => $direction);
 		}
+        $humidityCmd = $this->getCmd(null, 'humidity');
+		if (is_object($humidityCmd)) {
+    		$humidityValue = jeedom::evaluateExpression($this->getConfiguration('humidity_indoor'));
+      		if (is_numeric($humidityValue)) {
+        		$humidityCmd->event($humidityValue);
+        		log::add(__CLASS__, 'debug', $this->getHumanName() . ' Humidité intérieure : ' . $humidityValue . '%');
+   			} else {
+        		log::add(__CLASS__, 'warning', $this->getHumanName() . ' Humidité intérieure invalide : ' . $humidityValue);
+    		}
+		}
 		$this->setCache('temp_threshold', 0);
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
 		$coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
@@ -953,14 +963,41 @@ class thermostat extends eqLogic {
 	}
 
 	public function postSave() {
+		$humidity = $this->getCmd(null, 'humidity');
+		if (!is_object($humidity)) {
+   				$humidity = new thermostatCmd();
+    			$humidity->setName(__('Humidité intérieure', __FILE__));
+    			$humidity->setIsVisible(1);
+    			$humidity->setIsHistorized(1);
+			}
+			$humidity->setLogicalId('humidity');
+			$humidity->setEqLogic_id($this->getId());
+			$humidity->setType('info');
+			$humidity->setSubType('numeric');
+			$humidity->setUnite('%');
+			$value = '';
+      		preg_match_all("/#([0-9]*)#/", $this->getConfiguration('humidity_indoor'), $matches);
+			foreach ($matches[1] as $cmd_id) {
+    			if (is_numeric($cmd_id)) {
+        			$cmd = cmd::byId($cmd_id);
+        			if (is_object($cmd) && $cmd->getType() == 'info') {
+           				$value = '#' . $cmd_id . '#';
+            			break;
+        			}
+    			}
+			}
+
+		$humidity->setValue($value);
+		$humidity->save();
 		$lastReschedule = $this->getCmd(null, 'lastReschedule');
    		if (!is_object($lastReschedule)) {
         		$lastReschedule = new thermostatCmd();
-        		$lastReschedule->setName(__('Dernier Reschedule', __FILE__));
+        		$lastReschedule->setName(__('Prochain calcul', __FILE__));
         		$lastReschedule->setIsVisible(1);
         		$lastReschedule->setIsHistorized(1);
     		}
-    		$lastReschedule->setEqLogic_id($this->getId());
+    		$lastReschedule->setName(__('Prochain calcul', __FILE__));
+			$lastReschedule->setEqLogic_id($this->getId());
     		$lastReschedule->setType('info');
     		$lastReschedule->setSubType('string');
     		$lastReschedule->setLogicalId('lastReschedule');
@@ -1858,6 +1895,8 @@ class thermostatCmd extends cmd {
 			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_indoor',0)), 1);
 		} else if ($this->getLogicalId() == 'temperature_outdoor') {
 			return round(jeedom::evaluateExpression($eqLogic->getConfiguration('temperature_outdoor',0)), 1);
+        } else if ($this->getLogicalId() == 'humidity') {
+    		return round(jeedom::evaluateExpression($eqLogic->getConfiguration('humidity_indoor',0)), 1);
 		} else if ($this->getLogicalId() == 'customCmd') {
 			return jeedom::evaluateExpression($eqLogic->getConfiguration('customCmd'));
 		} else if ($this->getLogicalId() == 'cool_only') {
