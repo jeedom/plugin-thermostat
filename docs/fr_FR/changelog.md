@@ -4,6 +4,10 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte
 
+# 10/09/2026
+
+- Correction d'un bug : une consigne vide ou non numérique faisait planter le plugin (TypeError PHP 8 dans le calcul d'hystérésis) et interrompait le traitement des thermostats suivants [LIEN](https://github.com/jeedom/plugin-thermostat/issues/68)
+
 # 22/11/2025
 
 - Correction sur la saisie des dates et la consultation des historiques depuis le panel *(Jeedom v4.4 mini)*
