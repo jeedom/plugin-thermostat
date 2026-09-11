@@ -65,6 +65,7 @@
         "Je ne fais rien car la température intérieure n'est pas un numérique": "No hago nada porque la temperatura interior no es digital",
         "L'ouvrant n'est plus ouvert, je ne fais rien": "La puerta ya no está abierta, no hago nada",
         "L'ouvrant à été refermé pendant la pause, je ne fais rien, refermé à": "La apertura se cerró durante el descanso, no hago nada, se volvió a cerrar",
+        "La consigne n'est pas un numérique, calcul annulé": "El valor de consigna no es un número, cálculo anulado",
         "La température de consigne minimale ne peut être supérieure à la consigne maximale": "La temperatura mínima del punto de ajuste no puede ser mayor que el punto de ajuste máximo",
         "La température est inférieure à la consigne de plus de 1.5°C, je ne fais rien": "La temperatura está por debajo del punto de ajuste en más de 1,5 ° C, no hago nada",
         "La température est supérieure à la consigne de plus de 1.5°C, je ne fais rien": "La temperatura está por encima del punto de ajuste en más de 1,5 ° C, no hago nada",

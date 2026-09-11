@@ -65,6 +65,7 @@
         "Je ne fais rien car la température intérieure n'est pas un numérique": "Ich mache nichts, weil die Innentemperatur nicht digital ist",
         "L'ouvrant n'est plus ouvert, je ne fais rien": "Die Tür steht nicht mehr offen, ich tue nichts",
         "L'ouvrant à été refermé pendant la pause, je ne fais rien, refermé à": "Die Öffnung wurde in der Pause geschlossen, ich mache nichts, wieder geschlossen",
+        "La consigne n'est pas un numérique, calcul annulé": "Der Wert ist nicht numerisch, Berechnung abgebrochen",
         "La température de consigne minimale ne peut être supérieure à la consigne maximale": "Die minimale Solltemperatur darf nicht höher als der maximale Sollwert sein",
         "La température est inférieure à la consigne de plus de 1.5°C, je ne fais rien": "Die Temperatur liegt um mehr als 1,5 °C unter dem Sollwert, ich tue nichts",
         "La température est supérieure à la consigne de plus de 1.5°C, je ne fais rien": "Die Temperatur liegt um mehr als 1,5 °C über dem Sollwert, ich tue nichts",
