@@ -65,6 +65,7 @@
         "Je ne fais rien car la température intérieure n'est pas un numérique": "I don't do anything because the interior temperature is not a digital",
         "L'ouvrant n'est plus ouvert, je ne fais rien": "The door is no longer open, I do nothing",
         "L'ouvrant à été refermé pendant la pause, je ne fais rien, refermé à": "The opening was closed during the break, I do nothing, closed again",
+        "La consigne n'est pas un numérique, calcul annulé": "The value is not a number; calculation canceled",
         "La température de consigne minimale ne peut être supérieure à la consigne maximale": "The minimum setpoint temperature cannot be higher than the maximum setpoint",
         "La température est inférieure à la consigne de plus de 1.5°C, je ne fais rien": "The temperature is below the setpoint by more than 1.5 ° C, I do nothing",
         "La température est supérieure à la consigne de plus de 1.5°C, je ne fais rien": "The temperature is above the setpoint by more than 1.5 ° C, I do nothing",

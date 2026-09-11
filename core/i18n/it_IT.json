@@ -65,6 +65,7 @@
         "Je ne fais rien car la température intérieure n'est pas un numérique": "Je ne fais rien car la température intérieure n'est pas un numérique",
         "L'ouvrant n'est plus ouvert, je ne fais rien": "L'ouvrant n'est plus ouvert, je ne fais rien",
         "L'ouvrant à été refermé pendant la pause, je ne fais rien, refermé à": "L'ouvrant à été refermé pendant la pause, je ne fais rien, refermé à",
+        "La consigne n'est pas un numérique, calcul annulé": "Il valore impostato non è un numero, calcolo annullato",
         "La température de consigne minimale ne peut être supérieure à la consigne maximale": "La température de consigne minimale ne peut être supérieure à la consigne maximale",
         "La température est inférieure à la consigne de plus de 1.5°C, je ne fais rien": "La température est inférieure à la consigne de plus de 1.5°C, je ne fais rien",
         "La température est supérieure à la consigne de plus de 1.5°C, je ne fais rien": "La température est supérieure à la consigne de plus de 1.5°C, je ne fais rien",
