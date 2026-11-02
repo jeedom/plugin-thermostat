@@ -127,16 +127,10 @@ class thermostat extends eqLogic {
 		}
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp = $cmd->execCmd();
-		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-			if ($thermostat->getCache('temp_threshold', 0) == 0) {
-				$thermostat->failure();
-				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("Attention il n'y a pas eu de mise à jour de la température depuis plus de", __FILE__) . ' : ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . 'min (' . $cmd->getCollectDate() . ')');
-			}
-			$thermostat->setCache('temp_threshold', 1);
-			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
+		$failures = $thermostat->checkSensorFailure($cmd, $temp, false);
+		if (isset($failures['timeout']) || isset($failures['invalid_temperature'])) {
 			return;
 		}
-		$thermostat->setCache('temp_threshold', 0);
 		$consigne = $thermostat->getCmd(null, 'order')->execCmd();
 		if (!is_numeric($consigne)) {
 			log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("La consigne n'est pas un numérique, calcul annulé", __FILE__) . ' : ' . json_encode($consigne));
@@ -216,27 +210,11 @@ class thermostat extends eqLogic {
 		}
 		$cmd = $thermostat->getCmd(null, 'temperature');
 		$temp_in = $cmd->execCmd();
-		if ($cmd->getCollectDate() != '' && $cmd->getCollectDate() < date('Y-m-d H:i:s', strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s')))) {
-			if ($thermostat->getCache('temp_threshold', 0) == 0) {
-				$thermostat->failure();
-				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("Attention il n'y a pas eu de mise à jour de la température depuis plus de", __FILE__) . ' ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes', __FILE__) . ' (' . $cmd->getCollectDate() . ')');
-			}
-			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Je ne fais rien car il n'y a pas eu de mise a jour de la température depuis plus de", __FILE__) . ' ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes', __FILE__));
-			$thermostat->setCache('temp_threshold', 1);
-			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
+		$failures = $thermostat->checkSensorFailure($cmd, $temp_in, false);
+		if (isset($failures['timeout']) || isset($failures['invalid_temperature'])) {
 			return;
 		}
 		$temp_out = $thermostat->getCmd(null, 'temperature_outdoor')->execCmd();
-		if (!is_numeric($temp_in)) {
-			if ($thermostat->getCache('temp_threshold', 0) == 0) {
-				log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("La température intérieure n'est pas un numérique", __FILE__) . ' : ' . $temp_in);
-			}
-			log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __("Je ne fais rien car la température intérieure n'est pas un numérique", __FILE__));
-			$thermostat->setCache('temp_threshold', 1);
-			$thermostat->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
-			return;
-		}
-		$thermostat->setCache('temp_threshold', 0);
 		if (($temp_in < ($thermostat->getCache('lastOrder', 0) - $thermostat->getConfiguration('offsetHeatFaillure', 1)) && $temp_in < $thermostat->getCache('lastTempIn', 0) && $thermostat->getCache('lastState') == 'heat' && $thermostat->getConfiguration('coeff_indoor_heat_autolearn') > 25) ||
 			($temp_in > ($thermostat->getCache('lastOrder', 0) + $thermostat->getConfiguration('offsetColdFaillure', 1)) && $temp_in > $thermostat->getCache('lastTempIn', 0) && $thermostat->getCache('lastState') == 'cool' && $thermostat->getConfiguration('coeff_indoor_cool_autolearn') > 25)
 		) {
@@ -445,35 +423,7 @@ class thermostat extends eqLogic {
 			}
 			$temperature = $thermostat->getCmd(null, 'temperature');
 			$temp_in = $temperature->execCmd();
-			$failure = false;
-			if ($thermostat->getConfiguration('maxTimeUpdateTemp') != '') {
-				if ($temperature->getCollectDate() != '' && strtotime($temperature->getCollectDate()) < strtotime('-' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' minutes' . date('Y-m-d H:i:s'))) {
-					if ($thermostat->getCache('temp_threshold', 0) == 0) {
-						$thermostat->failure();
-						log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __("Attention il n'y a pas eu de mise à jour de la température depuis plus de", __FILE__) . ' : ' . $thermostat->getConfiguration('maxTimeUpdateTemp') . ' ' . __('minutes', __FILE__) . ' (' . $temperature->getCollectDate() . ')');
-					}
-					$failure = true;
-				}
-			}
-			if ($thermostat->getConfiguration('temperature_indoor_min') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_min')) && $thermostat->getConfiguration('temperature_indoor_min') > $temp_in && $temp_in !== '') {
-				if ($thermostat->getCache('temp_threshold', 0) == 0) {
-					$thermostat->failure();
-					log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention la température intérieure est en dessous du seuil autorisé', __FILE__) . ' : ' . $temp_in);
-				}
-				$failure = true;
-			}
-			if ($thermostat->getConfiguration('temperature_indoor_max') != '' && is_numeric($thermostat->getConfiguration('temperature_indoor_max')) && $thermostat->getConfiguration('temperature_indoor_max') < $temp_in && $temp_in !== '') {
-				if ($thermostat->getCache('temp_threshold', 0) == 0) {
-					$thermostat->failure();
-					log::add(__CLASS__, 'error', $thermostat->getHumanName() . ' ' . __('Attention la température intérieure est au dessus du seuil autorisé', __FILE__) . ' : ' . $temp_in);
-				}
-				$failure = true;
-			}
-			if (!$failure) {
-				$thermostat->setCache('temp_threshold', 0);
-			} else {
-				$thermostat->setCache('temp_threshold', 1);
-			}
+			$thermostat->checkSensorFailure($temperature, $temp_in);
 		}
 	}
 
@@ -677,20 +627,20 @@ class thermostat extends eqLogic {
 		}
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Direction', __FILE__) . ' : ' . $direction);
 		if ($temp_in >= ($_consigne + 1.5) && $direction == 1) {
-			if ($this->getCache('temp_threshold', 0) == 0) {
+			if ($this->getCache('temporal_threshold', 0) == 0) {
 				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('La température est supérieure à la consigne de plus de 1.5°C, je ne fais rien', __FILE__));
 			}
-			$this->setCache('temp_threshold', 1);
+			$this->setCache('temporal_threshold', 1);
 			return array('power' => 0, 'direction' => $direction);
 		}
 		if ($temp_in <= ($_consigne - 1.5) && $direction == -1) {
-			if ($this->getCache('temp_threshold', 0) == 0) {
+			if ($this->getCache('temporal_threshold', 0) == 0) {
 				log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('La température est inférieure à la consigne de plus de 1.5°C, je ne fais rien', __FILE__));
 			}
-			$this->setCache('temp_threshold', 1);
+			$this->setCache('temporal_threshold', 1);
 			return array('power' => 0, 'direction' => $direction);
 		}
-		$this->setCache('temp_threshold', 0);
+		$this->setCache('temporal_threshold', 0);
 		$coeff_out = ($direction > 0) ? $this->getConfiguration('coeff_outdoor_heat') : $this->getConfiguration('coeff_outdoor_cool');
 		$coeff_in = ($direction > 0) ? $this->getConfiguration('coeff_indoor_heat') : $this->getConfiguration('coeff_indoor_cool');
 		$offset = ($direction > 0) ? $this->getConfiguration('offset_heat') : $this->getConfiguration('offset_cool');
@@ -1020,6 +970,20 @@ class thermostat extends eqLogic {
 		$status->setSubType('string');
 		$status->setLogicalId('status');
 		$status->save();
+
+		foreach (array('failure_reason' => __('Cause défaillance sonde', __FILE__), 'failure_message' => __('Détail défaillance sonde', __FILE__)) as $logicalId => $name) {
+			$failureCmd = $this->getCmd(null, $logicalId);
+			if (!is_object($failureCmd)) {
+				$failureCmd = new thermostatCmd();
+				$failureCmd->setName($name);
+				$failureCmd->setIsVisible(0);
+			}
+			$failureCmd->setEqLogic_id($this->getId());
+			$failureCmd->setType('info');
+			$failureCmd->setSubType('string');
+			$failureCmd->setLogicalId($logicalId);
+			$failureCmd->save();
+		}
 
 		$actif = $this->getCmd(null, 'actif');
 		if (!is_object($actif)) {
@@ -1690,30 +1654,87 @@ class thermostat extends eqLogic {
 		}
 	}
 
-	public function failure($_failureRepeat = 999) {
+	/**
+	 * Report each new sensor fault once, independently of the regulation engine.
+	 * Engines report timeouts/invalid values immediately; cron still reports thresholds.
+	 */
+	public function checkSensorFailure($_temperature, $_temp_in, $_notifyThresholds = true) {
+		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
+			return array();
+		}
+		$failures = array();
+		$collectDate = $_temperature->getCollectDate();
+		$collectTime = ($collectDate != '') ? strtotime($collectDate) : false;
+		$maxTime = $this->getConfiguration('maxTimeUpdateTemp');
+		if (is_numeric($maxTime) && $maxTime > 0 && $collectTime !== false && $collectTime < (time() - $maxTime * 60)) {
+			$failures['timeout'] = sprintf(__('Aucune mise à jour de la température depuis %s minutes (délai maximal : %s minutes, dernière réception : %s)', __FILE__), round((time() - $collectTime) / 60, 1), $maxTime, $collectDate);
+		}
+		if (!is_numeric($_temp_in)) {
+			$failures['invalid_temperature'] = __('Température intérieure invalide', __FILE__) . ' : ' . json_encode($_temp_in);
+		} else {
+			$min = $this->getConfiguration('temperature_indoor_min');
+			$max = $this->getConfiguration('temperature_indoor_max');
+			if (is_numeric($min) && $_temp_in < $min) {
+				$failures['temperature_low'] = sprintf(__('Température intérieure %s °C inférieure au minimum autorisé %s °C', __FILE__), $_temp_in, $min);
+			}
+			if (is_numeric($max) && $_temp_in > $max) {
+				$failures['temperature_high'] = sprintf(__('Température intérieure %s °C supérieure au maximum autorisé %s °C', __FILE__), $_temp_in, $max);
+			}
+		}
+		$reasons = array_keys($failures);
+		$message = (count($failures) > 0) ? $this->getHumanName() . ' : ' . implode(' ; ', $failures) : '';
+		$reported = $this->getCache('sensor_failure_causes', array());
+		$reported = is_array($reported) ? array_values(array_intersect($reported, $reasons)) : array();
+		$newReasons = array_diff($reasons, $reported);
+		if (!$_notifyThresholds) {
+			$newReasons = array_intersect($newReasons, array('timeout', 'invalid_temperature'));
+		}
+		// Events and actions may trigger another calculation: mark causes first.
+		$this->setCache('sensor_failure_causes', count($newReasons) > 0 ? $reasons : $reported);
+		$this->checkAndUpdateCmd('failure_reason', implode(',', $reasons));
+		$this->checkAndUpdateCmd('failure_message', $message);
+		if (count($newReasons) > 0) {
+			log::add(__CLASS__, 'error', $message);
+			$this->failure(999, array(
+				'#failure_reason#' => implode(',', $reasons),
+				'#failure_message#' => $message,
+				'#temperature#' => is_scalar($_temp_in) ? (string) $_temp_in : json_encode($_temp_in),
+				'#last_collect#' => $collectDate,
+			));
+		} else if (isset($failures['timeout']) || isset($failures['invalid_temperature'])) {
+			$this->checkAndUpdateCmd('status', __('Défaillance sonde', __FILE__));
+		}
+		return $failures;
+	}
+
+	public function failure($_failureRepeat = 999, $_context = array()) {
 		if ($this->getCmd(null, 'mode')->execCmd() == __('Off', __FILE__) || $this->getCmd(null, 'status')->execCmd() == __('Suspendu', __FILE__)) {
 			return;
 		}
+		$this->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 		if (!is_array($this->getConfiguration('failure')) || count($this->getConfiguration('failure')) == 0) {
 			return;
 		}
 		log::add(__CLASS__, 'debug', $this->getHumanName() . ' ' . __('Action défaillance sonde', __FILE__));
 		$consigne = $this->getCmd(null, 'order')->execCmd();
+		$replacements = array_merge(array('#failure_reason#' => '', '#failure_message#' => __('Défaillance sonde', __FILE__), '#temperature#' => '', '#last_collect#' => ''), $_context);
+		$replacements['#slider#'] = (string) $consigne;
 		foreach ($this->getConfiguration('failure') as $action) {
 			try {
 				$options = array();
 				if (isset($action['options'])) {
 					$options = $action['options'];
-					foreach ($options as $key => $value) {
-						$options[$key] = str_replace('#slider#', $consigne, $value);
-					}
+					array_walk_recursive($options, function (&$value) use ($replacements) {
+						if (is_string($value)) {
+							$value = strtr($value, $replacements);
+						}
+					});
 				}
 				scenarioExpression::createAndExec('action', $action['cmd'], $options);
 			} catch (Exception $e) {
 				log::add(__CLASS__, 'error', $this->getHumanName() . ' ' . __("Erreur lors de l'exécution de", __FILE__) . ' ' . $action['cmd'] . '. ' . __('Détails', __FILE__) . ' : ' . $e->getMessage());
 			}
 		}
-		$this->getCmd(null, 'status')->event(__('Défaillance sonde', __FILE__));
 	}
 
 	public function failureActuator() {

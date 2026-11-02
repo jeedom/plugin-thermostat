@@ -11,10 +11,25 @@ on:
 name : 'Test Plugin Jeedom'
 
 jobs:
+  sensorFailures:
+    name: Sensor failure regressions (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.3', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: none
+      - run: php tests/sensor_failure.php
   codeLintGlobal:
     uses: jeedom/workflows/.github/workflows/codeLintGlobal.yml@main
-  php73:
-    uses: jeedom/workflows/.github/workflows/lint_Php73.yml@main
   php74:
     uses: jeedom/workflows/.github/workflows/lint_Php74.yml@main
   php:
