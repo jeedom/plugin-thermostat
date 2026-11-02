@@ -180,7 +180,7 @@ Dans les options des actions de défaillance de sonde, les tags suivants permett
 
 Par exemple, renseigner `#failure_message#` dans le message d’une notification donne `[Maison][Salon] : Température intérieure 32 °C supérieure au maximum autorisé 30 °C` ou `[Maison][Salon] : Aucune mise à jour de la température depuis 47 minutes (délai maximal : 30 minutes, dernière réception : …)`.
 
-Le statut général reste `Défaillance sonde`. Les nouvelles commandes d’information `Cause défaillance sonde` et `Détail défaillance sonde`, masquées par défaut sur le widget, permettent d’exploiter les causes et leur détail dans les scénarios. Leurs valeurs sont vidées lorsque tous les défauts disparaissent.
+Le statut général reste `Défaillance sonde`. Le détail du défaut est disponible dans les logs et dans les options des actions via les tags ci-dessus.
 
 Les actions existantes sont conservées. Un défaut persistant ne relance pas les actions à chaque contrôle ; l’apparition d’une nouvelle cause les relance une seule fois avec un message regroupant les défauts actifs. Le retour à la normale réarme chaque cause séparément. Les contrôles du délai et des valeurs invalides sont partagés par les moteurs temporel et hystérésis ; les dépassements des limites min/max continuent de déclencher leurs actions depuis le contrôle périodique.
 

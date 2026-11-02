@@ -106,7 +106,7 @@ function fixture($temperature = 21, $ageMinutes = 0) {
 			'nested' => array('message' => '#failure_message#', 'enabled' => true),
 		))),
 	);
-	foreach (array('mode' => 'Confort', 'status' => 'Chauffage', 'order' => 21, 'temperature' => $temperature, 'temperature_outdoor' => 10, 'failure_reason' => '', 'failure_message' => '') as $id => $value) {
+	foreach (array('mode' => 'Confort', 'status' => 'Chauffage', 'order' => 21, 'temperature' => $temperature, 'temperature_outdoor' => 10) as $id => $value) {
 		$t->commands[$id] = new cmd($value);
 	}
 	$t->commands['temperature']->collectDate = date('Y-m-d H:i:s', time() - $ageMinutes * 60);
@@ -155,14 +155,14 @@ $tests['low threshold, context tags and unchanged saved actions'] = function () 
 $tests['high threshold includes measured value and configured limit'] = function () {
 	$t = fixture(32);
 	check($t);
-	same('temperature_high', $t->commands['failure_reason']->value);
-	contains('32 °C', $t->commands['failure_message']->value);
-	contains('28 °C', $t->commands['failure_message']->value);
+	same('temperature_high', scenarioExpression::$calls[0]['title']);
+	contains('32 °C', scenarioExpression::$calls[0]['message']);
+	contains('28 °C', scenarioExpression::$calls[0]['message']);
 };
 $tests['timeout includes elapsed time, allowed time and last collection'] = function () {
 	$t = fixture(21, 47);
 	check($t);
-	same('timeout', $t->commands['failure_reason']->value);
+	same('timeout', scenarioExpression::$calls[0]['title']);
 	contains('47 minutes', scenarioExpression::$calls[0]['message']);
 	contains('30 minutes', scenarioExpression::$calls[0]['message']);
 	contains($t->commands['temperature']->collectDate, scenarioExpression::$calls[0]['message']);
@@ -173,7 +173,7 @@ $tests['simultaneous faults generate one action and one error log across all cal
 	thermostat::hysteresis(array('thermostat_id' => 1));
 	thermostat::temporal(array('thermostat_id' => 1));
 	thermostat::cron();
-	same('timeout,temperature_low', $t->commands['failure_reason']->value);
+	same('timeout,temperature_low', scenarioExpression::$calls[0]['title']);
 	same(1, count(scenarioExpression::$calls));
 	same(1, count(log::$errors));
 	same(0, $t->regulationActions);
@@ -206,20 +206,18 @@ $tests['partial recovery rearms only the recovered cause'] = function () {
 	check($t);
 	$t->commands['temperature']->collectDate = date('Y-m-d H:i:s');
 	check($t, false);
-	check($t);
-	same('temperature_low', $t->commands['failure_reason']->value);
+	same(array('temperature_low'), array_keys(check($t)));
 	same(1, count(scenarioExpression::$calls));
 	$t->commands['temperature']->collectDate = date('Y-m-d H:i:s', time() - 3600);
 	check($t);
 	same(2, count(scenarioExpression::$calls));
 };
-$tests['full recovery clears details and rearms the same fault'] = function () {
+$tests['full recovery rearms the same fault'] = function () {
 	$t = fixture(32);
 	check($t);
 	$t->commands['temperature']->value = 21;
-	check($t);
-	same('', $t->commands['failure_reason']->value);
-	same('', $t->commands['failure_message']->value);
+	same(array(), check($t));
+	same(1, count(scenarioExpression::$calls));
 	same(array(), $t->getCache('sensor_failure_causes'));
 	$t->commands['temperature']->value = 33;
 	check($t);
@@ -235,7 +233,7 @@ $tests['a persistent threshold survives regulation and old cache flags'] = funct
 	thermostat::hysteresis(array('thermostat_id' => 1));
 	thermostat::cron();
 	same(1, count(scenarioExpression::$calls));
-	same('temperature_low', $t->commands['failure_reason']->value);
+	same('temperature_low', scenarioExpression::$calls[0]['title']);
 };
 $tests['temporal calculation cannot mask sensor faults'] = function () {
 	$t = fixture(24);
@@ -246,12 +244,13 @@ $tests['temporal calculation cannot mask sensor faults'] = function () {
 	check($t);
 	same(1, count(scenarioExpression::$calls));
 };
-$tests['fault status and details exist without configured actions'] = function () {
+$tests['fault status and logs exist without configured actions'] = function () {
 	$t = fixture(32);
 	$t->configuration['failure'] = array();
 	check($t);
 	same('Défaillance sonde', $t->commands['status']->value);
-	same('temperature_high', $t->commands['failure_reason']->value);
+	contains('32 °C', log::$errors[0]);
+	contains('28 °C', log::$errors[0]);
 	same(0, count(scenarioExpression::$calls));
 };
 $tests['empty, zero and invalid timeout settings do not raise false timeouts'] = function () {
@@ -267,12 +266,12 @@ $tests['zero-degree thresholds work and exact limits are allowed'] = function ()
 	$t = fixture(-1);
 	$t->configuration['temperature_indoor_min'] = 0;
 	check($t);
-	same('temperature_low', $t->commands['failure_reason']->value);
+	same('temperature_low', scenarioExpression::$calls[0]['title']);
 	$t = fixture(1);
 	$t->configuration['temperature_indoor_min'] = '';
 	$t->configuration['temperature_indoor_max'] = 0;
 	check($t);
-	same('temperature_high', $t->commands['failure_reason']->value);
+	same('temperature_high', scenarioExpression::$calls[0]['title']);
 	foreach (array(18, 28) as $temperature) {
 		$t = fixture($temperature);
 		check($t);
@@ -284,7 +283,7 @@ $tests['invalid values are distinct and block both engines'] = function () {
 		$t = fixture('unavailable');
 		thermostat::$engine(array('thermostat_id' => 1));
 		thermostat::cron();
-		same('invalid_temperature', $t->commands['failure_reason']->value);
+		same('invalid_temperature', scenarioExpression::$calls[0]['title']);
 		same(1, count(scenarioExpression::$calls));
 		same(0, $t->regulationActions);
 	}
@@ -300,7 +299,7 @@ $tests['off and suspended thermostats do not notify'] = function () {
 };
 $tests['events and actions can reenter detection without duplicate notifications'] = function () {
 	$t = fixture(32);
-	$t->commands['failure_reason']->onEvent = function () use ($t) { check($t); };
+	$t->commands['status']->onEvent = function () use ($t) { check($t); };
 	scenarioExpression::$onAction = function () use ($t) { check($t); };
 	check($t);
 	same(1, count(scenarioExpression::$calls));

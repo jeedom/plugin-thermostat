@@ -971,20 +971,6 @@ class thermostat extends eqLogic {
 		$status->setLogicalId('status');
 		$status->save();
 
-		foreach (array('failure_reason' => __('Cause défaillance sonde', __FILE__), 'failure_message' => __('Détail défaillance sonde', __FILE__)) as $logicalId => $name) {
-			$failureCmd = $this->getCmd(null, $logicalId);
-			if (!is_object($failureCmd)) {
-				$failureCmd = new thermostatCmd();
-				$failureCmd->setName($name);
-				$failureCmd->setIsVisible(0);
-			}
-			$failureCmd->setEqLogic_id($this->getId());
-			$failureCmd->setType('info');
-			$failureCmd->setSubType('string');
-			$failureCmd->setLogicalId($logicalId);
-			$failureCmd->save();
-		}
-
 		$actif = $this->getCmd(null, 'actif');
 		if (!is_object($actif)) {
 			$actif = new thermostatCmd();
@@ -1691,8 +1677,6 @@ class thermostat extends eqLogic {
 		}
 		// Events and actions may trigger another calculation: mark causes first.
 		$this->setCache('sensor_failure_causes', count($newReasons) > 0 ? $reasons : $reported);
-		$this->checkAndUpdateCmd('failure_reason', implode(',', $reasons));
-		$this->checkAndUpdateCmd('failure_message', $message);
 		if (count($newReasons) > 0) {
 			log::add(__CLASS__, 'error', $message);
 			$this->failure(999, array(

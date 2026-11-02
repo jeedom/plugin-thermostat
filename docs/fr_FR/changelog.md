@@ -6,7 +6,7 @@
 
 # 02/11/2026
 
-- Distinction des défaillances de sonde (délai de réception, seuil bas/haut et valeur invalide) dans les commandes d’information et les notifications via `#failure_message#`.
+- Distinction des défaillances de sonde (délai de réception, seuil bas/haut et valeur invalide) dans les notifications via `#failure_message#`.
 - Correction des alertes masquées ou répétées lors de défauts simultanés ou successifs, et de l’aide sur les défaillances de sonde/chauffage.
 
 # 10/09/2026
