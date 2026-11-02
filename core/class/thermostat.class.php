@@ -67,15 +67,23 @@ class thermostat extends eqLogic {
 				$lockState = $thermostat->getCmd(null, 'lock_state');
 				if (is_object($lockState) && $lockState->execCmd() == 1) {
 					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Thermostat verrouillé je ne fais rien', __FILE__));
-				} else if ($_options['next']['type'] == 'thermostat') {
-					log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Type thermostat envoi de la consigne', __FILE__) . ' : ' . $_options['next']['consigne']);
-					$cmd = $thermostat->getCmd(null, 'thermostat');
-					$cmd->execCmd(array('slider' => $_options['next']['consigne']));
-				} else if ($_options['next']['type'] == 'mode' && isset($_options['next']['cmd'])) {
-					$mode = cmd::byId($_options['next']['cmd']);
-					if (is_object($mode)) {
-						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Type mode envoi de la commande', __FILE__) . ' : ' . $_options['next']['cmd']);
-						$mode->execCmd();
+				} else {
+					// Recalcul de la puissance au moment de l'exécution pour vérifier que les conditions de démarrage sont toujours réunies
+					$temporal_data = $thermostat->calculTemporalData(jeedom::evaluateExpression($_options['next']['consigne']), true);
+					if ($temporal_data['power'] < $thermostat->getConfiguration('minCycleDuration', 5)) {
+						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Smartstart annulé au lancement car puissance insuffisante', __FILE__) . ' : ' . $temporal_data['power'] . ' < ' . $thermostat->getConfiguration('minCycleDuration', 5));
+						return;
+					}
+					if ($_options['next']['type'] == 'thermostat') {
+						log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Type thermostat envoi de la consigne', __FILE__) . ' : ' . $_options['next']['consigne']);
+						$cmd = $thermostat->getCmd(null, 'thermostat');
+						$cmd->execCmd(array('slider' => $_options['next']['consigne']));
+					} else if ($_options['next']['type'] == 'mode' && isset($_options['next']['cmd'])) {
+						$mode = cmd::byId($_options['next']['cmd']);
+						if (is_object($mode)) {
+							log::add(__CLASS__, 'debug', $thermostat->getHumanName() . ' ' . __('Type mode envoi de la commande', __FILE__) . ' : ' . $_options['next']['cmd']);
+							$mode->execCmd();
+						}
 					}
 				}
 			}
