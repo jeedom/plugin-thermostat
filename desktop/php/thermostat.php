@@ -173,7 +173,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">{{Température minimale}} <sub>(°C)</sub>
-									<sup><i class="fas fa-question-circle tooltips" title="{{Température en dessous de laquelle une défaillance de chauffage est enclenchée}}"></i></sup>
+									<sup><i class="fas fa-question-circle tooltips" title="{{Température en dessous de laquelle une défaillance de sonde est enclenchée}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_min" />
@@ -181,7 +181,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">{{Température maximale}} <sub>(°C)</sub>
-									<sup><i class="fas fa-question-circle tooltips" title="{{Température au dessus de laquelle une défaillance de chauffage est enclenchée}}"></i></sup>
+									<sup><i class="fas fa-question-circle tooltips" title="{{Température au dessus de laquelle une défaillance de sonde est enclenchée}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="temperature_indoor_max" />
@@ -341,7 +341,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<fieldset>
 								<div class="alert alert-info col-xs-10 col-xs-offset-1">
 									{{Décider des actions à entreprendre en cas de défaillance de la sonde de température.}}
-									<br>{{Une sonde est considérée défaillante selon le délai entre 2 réceptions de température défini dans l'onglet}} <strong>{{Avancé (Délai maximal entre 2 changements de température)}}</strong>.
+									<br>{{Une défaillance de sonde est déclenchée si le délai entre deux réceptions de température défini dans l'onglet Avancé est dépassé, si la température sort des limites minimale/maximale de l'onglet Équipement ou si la valeur reçue est invalide.}}
+									<br>{{Pour distinguer ces causes dans une notification, utilisez}} <code>#failure_message#</code> {{dans son message.}}
+									<br>{{Autres tags disponibles :}} <code>#failure_reason#</code>, <code>#temperature#</code>, <code>#last_collect#</code>, <code>#slider#</code>.
 								</div>
 								<a class="btn btn-success addFailure col-xs-6 col-xs-offset-3" data-type="failure"><i class="fas fa-plus-circle"></i> {{Ajouter une action de défaillance}}</a>
 								<div id="div_failure"></div>
@@ -359,7 +361,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<fieldset>
 								<div class="alert alert-info col-xs-10 col-xs-offset-1">
 									{{Décider des actions à entreprendre en cas de défaillance du chauffage/climatisation.}}
-									<br>{{Le système de chauffage/climatisation est considéré défaillant quand les températures minimales ou maximales définies sur l'onglet}} <strong>{{Équipement}}</strong> {{sont dépassées ou en fonction des marges de défaillance définies dans l'onglet}} <strong>{{Avancé}}</strong>.
+									<br>{{Le système de chauffage/climatisation est considéré défaillant en fonction de l'évolution de la température par rapport à la consigne et des marges de défaillance définies dans l'onglet}} <strong>{{Avancé}}</strong>.
 								</div>
 								<a class="btn btn-success addFailureActuator col-xs-6 col-xs-offset-3" data-type="failureActuator"><i class="fas fa-plus-circle"></i> {{Ajouter une action de défaillance}}</a>
 								<div id="div_failureActuator"></div>
@@ -411,8 +413,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Délai entre 2 changements de T°}} <sub>(min.)</sub>
-									<sup><i class="fas fa-question-circle tooltips" title="{{Délai maximal entre 2 changements de température avant de mettre le thermostat en défaillance}}"></i></sup>
+								<label class="col-sm-4 control-label">{{Délai entre 2 réceptions de T°}} <sub>(min.)</sub>
+									<sup><i class="fas fa-question-circle tooltips" title="{{Délai maximal depuis la dernière collecte de température avant une défaillance de sonde. Laisser vide ou à 0 pour désactiver ce contrôle.}}"></i></sup>
 								</label>
 								<div class="col-sm-7">
 									<input type="text" class="eqLogicAttr form-control tooltips" data-l1key="configuration" data-l2key="maxTimeUpdateTemp"/>

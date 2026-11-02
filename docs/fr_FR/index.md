@@ -152,11 +152,11 @@ Les défaillances peuvent provenir soit des sondes de température, soit de la c
 
 ### Défaillance des sondes de température
 
-Si les sondes utilisées par le thermostat ne renvoient pas de changement de température, par exemple en cas d’usure des piles, alors le thermostat enclenche les actions de défaillance. Lorsque le défaut survient, il est possible de mettre l’appareil dans un mode de fonctionnement prédéterminé, par exemple forcer l’ordre d’un radiateur fil-pilote. Plus simplement l’envoi d’un message par sms ou d’une notification permet d’être prévenu et d’intervenir manuellement.
+Le thermostat déclenche une défaillance de sonde si la dernière collecte de température est trop ancienne, si la température intérieure est inférieure au minimum ou supérieure au maximum configuré, ou si la valeur est invalide. Lorsque le défaut survient, il est possible de mettre l’appareil dans un mode de fonctionnement prédéterminé, par exemple forcer l’ordre d’un radiateur fil-pilote. Plus simplement l’envoi d’un message par sms ou d’une notification permet d’être prévenu et d’intervenir manuellement.
 
 > **IMPORTANT**
 >
-> Le paramètre qui permet au thermostat de décider d’une défaillance de sonde est situé dans l’onglet *Avancé*. Il s’agit du `délai maximal entre 2 changements de température`.
+> Le `Délai entre 2 réceptions de T°` est situé dans l’onglet *Avancé*. Ce contrôle utilise la date de collecte de la commande de température du thermostat. Laisser ce délai vide ou à `0` désactive le contrôle du délai. Les limites `Température minimale` et `Température maximale` sont situées dans l’onglet *Équipement* ; une limite vide désactive le contrôle correspondant.
 
 ![Défaillance des sondes](./images/defaillancesonde.png)
 
@@ -168,13 +168,29 @@ Pour définir une action de défaillance :
 
 Vous pouvez saisir plusieurs actions, qui seront exécutées en séquence et dans le cas d’actions plus complexes, faire appel à un scénario *(taper `scenario` sans accent dans le champ action puis cliquer ailleurs pour pouvoir saisir le nom du scénario)*.
 
+Dans les options des actions de défaillance de sonde, les tags suivants permettent de personnaliser les notifications :
+
+| Tag | Contenu |
+| --- | --- |
+| `#failure_message#` | Message détaillé avec le nom du thermostat, les causes, la température et les limites concernées, ou le délai et la date de dernière réception. |
+| `#failure_reason#` | Codes des causes actives, séparés par des virgules : `timeout`, `temperature_low`, `temperature_high`, `invalid_temperature`. |
+| `#temperature#` | Dernière valeur de température connue. |
+| `#last_collect#` | Date de dernière collecte de la commande de température. |
+| `#slider#` | Consigne du thermostat, comme auparavant. |
+
+Par exemple, renseigner `#failure_message#` dans le message d’une notification donne `[Maison][Salon] : Température intérieure 32 °C supérieure au maximum autorisé 30 °C` ou `[Maison][Salon] : Aucune mise à jour de la température depuis 47 minutes (délai maximal : 30 minutes, dernière réception : …)`.
+
+Le statut général reste `Défaillance sonde`. Le détail du défaut est disponible dans les logs et dans les options des actions via les tags ci-dessus.
+
+Les actions existantes sont conservées. Un défaut persistant ne relance pas les actions à chaque contrôle ; l’apparition d’une nouvelle cause les relance une seule fois avec un message regroupant les défauts actifs. Le retour à la normale réarme chaque cause séparément. Les contrôles du délai et des valeurs invalides sont partagés par les moteurs temporel et hystérésis ; les dépassements des limites min/max continuent de déclencher leurs actions depuis le contrôle périodique.
+
 ### Défaillance du chauffage/climatisation
 
-Le bon fonctionnement du chauffage ou de la climatisation est conditionné par un bon suivi de consigne. Ainsi, si la température s’écarte de la plage de fonctionnement du thermostat, celui-ci enclenche les actions de défaillance du chauffage/climatisation. Cette analyse s’effectue sur plusieurs cycles.
+Le bon fonctionnement du chauffage ou de la climatisation est conditionné par un bon suivi de consigne. Le thermostat analyse l’évolution de la température par rapport à la consigne et aux marges de défaillance chaud/froid sur plusieurs cycles. Les limites absolues de température minimale et maximale relèvent de la défaillance de sonde décrite ci-dessus.
 
 > **IMPORTANT**
 >
-> Le paramètre qui permet au thermostat de décider d’une défaillance de sonde est situé dans l’onglet *Avancé*. Il s’agit de la `Marge de défaillance chaud` pour le chauffage et de la `Marge de défaillance froid` pour la climatisation.
+> Les paramètres de détection d’une défaillance du chauffage/climatisation sont situés dans l’onglet *Avancé*. Il s’agit de la `Marge de défaillance chaud` pour le chauffage et de la `Marge de défaillance froid` pour la climatisation.
 
 ![Défaillance du chauffage](./images/defaillancechauffage.png)
 
