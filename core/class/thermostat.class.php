@@ -686,7 +686,6 @@ class thermostat extends eqLogic {
 
 		$thermostat = $this->getCmd(null, 'thermostat');
 		$next = null;
-		$position = null;
 		foreach ($this->getCmd(null, 'modeAction', null, true) as $mode) {
 			if(!is_object($mode)){
 				continue;
@@ -694,6 +693,7 @@ class thermostat extends eqLogic {
 			$events = calendar_event::searchByCmd($mode->getId());
 			if (is_array($events) && count($events) > 0) {
 				foreach ($events as $event) {
+					$position = null;
 					$calendar = $event->getEqLogic();
 					$stateCalendar = $calendar->getCmd(null, 'state');
 					if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
@@ -742,6 +742,8 @@ class thermostat extends eqLogic {
 		$events = calendar_event::searchByCmd($thermostat->getId());
 		if (is_array($events) && count($events) > 0) {
 			foreach ($events as $event) {
+				$position = null;
+				$options = array();
 				$calendar = $event->getEqLogic();
 				$stateCalendar = $calendar->getCmd(null, 'state');
 				if ($calendar->getIsEnable() == 0 || (is_object($stateCalendar) && $stateCalendar->execCmd() != 1)) {
