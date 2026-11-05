@@ -254,10 +254,11 @@ function printScheduling(_eqLogic) {
           html += '<span class="label cursor" style="font-size:1.2em!important;margin-left:20px;background-color : ' + color + ';color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
           html += '<a href="index.php?v=d&m=calendar&p=calendar&id=' + data.result[i].eqLogic_id + '&event_id=' + data.result[i].id + '" style="color : ' + init(data.result[i].cmd_param.text_color, 'black') + '">'
 
+          const icon = data.result[i].cmd_param.icon ? data.result[i].cmd_param.icon + ' ' : ''
           if (data.result[i].cmd_param.eventName != '') {
-            html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.eventName
+            html += icon + data.result[i].cmd_param.eventName
           } else {
-            html += data.result[i].cmd_param.icon + ' ' + data.result[i].cmd_param.name
+            html += icon + data.result[i].cmd_param.name
           }
           html += '</a></span><hr>'
 

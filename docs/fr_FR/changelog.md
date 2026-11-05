@@ -4,6 +4,10 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte
 
+# 05/11/2026
+
+- Correction de l'affichage de `undefined` devant le nom des programmations de l'Agenda sans icône, dans l'onglet **Programmation**
+
 # 02/11/2026
 
 - Distinction des défaillances de sonde (délai de réception, seuil bas/haut et valeur invalide) dans les notifications via `#failure_message#`.
