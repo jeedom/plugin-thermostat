@@ -15,8 +15,8 @@
 	"category": "wellness",
 	"display": "panel",
 	"mobile": "panel",
-	"changelog": "https://doc.jeedom.com/#language#/plugins/wellness/thermostat/changelog",
-	"documentation": "https://doc.jeedom.com/#language#/plugins/wellness/thermostat/",
+	"changelog": "https://doc.jeedom.com/plugins/wellness/thermostat/#language#/changelog",
+	"documentation": "https://doc.jeedom.com/plugins/wellness/thermostat/#language#/",
 	"language": [
 		"de_DE",
 		"en_US",
@@ -34,6 +34,6 @@
 		"mobile",
 		"v4"
 	],
-	"changelog_beta": "https://doc.jeedom.com/#language#/plugins/wellness/thermostat/beta/changelog",
-	"documentation_beta": "https://doc.jeedom.com/#language#/plugins/wellness/thermostat/beta"
+	"changelog_beta": "https://doc.jeedom.com/plugins/wellness/thermostat/beta/#language#/changelog",
+	"documentation_beta": "https://doc.jeedom.com/plugins/wellness/thermostat/beta/#language#/"
 }
